@@ -43,10 +43,8 @@ class TurnDecisionManager {
 
     processTurn(nextTurn: Turn): TurnResult {
         const playerName = nextTurn.player.name
-        const rawDecision = cin(`${playerName} Decision >`) ?? 'q';
-        this._output(rawDecision)
 
-        const decision = this.getDecisionSafe(rawDecision);
+        const decision = this.getDecisionSafe(playerName);
 
         if (decision.name === Action.lastTurnActionName) {
             return new TurnResult(true, true);
@@ -55,10 +53,12 @@ class TurnDecisionManager {
         return new TurnResult(false, true);
     }
 
-    getDecisionSafe(rawDecision: string): Action {
-        let decision
+    getDecisionSafe(playerName: string): Action {
+        let rawDecision: string
+        let decision: Action
         for (; ;) {
             try {
+                rawDecision = cin(`${playerName} Decision >`) ?? 'q';
                 decision = this.getDecision(rawDecision);
                 break;
             } catch (error) {
