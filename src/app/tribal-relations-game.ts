@@ -1,20 +1,17 @@
-import StartGameManager from "../domain/use_case/start-game-manager";
-import EndGameManager from "../domain/use_case/end-game-manager";
-import MainGameManager from "../domain/use_case/main-game-manager";
-import ConsoleUi from "../ui/console-ui";
+import {container, singleton} from "tsyringe";
+import ConsoleGameProcess from "./console-game-process";
+import BrowserGameProcess from "./browser-game-process";
 
+@singleton()
 class TribalRelationsGame {
-    async startConsole(names: Array<string>, name: string = '') {
-        const startGameManager = new StartGameManager();
+    startBrowser(names: Array<string>, name: string = '') {
+        const gameProcess = container.resolve(BrowserGameProcess);
+        gameProcess.start(names, name);
+    }
 
-        const game = startGameManager.start(names, name)
-
-        const mainGameManager = new MainGameManager(game);
-        const playerInterface = new ConsoleUi(mainGameManager);
-        await playerInterface.startTurns();
-
-        const endGameManager = new EndGameManager(game);
-        endGameManager.initiateFinish();
+    startConsole(names: Array<string>, name: string = '') {
+        const gameProcess = container.resolve(ConsoleGameProcess);
+        gameProcess.start(names, name);
     }
 }
 

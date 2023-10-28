@@ -1,17 +1,30 @@
 import Game from "../entity/game";
 import Turn from "../entity/turn";
+import {singleton} from "tsyringe";
 
+@singleton()
 class TurnManager {
-    private _index = 0
+    private _playersLength = 0
+    private _gameNameToIndexMap: { [index: string]: number } = {}
 
-    constructor(
-        private _game: Game
-    ) {
+    get playersLength() {
+        return this._playersLength
     }
 
-    nextTurn(): Turn {
-        const len = this._game.players.length
-        return new Turn(this._game.players[this._index++ % len])
+    addPlayer() {
+        this._playersLength++
+    }
+
+    addPlayers(n: number) {
+        this._playersLength += n
+    }
+
+    nextTurn(game: Game): Turn {
+        game.currentTurnNumber++
+        const turn = new Turn(game.players[game.currentTurnNumber % this.playersLength])
+        game.currentTurn = turn;
+
+        return turn;
     }
 }
 

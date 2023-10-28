@@ -2,11 +2,11 @@ import Tile from './tile'
 
 class Territory {
     constructor(
-        private _food: number,
-        private _tradingAbility: number,
-        private _production: number,
-        private _culture: number,
-        private _tiles: Array<Tile>,
+        private _food: number = 0,
+        private _tradingAbility: number = 0,
+        private _production: number = 0,
+        private _culture: number = 0,
+        private _tiles: Array<Tile> = [],
     ) {
     }
 

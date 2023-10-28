@@ -1,37 +1,50 @@
-import MainGameManager from "../domain/use_case/main-game-manager";
 import TurnDecisionManager from "../app/turn-decision-manager";
 import TurnResult from "../app/turn-result";
+import {singleton} from "tsyringe";
+import TurnManager from "../domain/use_case/turn-manager";
+import Game from "../domain/entity/game";
+import Std from "./std";
 
+@singleton()
 class ConsoleUi {
-    private _turnDecisionManager: TurnDecisionManager
+    _game: Game | undefined
 
-    constructor(
-        private _mainGameManager: MainGameManager,
-        private _isGameFinished: boolean = false,
-    ) {
-        this._turnDecisionManager = new TurnDecisionManager(this.output)
+    get game(): Game {
+        if (this._game === undefined) {
+            throw new Error('game is not yet created')
+        }
+        return this._game
     }
 
-    output(...data: any[]) {
-        console.log(...data)
+    set game(game: Game) {
+        this._game = game
+    }
+
+    constructor(
+        private _turnManager: TurnManager,
+        private _turnDecisionManager: TurnDecisionManager,
+        private _std: Std,
+    ) {
     }
 
     async startTurns() {
-        let turnResult: TurnResult;
-        for (let i = 0; !this._isGameFinished; ++i) {
-            this.output(`turn ${i}`);
+        this._turnManager.addPlayers(this.game.players.length)
 
-            const nextTurn = this._mainGameManager.turnManager.nextTurn();
+        let turnResult: TurnResult;
+        for (let i = 0; true; ++i) {
+            this._std.out(`turn ${i}`);
+
+            const nextTurn = this._turnManager.nextTurn(this.game);
 
             turnResult = await this._turnDecisionManager.processTurn(nextTurn);
-            this.output(turnResult);
+            this._std.out(turnResult);
 
             if (turnResult.isLast) {
-                this.output(`last turn`);
+                this._std.out(`last turn`);
                 break
             }
 
-            this.output(`turn finished`);
+            this._std.out(`turn finished`);
         }
         return
     }

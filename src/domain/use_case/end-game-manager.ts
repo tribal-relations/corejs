@@ -1,18 +1,28 @@
 import WinningCondition from "../entity/winning-condition";
 import Player from "../entity/player";
 import Game from "../entity/game";
+import {singleton} from "tsyringe";
 
-class EndGameManager {
-    constructor(
-        private _game: Game
-    ) {
+@singleton()
+class  EndGameManager {
+    _game: Game | undefined
+
+    get game(): Game {
+        if (this._game === undefined) {
+            throw new Error('game is not yet created')
+        }
+        return this._game
+    }
+
+    set game(game: Game) {
+        this._game = game
     }
 
     finish() {
-        this._game.isFinished = true
-        this._game.endDate = new Date()
-        this._game.winningCondition = this.calculateWinningCondition()
-        this._game.winner = this.calculateWinner()
+        this.game.isFinished = true
+        this.game.endDate = new Date()
+        this.game.winningCondition = this.calculateWinningCondition()
+        this.game.winner = this.calculateWinner()
     }
 
     calculateWinningCondition(): WinningCondition {
@@ -22,7 +32,7 @@ class EndGameManager {
 
     calculateWinner(): Player {
         // TODO: implement
-        return this._game.players[0]
+        return this.game.players[0]
     }
 
     initiateFinish() {

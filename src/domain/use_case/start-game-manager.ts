@@ -3,7 +3,9 @@ import Tribe from "../entity/tribe";
 import Population from "../entity/population";
 import Territory from "../entity/territory";
 import Game from "../entity/game";
+import {singleton} from "tsyringe";
 
+@singleton()
 class StartGameManager {
     constructor() {
     }
@@ -13,11 +15,6 @@ class StartGameManager {
             this.createPlayers(playerNames),
             name,
             new Date(),
-            null,
-            false,
-            false,
-            null,
-            null,
         )
         return game
     }
