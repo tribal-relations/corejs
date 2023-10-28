@@ -1,0 +1,22 @@
+{
+  "name": "corejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tribal-relations/corejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tribal-relations/corejs/issues"
+  },
+  "homepage": "https://github.com/tribal-relations/corejs#readme"
+}
