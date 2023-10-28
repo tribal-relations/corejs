@@ -7,7 +7,7 @@
 // }>
 import Population from "./population";
 
-const resources = {
+const resources: { [index: string]: { quantity: number, food: number, trading_ability: number, production: number, culture: number } } = {
     "Metal": {
         "quantity": 10,
         "food": 0,
@@ -106,27 +106,23 @@ class Resource {
     ]
 
     constructor(
-        private name: string,
-        private quantity: number,
-        private food: number,
-        private tradingAbility: number,
-        private production: number,
-        private culture: number,
+        private _name: string,
+        private _quantity: number,
+        private _food: number,
+        private _tradingAbility: number,
+        private _production: number,
+        private _culture: number,
     ) {
     }
 
     public static createFromName(name: string): Resource {
-        return Resource.createFromMap(resources[name])
-    }
-
-    private static createFromMap(map: object): Resource {
         return new Resource(
-            map.name,
-            map.quantity,
-            map.food,
-            map.trading_ability,
-            map.production,
-            map.culture,
+            name,
+            resources[name].quantity,
+            resources[name].food,
+            resources[name].trading_ability,
+            resources[name].production,
+            resources[name].culture,
         )
     }
 
@@ -137,27 +133,27 @@ class Resource {
     }
 
     get name() {
-        return this.name
+        return this._name
     }
 
     get quantity() {
-        return this.quantity
+        return this._quantity
     }
 
     get food() {
-        return this.food
+        return this._food
     }
 
     get tradingAbility() {
-        return this.tradingAbility
+        return this._tradingAbility
     }
 
     get production() {
-        return this.production
+        return this._production
     }
 
     get culture() {
-        return this.culture
+        return this._culture
     }
 }
 

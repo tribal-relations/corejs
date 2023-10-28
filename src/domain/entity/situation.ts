@@ -1,6 +1,6 @@
 import Population from "./population";
 
-const situations = {
+const situations: { [index: string]: { name: string, description: string, quantity: number } } = {
     "Columbus": {
         "name": "Columbus",
         "description": "Only you can discover new tiles next round",
@@ -84,9 +84,9 @@ class Situation {
     }
 
     constructor(
-        private name: string,
-        private description: string,
-        private quantity: number,
+        private _name: string,
+        private _description: string,
+        private _quantity: number,
     ) {
     }
 }

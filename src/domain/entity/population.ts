@@ -5,11 +5,11 @@ class Population {
     static defaultCivilizedness = 25
 
     constructor(
-        private men: number,
-        private women: number,
-        private total: number,
-        private combatReadiness: number,
-        private civilizedness: number,
+        private _men: number,
+        private _women: number,
+        private _total: number,
+        private _combatReadiness: number,
+        private _civilizedness: number,
     ) {
     }
 
@@ -25,7 +25,7 @@ class Population {
     }
 
     get total() {
-        return this.total
+        return this._total
     }
 }
 

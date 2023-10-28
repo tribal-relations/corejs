@@ -4,7 +4,7 @@ class Tile {
     static defaultTilesCount = 2
 
     constructor(
-        private resource: Resource,
+        private _resource: Resource,
     ) {
     }
 
@@ -16,7 +16,7 @@ class Tile {
     }
 
     get resource() {
-        return this.resource
+        return this._resource
     }
 }
 

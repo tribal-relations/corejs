@@ -39,18 +39,18 @@ class Tribe {
         }
 
     constructor(
-        private name: string,
-        private wealth: number,
-        private points: number,
-        private population: Population,
-        private territory: Territory,
+        private _name: string,
+        private _wealth: number,
+        private _points: number,
+        private _population: Population,
+        private _territory: Territory,
     ) {
     }
 
     getNewPopulationCount(fertility: number): number {
-        let food = this.territory.getTotalFood()
+        let food = this._territory.getTotalFood()
         let cropsYield = food * fertility
-        let upperBound = this.population.total * 10
+        let upperBound = this._population.total * 10
 
         if (cropsYield < upperBound) {
             return cropsYield
@@ -61,8 +61,8 @@ class Tribe {
 
     makeTerritorialDiscovery() {
         const newTile = Tribe.discoverNewTile()
-        this.territory.addTile(newTile)
-        this.territory.updateResources()
+        this._territory.addTile(newTile)
+        this._territory.updateResources()
     }
 
     static discoverNewTile(): Tile {

@@ -1,4 +1,4 @@
-const techs = {
+const techs: { [index: string]: { name: string, description: string, prerequisites: { [index: string]: boolean } } } = {
     "Pottery": {
         "name": "Pottery",
         "description": "Harvest result +2",
@@ -128,9 +128,9 @@ class Technology {
     ]
 
     constructor(
-        private name: string,
-        private description: string,
-        private prerequisites: object,
+        private _name: string,
+        private _description: string,
+        private _prerequisites: object,
     ) {
     }
 
@@ -139,4 +139,4 @@ class Technology {
     }
 }
 
-
+export default Technology
