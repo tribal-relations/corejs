@@ -1,6 +1,4 @@
-import Population from "./population";
-
-const relations = {
+const relations: { [index: string]: { name: string, agent_bonus: number, recipient_bonus: number } } = {
     "Equals": {
         "name": "Equals",
         "agent_bonus": 0,
@@ -81,9 +79,9 @@ class Relation {
     ]
 
     constructor(
-        private name: string,
-        private agentBonus: number,
-        private recipientBonus: number,
+        private _name: string,
+        private _agentBonus: number,
+        private _recipientBonus: number,
     ) {
     }
 
