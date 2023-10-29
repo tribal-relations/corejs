@@ -1,9 +1,9 @@
-import Tribe from "./tribe";
+import type Tribe from './tribe'
 
 class Player {
     constructor(
-        private _tribe: Tribe,
-        private _name: string,
+        private readonly _tribe: Tribe,
+        private readonly _name: string,
     ) {
     }
 
@@ -16,4 +16,3 @@ class Player {
     }
 }
 export default Player
-

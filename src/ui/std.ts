@@ -1,10 +1,10 @@
-import {singleton} from "tsyringe";
+import { singleton } from 'tsyringe'
 import prompt from 'prompt-sync'
 
 @singleton()
 class Std {
     private readonly _cin
-    private _inputBuffer: Array<string> = []
+    private readonly _inputBuffer: string[] = []
     private _inputBufferIndex: number = 0
 
     constructor() {

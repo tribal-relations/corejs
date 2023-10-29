@@ -5,93 +5,92 @@
 //     "production": number,
 //     "culture": number
 // }>
-import Population from "./population";
 
-const resources: { [index: string]: { quantity: number, food: number, trading_ability: number, production: number, culture: number } } = {
-    "Metal": {
-        "quantity": 10,
-        "food": 0,
-        "trading_ability": 1,
-        "production": 2,
-        "culture": 0
+const resources: Record<string, { quantity: number, food: number, trading_ability: number, production: number, culture: number }> = {
+    Metal: {
+        quantity: 10,
+        food: 0,
+        trading_ability: 1,
+        production: 2,
+        culture: 0,
     },
-    "Fruit": {
-        "quantity": 8,
-        "food": 2,
-        "trading_ability": 1,
-        "production": 0,
-        "culture": 0
+    Fruit: {
+        quantity: 8,
+        food: 2,
+        trading_ability: 1,
+        production: 0,
+        culture: 0,
     },
-    "Lake": {
-        "quantity": 4,
-        "food": 2,
-        "trading_ability": 0,
-        "production": 0,
-        "culture": 1
+    Lake: {
+        quantity: 4,
+        food: 2,
+        trading_ability: 0,
+        production: 0,
+        culture: 1,
     },
-    "Forest": {
-        "quantity": 20,
-        "food": 1,
-        "trading_ability": 0,
-        "production": 2,
-        "culture": 0
+    Forest: {
+        quantity: 20,
+        food: 1,
+        trading_ability: 0,
+        production: 2,
+        culture: 0,
     },
-    "River": {
-        "quantity": 6,
-        "food": 1,
-        "trading_ability": 2,
-        "production": 0,
-        "culture": 1
+    River: {
+        quantity: 6,
+        food: 1,
+        trading_ability: 2,
+        production: 0,
+        culture: 1,
     },
-    "Pasture": {
-        "quantity": 10,
-        "food": 3,
-        "trading_ability": 0,
-        "production": 0,
-        "culture": 0
+    Pasture: {
+        quantity: 10,
+        food: 3,
+        trading_ability: 0,
+        production: 0,
+        culture: 0,
     },
-    "Stone": {
-        "quantity": 10,
-        "food": 0,
-        "trading_ability": 0,
-        "production": 2,
-        "culture": 1
+    Stone: {
+        quantity: 10,
+        food: 0,
+        trading_ability: 0,
+        production: 2,
+        culture: 1,
     },
-    "Gold": {
-        "quantity": 2,
-        "food": 0,
-        "trading_ability": 4,
-        "production": 0,
-        "culture": 0
+    Gold: {
+        quantity: 2,
+        food: 0,
+        trading_ability: 4,
+        production: 0,
+        culture: 0,
     },
-    "Silver": {
-        "quantity": 4,
-        "food": 0,
-        "trading_ability": 2,
-        "production": 0,
-        "culture": 1
+    Silver: {
+        quantity: 4,
+        food: 0,
+        trading_ability: 2,
+        production: 0,
+        culture: 1,
     },
-    "Desert": {
-        "quantity": 6,
-        "food": 0,
-        "trading_ability": 1,
-        "production": 0,
-        "culture": 1
-    }
-};
+    Desert: {
+        quantity: 6,
+        food: 0,
+        trading_ability: 1,
+        production: 0,
+        culture: 1,
+    },
+}
 
 class Resource {
     static resourcesCount = 10
-    static resourceNamePasture = "Pasture"
-    static resourceNameStone = "Stone"
-    static resourceNameMetal = "Metal"
-    static resourceNameFruit = "Fruit"
-    static resourceNameLake = "Lake"
-    static resourceNameGold = "Gold"
-    static resourceNameSilver = "Silver"
-    static resourceNameForest = "Forest"
-    static resourceNameDesert = "Desert"
-    static resourceNameRiver = "River"
+    static resourceNamePasture = 'Pasture'
+    static resourceNameStone = 'Stone'
+    static resourceNameMetal = 'Metal'
+    static resourceNameFruit = 'Fruit'
+    static resourceNameLake = 'Lake'
+    static resourceNameGold = 'Gold'
+    static resourceNameSilver = 'Silver'
+    static resourceNameForest = 'Forest'
+    static resourceNameDesert = 'Desert'
+    static resourceNameRiver = 'River'
     static resourceNames = [
         this.resourceNamePasture,
         this.resourceNameStone,
@@ -106,12 +105,12 @@ class Resource {
     ]
 
     constructor(
-        private _name: string,
-        private _quantity: number,
-        private _food: number,
-        private _tradingAbility: number,
-        private _production: number,
-        private _culture: number,
+        private readonly _name: string,
+        private readonly _quantity: number,
+        private readonly _food: number,
+        private readonly _tradingAbility: number,
+        private readonly _production: number,
+        private readonly _culture: number,
     ) {
     }
 

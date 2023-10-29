@@ -1,7 +1,7 @@
 class TurnResult {
     constructor(
-        private _isLast: boolean = false,
-        private _isFinished: boolean = false,
+        private readonly _isLast: boolean = false,
+        private readonly _isFinished: boolean = false,
     ) {
     }
 

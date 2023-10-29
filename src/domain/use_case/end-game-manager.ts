@@ -1,10 +1,10 @@
-import WinningCondition from "../entity/winning-condition";
-import Player from "../entity/player";
-import Game from "../entity/game";
-import {singleton} from "tsyringe";
+import WinningCondition from '../entity/winning-condition'
+import type Player from '../entity/player'
+import type Game from '../entity/game'
+import { singleton } from 'tsyringe'
 
 @singleton()
-class  EndGameManager {
+class EndGameManager {
     _game: Game | undefined
 
     get game(): Game {

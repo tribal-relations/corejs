@@ -1,8 +1,6 @@
-const
-    currencyNameFood = "Food",
-    currencyNameWealth = "Wealth",
-    currencyNameProduction = "Production",
-    currencyNameCulture = "Culture",
-    currencyNameCombatReadiness = "Combat Readiness",
-    currencyNamePopulation = "Population";
-
+const currencyNameFood = 'Food'
+const currencyNameWealth = 'Wealth'
+const currencyNameProduction = 'Production'
+const currencyNameCulture = 'Culture'
+const currencyNameCombatReadiness = 'Combat Readiness'
+const currencyNamePopulation = 'Population'

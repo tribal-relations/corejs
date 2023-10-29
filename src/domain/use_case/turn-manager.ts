@@ -1,11 +1,10 @@
-import Game from "../entity/game";
-import Turn from "../entity/turn";
-import {singleton} from "tsyringe";
+import type Game from '../entity/game'
+import Turn from '../entity/turn'
+import { singleton } from 'tsyringe'
 
 @singleton()
 class TurnManager {
     private _playersLength = 0
-    private _gameNameToIndexMap: { [index: string]: number } = {}
 
     get playersLength() {
         return this._playersLength
@@ -22,9 +21,9 @@ class TurnManager {
     nextTurn(game: Game): Turn {
         game.currentTurnNumber++
         const turn = new Turn(game.players[game.currentTurnNumber % this.playersLength])
-        game.currentTurn = turn;
+        game.currentTurn = turn
 
-        return turn;
+        return turn
     }
 }
 
