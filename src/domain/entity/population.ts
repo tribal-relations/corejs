@@ -5,11 +5,11 @@ class Population {
     static defaultCivilizedness = 25
 
     constructor(
-        private _men: number,
-        private _women: number,
-        private _total: number,
-        private _combatReadiness: number,
-        private _civilizedness: number,
+        private _men: number = Population.defaultMen,
+        private _women: number = Population.defaultWomen,
+        private _total: number = Population.defaultMen + Population.defaultWomen,
+        private _combatReadiness: number = Population.defaultCombatReadiness,
+        private _civilizedness: number = Population.defaultCivilizedness,
     ) {
     }
 

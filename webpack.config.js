@@ -1,13 +1,7 @@
 const path = require('path');
+require('dotenv').config()
 
-let mode = 'production'
-
-if (process.env.APP_ENV === 'local') {
-    mode = 'development';
-}
-
-module.exports = {
-    mode: 'production',
+const webpackConfig = {
     entry: './src/console-app.ts',
     resolve: {
         extensions: ['.js', '.ts'],
@@ -23,9 +17,21 @@ module.exports = {
             //     test: /\.js$/,
             //     loader: 'babel',
             // },
-            { test: /\.css$/, use: 'css-loader' },
-            { test: /\.ts$/, use: 'ts-loader' },
+            {test: /\.css$/, use: 'css-loader'},
+            {test: /\.ts$/, use: 'ts-loader'},
         ],
     },
-    target: 'node'
 };
+
+if (process.env.APP_TARGET === 'node') {
+    webpackConfig.target = 'node';
+}
+webpackConfig.mode = 'production'
+if (process.env.APP_ENV === 'local') {
+    webpackConfig.mode = 'development';
+    webpackConfig.optimization = {
+        minimize: false
+    };
+}
+
+module.exports = webpackConfig;

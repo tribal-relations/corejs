@@ -39,11 +39,11 @@ class Tribe {
         }
 
     constructor(
-        private _name: string,
-        private _wealth: number,
-        private _points: number,
-        private _population: Population,
-        private _territory: Territory,
+        private _name: string = '',
+        private _wealth: number = 0,
+        private _points: number = 0,
+        private _population: Population = new Population(),
+        private _territory: Territory = new Territory(),
     ) {
     }
 
