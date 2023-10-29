@@ -4,53 +4,53 @@ import Tile from './tile'
 import Resource from './resource'
 
 class Tribe {
+  static tribesCount = 8
 
-    static tribesCount = 8
-
-    static tribeNameNorth = "North"
-    static tribeNameNortheast = "Northeast"
-    static tribeNameEast = "East"
-    static tribeNameSoutheast = "Southeast"
-    static tribeNameSouth = "South"
-    static tribeNameSouthwest = "Southwest"
-    static tribeNameWest = "West"
-    static tribeNameNorthwest = "Northwest"
+    static tribeNameNorth = 'North'
+    static tribeNameNortheast = 'Northeast'
+    static tribeNameEast = 'East'
+    static tribeNameSoutheast = 'Southeast'
+    static tribeNameSouth = 'South'
+    static tribeNameSouthwest = 'Southwest'
+    static tribeNameWest = 'West'
+    static tribeNameNorthwest = 'Northwest'
 
     static tribeNames = [
-        "North",
-        "Northeast",
-        "East",
-        "Southeast",
-        "South",
-        "Southwest",
-        "West",
-        "Northwest",
+        'North',
+        'Northeast',
+        'East',
+        'Southeast',
+        'South',
+        'Southwest',
+        'West',
+        'Northwest',
     ]
+
     static tribeNameToAliasMap =
         {
-            "North": "Saami",
-            "Northeast": "Chukchi",
-            "East": "Chinese",
-            "Southeast": "Javanese",
-            "South": "Zulu",
-            "Southwest": "Lusitanians",
-            "West": "Lakota",
-            "Northwest": "Aleut",
-        }
+            North: 'Saami',
+            Northeast: 'Chukchi',
+            East: 'Chinese',
+            Southeast: 'Javanese',
+            South: 'Zulu',
+            Southwest: 'Lusitanians',
+            West: 'Lakota',
+            Northwest: 'Aleut',
+    }
 
     constructor(
-        private _name: string = '',
-        private _wealth: number = 0,
-        private _points: number = 0,
-        private _population: Population = new Population(),
-        private _territory: Territory = new Territory(),
+        private readonly _name: string = '',
+        private readonly _wealth: number = 0,
+        private readonly _points: number = 0,
+        private readonly _population: Population = new Population(),
+        private readonly _territory: Territory = new Territory(),
     ) {
     }
 
     getNewPopulationCount(fertility: number): number {
-        let food = this._territory.getTotalFood()
-        let cropsYield = food * fertility
-        let upperBound = this._population.total * 10
+        const food = this._territory.getTotalFood()
+        const cropsYield = food * fertility
+        const upperBound = this._population.total * 10
 
         if (cropsYield < upperBound) {
             return cropsYield

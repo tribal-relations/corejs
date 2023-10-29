@@ -6,7 +6,7 @@ class Territory {
         private _tradingAbility: number = 0,
         private _production: number = 0,
         private _culture: number = 0,
-        private _tiles: Array<Tile> = [],
+        private readonly _tiles: Tile[] = [],
     ) {
     }
 
@@ -60,6 +60,5 @@ class Territory {
         this._culture = this.getTotalCulture()
     }
 }
-
 
 export default Territory

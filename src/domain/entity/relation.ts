@@ -1,87 +1,87 @@
-const relations: { [index: string]: { name: string, agent_bonus: number, recipient_bonus: number } } = {
-    "Equals": {
-        "name": "Equals",
-        "agent_bonus": 0,
-        "recipient_bonus": 0
+const relations: Record<string, { name: string, agent_bonus: number, recipient_bonus: number }> = {
+    Equals: {
+        name: 'Equals',
+        agent_bonus: 0,
+        recipient_bonus: 0,
     },
-    "Respectable": {
-        "name": "Respectable",
-        "agent_bonus": 1,
-        "recipient_bonus": 2
+    Respectable: {
+        name: 'Respectable',
+        agent_bonus: 1,
+        recipient_bonus: 2,
     },
-    "Proteges": {
-        "name": "Proteges",
-        "agent_bonus": 1,
-        "recipient_bonus": 4
+    Proteges: {
+        name: 'Proteges',
+        agent_bonus: 1,
+        recipient_bonus: 4,
     },
-    "KnowItAlls": {
-        "name": "KnowItAlls",
-        "agent_bonus": 1,
-        "recipient_bonus": -1
+    KnowItAlls: {
+        name: 'KnowItAlls',
+        agent_bonus: 1,
+        recipient_bonus: -1,
     },
-    "Barbarians": {
-        "name": "Barbarians",
-        "agent_bonus": 1,
-        "recipient_bonus": -2
+    Barbarians: {
+        name: 'Barbarians',
+        agent_bonus: 1,
+        recipient_bonus: -2,
     },
-    "Rogues": {
-        "name": "Rogues",
-        "agent_bonus": 2,
-        "recipient_bonus": -1
+    Rogues: {
+        name: 'Rogues',
+        agent_bonus: 2,
+        recipient_bonus: -1,
     },
-    "Bourgeois": {
-        "name": "Bourgeois",
-        "agent_bonus": 2,
-        "recipient_bonus": 0
+    Bourgeois: {
+        name: 'Bourgeois',
+        agent_bonus: 2,
+        recipient_bonus: 0,
     },
-    "Mates": {
-        "name": "Mates",
-        "agent_bonus": 2,
-        "recipient_bonus": 2
+    Mates: {
+        name: 'Mates',
+        agent_bonus: 2,
+        recipient_bonus: 2,
     },
-    "Idols": {
-        "name": "Idols",
-        "agent_bonus": 3,
-        "recipient_bonus": 2
+    Idols: {
+        name: 'Idols',
+        agent_bonus: 3,
+        recipient_bonus: 2,
     },
-    "Cannibals": {
-        "name": "Cannibals",
-        "agent_bonus": 0,
-        "recipient_bonus": -3
-    }
+    Cannibals: {
+        name: 'Cannibals',
+        agent_bonus: 0,
+        recipient_bonus: -3,
+    },
 }
 
 class Relation {
     static relationsCount = 10
 
-    static relationNameCannibals = "Cannibals"
-    static relationNameBarbarians = "Barbarians"
-    static relationNameRogues = "Rogues"
-    static relationNameBourgeois = "Bourgeois"
-    static relationNameKnowItAlls = "KnowItAlls"
-    static relationNameEquals = "Equals"
-    static relationNameRespectable = "Respectable"
-    static relationNameMates = "Mates"
-    static relationNameProteges = "Proteges"
-    static relationNameIdols = "Idols"
+    static relationNameCannibals = 'Cannibals'
+    static relationNameBarbarians = 'Barbarians'
+    static relationNameRogues = 'Rogues'
+    static relationNameBourgeois = 'Bourgeois'
+    static relationNameKnowItAlls = 'KnowItAlls'
+    static relationNameEquals = 'Equals'
+    static relationNameRespectable = 'Respectable'
+    static relationNameMates = 'Mates'
+    static relationNameProteges = 'Proteges'
+    static relationNameIdols = 'Idols'
 
     static relationNames = [
-        "Cannibals",
-        "Barbarians",
-        "Rogues",
-        "Bourgeois",
-        "KnowItAlls",
-        "Equals",
-        "Respectable",
-        "Mates",
-        "Proteges",
-        "Idols",
+        'Cannibals',
+        'Barbarians',
+        'Rogues',
+        'Bourgeois',
+        'KnowItAlls',
+        'Equals',
+        'Respectable',
+        'Mates',
+        'Proteges',
+        'Idols',
     ]
 
     constructor(
-        private _name: string,
-        private _agentBonus: number,
-        private _recipientBonus: number,
+        private readonly _name: string,
+        private readonly _agentBonus: number,
+        private readonly _recipientBonus: number,
     ) {
     }
 

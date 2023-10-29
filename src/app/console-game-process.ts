@@ -1,17 +1,17 @@
-import StartGameManager from "../domain/use_case/start-game-manager";
-import EndGameManager from "../domain/use_case/end-game-manager";
-import ConsoleUi from "../ui/console-ui";
-import {singleton} from "tsyringe";
-import Game from "../domain/entity/game";
+import StartGameManager from '../domain/use_case/start-game-manager'
+import EndGameManager from '../domain/use_case/end-game-manager'
+import ConsoleUi from '../ui/console-ui'
+import { singleton } from 'tsyringe'
+import type Game from '../domain/entity/game'
 
 @singleton()
 class ConsoleGameProcess {
     _game: Game | undefined
 
     constructor(
-        private _startGameManager: StartGameManager,
-        private _playerInterface: ConsoleUi,
-        private _endGameManager: EndGameManager,
+        private readonly _startGameManager: StartGameManager,
+        private readonly _playerInterface: ConsoleUi,
+        private readonly _endGameManager: EndGameManager,
     ) {
     }
 
@@ -38,14 +38,14 @@ class ConsoleGameProcess {
         this._game = game
     }
 
-    async start(names: Array<string>, name: string = '') {
+    async start(names: string[], name: string = '') {
         this.game = this.startGameManager.start(names, name)
 
         this.playerInterface.game = this.game
-        await this.playerInterface.startTurns();
+        await this.playerInterface.startTurns()
 
         this.endGameManager.game = this.game
-        this.endGameManager.initiateFinish();
+        this.endGameManager.initiateFinish()
     }
 }
 

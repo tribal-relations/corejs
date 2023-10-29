@@ -1,10 +1,10 @@
-import Player from "./player";
+import type Player from './player'
 
 class Turn {
     constructor(
-        private _player: Player,
-        private _isLast: boolean = false,
-        private _isFinished: boolean = false,
+        private readonly _player: Player,
+        private readonly _isLast: boolean = false,
+        private readonly _isFinished: boolean = false,
     ) {
     }
 

@@ -1,9 +1,9 @@
-import TurnDecisionManager from "../app/turn-decision-manager";
-import TurnResult from "../app/turn-result";
-import {singleton} from "tsyringe";
-import TurnManager from "../domain/use_case/turn-manager";
-import Game from "../domain/entity/game";
-import Std from "./std";
+import TurnDecisionManager from '../app/turn-decision-manager'
+import type TurnResult from '../app/turn-result'
+import { singleton } from 'tsyringe'
+import TurnManager from '../domain/use_case/turn-manager'
+import type Game from '../domain/entity/game'
+import Std from './std'
 
 @singleton()
 class ConsoleUi {
@@ -21,32 +21,31 @@ class ConsoleUi {
     }
 
     constructor(
-        private _turnManager: TurnManager,
-        private _turnDecisionManager: TurnDecisionManager,
-        private _std: Std,
+        private readonly _turnManager: TurnManager,
+        private readonly _turnDecisionManager: TurnDecisionManager,
+        private readonly _std: Std,
     ) {
     }
 
     async startTurns() {
         this._turnManager.addPlayers(this.game.players.length)
 
-        let turnResult: TurnResult;
+        let turnResult: TurnResult
         for (let i = 0; true; ++i) {
-            this._std.out(`turn ${i}`);
+            this._std.out(`turn ${i}`)
 
-            const nextTurn = this._turnManager.nextTurn(this.game);
+            const nextTurn = this._turnManager.nextTurn(this.game)
 
-            turnResult = await this._turnDecisionManager.processTurn(nextTurn);
-            this._std.out(turnResult);
+            turnResult = await this._turnDecisionManager.processTurn(nextTurn)
+            this._std.out(turnResult)
 
             if (turnResult.isLast) {
-                this._std.out(`last turn`);
+                this._std.out('last turn')
                 break
             }
 
-            this._std.out(`turn finished`);
+            this._std.out('turn finished')
         }
-        return
     }
 }
 

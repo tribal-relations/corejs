@@ -1,16 +1,16 @@
-import Player from "../entity/player";
-import Tribe from "../entity/tribe";
-import Population from "../entity/population";
-import Territory from "../entity/territory";
-import Game from "../entity/game";
-import {singleton} from "tsyringe";
+import Player from '../entity/player'
+import Tribe from '../entity/tribe'
+import Population from '../entity/population'
+import Territory from '../entity/territory'
+import Game from '../entity/game'
+import { singleton } from 'tsyringe'
 
 @singleton()
 class StartGameManager {
     constructor() {
     }
 
-    createNewGame(name: string, playerNames: Array<string>): Game {
+    createNewGame(name: string, playerNames: string[]): Game {
         const game = new Game(
             this.createPlayers(playerNames),
             name,
@@ -25,8 +25,8 @@ class StartGameManager {
         return game
     }
 
-    createPlayers(playerNames: Array<string>): Array<Player> {
-        let players = []
+    createPlayers(playerNames: string[]): Player[] {
+        const players = []
         const tribeNames = Tribe.tribeNames.slice(0, playerNames.length)
 
         for (let i = 0; i < playerNames.length; i++) {
@@ -44,7 +44,7 @@ class StartGameManager {
         return players
     }
 
-    start(names: Array<string>, name: string = ''): Game {
+    start(names: string[], name: string = ''): Game {
         return this.startGame(this.createNewGame(this.generateGameName(name), names))
     }
 

@@ -1,113 +1,113 @@
-const techs: { [index: string]: { name: string, description: string, prerequisites: { [index: string]: boolean } } } = {
-    "Pottery": {
-        "name": "Pottery",
-        "description": "Harvest result +2",
-        "prerequisites": {}
+const techs: Record<string, { name: string, description: string, prerequisites: Record<string, boolean> }> = {
+    Pottery: {
+        name: 'Pottery',
+        description: 'Harvest result +2',
+        prerequisites: {},
     },
-    "Animal Husbandry": {
-        "name": "Animal Husbandry",
-        "description": "Pasture +2 Food",
-        "prerequisites": {}
+    'Animal Husbandry': {
+        name: 'Animal Husbandry',
+        description: 'Pasture +2 Food',
+        prerequisites: {},
     },
-    "Hunting": {
-        "name": "Hunting",
-        "description": "Forest +1 Food",
-        "prerequisites": {}
+    Hunting: {
+        name: 'Hunting',
+        description: 'Forest +1 Food',
+        prerequisites: {},
     },
-    "Plough": {
-        "name": "Plough",
-        "description": "Harvest result +2. Throw 2 dice if Animal Husbandry is discovered",
-        "prerequisites": {
-            "Calendar": true
-        }
+    Plough: {
+        name: 'Plough',
+        description: 'Harvest result +2. Throw 2 dice if Animal Husbandry is discovered',
+        prerequisites: {
+            Calendar: true,
+        },
     },
-    "Advanced Writing": {
-        "name": "Advanced Writing",
-        "description": "Culture *2",
-        "prerequisites": {
-            "Primitive Writing": true
-        }
+    'Advanced Writing': {
+        name: 'Advanced Writing',
+        description: 'Culture *2',
+        prerequisites: {
+            'Primitive Writing': true,
+        },
     },
-    "Fishing": {
-        "name": "Fishing",
-        "description": "River and Lake +2 Food",
-        "prerequisites": {}
+    Fishing: {
+        name: 'Fishing',
+        description: 'River and Lake +2 Food',
+        prerequisites: {},
     },
-    "Archery": {
-        "name": "Archery",
-        "description": "Combat Readiness *2",
-        "prerequisites": {}
+    Archery: {
+        name: 'Archery',
+        description: 'Combat Readiness *2',
+        prerequisites: {},
     },
-    "Organized Army": {
-        "name": "Organized Army",
-        "description": "Combat Readiness *3",
-        "prerequisites": {
-            "Bronze Weapons": true
-        }
+    'Organized Army': {
+        name: 'Organized Army',
+        description: 'Combat Readiness *3',
+        prerequisites: {
+            'Bronze Weapons': true,
+        },
     },
-    "Musical Instruments": {
-        "name": "Musical Instruments",
-        "description": "Culture *2",
-        "prerequisites": {}
+    'Musical Instruments': {
+        name: 'Musical Instruments',
+        description: 'Culture *2',
+        prerequisites: {},
     },
-    "Bronze Weapons": {
-        "name": "Bronze Weapons",
-        "description": "Metal +1 Wealth +1 Production. Combat Readiness *2",
-        "prerequisites": {
-            "Stone Working": true
-        }
+    'Bronze Weapons': {
+        name: 'Bronze Weapons',
+        description: 'Metal +1 Wealth +1 Production. Combat Readiness *2',
+        prerequisites: {
+            'Stone Working': true,
+        },
     },
-    "Idols": {
-        "name": "Idols",
-        "description": "Stone +2 Culture",
-        "prerequisites": {
-            "Stone Working": true
-        }
+    Idols: {
+        name: 'Idols',
+        description: 'Stone +2 Culture',
+        prerequisites: {
+            'Stone Working': true,
+        },
     },
-    "Poetry": {
-        "name": "Poetry",
-        "description": "Culture *2",
-        "prerequisites": {}
+    Poetry: {
+        name: 'Poetry',
+        description: 'Culture *2',
+        prerequisites: {},
     },
-    "Calendar": {
-        "name": "Calendar",
-        "description": "Food *2",
-        "prerequisites": {
-            "Primitive Writing": true
-        }
+    Calendar: {
+        name: 'Calendar',
+        description: 'Food *2',
+        prerequisites: {
+            'Primitive Writing': true,
+        },
     },
-    "Primitive Writing": {
-        "name": "Primitive Writing",
-        "description": "Wealth +3",
-        "prerequisites": {
-            "Pottery": true
-        }
+    'Primitive Writing': {
+        name: 'Primitive Writing',
+        description: 'Wealth +3',
+        prerequisites: {
+            Pottery: true,
+        },
     },
-    "Stone Working": {
-        "name": "Stone Working",
-        "description": "Stone +2 Production +1 Culture",
-        "prerequisites": {}
-    }
+    'Stone Working': {
+        name: 'Stone Working',
+        description: 'Stone +2 Production +1 Culture',
+        prerequisites: {},
+    },
 }
 
 class Technology {
     static technologiesCount = 15
 
-    static technologyNamePlough = "Plough"
-    static technologyNamePrimitiveWriting = "Primitive Writing"
-    static technologyNameAdvancedWriting = "Advanced Writing"
-    static technologyNameBronzeWeapons = "Bronze Weapons"
-    static technologyNameStoneWorking = "Stone Working"
-    static technologyNameIdols = "Idols"
-    static technologyNamePottery = "Pottery"
-    static technologyNameAnimalHusbandry = "Animal Husbandry"
-    static technologyNameHunting = "Hunting"
-    static technologyNameArchery = "Archery"
-    static technologyNameOrganizedArmy = "Organized Army"
-    static technologyNameFishing = "Fishing"
-    static technologyNameMusicalInstruments = "Musical Instruments"
-    static technologyNamePoetry = "Poetry"
-    static technologyNameCalendar = "Calendar"
+    static technologyNamePlough = 'Plough'
+    static technologyNamePrimitiveWriting = 'Primitive Writing'
+    static technologyNameAdvancedWriting = 'Advanced Writing'
+    static technologyNameBronzeWeapons = 'Bronze Weapons'
+    static technologyNameStoneWorking = 'Stone Working'
+    static technologyNameIdols = 'Idols'
+    static technologyNamePottery = 'Pottery'
+    static technologyNameAnimalHusbandry = 'Animal Husbandry'
+    static technologyNameHunting = 'Hunting'
+    static technologyNameArchery = 'Archery'
+    static technologyNameOrganizedArmy = 'Organized Army'
+    static technologyNameFishing = 'Fishing'
+    static technologyNameMusicalInstruments = 'Musical Instruments'
+    static technologyNamePoetry = 'Poetry'
+    static technologyNameCalendar = 'Calendar'
 
     static TechnologyNames = [
         Technology.technologyNamePlough,
@@ -128,9 +128,9 @@ class Technology {
     ]
 
     constructor(
-        private _name: string,
-        private _description: string,
-        private _prerequisites: object,
+        private readonly _name: string,
+        private readonly _description: string,
+        private readonly _prerequisites: object,
     ) {
     }
 

@@ -4,11 +4,11 @@ class Tile {
     static defaultTilesCount = 2
 
     constructor(
-        private _resource: Resource,
+        private readonly _resource: Resource,
     ) {
     }
 
-    public static createStarterTiles(): Array<Tile> {
+    public static createStarterTiles(): Tile[] {
         return [
             new Tile(Resource.createFromName(Resource.resourceNamePasture)),
             new Tile(Resource.createFromName(Resource.resourceNameForest)),
