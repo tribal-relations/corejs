@@ -11,7 +11,7 @@ class Std {
         this._cin = prompt()
     }
 
-    out(...data: any[]) {
+    out(...data: any[]): void {
         console.log(...data)
     }
 
@@ -29,15 +29,15 @@ class Std {
 
     readFromBufferIfTest(): string | null {
         if (process.env.NODE_ENV === 'test') {
-            if (this._inputBufferIndex >= this._inputBuffer.length) {
-                throw new Error('index out of bounds')
+            if (this._inputBufferIndex >= this._inputBuffer.length) { // if no elements left, quit game
+                return 'q'
             }
             return this._inputBuffer[this._inputBufferIndex++ % this._inputBuffer.length]
         }
         return null
     }
 
-    sendIn(input: string) {
+    sendIn(input: string): void {
         this._inputBuffer.push(input)
     }
 }

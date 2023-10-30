@@ -17,6 +17,10 @@ class Territory {
         return territory
     }
 
+    get tiles(): Tile[] {
+        return this._tiles
+    }
+
     getTotalFood(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {

@@ -1,6 +1,8 @@
 import type Player from './player'
 
 class Turn {
+    parameters: string = ''
+
     constructor(
         private readonly _player: Player,
         private readonly _isLast: boolean = false,
