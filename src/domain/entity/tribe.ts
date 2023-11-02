@@ -4,7 +4,7 @@ import Tile from './tile'
 import Resource from './resource'
 
 class Tribe {
-  static tribesCount = 8
+    static tribesCount = 8
 
     static tribeNameNorth = 'North'
     static tribeNameNortheast = 'Northeast'
@@ -26,16 +26,15 @@ class Tribe {
         'Northwest',
     ]
 
-    static tribeNameToAliasMap =
-        {
-            North: 'Saami',
-            Northeast: 'Chukchi',
-            East: 'Chinese',
-            Southeast: 'Javanese',
-            South: 'Zulu',
-            Southwest: 'Lusitanians',
-            West: 'Lakota',
-            Northwest: 'Aleut',
+    static tribeNameToAliasMap = {
+        North: 'Saami',
+        Northeast: 'Chukchi',
+        East: 'Chinese',
+        Southeast: 'Javanese',
+        South: 'Zulu',
+        Southwest: 'Lusitanians',
+        West: 'Lakota',
+        Northwest: 'Aleut',
     }
 
     constructor(
@@ -44,7 +43,28 @@ class Tribe {
         private readonly _points: number = 0,
         private readonly _population: Population = new Population(),
         private readonly _territory: Territory = new Territory(),
+        private readonly _knownTechs: Record<string, boolean> = {},
     ) {
+    }
+
+    get name(): string {
+        return this._name
+    }
+
+    get population(): Population {
+        return this._population
+    }
+
+    get territory(): Territory {
+        return this._territory
+    }
+
+    get technologies(): Record<string, boolean> {
+        return this._knownTechs
+    }
+
+    hasTech(name: string): boolean {
+        return (name in this._knownTechs)
     }
 
     getNewPopulationCount(fertility: number): number {
@@ -59,7 +79,7 @@ class Tribe {
         return upperBound
     }
 
-    makeTerritorialDiscovery() {
+    makeTerritorialDiscovery(): void {
         const newTile = Tribe.discoverNewTile()
         this._territory.addTile(newTile)
         this._territory.updateResources()
@@ -67,6 +87,14 @@ class Tribe {
 
     static discoverNewTile(): Tile {
         return new Tile(Resource.getRandomResource())
+    }
+
+    arm(): void {
+        this.population.arm()
+    }
+
+    research(name: string): void {
+        this._knownTechs[name] = true
     }
 }
 

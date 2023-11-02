@@ -26,8 +26,8 @@ const actions: Record<string, {
         name_ru: 'Нанять воинов',
         name: 'Hire warriors',
         radius: 4,
-        description: 'Заплатить золотом за вооруженность навсегда. Вооруженность берется у другого племени. Игроки должны договориться о цене.',
-        description_ru: 'Заплатить золотом за вооруженность навсегда. Вооруженность берется у другого племени. Игроки должны договориться оцене.',
+        description: 'Заплатить золотом за вооруженность навсегда. Вооруженность берется у другого племени. Игроки должны договориться о количестве воинов и цене.',
+        description_ru: 'Заплатить золотом за вооруженность навсегда. Вооруженность берется у другого племени. Игроки должны договориться о количестве воинов и цене.',
         culture: 0,
         population: 0,
         production: 0,
@@ -50,8 +50,8 @@ const actions: Record<string, {
         name_ru: 'Нанять воинов на 1 раунд',
         name: 'Hire warriors for 1 round',
         radius: 4,
-        description: 'Заплатить золотом за вооруженность на этот раунд. Вооруженность берется у другого племени. Игроки должны договориться о цене.',
-        description_ru: 'Заплатить золотом за вооруженность на этот раунд. Вооруженность берется у другого племени. Игроки должны договориться о цене.',
+        description: 'Заплатить золотом за вооруженность на этот раунд. Вооруженность берется у другого племени. Игроки должны договориться о количестве воинов и цене.',
+        description_ru: 'Заплатить золотом за вооруженность на этот раунд. Вооруженность берется у другого племени. Игроки должны договориться о количестве воинов и цене.',
         culture: 0,
         population: 0,
         production: 0,
@@ -218,13 +218,23 @@ const actions: Record<string, {
 
 class Action {
     static actionsCount = 17
-    static quitActionName = 'Quit'
-    static conquerActionName = 'Conquer the palace'
-    static armActionName = 'Arm the population'
-    static caravanActionName = 'Send a caravan'
-    static removeCaravanActionName = 'Remove a caravan'
-    static expeditionActionName = 'Make an expedition'
-    static cultTurnActionName = 'Expand the cult'
+    static quit = 'Quit'
+    static hire = 'Hire warriors'
+    static attack = 'Attack a tile'
+    static hireOneRound = 'Hire warriors for 1 round'
+    static pray = 'Pray the guardian God'
+    static goTo3rdRadius = 'Settle near the borders'
+    static removeCaravan = 'Remove a caravan'
+    static pillage = 'Pillage a caravan'
+    static arm = 'Arm the population'
+    static expedition = 'Make an expedition'
+    static caravan = 'Send a caravan'
+    static cult = 'Expand the cult'
+    static research = 'Research'
+    static goTo2ndRadius = 'Settle inside the state'
+    static alliance = 'Make an alliance'
+    static goTo1stRadius = 'Settle inside the city'
+    static conquer = 'Conquer the palace'
 
     constructor(
         private readonly _name: string,

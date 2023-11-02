@@ -3,7 +3,8 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
-        node: true
+        node: true,
+        "jest/globals": true,
     },
     extends: [
         "standard-with-typescript",
@@ -37,6 +38,7 @@ module.exports = {
         "@typescript-eslint",
         "unused-imports",
         "no-autofix",
+        "jest",
     ],
     rules: {
         // "indent": ["warn", 4],
@@ -58,6 +60,11 @@ module.exports = {
             "named": "never",
             "asyncArrow": "always",
         }],
+        "@typescript-eslint/space-before-function-paren": ["error", {
+            "anonymous": "always",
+            "named": "never",
+            "asyncArrow": "always",
+        }],
 
         "no-unused-vars": 'off',
         "@typescript-eslint/no-unused-vars": 'off',
@@ -65,6 +72,7 @@ module.exports = {
         "unused-imports/no-unused-vars": [
             "warn",
             {"vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_"}
-        ]
+        ],
+        '@typescript-eslint/strict-boolean-expressions': 'off',
     }
 }
