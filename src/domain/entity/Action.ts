@@ -1,15 +1,15 @@
 const actions: Record<string, {
-        name_ru: string
-        name: string
-        radius: number
-        description: string
-        description_ru: string
-        culture: number
-        population: number
-        production: number
-        action_cost: number
-        wealth_cost: number
-    }> = {
+    name_ru: string
+    name: string
+    radius: number
+    description: string
+    description_ru: string
+    culture: number
+    population: number
+    production: number
+    action_cost: number
+    wealth_cost: number
+}> = {
     Quit: {
         name_ru: 'Закончить игру',
         name: 'Quit',
@@ -240,6 +240,14 @@ class Action {
         private readonly _name: string,
         private readonly _description: string,
         private readonly _radius: number,
+        private readonly _constraints: {
+            radius: number
+            culture: number
+            population: number
+            production: number
+            action_cost: number
+            wealth_cost: number
+        },
     ) {
     }
 
@@ -247,10 +255,33 @@ class Action {
         return this._name
     }
 
+    get constraints(): {
+        radius: number
+        culture: number
+        population: number
+        production: number
+        action_cost: number
+        wealth_cost: number
+    } {
+        return this._constraints
+    }
+
     public static createFromName(name: string): Action {
         const foundAction = actions[name]
         if (foundAction) {
-            return new Action(name, actions[name].description, actions[name].radius)
+            return new Action(
+                name,
+                actions[name].description,
+                actions[name].radius,
+                {
+                    radius: actions[name].radius,
+                    culture: actions[name].culture,
+                    population: actions[name].population,
+                    production: actions[name].production,
+                    action_cost: actions[name].action_cost,
+                    wealth_cost: actions[name].wealth_cost,
+                },
+            )
         }
         throw new Error(`action with name ${name} not found`)
     }

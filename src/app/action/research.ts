@@ -3,7 +3,7 @@ import type Tribe from '../../domain/entity/tribe'
 import Technology from '../../domain/entity/technology'
 import type ActionInterface from './action-interface'
 import { singleton } from 'tsyringe'
-import Action from '../../domain/entity/action'
+import Action from '../../domain/entity/Action'
 
 @singleton()
 class Research implements ActionInterface {

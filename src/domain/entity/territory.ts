@@ -1,4 +1,4 @@
-import Tile from './tile'
+import Tile from './Tile'
 
 class Territory {
     constructor(
@@ -19,6 +19,14 @@ class Territory {
 
     get tiles(): Tile[] {
         return this._tiles
+    }
+
+    get culture(): number {
+        return this._culture
+    }
+
+    get production(): number {
+        return this._production
     }
 
     getTotalFood(): number {
@@ -46,6 +54,7 @@ class Territory {
     }
 
     getTotalCulture(): number {
+        // TODO need to move it to tribe because techs influence culture and production output
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
             accumulator += this._tiles[i].resource.culture
@@ -53,11 +62,11 @@ class Territory {
         return accumulator
     }
 
-    addTile(newTile: Tile) {
+    addTile(newTile: Tile): void {
         this._tiles.push(newTile)
     }
 
-    updateResources() {
+    updateResources(): void {
         this._food = this.getTotalFood()
         this._tradingAbility = this.getTotalTradingAbility()
         this._production = this.getTotalProduction()

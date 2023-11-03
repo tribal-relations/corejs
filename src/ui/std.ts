@@ -15,6 +15,10 @@ class Std {
         console.log(...data)
     }
 
+    outEmptyLine(): void {
+        console.log('\n')
+    }
+
     in(prompt: string = '', defaultValue: string | null = null): string | null {
         const buffer = this.readFromBufferIfTest()
         if (buffer) {

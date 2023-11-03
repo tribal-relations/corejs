@@ -1,12 +1,10 @@
-// : Array<{
-//     "quantity": number,
-//     "food": number,
-//     "trading_ability": number,
-//     "production": number,
-//     "culture": number
-// }>
-
-const resources: Record<string, { quantity: number, food: number, trading_ability: number, production: number, culture: number }> = {
+const resources: Record<string, {
+    quantity: number
+    food: number
+    trading_ability: number
+    production: number
+    culture: number
+}> = {
     Metal: {
         quantity: 10,
         food: 0,
@@ -81,27 +79,27 @@ const resources: Record<string, { quantity: number, food: number, trading_abilit
 
 class Resource {
     static resourcesCount = 10
-    static resourceNamePasture = 'Pasture'
-    static resourceNameStone = 'Stone'
-    static resourceNameMetal = 'Metal'
-    static resourceNameFruit = 'Fruit'
-    static resourceNameLake = 'Lake'
-    static resourceNameGold = 'Gold'
-    static resourceNameSilver = 'Silver'
-    static resourceNameForest = 'Forest'
-    static resourceNameDesert = 'Desert'
-    static resourceNameRiver = 'River'
-    static resourceNames = [
-        this.resourceNamePasture,
-        this.resourceNameStone,
-        this.resourceNameMetal,
-        this.resourceNameFruit,
-        this.resourceNameLake,
-        this.resourceNameGold,
-        this.resourceNameSilver,
-        this.resourceNameForest,
-        this.resourceNameDesert,
-        this.resourceNameRiver,
+    static pasture = 'Pasture'
+    static stone = 'Stone'
+    static metal = 'Metal'
+    static fruit = 'Fruit'
+    static lake = 'Lake'
+    static gold = 'Gold'
+    static silver = 'Silver'
+    static forest = 'Forest'
+    static desert = 'Desert'
+    static river = 'River'
+    static names = [
+        this.pasture,
+        this.stone,
+        this.metal,
+        this.fruit,
+        this.lake,
+        this.gold,
+        this.silver,
+        this.forest,
+        this.desert,
+        this.river,
     ]
 
     constructor(
@@ -127,31 +125,31 @@ class Resource {
 
     static getRandomResource(): Resource {
         const randomIndex = Math.floor(Math.random() * Resource.resourcesCount)
-        const randomName = Resource.resourceNames[randomIndex]
+        const randomName = Resource.names[randomIndex]
         return Resource.createFromName(randomName)
     }
 
-    get name() {
+    get name(): string {
         return this._name
     }
 
-    get quantity() {
+    get quantity(): number {
         return this._quantity
     }
 
-    get food() {
+    get food(): number {
         return this._food
     }
 
-    get tradingAbility() {
+    get tradingAbility(): number {
         return this._tradingAbility
     }
 
-    get production() {
+    get production(): number {
         return this._production
     }
 
-    get culture() {
+    get culture(): number {
         return this._culture
     }
 }

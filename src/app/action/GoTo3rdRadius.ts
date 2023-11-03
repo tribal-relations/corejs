@@ -4,16 +4,12 @@ import { singleton } from 'tsyringe'
 import Action from '../../domain/entity/Action'
 
 @singleton()
-class Arm implements ActionInterface {
-    actionName = Action.arm
+class GoTo3rdRadius implements ActionInterface {
+    actionName = Action.goTo3rdRadius
 
     public perform(turn: Turn): void {
-        this.arm(turn)
-    }
-
-    private arm(turn: Turn): void {
-        turn.player.tribe.arm()
+        turn.player.tribe.goToNextRadius()
     }
 }
 
-export default Arm
+export default GoTo3rdRadius
