@@ -1,9 +1,11 @@
 import Population from './population'
 import Territory from './territory'
-import Tile from './tile'
-import Resource from './resource'
+import Tile from './Tile'
+import Resource from './Resource'
 
 class Tribe {
+    private _radius = 4
+
     static tribesCount = 8
 
     static tribeNameNorth = 'North'
@@ -47,8 +49,16 @@ class Tribe {
     ) {
     }
 
+    get radius(): number {
+        return this._radius
+    }
+
     get name(): string {
         return this._name
+    }
+
+    get wealth(): number {
+        return this._wealth
     }
 
     get population(): Population {
@@ -95,6 +105,10 @@ class Tribe {
 
     research(name: string): void {
         this._knownTechs[name] = true
+    }
+
+    goToNextRadius(): void {
+        this._radius--
     }
 }
 

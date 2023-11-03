@@ -5,8 +5,9 @@ import Turn from '../../src/domain/entity/turn'
 import Player from '../../src/domain/entity/player'
 import Tribe from '../../src/domain/entity/tribe'
 import Population from '../../src/domain/entity/population'
-import Action from '../../src/domain/entity/action'
+import Action from '../../src/domain/entity/Action'
 import TestBootstrapper from '../test-bootstrapper'
+import Currency from '../../src/domain/entity/Currency'
 
 test('arm reduces civilizedness if no extra population', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
@@ -94,4 +95,29 @@ test('cannot research already known technology', () => {
     }
 
     expect(throwingFunction).toThrow(`${tribe.name} cannot research ${techName}, because it is already known`)
+})
+
+test('action constraints must be respected', () => {
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = new Tribe(
+        'test_tribe',
+        0,
+        0,
+        new Population(0, 0, 0),
+        )
+    const player = new Player(tribe, 'test_player')
+    const turn = new Turn(player)
+
+    expect(tribe.population.total).toStrictEqual(0)
+    const action = Action.createFromName(Action.expedition)
+
+    const throwingFunction = (): void => {
+        turnDecisionManager.processTurn(action, turn)
+    }
+
+    expect(throwingFunction).toThrow(
+        `Tribe '${tribe.name}' cannot perform action '${action.name}', because it does not satisfy action constraints. (Insufficient ${Currency.Population})`,
+    )
+    expect(tribe.territory.tiles.length).toBe(0)
 })

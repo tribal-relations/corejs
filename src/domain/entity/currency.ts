@@ -1,6 +1,0 @@
-const currencyNameFood = 'Food'
-const currencyNameWealth = 'Wealth'
-const currencyNameProduction = 'Production'
-const currencyNameCulture = 'Culture'
-const currencyNameCombatReadiness = 'Combat Readiness'
-const currencyNamePopulation = 'Population'

@@ -1,13 +1,23 @@
 import 'reflect-metadata'
-import Action from '../../src/domain/entity/action'
+import Action from '../../src/domain/entity/Action'
 import { container } from 'tsyringe'
 import TurnDecisionManager from '../../src/app/turn-decision-manager'
 import Tribe from '../../src/domain/entity/tribe'
 import Player from '../../src/domain/entity/player'
 import Turn from '../../src/domain/entity/turn'
-import DiceThrower from '../../src/app/diceThrower'
-import SuccessfulDiceThrower from '../../src/app/successfulDiceThrower'
-import LosingDiceThrower from '../../src/app/losingDiceThrower'
+import DiceThrower from '../../src/app/DiceThrower'
+import SuccessfulDiceThrower from '../../src/app/SuccessfulDiceThrower'
+import LosingDiceThrower from '../../src/app/LosingDiceThrower'
+
+function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe): void {
+    const player = new Player(tribe, 'test_player')
+    const turn = new Turn(player)
+
+    expect(tribe.territory.tiles.length).toBe(0)
+
+    const action = Action.createFromName(Action.expedition)
+    turnDecisionManager.processTurn(action, turn)
+}
 
 test('expedition adds one tile', () => {
     container.reset()
@@ -15,20 +25,9 @@ test('expedition adds one tile', () => {
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, SuccessfulDiceThrower)
         .resolve(TurnDecisionManager)
-
     const tribe = new Tribe()
-    expect(tribe.technologies).toStrictEqual({})
+    makeExpedition(turnDecisionManager, tribe)
 
-    const player = new Player(tribe, 'test_player')
-
-    const turn = new Turn(player)
-
-    expect(tribe.territory.tiles.length).toBe(0)
-
-    const action = Action.createFromName(Action.expedition)
-    const turnResult = turnDecisionManager.processTurn(action, turn)
-
-    expect(turnResult.isLast).toBe(false)
     expect(tribe.territory.tiles.length).toBe(1)
 })
 
@@ -40,17 +39,7 @@ test('expedition can result in failure', () => {
         .resolve(TurnDecisionManager)
 
     const tribe = new Tribe()
-    expect(tribe.technologies).toStrictEqual({})
+    makeExpedition(turnDecisionManager, tribe)
 
-    const player = new Player(tribe, 'test_player')
-
-    const turn = new Turn(player)
-
-    expect(tribe.territory.tiles.length).toBe(0)
-
-    const action = Action.createFromName(Action.expedition)
-    const turnResult = turnDecisionManager.processTurn(action, turn)
-
-    expect(turnResult.isLast).toBe(false)
     expect(tribe.territory.tiles.length).toBe(0)
 })

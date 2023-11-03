@@ -4,7 +4,7 @@ import TurnDecisionManager from '../../src/app/turn-decision-manager'
 import Turn from '../../src/domain/entity/turn'
 import Player from '../../src/domain/entity/player'
 import Tribe from '../../src/domain/entity/tribe'
-import Action from '../../src/domain/entity/action'
+import Action from '../../src/domain/entity/Action'
 
 test('q to quit game', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)

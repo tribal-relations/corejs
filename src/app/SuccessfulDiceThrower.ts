@@ -1,4 +1,4 @@
-import DiceThrower from './diceThrower'
+import DiceThrower from './DiceThrower'
 import { singleton } from 'tsyringe'
 
 @singleton()

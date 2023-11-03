@@ -1,6 +1,6 @@
 import TurnResult from './turn-result'
 import type Turn from '../domain/entity/turn'
-import Action from '../domain/entity/action'
+import Action from '../domain/entity/Action'
 import { singleton } from 'tsyringe'
 import Std from '../ui/std'
 import ActionPerformer from './action-performer'

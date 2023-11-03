@@ -22,6 +22,10 @@ class ConsoleGameProcess {
         return this._game
     }
 
+    set game(game: Game) {
+        this._game = game
+    }
+
     get startGameManager(): StartGameManager {
         return this._startGameManager
     }
@@ -34,15 +38,11 @@ class ConsoleGameProcess {
         return this._endGameManager
     }
 
-    set game(game: Game) {
-        this._game = game
-    }
-
-    async start(names: string[], name: string = '') {
+    start(names: string[], name: string = ''): void {
         this.game = this.startGameManager.start(names, name)
 
         this.playerInterface.game = this.game
-        await this.playerInterface.startTurns()
+        this.playerInterface.startTurns()
 
         this.endGameManager.game = this.game
         this.endGameManager.initiateFinish()

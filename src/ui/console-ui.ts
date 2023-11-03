@@ -4,55 +4,46 @@ import { singleton } from 'tsyringe'
 import TurnManager from '../domain/use_case/turn-manager'
 import type Game from '../domain/entity/game'
 import Std from './std'
-import Action from '../domain/entity/action'
+import Action from '../domain/entity/Action'
+import type Turn from '../domain/entity/turn'
+import InvalidInput from '../exception/console/InvalidInput'
+import Command from './console/Command'
+import CommandInsteadOfAction from '../exception/console/CommandInsteadOfAction'
+import type Tribe from '../domain/entity/tribe'
 
 @singleton()
 class ConsoleUi {
     _game: Game | undefined
-    static decisionToActionNameMap: Record<string, string> = {
-        a: Action.arm,
-        al: Action.alliance,
+    static decisionToActionDataMap: Record<string, { name: string, parameters: string }> = {
+        a: { name: Action.arm, parameters: '' },
+        al: { name: Action.alliance, parameters: '<tribe name>' },
 
-        b: Action.quit,
-        c: Action.caravan,
-        d: Action.quit,
-        e: Action.expedition,
-        f: Action.quit,
+        c: { name: Action.caravan, parameters: '<tribe name>' },
+        e: { name: Action.expedition, parameters: '' },
 
-        g3: Action.goTo3rdRadius,
-        g2: Action.goTo2ndRadius,
-        g1: Action.goTo1stRadius,
+        g3: { name: Action.goTo3rdRadius, parameters: '' },
+        g2: { name: Action.goTo2ndRadius, parameters: '' },
+        g1: { name: Action.goTo1stRadius, parameters: '' },
 
-        h: Action.hire,
-        h1: Action.hireOneRound,
+        h: { name: Action.hire, parameters: '<tribe name> <how much to hire> <total price>' },
+        h1: { name: Action.hireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
 
-        i: Action.quit,
-        j: Action.quit,
-        k: Action.quit,
-        l: Action.quit,
-        m: Action.quit,
-        n: Action.quit,
-        o: Action.quit,
+        p: { name: Action.pray, parameters: '' },
+        pil: { name: Action.pillage, parameters: '<tribe name> <resource name>' },
+        q: { name: Action.quit, parameters: '' },
+        r: { name: Action.research, parameters: '<technology name>' },
 
-        p: Action.pray,
-        pil: Action.pillage,
-        q: Action.quit,
-        r: Action.research,
+        rmca: { name: Action.removeCaravan, parameters: '<tribe name>' },
 
-        s: Action.quit,
-        t: Action.quit,
-        u: Action.quit,
-        v: Action.quit,
-        w: Action.quit,
-        x: Action.quit,
-        y: Action.quit,
-        z: Action.quit,
+        co: { name: Action.conquer, parameters: '' },
+        cu: { name: Action.cult, parameters: '' },
+    }
 
-        ca: Action.caravan,
-        rmca: Action.removeCaravan,
-
-        co: Action.conquer,
-        cu: Action.cult,
+    static decisionToCommandDataMap: Record<string, { name: string, parameters: string }> = {
+        pt: { name: Command.printTribe, parameters: '<tribe name>' },
+        ptt: { name: Command.printAllTribes, parameters: '' },
+        paa: { name: Command.printAvailableActions, parameters: '' },
+        pac: { name: Command.printAvailableCommands, parameters: '' },
     }
 
     get game(): Game {
@@ -73,35 +64,50 @@ class ConsoleUi {
     ) {
     }
 
-     startTurns(): TurnResult {
+    startTurns(): TurnResult {
         this._turnManager.addPlayers(this.game.players.length)
 
         let turnResult: TurnResult
-        let decision: Action
-        let parameters: string
+        this.outputStartInfo()
+
+        this.outputAvailableCommands()
+        this.outputAvailableActions()
 
         for (let i = 0; true; ++i) {
-            this._std.out(`turn ${i}`)
-
+            this._std.out(`\t\t\tTurn ${i}`)
             const nextTurn = this._turnManager.nextTurn(this.game)
-
             const playerName = nextTurn.player.name
-
-            const decisionWithParameters = this.getDecisionSafe(playerName)
-            decision = decisionWithParameters.decision
-            parameters = decisionWithParameters.parameters
-            nextTurn.parameters = parameters
-
-            turnResult = this._turnDecisionManager.processTurn(decision, nextTurn)
-            this._std.out(turnResult)
+            turnResult = this.doWhatPlayerSaysSafely(playerName, nextTurn)
 
             if (turnResult.isLast) {
                 this._std.out('last turn')
                 return turnResult
             }
-
-            this._std.out('turn finished')
+            this._std.outEmptyLine()
         }
+    }
+
+    private doWhatPlayerSaysSafely(playerName: string, nextTurn: Turn): TurnResult {
+        let turnResult: TurnResult
+        let decision: Action
+        let parameters: string
+        for (; ;) {
+            try {
+                const decisionWithParameters = this.getDecisionSafe(playerName)
+                decision = decisionWithParameters.decision
+                parameters = decisionWithParameters.parameters
+                nextTurn.parameters = parameters
+                turnResult = this._turnDecisionManager.processTurn(decision, nextTurn)
+                break
+            } catch (error) {
+                if (error instanceof Error) {
+                    this._std.out(error.message)
+                } else {
+                    this._std.out(error)
+                }
+            }
+        }
+        return turnResult
     }
 
     getDecisionSafe(playerName: string): { decision: Action, parameters: string } {
@@ -117,7 +123,11 @@ class ConsoleUi {
 
                 break
             } catch (error) {
-                this._std.out('incorrect action, try again', error)
+                if (error instanceof Error) {
+                    this._std.out(error.message)
+                } else {
+                    this._std.out(error)
+                }
             }
         }
         return { decision, parameters }
@@ -125,12 +135,20 @@ class ConsoleUi {
 
     getDecision(rawDecision: string): Action {
         const words = rawDecision.split(' ')
-        const actionName = ConsoleUi.decisionToActionNameMap[words[0].toLowerCase()]
-        if (actionName) {
-            return Action.createFromName(actionName)
+        const actionOrCommand = words[0].toLowerCase()
+
+        if (actionOrCommand in ConsoleUi.decisionToActionDataMap) {
+            return Action.createFromName(ConsoleUi.decisionToActionDataMap[actionOrCommand].name)
         }
 
-        throw new Error('incorrect action, try again')
+        if (actionOrCommand in ConsoleUi.decisionToCommandDataMap) {
+            const commandName = ConsoleUi.decisionToCommandDataMap[actionOrCommand].name
+
+            this.executeCommand(commandName, (words.slice(1)).join(' '))
+            throw new CommandInsteadOfAction()
+        }
+
+        throw new InvalidInput()
     }
 
     private getParameter(rawDecision: string): string {
@@ -140,6 +158,90 @@ class ConsoleUi {
             return paramStrings
         }
         return ''
+    }
+
+    private outputAvailableCommands(): void {
+        this._std.out('Available commands:')
+        let line: string
+        let actionName: string
+        let actionParameters: string
+
+        for (const key in ConsoleUi.decisionToCommandDataMap) {
+            actionName = ConsoleUi.decisionToCommandDataMap[key].name
+            actionParameters = ConsoleUi.decisionToCommandDataMap[key].parameters
+
+            line = `\t${key}\t-\t${actionName}\t${actionParameters}`
+            this._std.out(line)
+        }
+    }
+
+    private outputAvailableActions(): void {
+        this._std.out('Available actions:')
+        let line: string
+        let actionName: string
+        let actionParameters: string
+
+        for (const key in ConsoleUi.decisionToActionDataMap) {
+            actionName = ConsoleUi.decisionToActionDataMap[key].name
+            actionParameters = ConsoleUi.decisionToActionDataMap[key].parameters
+
+            line = `\t${key}\t-\t${actionName}\t${actionParameters}`
+            this._std.out(line)
+        }
+    }
+
+    private executeCommand(commandName: string, parameter: string | null = null): void {
+        if (commandName === Command.printTribe && parameter) {
+            this.printTribeByName(parameter)
+        }
+        if (commandName === Command.printAllTribes) {
+            this.printAllTribes()
+        }
+        if (commandName === Command.printAvailableCommands) {
+            this.outputAvailableCommands()
+        }
+        if (commandName === Command.printAvailableActions) {
+            this.outputAvailableActions()
+        }
+    }
+
+    private printAllTribes(): void {
+        for (let i = 0; i < this.game.players.length; i++) {
+            this.printTribe(this.game.players[i].tribe)
+        }
+    }
+
+    private printTribeByName(tribeName: string): void {
+        const tribe = this.getTribeByName(tribeName)
+        this.printTribe(tribe)
+    }
+
+    private printTribe(tribe: Tribe): void {
+        // TODO ignore unnecessary fields , convert to yaml and print
+        let line: string
+
+        line = `\t${JSON.stringify(tribe, null, 8)}`
+
+        this._std.out(line)
+    }
+
+    private getTribeByName(tribeName: string): Tribe {
+        for (let i = 0; i < this.game.players.length; i++) {
+            if (tribeName === this.game.players[i].tribe.name) {
+                return this.game.players[i].tribe
+            }
+        }
+        throw new Error(`Tribe ${tribeName} not found.`)
+    }
+
+    private outputStartInfo(): void {
+        let line: string
+
+        for (let i = 0; i < this.game.players.length; i++) {
+            line = `\t${this.game.players[i].name}\t-\tTribe '${this.game.players[i].tribe.name}'`
+
+            this._std.out(line)
+        }
     }
 }
 
