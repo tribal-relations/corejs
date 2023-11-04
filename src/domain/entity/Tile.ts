@@ -21,6 +21,10 @@ class Tile {
         ]
     }
 
+    static rome(): Tile[] {
+        return []
+    }
+
     get resource(): Resource {
         return this._resource
     }

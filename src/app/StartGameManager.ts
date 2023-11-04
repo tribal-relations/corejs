@@ -4,10 +4,15 @@ import Player from '../domain/entity/Player'
 import Population from '../domain/entity/Population'
 import Territory from '../domain/entity/Territory'
 import Tribe from '../domain/entity/Tribe'
+import TribeName from '../domain/enum/TribeName'
 
 @singleton()
 class StartGameManager {
+    static maxPlayers = 20
+
     start(names: string[], name: string = ''): Game {
+        this.checkNumberOfPlayers(names)
+
         return this.startGame(this.createNewGame(this.generateGameName(name), names))
     }
 
@@ -28,7 +33,7 @@ class StartGameManager {
 
     private createPlayers(playerNames: string[]): Player[] {
         const players = []
-        const tribeNames = Tribe.tribeNames.slice(0, playerNames.length)
+        const tribeNames = (Object as any).values(TribeName).slice(0, playerNames.length)
 
         for (let i = 0; i < playerNames.length; i++) {
             players[i] = new Player(
@@ -48,6 +53,12 @@ class StartGameManager {
     private generateGameName(name: string = ''): string {
         const today = (new Date()).toString()
         return `${name}${today}`
+    }
+
+    private checkNumberOfPlayers(names: string[]): void {
+        if (names.length > StartGameManager.maxPlayers) {
+            throw new Error(`Maximum number of players allowed is ${StartGameManager.maxPlayers}.`)
+        }
     }
 }
 

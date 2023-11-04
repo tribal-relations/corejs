@@ -5,7 +5,7 @@ import ActionName from '../enum/ActionName'
 
 @singleton()
 class GoTo1stRadius implements ActionInterface {
-    actionName = ActionName.goTo1stRadius
+    actionName = ActionName.GoTo1stRadius
 
     public perform(turn: Turn): void {
         turn.player.tribe.goToNextRadius()

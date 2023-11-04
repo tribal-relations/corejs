@@ -17,8 +17,19 @@ class Territory {
         return territory
     }
 
+    static rome(): Territory {
+        const territory = new Territory(0, 0, 0, 0, Tile.rome())
+        territory.updateResources()
+
+        return territory
+    }
+
     get tiles(): Tile[] {
         return this._tiles
+    }
+
+    get food(): number {
+        return this._food
     }
 
     get culture(): number {

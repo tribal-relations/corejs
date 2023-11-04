@@ -1,5 +1,6 @@
 import Resource from '../../domain/entity/Resource'
 import ResourceName from '../../domain/enum/ResourceName'
+import Rand from '../../domain/helper/Rand'
 
 const resources: Record<string, {
     quantity: number
@@ -95,9 +96,7 @@ class ResourceRepository {
     }
 
     static getRandomResource(): Resource {
-        const randomIndex = Math.floor(Math.random() * ResourceRepository.resourcesCount)
-        const resourceNames = (Object as any).values(ResourceName)
-        const randomName = resourceNames[randomIndex]
+        const randomName = Rand.enumChoice(ResourceName)
 
         return ResourceRepository.createFromName(randomName)
     }

@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import StartGameManager from '../../src/app/StartGameManager'
-import ConsoleUi from '../../src/ui/ConsoleUi'
-import Std from '../../src/ui/Std'
+import StartGameManager from '../../../src/app/StartGameManager'
+import ConsoleUi from '../../../src/ui/ConsoleUi'
+import Std from '../../../src/ui/Std'
 
 test('q to quit game', async () => {
     const consoleUi = container.resolve(ConsoleUi)

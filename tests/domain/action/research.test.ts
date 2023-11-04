@@ -1,12 +1,12 @@
 import 'reflect-metadata'
-import ActionRepository from '../../src/app/repository/ActionRepository'
-import ActionName from '../../src/domain/enum/ActionName'
-import TestBootstrapper from '../test-bootstrapper'
+import ActionRepository from '../../../src/app/repository/ActionRepository'
+import ActionName from '../../../src/domain/enum/ActionName'
+import TestBootstrapper from '../../test-bootstrapper'
 
 test('research adds technology', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
 
-    const action = ActionRepository.createFromName(ActionName.research)
+    const action = ActionRepository.createFromName(ActionName.Research)
     turn.parameters = 'Pottery'
     const turnResult = turnDecisionManager.processTurn(action, turn)
 
@@ -20,7 +20,7 @@ test('cannot research blocked technology', () => {
     const techName = 'Advanced Writing'
 
     const throwingFunction = (): void => {
-        const action = ActionRepository.createFromName(ActionName.research)
+        const action = ActionRepository.createFromName(ActionName.Research)
         turn.parameters = techName
         const turnResult = turnDecisionManager.processTurn(action, turn)
 
@@ -38,7 +38,7 @@ test('cannot research already known technology', () => {
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
 
     const throwingFunction = (): void => {
-        const action = ActionRepository.createFromName(ActionName.research)
+        const action = ActionRepository.createFromName(ActionName.Research)
         turn.parameters = techName
         const turnResult = turnDecisionManager.processTurn(action, turn)
 
@@ -55,7 +55,7 @@ test('cannot research undefined technology', () => {
     const techName = 'Hello World'
 
     const throwingFunction = (): void => {
-        const action = ActionRepository.createFromName(ActionName.research)
+        const action = ActionRepository.createFromName(ActionName.Research)
         turn.parameters = techName
         turnDecisionManager.processTurn(action, turn)
 

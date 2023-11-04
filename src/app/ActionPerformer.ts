@@ -1,6 +1,7 @@
 import { singleton } from 'tsyringe'
 import type ActionInterface from '../domain/action/ActionInterface'
 import Arm from '../domain/action/Arm'
+import Conquer from '../domain/action/Conquer'
 import Expedition from '../domain/action/Expedition'
 import GoTo1stRadius from '../domain/action/GoTo1stRadius'
 import GoTo2ndRadius from '../domain/action/GoTo2ndRadius'
@@ -25,25 +26,27 @@ class ActionPerformer {
         private readonly _goTo3rdRadius: GoTo3rdRadius,
         private readonly _goTo2ndRadius: GoTo2ndRadius,
         private readonly _goTo1stRadius: GoTo1stRadius,
+        private readonly _conquer: Conquer,
     ) {
         this.buildPerformersMap()
     }
 
     private buildPerformersMap(): void {
         this._performers = {
-            [ActionName.arm]: this._arm,
-            [ActionName.research]: this._research,
-            [ActionName.expedition]: this._expedition,
-            [ActionName.goTo3rdRadius]: this._goTo3rdRadius,
-            [ActionName.goTo2ndRadius]: this._goTo2ndRadius,
-            [ActionName.goTo1stRadius]: this._goTo1stRadius,
+            [ActionName.Arm]: this._arm,
+            [ActionName.Research]: this._research,
+            [ActionName.Expedition]: this._expedition,
+            [ActionName.GoTo3rdRadius]: this._goTo3rdRadius,
+            [ActionName.GoTo2ndRadius]: this._goTo2ndRadius,
+            [ActionName.GoTo1stRadius]: this._goTo1stRadius,
+            [ActionName.Conquer]: this._conquer,
         }
     }
 
     public performAction(action: Action, turn: Turn): boolean {
+        this.checkActionConstraints(action, turn.player.tribe)
         const performer = this.getPerformerClass(action)
         if (performer) {
-            this.checkActionConstraints(action, turn.player.tribe)
             performer.perform(turn)
             return true
         }
