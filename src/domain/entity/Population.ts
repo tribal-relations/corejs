@@ -8,7 +8,7 @@ class Population {
     constructor(
         private _total: number = Population.defaultTotal,
         private _combatReadiness: number = Population.defaultCombatReadiness,
-        private _civilizedness: number = Population.defaultCivilizedness,
+        private readonly _civilizedness: number = Population.defaultCivilizedness,
     ) {
     }
 
@@ -40,21 +40,23 @@ class Population {
         return this._civilizedness
     }
 
-    arm(): void {
-        if (this.total === this._combatReadiness) {
-            throw new Error('cannot arm further. maximal combat readiness for such population')
-        }
-        if (this.total <= this._civilizedness + this._combatReadiness) {
-            this._civilizedness--
-        }
-        this._combatReadiness++
+    arm(amount: number): void {
+        this._combatReadiness += amount
     }
 
     takeLosses(amount: number): void {
-        if (-amount < this._combatReadiness) {
-            this._combatReadiness += amount // amount is negative
+        this.shrink(amount)
+        if (amount < this._combatReadiness) {
+            this._combatReadiness -= amount
         } else {
             this._combatReadiness = 1
+        }
+    }
+
+    shrink(amount: number): void {
+        this._total -= amount
+        if (this._total < 1) {
+            this._total = 1
         }
     }
 

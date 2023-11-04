@@ -2,6 +2,7 @@ import { singleton } from 'tsyringe'
 import type ActionInterface from '../domain/action/ActionInterface'
 import Arm from '../domain/action/Arm'
 import Conquer from '../domain/action/Conquer'
+import Cult from '../domain/action/Cult'
 import Expedition from '../domain/action/Expedition'
 import GoTo1stRadius from '../domain/action/GoTo1stRadius'
 import GoTo2ndRadius from '../domain/action/GoTo2ndRadius'
@@ -27,6 +28,7 @@ class ActionPerformer {
         private readonly _goTo2ndRadius: GoTo2ndRadius,
         private readonly _goTo1stRadius: GoTo1stRadius,
         private readonly _conquer: Conquer,
+        private readonly _cult: Cult,
     ) {
         this.buildPerformersMap()
     }
@@ -40,6 +42,7 @@ class ActionPerformer {
             [ActionName.GoTo2ndRadius]: this._goTo2ndRadius,
             [ActionName.GoTo1stRadius]: this._goTo1stRadius,
             [ActionName.Conquer]: this._conquer,
+            [ActionName.Cult]: this._cult,
         }
     }
 

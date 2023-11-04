@@ -84,8 +84,8 @@ class Tribe implements CanFight {
         return upperBound
     }
 
-    arm(): void {
-        this.population.arm()
+    arm(amount: number): void {
+        this.population.arm(amount)
     }
 
     research(name: string): void {

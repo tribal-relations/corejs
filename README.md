@@ -1,4 +1,4 @@
-# tribal-relations-corejs
+# tribal-relations-client
 
 ![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/gennadyterekhov/7571a4c577e80cce945baedaba153669/raw/test.json)
 

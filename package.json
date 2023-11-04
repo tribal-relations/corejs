@@ -1,5 +1,5 @@
 {
-  "name": "corejs",
+  "name": "client",
   "version": "1.0.0",
   "description": "",
   "main": "src/console-app.ts",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tribal-relations/corejs.git"
+    "url": "git+https://github.com/tribal-relations/client.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tribal-relations/corejs/issues"
+    "url": "https://github.com/tribal-relations/client/issues"
   },
-  "homepage": "https://github.com/tribal-relations/corejs#readme",
+  "homepage": "https://github.com/tribal-relations/client#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
     "prompt-sync": "^4.2.0",

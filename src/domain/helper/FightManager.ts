@@ -23,7 +23,7 @@ class FightManager {
             return false
         }
         if (battleResult < 0) {
-            currentTribe.population.takeLosses(battleResult)
+            currentTribe.population.takeLosses(-battleResult)
         }
         return false
     }
