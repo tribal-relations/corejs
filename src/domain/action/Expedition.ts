@@ -6,7 +6,7 @@ import DiceThrower from '../helper/DiceThrower'
 
 @singleton()
 class Expedition implements ActionInterface {
-    actionName = ActionName.expedition
+    actionName = ActionName.Expedition
     successSides = 5 // if 1 then failure
 
     constructor(

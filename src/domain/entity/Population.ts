@@ -1,11 +1,12 @@
+import Rome from './Rome'
+
 class Population {
-    static defaultMen = 25
     static defaultTotal = 2
     static defaultCombatReadiness = 1
     static defaultCivilizedness = 1
 
     constructor(
-        private readonly _total: number = Population.defaultTotal,
+        private _total: number = Population.defaultTotal,
         private _combatReadiness: number = Population.defaultCombatReadiness,
         private _civilizedness: number = Population.defaultCivilizedness,
     ) {
@@ -16,6 +17,14 @@ class Population {
             Population.defaultTotal,
             Population.defaultCombatReadiness,
             Population.defaultCivilizedness,
+        )
+    }
+
+    static rome(): Population {
+        return new Population(
+            Rome.defaultPopulation,
+            Rome.defaultCombatReadiness,
+            Rome.defaultCivilizedness,
         )
     }
 
@@ -39,6 +48,18 @@ class Population {
             this._civilizedness--
         }
         this._combatReadiness++
+    }
+
+    takeLosses(amount: number): void {
+        if (-amount < this._combatReadiness) {
+            this._combatReadiness += amount // amount is negative
+        } else {
+            this._combatReadiness = 1
+        }
+    }
+
+    grow(amount: number): void {
+        this._total += amount
     }
 }
 

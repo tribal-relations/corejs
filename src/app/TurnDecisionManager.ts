@@ -15,12 +15,12 @@ class TurnDecisionManager {
     }
 
     public processTurn(action: Action, nextTurn: Turn): TurnResult {
-        if (action.name === ActionName.quit) {
+        if (action.name === ActionName.Quit) {
             return new TurnResult(true, true)
         }
         const actionResult = this.performAction(action, nextTurn)
 
-        if (action.name === ActionName.conquer && actionResult) {
+        if (action.name === ActionName.Conquer && actionResult) {
             return new TurnResult(true, true)
         }
 

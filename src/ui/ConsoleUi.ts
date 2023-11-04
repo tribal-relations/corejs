@@ -17,28 +17,28 @@ import InvalidInput from '../exception/console/InvalidInput'
 @singleton()
 class ConsoleUi {
     static decisionToActionDataMap: Record<string, { name: ActionName, parameters: string }> = {
-        a: { name: ActionName.arm, parameters: '' },
-        al: { name: ActionName.alliance, parameters: '<tribe name>' },
+        a: { name: ActionName.Arm, parameters: '' },
+        al: { name: ActionName.Alliance, parameters: '<tribe name>' },
 
-        c: { name: ActionName.caravan, parameters: '<tribe name>' },
-        e: { name: ActionName.expedition, parameters: '' },
+        c: { name: ActionName.Caravan, parameters: '<tribe name>' },
+        e: { name: ActionName.Expedition, parameters: '' },
 
-        g3: { name: ActionName.goTo3rdRadius, parameters: '' },
-        g2: { name: ActionName.goTo2ndRadius, parameters: '' },
-        g1: { name: ActionName.goTo1stRadius, parameters: '' },
+        g3: { name: ActionName.GoTo3rdRadius, parameters: '' },
+        g2: { name: ActionName.GoTo2ndRadius, parameters: '' },
+        g1: { name: ActionName.GoTo1stRadius, parameters: '' },
 
-        h: { name: ActionName.hire, parameters: '<tribe name> <how much to hire> <total price>' },
-        h1: { name: ActionName.hireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
+        h: { name: ActionName.Hire, parameters: '<tribe name> <how much to hire> <total price>' },
+        h1: { name: ActionName.HireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
 
-        p: { name: ActionName.pray, parameters: '' },
-        pil: { name: ActionName.pillage, parameters: '<tribe name> <resource name>' },
-        q: { name: ActionName.quit, parameters: '' },
-        r: { name: ActionName.research, parameters: '<technology name>' },
+        p: { name: ActionName.Pray, parameters: '' },
+        pil: { name: ActionName.Pillage, parameters: '<tribe name> <resource name>' },
+        q: { name: ActionName.Quit, parameters: '' },
+        r: { name: ActionName.Research, parameters: '<technology name>' },
 
-        rmca: { name: ActionName.removeCaravan, parameters: '<tribe name>' },
+        rmca: { name: ActionName.RemoveCaravan, parameters: '<tribe name>' },
 
-        co: { name: ActionName.conquer, parameters: '' },
-        cu: { name: ActionName.cult, parameters: '' },
+        co: { name: ActionName.Conquer, parameters: '' },
+        cu: { name: ActionName.Cult, parameters: '' },
     }
 
     static decisionToCommandDataMap: Record<string, { name: string, parameters: string }> = {

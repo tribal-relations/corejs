@@ -1,4 +1,5 @@
 import { singleton } from 'tsyringe'
+import Rand from './Rand'
 
 @singleton()
 class DiceThrower {
@@ -19,12 +20,7 @@ class DiceThrower {
     }
 
     private throwDice(): number {
-        return this.randomIntegerIncluding(1, this.sides)
-    }
-
-    private randomIntegerIncluding(min: number, max: number): number {
-        const rand = min + Math.random() * (max + 1 - min)
-        return Math.floor(rand)
+        return Rand.randint(1, this.sides)
     }
 }
 

@@ -5,7 +5,7 @@ import ActionName from '../enum/ActionName'
 
 @singleton()
 class Arm implements ActionInterface {
-    actionName = ActionName.arm
+    actionName = ActionName.Arm
 
     public perform(turn: Turn): void {
         this.arm(turn)

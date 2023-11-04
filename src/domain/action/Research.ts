@@ -8,7 +8,7 @@ import TechnologyName from '../enum/TechnologyName'
 
 @singleton()
 class Research implements ActionInterface {
-    actionName = ActionName.research
+    actionName = ActionName.Research
 
     public perform(turn: Turn): void {
         this.research(turn)

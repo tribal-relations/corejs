@@ -1,33 +1,26 @@
+import { singleton } from 'tsyringe'
 import Population from './Population'
+import Technology from './Technology'
 import Territory from './Territory'
-import Tile from './Tile'
-import ResourceRepository from '../../app/repository/ResourceRepository'
 import type CanFight from '../interface/CanFight'
 
-class Tribe implements CanFight {
-    private _radius = 4
+@singleton()
+class Rome implements CanFight {
+    static defaultPopulation = 100
+    static defaultCombatReadiness = 50
+    static defaultCivilizedness = 50
+
+    private readonly _radius = 0
     private _isWinner = false
 
-    constructor(
-        private readonly _name: string = '',
-        private readonly _wealth: number = 0,
-        private readonly _points: number = 0,
-        private readonly _population: Population = new Population(),
-        private readonly _territory: Territory = new Territory(),
-        private readonly _knownTechs: Record<string, boolean> = {},
-    ) {
-    }
-
-    static discoverNewTile(): Tile {
-        return new Tile(ResourceRepository.getRandomResource())
-    }
+    private readonly _wealth: number = 0
+    private readonly _points: number = 0
+    private readonly _population: Population = Population.rome()
+    private readonly _territory: Territory = Territory.rome()
+    private readonly _knownTechs: Record<string, boolean> = Technology.rome()
 
     get radius(): number {
         return this._radius
-    }
-
-    get name(): string {
-        return this._name
     }
 
     get wealth(): number {
@@ -62,17 +55,7 @@ class Tribe implements CanFight {
         return (name in this._knownTechs)
     }
 
-    public makeTerritorialDiscovery(): void {
-        const newTile = Tribe.discoverNewTile()
-        this._territory.addTile(newTile)
-        this._territory.updateResources()
-    }
-
-    public grow(fertility: number): void {
-        this.population.grow(this.getPopulationSurplus(fertility))
-    }
-
-    private getPopulationSurplus(fertility: number): number {
+    getNewPopulationCount(fertility: number): number {
         const food = this._territory.getTotalFood()
         const cropsYield = food * fertility
         const upperBound = this._population.total * 10
@@ -91,10 +74,6 @@ class Tribe implements CanFight {
     research(name: string): void {
         this._knownTechs[name] = true
     }
-
-    goToNextRadius(): void {
-        this._radius--
-    }
 }
 
-export default Tribe
+export default Rome

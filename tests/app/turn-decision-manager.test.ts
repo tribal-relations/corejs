@@ -14,7 +14,7 @@ test('q to quit game', () => {
     const player = new Player(tribe, 'test_player')
 
     const turn = new Turn(player)
-    const action = ActionRepository.createFromName(ActionName.quit)
+    const action = ActionRepository.createFromName(ActionName.Quit)
     const turnResult = turnDecisionManager.processTurn(action, turn)
 
     expect(turnResult.isLast).toBe(true)
