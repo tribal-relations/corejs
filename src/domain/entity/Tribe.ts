@@ -1,13 +1,10 @@
-import Population from './population'
-import Territory from './territory'
-import Tile from './Tile'
+import Population from './Population'
 import Resource from './Resource'
+import Territory from './Territory'
+import Tile from './Tile'
 
 class Tribe {
-    private _radius = 4
-
     static tribesCount = 8
-
     static tribeNameNorth = 'North'
     static tribeNameNortheast = 'Northeast'
     static tribeNameEast = 'East'
@@ -16,7 +13,6 @@ class Tribe {
     static tribeNameSouthwest = 'Southwest'
     static tribeNameWest = 'West'
     static tribeNameNorthwest = 'Northwest'
-
     static tribeNames = [
         'North',
         'Northeast',
@@ -39,6 +35,8 @@ class Tribe {
         Northwest: 'Aleut',
     }
 
+    private _radius = 4
+
     constructor(
         private readonly _name: string = '',
         private readonly _wealth: number = 0,
@@ -47,6 +45,10 @@ class Tribe {
         private readonly _territory: Territory = new Territory(),
         private readonly _knownTechs: Record<string, boolean> = {},
     ) {
+    }
+
+    static discoverNewTile(): Tile {
+        return new Tile(Resource.getRandomResource())
     }
 
     get radius(): number {
@@ -93,10 +95,6 @@ class Tribe {
         const newTile = Tribe.discoverNewTile()
         this._territory.addTile(newTile)
         this._territory.updateResources()
-    }
-
-    static discoverNewTile(): Tile {
-        return new Tile(Resource.getRandomResource())
     }
 
     arm(): void {

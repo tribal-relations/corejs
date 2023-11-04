@@ -1,4 +1,4 @@
-import type Turn from '../../domain/entity/turn'
+import type Turn from '../entity/Turn'
 
 interface ActionInterface {
     actionName: string

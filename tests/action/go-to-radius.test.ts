@@ -1,9 +1,9 @@
 import 'reflect-metadata'
 import Action from '../../src/domain/entity/Action'
-import TestBootstrapper from '../test-bootstrapper'
-import type Tribe from '../../src/domain/entity/tribe'
-import Tile from '../../src/domain/entity/Tile'
 import Resource from '../../src/domain/entity/Resource'
+import Tile from '../../src/domain/entity/Tile'
+import type Tribe from '../../src/domain/entity/Tribe'
+import TestBootstrapper from '../test-bootstrapper'
 
 function addCulture(tribe: Tribe): void {
     const tile = Tile.createFromResourceName(Resource.lake)

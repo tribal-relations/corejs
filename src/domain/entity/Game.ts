@@ -1,6 +1,6 @@
-import type Player from './player'
-import type WinningCondition from './winning-condition'
-import type Turn from './turn'
+import type Player from './Player'
+import type Turn from './Turn'
+import type WinningCondition from './WinningCondition'
 
 class Game {
     constructor(
@@ -21,76 +21,76 @@ class Game {
         return this._players
     }
 
-    get startDate(): Date {
-        return this._startDate
-    }
-
-    get endDate(): Date | null {
-        return this._endDate
-    }
-
-    get currentTurnNumber(): number {
-        return this._currentTurnNumber
-    }
-
-    get currentTurn(): Turn | null {
-        return this._currentTurn
-    }
-
-    get name(): string {
-        return this._name
-    }
-
-    get isStarted(): boolean {
-        return this._isStarted
-    }
-
-    get isFinished(): boolean {
-        return this._isFinished
-    }
-
-    get winner(): Player | null {
-        return this._winner
-    }
-
-    get winningCondition(): WinningCondition | null {
-        return this._winningCondition
-    }
-
     set players(players: Player[]) {
         this._players = players
+    }
+
+    get startDate(): Date {
+        return this._startDate
     }
 
     set startDate(startDate: Date) {
         this._startDate = startDate
     }
 
+    get endDate(): Date | null {
+        return this._endDate
+    }
+
     set endDate(endDate: Date) {
         this._endDate = endDate
+    }
+
+    get currentTurnNumber(): number {
+        return this._currentTurnNumber
     }
 
     set currentTurnNumber(n: number) {
         this._currentTurnNumber = n
     }
 
+    get currentTurn(): Turn | null {
+        return this._currentTurn
+    }
+
     set currentTurn(t: Turn) {
         this._currentTurn = t
+    }
+
+    get name(): string {
+        return this._name
     }
 
     set name(name: string) {
         this._name = name
     }
 
+    get isStarted(): boolean {
+        return this._isStarted
+    }
+
     set isStarted(isStarted: boolean) {
         this._isStarted = isStarted
+    }
+
+    get isFinished(): boolean {
+        return this._isFinished
     }
 
     set isFinished(isFinished: boolean) {
         this._isFinished = isFinished
     }
 
+    get winner(): Player | null {
+        return this._winner
+    }
+
     set winner(winner: Player) {
         this._winner = winner
+    }
+
+    get winningCondition(): WinningCondition | null {
+        return this._winningCondition
     }
 
     set winningCondition(winningCondition: WinningCondition) {

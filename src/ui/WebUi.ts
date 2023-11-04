@@ -1,14 +1,21 @@
-import TurnDecisionManager from '../app/turn-decision-manager'
-import type TurnResult from '../app/turn-result'
 import { singleton } from 'tsyringe'
-import TurnManager from '../domain/use_case/turn-manager'
-import type Game from '../domain/entity/game'
-import Std from './std'
+import Std from './Std'
+import TurnDecisionManager from '../app/TurnDecisionManager'
+import TurnManager from '../app/TurnManager'
+import type TurnResult from '../app/TurnResult'
 import type Action from '../domain/entity/Action'
+import type Game from '../domain/entity/Game'
 
 @singleton()
 class WebUi {
     _game: Game | undefined
+
+    constructor(
+        private readonly _turnManager: TurnManager,
+        private readonly _turnDecisionManager: TurnDecisionManager,
+        private readonly _std: Std,
+    ) {
+    }
 
     get game(): Game {
         if (this._game === undefined) {
@@ -21,14 +28,7 @@ class WebUi {
         this._game = game
     }
 
-    constructor(
-        private readonly _turnManager: TurnManager,
-        private readonly _turnDecisionManager: TurnDecisionManager,
-        private readonly _std: Std,
-    ) {
-    }
-
-    startTurns() {
+    startTurns(): void {
         this._turnManager.addPlayers(this.game.players.length)
 
         let turnResult: TurnResult

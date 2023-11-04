@@ -1,20 +1,20 @@
-import type Game from '../entity/game'
-import Turn from '../entity/turn'
 import { singleton } from 'tsyringe'
+import type Game from '../domain/entity/Game'
+import Turn from '../domain/entity/Turn'
 
 @singleton()
 class TurnManager {
     private _playersLength = 0
 
-    get playersLength() {
+    get playersLength(): number {
         return this._playersLength
     }
 
-    addPlayer() {
+    addPlayer(): void {
         this._playersLength++
     }
 
-    addPlayers(n: number) {
+    addPlayers(n: number): void {
         this._playersLength += n
     }
 

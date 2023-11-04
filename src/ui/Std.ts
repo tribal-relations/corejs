@@ -1,5 +1,5 @@
-import { singleton } from 'tsyringe'
 import prompt from 'prompt-sync'
+import { singleton } from 'tsyringe'
 
 @singleton()
 class Std {

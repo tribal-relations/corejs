@@ -134,16 +134,16 @@ class Technology {
     ) {
     }
 
+    public static createFromName(name: string): Technology {
+        return new Technology(name, techs[name].description, techs[name].prerequisites)
+    }
+
     get name(): string {
         return this._name
     }
 
     get prerequisites(): Record<string, boolean> {
         return this._prerequisites
-    }
-
-    public static createFromName(name: string): Technology {
-        return new Technology(name, techs[name].description, techs[name].prerequisites)
     }
 }
 

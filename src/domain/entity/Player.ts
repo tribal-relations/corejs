@@ -1,4 +1,4 @@
-import type Tribe from './tribe'
+import type Tribe from './Tribe'
 
 class Player {
     constructor(

@@ -5,6 +5,7 @@
   "main": "src/console-app.ts",
   "scripts": {
     "test": "jest",
+    "fix-code-style": "npx eslint --fix src tests",
     "start-console-app": "npx webpack && node dist/main.js",
     "start": "npm run build:live",
     "build": "tsc -p .",
@@ -44,6 +45,7 @@
     "eslint-plugin-n": "^16.2.0",
     "eslint-plugin-no-autofix": "^1.2.3",
     "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-sort-class-members": "^1.19.0",
     "eslint-plugin-unused-imports": "^3.0.0",
     "eslint-plugin-vue": "^9.18.1",
     "jest": "^29.7.0",

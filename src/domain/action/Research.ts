@@ -1,9 +1,9 @@
-import type Turn from '../../domain/entity/turn'
-import type Tribe from '../../domain/entity/tribe'
-import Technology from '../../domain/entity/technology'
-import type ActionInterface from './action-interface'
 import { singleton } from 'tsyringe'
-import Action from '../../domain/entity/Action'
+import type ActionInterface from './ActionInterface'
+import Action from '../entity/Action'
+import Technology from '../entity/Technology'
+import type Tribe from '../entity/Tribe'
+import type Turn from '../entity/Turn'
 
 @singleton()
 class Research implements ActionInterface {

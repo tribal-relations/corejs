@@ -1,9 +1,9 @@
-import TurnResult from './turn-result'
-import type Turn from '../domain/entity/turn'
-import Action from '../domain/entity/Action'
 import { singleton } from 'tsyringe'
-import Std from '../ui/std'
-import ActionPerformer from './action-performer'
+import ActionPerformer from './ActionPerformer'
+import TurnResult from './TurnResult'
+import Action from '../domain/entity/Action'
+import type Turn from '../domain/entity/Turn'
+import Std from '../ui/Std'
 
 @singleton()
 class TurnDecisionManager {
