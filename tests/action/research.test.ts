@@ -1,11 +1,12 @@
 import 'reflect-metadata'
-import Action from '../../src/domain/entity/Action'
+import ActionRepository from '../../src/app/repository/ActionRepository'
+import ActionName from '../../src/domain/enum/ActionName'
 import TestBootstrapper from '../test-bootstrapper'
 
 test('research adds technology', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
 
-    const action = Action.createFromName(Action.research)
+    const action = ActionRepository.createFromName(ActionName.research)
     turn.parameters = 'Pottery'
     const turnResult = turnDecisionManager.processTurn(action, turn)
 
@@ -19,7 +20,7 @@ test('cannot research blocked technology', () => {
     const techName = 'Advanced Writing'
 
     const throwingFunction = (): void => {
-        const action = Action.createFromName(Action.research)
+        const action = ActionRepository.createFromName(ActionName.research)
         turn.parameters = techName
         const turnResult = turnDecisionManager.processTurn(action, turn)
 
@@ -37,7 +38,7 @@ test('cannot research already known technology', () => {
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
 
     const throwingFunction = (): void => {
-        const action = Action.createFromName(Action.research)
+        const action = ActionRepository.createFromName(ActionName.research)
         turn.parameters = techName
         const turnResult = turnDecisionManager.processTurn(action, turn)
 
@@ -46,4 +47,19 @@ test('cannot research already known technology', () => {
     }
 
     expect(throwingFunction).toThrow(`${tribe.name} cannot research ${techName}, because it is already known`)
+})
+
+test('cannot research undefined technology', () => {
+    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+
+    const techName = 'Hello World'
+
+    const throwingFunction = (): void => {
+        const action = ActionRepository.createFromName(ActionName.research)
+        turn.parameters = techName
+        turnDecisionManager.processTurn(action, turn)
+
+        expect(tribe.technologies).toStrictEqual({})
+    }
+    expect(throwingFunction).toThrow(`Invalid technology name '${techName}'.`)
 })

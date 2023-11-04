@@ -1,4 +1,6 @@
-import Resource from './Resource'
+import type Resource from './Resource'
+import ResourceRepository from '../../app/repository/ResourceRepository'
+import ResourceName from '../enum/ResourceName'
 
 class Tile {
     static defaultTilesCount = 2
@@ -8,14 +10,14 @@ class Tile {
     ) {
     }
 
-    public static createFromResourceName(name: string): Tile {
-        return new Tile(Resource.createFromName(name))
+    public static createFromResourceName(name: ResourceName): Tile {
+        return new Tile(ResourceRepository.createFromName(name))
     }
 
     public static createStarterTiles(): Tile[] {
         return [
-            Tile.createFromResourceName(Resource.pasture),
-            Tile.createFromResourceName(Resource.forest),
+            Tile.createFromResourceName(ResourceName.Pasture),
+            Tile.createFromResourceName(ResourceName.Forest),
         ]
     }
 

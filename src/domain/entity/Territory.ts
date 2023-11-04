@@ -29,6 +29,10 @@ class Territory {
         return this._production
     }
 
+    get tradingAbility(): number {
+        return this._tradingAbility
+    }
+
     getTotalFood(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {

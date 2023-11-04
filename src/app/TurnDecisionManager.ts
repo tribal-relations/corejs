@@ -1,8 +1,9 @@
 import { singleton } from 'tsyringe'
 import ActionPerformer from './ActionPerformer'
 import TurnResult from './TurnResult'
-import Action from '../domain/entity/Action'
+import type Action from '../domain/entity/Action'
 import type Turn from '../domain/entity/Turn'
+import ActionName from '../domain/enum/ActionName'
 import Std from '../ui/Std'
 
 @singleton()
@@ -14,12 +15,12 @@ class TurnDecisionManager {
     }
 
     public processTurn(action: Action, nextTurn: Turn): TurnResult {
-        if (action.name === Action.quit) {
+        if (action.name === ActionName.quit) {
             return new TurnResult(true, true)
         }
         const actionResult = this.performAction(action, nextTurn)
 
-        if (action.name === Action.conquer && actionResult) {
+        if (action.name === ActionName.conquer && actionResult) {
             return new TurnResult(true, true)
         }
 

@@ -1,11 +1,11 @@
 import { singleton } from 'tsyringe'
 import type ActionInterface from './ActionInterface'
-import Action from '../entity/Action'
 import type Turn from '../entity/Turn'
+import ActionName from '../enum/ActionName'
 
 @singleton()
 class Arm implements ActionInterface {
-    actionName = Action.arm
+    actionName = ActionName.arm
 
     public perform(turn: Turn): void {
         this.arm(turn)

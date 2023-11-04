@@ -1,7 +1,8 @@
 import type Turn from '../entity/Turn'
+import type ActionName from '../enum/ActionName'
 
 interface ActionInterface {
-    actionName: string
+    actionName: ActionName
     perform: (turn: Turn) => void
 }
 

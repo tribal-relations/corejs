@@ -1,11 +1,12 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
+import ActionRepository from '../../src/app/repository/ActionRepository'
 import TurnDecisionManager from '../../src/app/TurnDecisionManager'
-import Action from '../../src/domain/entity/Action'
 import Player from '../../src/domain/entity/Player'
 import Population from '../../src/domain/entity/Population'
 import Tribe from '../../src/domain/entity/Tribe'
 import Turn from '../../src/domain/entity/Turn'
+import ActionName from '../../src/domain/enum/ActionName'
 import TestBootstrapper from '../test-bootstrapper'
 
 test('arm reduces civilizedness if no extra population', () => {
@@ -15,7 +16,7 @@ test('arm reduces civilizedness if no extra population', () => {
     expect(tribe.population.civilizedness).toBe(1)
     expect(tribe.population.combatReadiness).toBe(1)
 
-    const action = Action.createFromName(Action.arm)
+    const action = ActionRepository.createFromName(ActionName.arm)
     const turnResult = turnDecisionManager.processTurn(action, turn)
 
     expect(turnResult.isLast).toBe(false)
@@ -40,7 +41,7 @@ test('arm does not reduce civilizedness if extra population', () => {
     const player = new Player(tribe, 'test_player')
 
     const turn = new Turn(player)
-    const action = Action.createFromName(Action.arm)
+    const action = ActionRepository.createFromName(ActionName.arm)
 
     const turnResult = turnDecisionManager.processTurn(action, turn)
 

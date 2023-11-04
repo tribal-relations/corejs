@@ -1,41 +1,44 @@
 import { singleton } from 'tsyringe'
 import Command from './console/Command'
+import TribePrinter from './console/TribePrinter'
 import Std from './Std'
+import ActionRepository from '../app/repository/ActionRepository'
 import TurnDecisionManager from '../app/TurnDecisionManager'
 import TurnManager from '../app/TurnManager'
 import type TurnResult from '../app/TurnResult'
-import Action from '../domain/entity/Action'
+import type Action from '../domain/entity/Action'
 import type Game from '../domain/entity/Game'
 import type Tribe from '../domain/entity/Tribe'
 import type Turn from '../domain/entity/Turn'
+import ActionName from '../domain/enum/ActionName'
 import CommandInsteadOfAction from '../exception/console/CommandInsteadOfAction'
 import InvalidInput from '../exception/console/InvalidInput'
 
 @singleton()
 class ConsoleUi {
-    static decisionToActionDataMap: Record<string, { name: string, parameters: string }> = {
-        a: { name: Action.arm, parameters: '' },
-        al: { name: Action.alliance, parameters: '<tribe name>' },
+    static decisionToActionDataMap: Record<string, { name: ActionName, parameters: string }> = {
+        a: { name: ActionName.arm, parameters: '' },
+        al: { name: ActionName.alliance, parameters: '<tribe name>' },
 
-        c: { name: Action.caravan, parameters: '<tribe name>' },
-        e: { name: Action.expedition, parameters: '' },
+        c: { name: ActionName.caravan, parameters: '<tribe name>' },
+        e: { name: ActionName.expedition, parameters: '' },
 
-        g3: { name: Action.goTo3rdRadius, parameters: '' },
-        g2: { name: Action.goTo2ndRadius, parameters: '' },
-        g1: { name: Action.goTo1stRadius, parameters: '' },
+        g3: { name: ActionName.goTo3rdRadius, parameters: '' },
+        g2: { name: ActionName.goTo2ndRadius, parameters: '' },
+        g1: { name: ActionName.goTo1stRadius, parameters: '' },
 
-        h: { name: Action.hire, parameters: '<tribe name> <how much to hire> <total price>' },
-        h1: { name: Action.hireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
+        h: { name: ActionName.hire, parameters: '<tribe name> <how much to hire> <total price>' },
+        h1: { name: ActionName.hireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
 
-        p: { name: Action.pray, parameters: '' },
-        pil: { name: Action.pillage, parameters: '<tribe name> <resource name>' },
-        q: { name: Action.quit, parameters: '' },
-        r: { name: Action.research, parameters: '<technology name>' },
+        p: { name: ActionName.pray, parameters: '' },
+        pil: { name: ActionName.pillage, parameters: '<tribe name> <resource name>' },
+        q: { name: ActionName.quit, parameters: '' },
+        r: { name: ActionName.research, parameters: '<technology name>' },
 
-        rmca: { name: Action.removeCaravan, parameters: '<tribe name>' },
+        rmca: { name: ActionName.removeCaravan, parameters: '<tribe name>' },
 
-        co: { name: Action.conquer, parameters: '' },
-        cu: { name: Action.cult, parameters: '' },
+        co: { name: ActionName.conquer, parameters: '' },
+        cu: { name: ActionName.cult, parameters: '' },
     }
 
     static decisionToCommandDataMap: Record<string, { name: string, parameters: string }> = {
@@ -51,6 +54,7 @@ class ConsoleUi {
         private readonly _turnManager: TurnManager,
         private readonly _turnDecisionManager: TurnDecisionManager,
         private readonly _std: Std,
+        private readonly _tribePrinter: TribePrinter,
     ) {
     }
 
@@ -139,7 +143,7 @@ class ConsoleUi {
         const actionOrCommand = words[0].toLowerCase()
 
         if (actionOrCommand in ConsoleUi.decisionToActionDataMap) {
-            return Action.createFromName(ConsoleUi.decisionToActionDataMap[actionOrCommand].name)
+            return ActionRepository.createFromName(ConsoleUi.decisionToActionDataMap[actionOrCommand].name)
         }
 
         if (actionOrCommand in ConsoleUi.decisionToCommandDataMap) {
@@ -179,7 +183,7 @@ class ConsoleUi {
     private outputAvailableActions(): void {
         this._std.out('Available actions:')
         let line: string
-        let actionName: string
+        let actionName: ActionName
         let actionParameters: string
 
         for (const key in ConsoleUi.decisionToActionDataMap) {
@@ -218,12 +222,7 @@ class ConsoleUi {
     }
 
     private printTribe(tribe: Tribe): void {
-        // TODO ignore unnecessary fields , convert to yaml and print
-        let line: string
-
-        line = `\t${JSON.stringify(tribe, null, 8)}`
-
-        this._std.out(line)
+        this._std.out(this._tribePrinter.getString(tribe))
     }
 
     private getTribeByName(tribeName: string): Tribe {

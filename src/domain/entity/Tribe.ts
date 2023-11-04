@@ -1,7 +1,7 @@
 import Population from './Population'
-import Resource from './Resource'
 import Territory from './Territory'
 import Tile from './Tile'
+import ResourceRepository from '../../app/repository/ResourceRepository'
 
 class Tribe {
     static tribesCount = 8
@@ -48,7 +48,7 @@ class Tribe {
     }
 
     static discoverNewTile(): Tile {
-        return new Tile(Resource.getRandomResource())
+        return new Tile(ResourceRepository.getRandomResource())
     }
 
     get radius(): number {
@@ -61,6 +61,10 @@ class Tribe {
 
     get wealth(): number {
         return this._wealth
+    }
+
+    get points(): number {
+        return this._points
     }
 
     get population(): Population {

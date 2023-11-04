@@ -1,12 +1,13 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
+import ActionRepository from '../../src/app/repository/ActionRepository'
 import TurnDecisionManager from '../../src/app/TurnDecisionManager'
-import Action from '../../src/domain/entity/Action'
 import Currency from '../../src/domain/entity/Currency'
 import Player from '../../src/domain/entity/Player'
 import Population from '../../src/domain/entity/Population'
 import Tribe from '../../src/domain/entity/Tribe'
 import Turn from '../../src/domain/entity/Turn'
+import ActionName from '../../src/domain/enum/ActionName'
 
 test('action constraints must be respected', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
@@ -21,7 +22,7 @@ test('action constraints must be respected', () => {
     const turn = new Turn(player)
 
     expect(tribe.population.total).toStrictEqual(0)
-    const action = Action.createFromName(Action.expedition)
+    const action = ActionRepository.createFromName(ActionName.expedition)
 
     const throwingFunction = (): void => {
         turnDecisionManager.processTurn(action, turn)

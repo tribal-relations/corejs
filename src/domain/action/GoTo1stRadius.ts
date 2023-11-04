@@ -1,11 +1,11 @@
 import { singleton } from 'tsyringe'
 import type ActionInterface from './ActionInterface'
-import Action from '../entity/Action'
 import type Turn from '../entity/Turn'
+import ActionName from '../enum/ActionName'
 
 @singleton()
 class GoTo1stRadius implements ActionInterface {
-    actionName = Action.goTo1stRadius
+    actionName = ActionName.goTo1stRadius
 
     public perform(turn: Turn): void {
         turn.player.tribe.goToNextRadius()
