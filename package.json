@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/console-app.ts",
   "scripts": {
+    "test:coverage": "npm test -- --coverage",
     "test": "jest",
     "fix-code-style": "npx eslint --fix src tests",
     "start-console-app": "npx webpack && node dist/main.js",
