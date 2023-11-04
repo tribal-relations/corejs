@@ -47,6 +47,8 @@ module.exports = {
 
     ],
     rules: {
+        "@typescript-eslint/no-extraneous-class": "off",
+
         // "indent": ["warn", 4],
         "indent": "off",
         "indent-legacy": "off",

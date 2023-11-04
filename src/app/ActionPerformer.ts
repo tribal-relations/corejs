@@ -6,10 +6,11 @@ import GoTo1stRadius from '../domain/action/GoTo1stRadius'
 import GoTo2ndRadius from '../domain/action/GoTo2ndRadius'
 import GoTo3rdRadius from '../domain/action/GoTo3rdRadius'
 import Research from '../domain/action/Research'
-import Action from '../domain/entity/Action'
+import type Action from '../domain/entity/Action'
 import Currency from '../domain/entity/Currency'
 import type Tribe from '../domain/entity/Tribe'
 import type Turn from '../domain/entity/Turn'
+import ActionName from '../domain/enum/ActionName'
 import ActionUnavailable from '../exception/ActionUnavailable'
 import WrongRadius from '../exception/WrongRadius'
 
@@ -30,12 +31,12 @@ class ActionPerformer {
 
     private buildPerformersMap(): void {
         this._performers = {
-            [Action.arm]: this._arm,
-            [Action.research]: this._research,
-            [Action.expedition]: this._expedition,
-            [Action.goTo3rdRadius]: this._goTo3rdRadius,
-            [Action.goTo2ndRadius]: this._goTo2ndRadius,
-            [Action.goTo1stRadius]: this._goTo1stRadius,
+            [ActionName.arm]: this._arm,
+            [ActionName.research]: this._research,
+            [ActionName.expedition]: this._expedition,
+            [ActionName.goTo3rdRadius]: this._goTo3rdRadius,
+            [ActionName.goTo2ndRadius]: this._goTo2ndRadius,
+            [ActionName.goTo1stRadius]: this._goTo1stRadius,
         }
     }
 

@@ -1,10 +1,11 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
+import ActionRepository from '../../src/app/repository/ActionRepository'
 import TurnDecisionManager from '../../src/app/TurnDecisionManager'
-import Action from '../../src/domain/entity/Action'
 import Player from '../../src/domain/entity/Player'
 import Tribe from '../../src/domain/entity/Tribe'
 import Turn from '../../src/domain/entity/Turn'
+import ActionName from '../../src/domain/enum/ActionName'
 import DiceThrower from '../../src/domain/helper/DiceThrower'
 import LosingDiceThrower from '../../src/domain/helper/LosingDiceThrower'
 import SuccessfulDiceThrower from '../../src/domain/helper/SuccessfulDiceThrower'
@@ -15,7 +16,7 @@ function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe):
 
     expect(tribe.territory.tiles.length).toBe(0)
 
-    const action = Action.createFromName(Action.expedition)
+    const action = ActionRepository.createFromName(ActionName.expedition)
     turnDecisionManager.processTurn(action, turn)
 }
 

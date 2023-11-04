@@ -12,6 +12,9 @@ class Std {
     }
 
     out(...data: any[]): void {
+        if (process.env.NODE_ENV === 'test') {
+            return
+        }
         console.log(...data)
     }
 
