@@ -1,5 +1,5 @@
-import DiceThrower from './DiceThrower'
 import { singleton } from 'tsyringe'
+import DiceThrower from './DiceThrower'
 
 @singleton()
 class LosingDiceThrower extends DiceThrower {

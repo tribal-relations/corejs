@@ -1,10 +1,10 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import TurnDecisionManager from '../../src/app/turn-decision-manager'
-import Turn from '../../src/domain/entity/turn'
-import Player from '../../src/domain/entity/player'
-import Tribe from '../../src/domain/entity/tribe'
+import TurnDecisionManager from '../../src/app/TurnDecisionManager'
 import Action from '../../src/domain/entity/Action'
+import Player from '../../src/domain/entity/Player'
+import Tribe from '../../src/domain/entity/Tribe'
+import Turn from '../../src/domain/entity/Turn'
 
 test('q to quit game', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)

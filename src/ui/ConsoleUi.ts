@@ -1,19 +1,18 @@
-import TurnDecisionManager from '../app/turn-decision-manager'
-import type TurnResult from '../app/turn-result'
 import { singleton } from 'tsyringe'
-import TurnManager from '../domain/use_case/turn-manager'
-import type Game from '../domain/entity/game'
-import Std from './std'
-import Action from '../domain/entity/Action'
-import type Turn from '../domain/entity/turn'
-import InvalidInput from '../exception/console/InvalidInput'
 import Command from './console/Command'
+import Std from './Std'
+import TurnDecisionManager from '../app/TurnDecisionManager'
+import TurnManager from '../app/TurnManager'
+import type TurnResult from '../app/TurnResult'
+import Action from '../domain/entity/Action'
+import type Game from '../domain/entity/Game'
+import type Tribe from '../domain/entity/Tribe'
+import type Turn from '../domain/entity/Turn'
 import CommandInsteadOfAction from '../exception/console/CommandInsteadOfAction'
-import type Tribe from '../domain/entity/tribe'
+import InvalidInput from '../exception/console/InvalidInput'
 
 @singleton()
 class ConsoleUi {
-    _game: Game | undefined
     static decisionToActionDataMap: Record<string, { name: string, parameters: string }> = {
         a: { name: Action.arm, parameters: '' },
         al: { name: Action.alliance, parameters: '<tribe name>' },
@@ -46,6 +45,15 @@ class ConsoleUi {
         pac: { name: Command.printAvailableCommands, parameters: '' },
     }
 
+    _game: Game | undefined
+
+    constructor(
+        private readonly _turnManager: TurnManager,
+        private readonly _turnDecisionManager: TurnDecisionManager,
+        private readonly _std: Std,
+    ) {
+    }
+
     get game(): Game {
         if (this._game === undefined) {
             throw new Error('game is not yet created')
@@ -55,13 +63,6 @@ class ConsoleUi {
 
     set game(game: Game) {
         this._game = game
-    }
-
-    constructor(
-        private readonly _turnManager: TurnManager,
-        private readonly _turnDecisionManager: TurnDecisionManager,
-        private readonly _std: Std,
-    ) {
     }
 
     startTurns(): TurnResult {

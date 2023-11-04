@@ -251,21 +251,6 @@ class Action {
     ) {
     }
 
-    get name(): string {
-        return this._name
-    }
-
-    get constraints(): {
-        radius: number
-        culture: number
-        population: number
-        production: number
-        action_cost: number
-        wealth_cost: number
-    } {
-        return this._constraints
-    }
-
     public static createFromName(name: string): Action {
         const foundAction = actions[name]
         if (foundAction) {
@@ -284,6 +269,21 @@ class Action {
             )
         }
         throw new Error(`action with name ${name} not found`)
+    }
+
+    get name(): string {
+        return this._name
+    }
+
+    get constraints(): {
+        radius: number
+        culture: number
+        population: number
+        production: number
+        action_cost: number
+        wealth_cost: number
+    } {
+        return this._constraints
     }
 }
 

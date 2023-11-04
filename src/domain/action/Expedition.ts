@@ -1,8 +1,8 @@
-import type Turn from '../../domain/entity/turn'
-import type ActionInterface from './action-interface'
 import { singleton } from 'tsyringe'
-import Action from '../../domain/entity/Action'
-import DiceThrower from '../DiceThrower'
+import type ActionInterface from './ActionInterface'
+import Action from '../entity/Action'
+import type Turn from '../entity/Turn'
+import DiceThrower from '../helper/DiceThrower'
 
 @singleton()
 class Expedition implements ActionInterface {

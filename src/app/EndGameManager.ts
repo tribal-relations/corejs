@@ -1,7 +1,7 @@
-import WinningCondition from '../entity/winning-condition'
-import type Player from '../entity/player'
-import type Game from '../entity/game'
 import { singleton } from 'tsyringe'
+import type Game from '../domain/entity/Game'
+import type Player from '../domain/entity/Player'
+import WinningCondition from '../domain/entity/WinningCondition'
 
 @singleton()
 class EndGameManager {
@@ -18,25 +18,25 @@ class EndGameManager {
         this._game = game
     }
 
-    finish() {
+    public initiateFinish(): void {
+        this.finish()
+    }
+
+    private finish(): void {
         this.game.isFinished = true
         this.game.endDate = new Date()
         this.game.winningCondition = this.calculateWinningCondition()
         this.game.winner = this.calculateWinner()
     }
 
-    calculateWinningCondition(): WinningCondition {
+    private calculateWinningCondition(): WinningCondition {
         // TODO: implement
         return WinningCondition.createFromName(WinningCondition.winningConditionMilitaryName)
     }
 
-    calculateWinner(): Player {
+    private calculateWinner(): Player {
         // TODO: implement
         return this.game.players[0]
-    }
-
-    initiateFinish() {
-        this.finish()
     }
 }
 

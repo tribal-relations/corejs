@@ -1,16 +1,16 @@
-import StartGameManager from '../domain/use_case/start-game-manager'
-import EndGameManager from '../domain/use_case/end-game-manager'
-import ConsoleUi from '../ui/console-ui'
 import { singleton } from 'tsyringe'
-import type Game from '../domain/entity/game'
+import EndGameManager from '../app/EndGameManager'
+import StartGameManager from '../app/StartGameManager'
+import type Game from '../domain/entity/Game'
+import WebUi from '../ui/WebUi'
 
 @singleton()
-class ConsoleGameProcess {
+class BrowserGameProcess {
     _game: Game | undefined
 
     constructor(
         private readonly _startGameManager: StartGameManager,
-        private readonly _playerInterface: ConsoleUi,
+        private readonly _playerInterface: WebUi,
         private readonly _endGameManager: EndGameManager,
     ) {
     }
@@ -30,7 +30,7 @@ class ConsoleGameProcess {
         return this._startGameManager
     }
 
-    get playerInterface(): ConsoleUi {
+    get playerInterface(): WebUi {
         return this._playerInterface
     }
 
@@ -49,4 +49,4 @@ class ConsoleGameProcess {
     }
 }
 
-export default ConsoleGameProcess
+export default BrowserGameProcess

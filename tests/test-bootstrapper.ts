@@ -1,9 +1,9 @@
-import TurnDecisionManager from '../src/app/turn-decision-manager'
-import Tribe from '../src/domain/entity/tribe'
-import Turn from '../src/domain/entity/turn'
 import { container } from 'tsyringe'
-import Player from '../src/domain/entity/player'
-import Std from '../src/ui/std'
+import TurnDecisionManager from '../src/app/TurnDecisionManager'
+import Player from '../src/domain/entity/Player'
+import Tribe from '../src/domain/entity/Tribe'
+import Turn from '../src/domain/entity/Turn'
+import Std from '../src/ui/Std'
 
 class TestBootstrapper {
     public static getStarterData(): {

@@ -77,15 +77,15 @@ class Situation {
         Situation.situationNameNothing,
     ]
 
-    public static createFromName(name: string): Situation {
-        return new Situation(name, situations[name].description, situations[name].quantity)
-    }
-
     constructor(
         private readonly _name: string,
         private readonly _description: string,
         private readonly _quantity: number,
     ) {
+    }
+
+    public static createFromName(name: string): Situation {
+        return new Situation(name, situations[name].description, situations[name].quantity)
     }
 }
 

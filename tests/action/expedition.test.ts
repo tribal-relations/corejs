@@ -1,13 +1,13 @@
 import 'reflect-metadata'
-import Action from '../../src/domain/entity/Action'
 import { container } from 'tsyringe'
-import TurnDecisionManager from '../../src/app/turn-decision-manager'
-import Tribe from '../../src/domain/entity/tribe'
-import Player from '../../src/domain/entity/player'
-import Turn from '../../src/domain/entity/turn'
-import DiceThrower from '../../src/app/DiceThrower'
-import SuccessfulDiceThrower from '../../src/app/SuccessfulDiceThrower'
-import LosingDiceThrower from '../../src/app/LosingDiceThrower'
+import TurnDecisionManager from '../../src/app/TurnDecisionManager'
+import Action from '../../src/domain/entity/Action'
+import Player from '../../src/domain/entity/Player'
+import Tribe from '../../src/domain/entity/Tribe'
+import Turn from '../../src/domain/entity/Turn'
+import DiceThrower from '../../src/domain/helper/DiceThrower'
+import LosingDiceThrower from '../../src/domain/helper/LosingDiceThrower'
+import SuccessfulDiceThrower from '../../src/domain/helper/SuccessfulDiceThrower'
 
 function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe): void {
     const player = new Player(tribe, 'test_player')

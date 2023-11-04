@@ -1,16 +1,17 @@
-import Player from '../entity/player'
-import Tribe from '../entity/tribe'
-import Population from '../entity/population'
-import Territory from '../entity/territory'
-import Game from '../entity/game'
 import { singleton } from 'tsyringe'
+import Game from '../domain/entity/Game'
+import Player from '../domain/entity/Player'
+import Population from '../domain/entity/Population'
+import Territory from '../domain/entity/Territory'
+import Tribe from '../domain/entity/Tribe'
 
 @singleton()
 class StartGameManager {
-    constructor() {
+    start(names: string[], name: string = ''): Game {
+        return this.startGame(this.createNewGame(this.generateGameName(name), names))
     }
 
-    createNewGame(name: string, playerNames: string[]): Game {
+    private createNewGame(name: string, playerNames: string[]): Game {
         const game = new Game(
             this.createPlayers(playerNames),
             name,
@@ -19,13 +20,13 @@ class StartGameManager {
         return game
     }
 
-    startGame(game: Game): Game {
+    private startGame(game: Game): Game {
         game.isStarted = true
 
         return game
     }
 
-    createPlayers(playerNames: string[]): Player[] {
+    private createPlayers(playerNames: string[]): Player[] {
         const players = []
         const tribeNames = Tribe.tribeNames.slice(0, playerNames.length)
 
@@ -44,11 +45,7 @@ class StartGameManager {
         return players
     }
 
-    start(names: string[], name: string = ''): Game {
-        return this.startGame(this.createNewGame(this.generateGameName(name), names))
-    }
-
-    generateGameName(name: string = ''): string {
+    private generateGameName(name: string = ''): string {
         const today = (new Date()).toString()
         return `${name}${today}`
     }

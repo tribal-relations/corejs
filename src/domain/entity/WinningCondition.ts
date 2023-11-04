@@ -1,5 +1,5 @@
 class WinningCondition {
-  static winningConditionMilitaryName = 'military'
+    static winningConditionMilitaryName = 'military'
     static winningConditionMilitaryText = 'Your tribe has successfully conquered a state. You have succeeded in building a powerful army that is afraid of no one.'
 
     static winningConditionCulturalName = 'cultural'
@@ -13,15 +13,15 @@ class WinningCondition {
         political: WinningCondition.winningConditionPoliticalText,
     }
 
-    public static createFromName(name: string): WinningCondition {
-        const text = WinningCondition.winningConditionAliasToWinningConditionMap[name]
-        return new WinningCondition(name, text)
-    }
-
     constructor(
         private readonly _name: string,
         private readonly _winningText: string,
     ) {
+    }
+
+    public static createFromName(name: string): WinningCondition {
+        const text = WinningCondition.winningConditionAliasToWinningConditionMap[name]
+        return new WinningCondition(name, text)
     }
 }
 
