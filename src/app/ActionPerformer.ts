@@ -33,6 +33,17 @@ class ActionPerformer {
         this.buildPerformersMap()
     }
 
+    public performAction(action: Action, turn: Turn): boolean {
+        this.checkActionConstraints(action, turn.player.tribe)
+        const performer = this.getPerformerClass(action)
+        if (performer) {
+            performer.perform(turn)
+            return true
+        }
+
+        return false
+    }
+
     private buildPerformersMap(): void {
         this._performers = {
             [ActionName.Arm]: this._arm,
@@ -44,17 +55,6 @@ class ActionPerformer {
             [ActionName.Conquer]: this._conquer,
             [ActionName.Cult]: this._cult,
         }
-    }
-
-    public performAction(action: Action, turn: Turn): boolean {
-        this.checkActionConstraints(action, turn.player.tribe)
-        const performer = this.getPerformerClass(action)
-        if (performer) {
-            performer.perform(turn)
-            return true
-        }
-
-        return false
     }
 
     private getPerformerClass(action: Action): ActionInterface | undefined {

@@ -3,6 +3,8 @@ import type Turn from './Turn'
 import type WinningCondition from './WinningCondition'
 
 class Game {
+    public static readonly maxPlayers = 20
+
     constructor(
         private _players: Player[],
         private _name: string,
@@ -95,6 +97,10 @@ class Game {
 
     set winningCondition(winningCondition: WinningCondition) {
         this._winningCondition = winningCondition
+    }
+
+    addPlayer(player: Player): void {
+        this.players.push(player)
     }
 }
 

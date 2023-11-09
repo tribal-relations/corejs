@@ -1,5 +1,8 @@
 import { singleton } from 'tsyringe'
-import Command from './console/Command'
+import ConsoleCommandPerformer from './console/ConsoleCommandPerformer'
+import ConsoleCommand from './console/entity/ConsoleCommand'
+import CommandName from './console/enum/CommandName'
+import ConsoleCommandRepository from './console/repository/ConsoleCommandRepository'
 import TribePrinter from './console/TribePrinter'
 import Std from './Std'
 import ActionRepository from '../app/repository/ActionRepository'
@@ -7,11 +10,15 @@ import TurnDecisionManager from '../app/TurnDecisionManager'
 import TurnManager from '../app/TurnManager'
 import type TurnResult from '../app/TurnResult'
 import type Action from '../domain/entity/Action'
-import type Game from '../domain/entity/Game'
-import type Tribe from '../domain/entity/Tribe'
+import Game from '../domain/entity/Game'
+import Player from '../domain/entity/Player'
+import Population from '../domain/entity/Population'
+import Territory from '../domain/entity/Territory'
+import Tribe from '../domain/entity/Tribe'
 import type Turn from '../domain/entity/Turn'
 import ActionName from '../domain/enum/ActionName'
-import CommandInsteadOfAction from '../exception/console/CommandInsteadOfAction'
+import TribeName from '../domain/enum/TribeName'
+import ActionUnsuccessful from '../exception/ActionUnsuccessful'
 import InvalidInput from '../exception/console/InvalidInput'
 
 @singleton()
@@ -19,6 +26,8 @@ class ConsoleUi {
     static decisionToActionDataMap: Record<string, { name: ActionName, parameters: string }> = {
         a: { name: ActionName.Arm, parameters: '' },
         al: { name: ActionName.Alliance, parameters: '<tribe name>' },
+        atile: { name: ActionName.AttackTile, parameters: '<tribe name> <resource name>' },
+        atr: { name: ActionName.AttackTribe, parameters: '<tribe name>' },
 
         c: { name: ActionName.Caravan, parameters: '<tribe name>' },
         e: { name: ActionName.Expedition, parameters: '' },
@@ -30,8 +39,9 @@ class ConsoleUi {
         h: { name: ActionName.Hire, parameters: '<tribe name> <how much to hire> <total price>' },
         h1: { name: ActionName.HireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
 
-        p: { name: ActionName.Pray, parameters: '' },
-        pil: { name: ActionName.Pillage, parameters: '<tribe name> <resource name>' },
+        pray: { name: ActionName.Pray, parameters: '' },
+        pil: { name: ActionName.Pillage, parameters: '<tribe name>' },
+
         q: { name: ActionName.Quit, parameters: '' },
         r: { name: ActionName.Research, parameters: '<technology name>' },
 
@@ -41,11 +51,14 @@ class ConsoleUi {
         cu: { name: ActionName.Cult, parameters: '' },
     }
 
-    static decisionToCommandDataMap: Record<string, { name: string, parameters: string }> = {
-        pt: { name: Command.printTribe, parameters: '<tribe name>' },
-        ptt: { name: Command.printAllTribes, parameters: '' },
-        paa: { name: Command.printAvailableActions, parameters: '' },
-        pac: { name: Command.printAvailableCommands, parameters: '' },
+    static decisionToCommandDataMap: Record<string, { name: CommandName, parameters: string }> = {
+        p: { name: CommandName.PrintCurrentPlayerTribe, parameters: '' },
+        pt: { name: CommandName.PrintTribe, parameters: '<tribe name>' },
+        ptt: { name: CommandName.PrintAllTribes, parameters: '' },
+        paa: { name: CommandName.PrintAvailableActions, parameters: '' },
+        pac: { name: CommandName.PrintAvailableCommands, parameters: '' },
+        '?': { name: CommandName.PrintAvailableCommands, parameters: '' },
+        help: { name: CommandName.PrintAvailableCommands, parameters: '' },
     }
 
     _game: Game | undefined
@@ -55,6 +68,7 @@ class ConsoleUi {
         private readonly _turnDecisionManager: TurnDecisionManager,
         private readonly _std: Std,
         private readonly _tribePrinter: TribePrinter,
+        private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
     ) {
     }
 
@@ -70,13 +84,14 @@ class ConsoleUi {
     }
 
     startTurns(): TurnResult {
-        this._turnManager.addPlayers(this.game.players.length)
+        this._consoleCommandPerformer.game = this.game
+
+        this.updatePlayers()
 
         let turnResult: TurnResult
         this.outputStartInfo()
-
-        this.outputAvailableCommands()
-        this.outputAvailableActions()
+        this._consoleCommandPerformer.outputAvailableCommands()
+        this._consoleCommandPerformer.outputAvailableActions()
 
         for (let i = 0; true; ++i) {
             this._std.out(`\t\t\tTurn ${i}`)
@@ -94,15 +109,24 @@ class ConsoleUi {
 
     private doWhatPlayerSaysSafely(playerName: string, nextTurn: Turn): TurnResult {
         let turnResult: TurnResult
-        let decision: Action
+        let decision: Action | ConsoleCommand
         let parameters: string
         for (; ;) {
             try {
                 const decisionWithParameters = this.getDecisionSafe(playerName)
                 decision = decisionWithParameters.decision
                 parameters = decisionWithParameters.parameters
+
+                if (decision instanceof ConsoleCommand) {
+                    this._consoleCommandPerformer.performCommand(decision, parameters, nextTurn)
+                    continue
+                }
+
                 nextTurn.parameters = parameters
                 turnResult = this._turnDecisionManager.processTurn(decision, nextTurn)
+                if (!turnResult.success) {
+                    throw new ActionUnsuccessful(decision.name, turnResult.errorMessage)
+                }
                 break
             } catch (error) {
                 if (error instanceof Error) {
@@ -115,9 +139,9 @@ class ConsoleUi {
         return turnResult
     }
 
-    getDecisionSafe(playerName: string): { decision: Action, parameters: string } {
+    getDecisionSafe(playerName: string): { decision: Action | ConsoleCommand, parameters: string } {
         let rawDecision: string
-        let decision: Action
+        let decision: Action | ConsoleCommand
         let parameters: string
 
         for (; ;) {
@@ -138,7 +162,7 @@ class ConsoleUi {
         return { decision, parameters }
     }
 
-    getDecision(rawDecision: string): Action {
+    getDecision(rawDecision: string): Action | ConsoleCommand {
         const words = rawDecision.split(' ')
         const actionOrCommand = words[0].toLowerCase()
 
@@ -147,10 +171,7 @@ class ConsoleUi {
         }
 
         if (actionOrCommand in ConsoleUi.decisionToCommandDataMap) {
-            const commandName = ConsoleUi.decisionToCommandDataMap[actionOrCommand].name
-
-            this.executeCommand(commandName, (words.slice(1)).join(' '))
-            throw new CommandInsteadOfAction()
+            return ConsoleCommandRepository.createFromName(ConsoleUi.decisionToCommandDataMap[actionOrCommand].name)
         }
 
         throw new InvalidInput()
@@ -165,75 +186,6 @@ class ConsoleUi {
         return ''
     }
 
-    private outputAvailableCommands(): void {
-        this._std.out('Available commands:')
-        let line: string
-        let actionName: string
-        let actionParameters: string
-
-        for (const key in ConsoleUi.decisionToCommandDataMap) {
-            actionName = ConsoleUi.decisionToCommandDataMap[key].name
-            actionParameters = ConsoleUi.decisionToCommandDataMap[key].parameters
-
-            line = `\t${key}\t-\t${actionName}\t${actionParameters}`
-            this._std.out(line)
-        }
-    }
-
-    private outputAvailableActions(): void {
-        this._std.out('Available actions:')
-        let line: string
-        let actionName: ActionName
-        let actionParameters: string
-
-        for (const key in ConsoleUi.decisionToActionDataMap) {
-            actionName = ConsoleUi.decisionToActionDataMap[key].name
-            actionParameters = ConsoleUi.decisionToActionDataMap[key].parameters
-
-            line = `\t${key}\t-\t${actionName}\t${actionParameters}`
-            this._std.out(line)
-        }
-    }
-
-    private executeCommand(commandName: string, parameter: string | null = null): void {
-        if (commandName === Command.printTribe && parameter) {
-            this.printTribeByName(parameter)
-        }
-        if (commandName === Command.printAllTribes) {
-            this.printAllTribes()
-        }
-        if (commandName === Command.printAvailableCommands) {
-            this.outputAvailableCommands()
-        }
-        if (commandName === Command.printAvailableActions) {
-            this.outputAvailableActions()
-        }
-    }
-
-    private printAllTribes(): void {
-        for (let i = 0; i < this.game.players.length; i++) {
-            this.printTribe(this.game.players[i].tribe)
-        }
-    }
-
-    private printTribeByName(tribeName: string): void {
-        const tribe = this.getTribeByName(tribeName)
-        this.printTribe(tribe)
-    }
-
-    private printTribe(tribe: Tribe): void {
-        this._std.out(this._tribePrinter.getString(tribe))
-    }
-
-    private getTribeByName(tribeName: string): Tribe {
-        for (let i = 0; i < this.game.players.length; i++) {
-            if (tribeName === this.game.players[i].tribe.name) {
-                return this.game.players[i].tribe
-            }
-        }
-        throw new Error(`Tribe ${tribeName} not found.`)
-    }
-
     private outputStartInfo(): void {
         let line: string
 
@@ -242,6 +194,48 @@ class ConsoleUi {
 
             this._std.out(line)
         }
+    }
+
+    private updatePlayers(): void {
+        this._std.out('Adding players')
+
+        const playerNames: string[] = []
+        let playerName: string
+        for (; true;) {
+            for (let i = 1; i <= Game.maxPlayers; i++) {
+                this._std.out(`Adding player ${i}/${Game.maxPlayers}`)
+
+                playerName = this._std.in(`Enter player ${i} name (or return to end adding players)>`) ?? `player ${i}`
+                if (!playerName || playerName === '\n') {
+                    break
+                }
+                playerNames.push(playerName)
+            }
+            if (playerNames.length !== 0) {
+                break
+            }
+        }
+        this.game.players = this.createPlayers(playerNames)
+        this._turnManager.addPlayers(this.game.players.length)
+    }
+
+    private createPlayers(playerNames: string[]): Player[] {
+        const players = []
+        const tribeNames = (Object as any).values(TribeName).slice(0, playerNames.length)
+
+        for (let i = 0; i < playerNames.length; i++) {
+            players[i] = new Player(
+                new Tribe(
+                    tribeNames[i],
+                    0,
+                    0,
+                    Population.createStarterPopulation(),
+                    Territory.createStarterTerritory(),
+                ),
+                playerNames[i],
+            )
+        }
+        return players
     }
 }
 
