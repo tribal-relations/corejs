@@ -25,8 +25,7 @@ test('arm for amount of production', () => {
     expect(tribe.population.civilizedness).toBe(0)
     expect(tribe.population.combatReadiness).toBe(0)
 
-    const player = new Player(tribe, 'test_player')
-
+    const player = new Player(tribe)
     const turn = new Turn(player)
     const action = ActionRepository.createFromName(ActionName.Arm)
 
@@ -51,8 +50,7 @@ test('arm for amount of production, but not bigger than non-armed population', (
     expect(tribe.population.civilizedness).toBe(0)
     expect(tribe.population.combatReadiness).toBe(0)
 
-    const player = new Player(tribe, 'test_player')
-
+    const player = new Player(tribe)
     const turn = new Turn(player)
     const action = ActionRepository.createFromName(ActionName.Arm)
 
@@ -73,7 +71,7 @@ test('cannot arm more than population', () => {
         new Population(100, 0, 0),
         new Territory(0, 0, 90),
     )
-    const player = new Player(tribe, 'test_player')
+    const player = new Player(tribe)
     const turn = new Turn(player)
     let action: Action
     expect(tribe.population.total).toBe(100)
@@ -134,8 +132,7 @@ test('arm does not reduce civilizedness if extra population', () => {
     expect(tribe.population.civilizedness).toBe(1)
     expect(tribe.population.combatReadiness).toBe(1)
 
-    const player = new Player(tribe, 'test_player')
-
+    const player = new Player(tribe)
     const turn = new Turn(player)
     const action = ActionRepository.createFromName(ActionName.Arm)
 

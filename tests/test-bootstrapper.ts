@@ -7,7 +7,6 @@ import Tile from '../src/domain/entity/Tile'
 import Tribe from '../src/domain/entity/Tribe'
 import Turn from '../src/domain/entity/Turn'
 import ResourceName from '../src/domain/enum/ResourceName'
-import Std from '../src/ui/Std'
 
 class TestBootstrapper {
     public static getStarterData(): {
@@ -20,11 +19,8 @@ class TestBootstrapper {
         const tribe = new Tribe()
         expect(tribe.technologies).toStrictEqual({})
 
-        const player = new Player(tribe, 'test_player')
-
+        const player = new Player(tribe)
         const turn = new Turn(player)
-        const std = container.resolve(Std)
-
         return {
             turnDecisionManager,
             tribe,

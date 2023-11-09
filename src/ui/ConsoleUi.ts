@@ -3,9 +3,9 @@ import ConsoleCommandPerformer from './console/ConsoleCommandPerformer'
 import ConsoleCommand from './console/entity/ConsoleCommand'
 import CommandName from './console/enum/CommandName'
 import ConsoleCommandRepository from './console/repository/ConsoleCommandRepository'
-import TribePrinter from './console/TribePrinter'
 import Std from './Std'
 import ActionRepository from '../app/repository/ActionRepository'
+import RoundManager from '../app/RoundManager'
 import TurnDecisionManager from '../app/TurnDecisionManager'
 import TurnManager from '../app/TurnManager'
 import type TurnResult from '../app/TurnResult'
@@ -65,9 +65,9 @@ class ConsoleUi {
 
     constructor(
         private readonly _turnManager: TurnManager,
+        private readonly _roundManager: RoundManager,
         private readonly _turnDecisionManager: TurnDecisionManager,
         private readonly _std: Std,
-        private readonly _tribePrinter: TribePrinter,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
     ) {
     }
@@ -83,27 +83,45 @@ class ConsoleUi {
         this._game = game
     }
 
-    startTurns(): TurnResult {
+    public startTurns(): TurnResult {
+        // something is wrong here....
+        // but game cannot be singleton because players?
+        // no, we can add players later
+        // yes, must make game singleton
         this._consoleCommandPerformer.game = this.game
+        this._roundManager.game = this.game
 
         this.updatePlayers()
 
-        let turnResult: TurnResult
         this.outputStartInfo()
         this._consoleCommandPerformer.outputAvailableCommands()
         this._consoleCommandPerformer.outputAvailableActions()
 
-        for (let i = 0; true; ++i) {
-            this._std.out(`\t\t\tTurn ${i}`)
-            const nextTurn = this._turnManager.nextTurn(this.game)
-            const playerName = nextTurn.player.name
-            turnResult = this.doWhatPlayerSaysSafely(playerName, nextTurn)
+        return this.startRounds()
+    }
 
-            if (turnResult.isLast) {
-                this._std.out('last turn')
-                return turnResult
+    private startRounds(): TurnResult {
+        let turnResult: TurnResult
+        let globalTurnNumber = 1
+        for (let round = 1; true; ++round) {
+            this._std.out(`\t\t\tRound ${round}`)
+
+            for (let i = 0; i < this.game.players.length; ++i, ++globalTurnNumber) {
+                this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
+                const nextTurn = this._turnManager.nextTurn(this.game)
+                const playerName = nextTurn.player.name
+                turnResult = this.doWhatPlayerSaysSafely(playerName, nextTurn)
+
+                if (turnResult.isLast) {
+                    this._std.out('last turn')
+                    return turnResult
+                }
+                this._std.outEmptyLine()
             }
-            this._std.outEmptyLine()
+            this._std.out('\t\t\tRound finished. Population growth phase.')
+
+            this._roundManager.finalizeRound()
+            this.game.nextRound()
         }
     }
 

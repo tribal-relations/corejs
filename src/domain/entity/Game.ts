@@ -12,6 +12,7 @@ class Game {
         private _endDate: Date | null = null,
         private _currentTurnNumber: number = 1,
         private _currentTurn: Turn | null = null,
+        private _currentRoundNumber: number = 1,
         private _isStarted: boolean = false,
         private _isFinished: boolean = false,
         private _winner: Player | null = null,
@@ -49,6 +50,10 @@ class Game {
 
     set currentTurnNumber(n: number) {
         this._currentTurnNumber = n
+    }
+
+    get currentRoundNumber(): number {
+        return this._currentRoundNumber
     }
 
     get currentTurn(): Turn | null {
@@ -101,6 +106,10 @@ class Game {
 
     addPlayer(player: Player): void {
         this.players.push(player)
+    }
+
+    nextRound(): void {
+        this._currentRoundNumber++
     }
 }
 

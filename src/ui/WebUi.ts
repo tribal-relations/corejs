@@ -1,5 +1,4 @@
 import { singleton } from 'tsyringe'
-import Std from './Std'
 import TurnDecisionManager from '../app/TurnDecisionManager'
 import TurnManager from '../app/TurnManager'
 import type TurnResult from '../app/TurnResult'
@@ -13,7 +12,6 @@ class WebUi {
     constructor(
         private readonly _turnManager: TurnManager,
         private readonly _turnDecisionManager: TurnDecisionManager,
-        private readonly _std: Std,
     ) {
     }
 

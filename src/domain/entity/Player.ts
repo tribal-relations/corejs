@@ -3,7 +3,7 @@ import type Tribe from './Tribe'
 class Player {
     constructor(
         private readonly _tribe: Tribe,
-        private readonly _name: string,
+        private readonly _name: string = 'player 0',
     ) {
     }
 

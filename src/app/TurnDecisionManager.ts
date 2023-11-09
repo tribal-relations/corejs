@@ -4,12 +4,10 @@ import TurnResult from './TurnResult'
 import type Action from '../domain/entity/Action'
 import type Turn from '../domain/entity/Turn'
 import ActionName from '../domain/enum/ActionName'
-import Std from '../ui/Std'
 
 @singleton()
 class TurnDecisionManager {
     constructor(
-        private readonly _std: Std,
         private readonly _actionPerformer: ActionPerformer,
     ) {
     }
