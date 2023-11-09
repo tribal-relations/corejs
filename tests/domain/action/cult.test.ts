@@ -15,7 +15,6 @@ import TestBootstrapper from '../../test-bootstrapper'
 const startingCulture = 10
 
 function sendCult(diceResult: number, totalPopulation: number = 10): Tribe {
-    container.reset()
     const turnDecisionManager = container
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, SpecificDiceThrower)

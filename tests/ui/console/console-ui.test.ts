@@ -1,6 +1,8 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
 import StartGameManager from '../../../src/app/StartGameManager'
+import DiceThrower from '../../../src/domain/helper/DiceThrower'
+import SpecificDiceThrower from '../../../src/domain/helper/SpecificDiceThrower'
 import ConsoleUi from '../../../src/ui/ConsoleUi'
 import Std from '../../../src/ui/Std'
 
@@ -20,6 +22,68 @@ test('can add players', async () => {
     const turnResult = consoleUi.startTurns()
 
     expect(consoleUi.game.players.length).toBe(4)
+})
+
+test('population growth', async () => {
+    const localContainer = container
+        .createChildContainer()
+        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
+    SpecificDiceThrower.target = 1
+
+    const defaultPopulation = 2
+    const defaultFood = 4 // pasture and forest
+    const updatedPopulation = defaultPopulation + defaultFood * SpecificDiceThrower.target
+    const consoleUi = localContainer.resolve(ConsoleUi)
+    const startGameManager = localContainer.resolve(StartGameManager)
+
+    consoleUi.game = startGameManager.start()
+    const std = localContainer.resolve(Std)
+    std.sendIn('artem')
+    std.sendIn('rinat')
+    std.sendIn('gena')
+    std.sendIn('vlad')
+    std.sendIn('\n')
+    std.sendIn('a')
+    std.sendIn('a')
+    std.sendIn('a')
+    std.sendIn('a')
+    // round ended, new round
+
+    consoleUi.startTurns()
+
+    expect(consoleUi.game.players.length).toBe(4)
+    expect(consoleUi.game.players[0].tribe.population.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[1].tribe.population.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[2].tribe.population.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[3].tribe.population.total).toBe(updatedPopulation)
+})
+
+test('one round consists of one turn per each player', async () => {
+    const localContainer = container
+        .createChildContainer()
+        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
+    SpecificDiceThrower.target = 1
+
+    const consoleUi = localContainer.resolve(ConsoleUi)
+    const startGameManager = localContainer.resolve(StartGameManager)
+
+    consoleUi.game = startGameManager.start()
+    const std = localContainer.resolve(Std)
+    std.sendIn('artem')
+    std.sendIn('rinat')
+    std.sendIn('gena')
+    std.sendIn('vlad')
+    std.sendIn('\n')
+    std.sendIn('a')
+    std.sendIn('a')
+    std.sendIn('a')
+    std.sendIn('a')
+    // round ended, new round
+
+    consoleUi.startTurns()
+
+    expect(consoleUi.game.players.length).toBe(4)
+    expect(consoleUi.game.currentRoundNumber).toBe(2)
 })
 
 test('q to quit game', async () => {

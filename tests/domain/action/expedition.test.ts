@@ -11,7 +11,7 @@ import LosingDiceThrower from '../../../src/domain/helper/LosingDiceThrower'
 import SuccessfulDiceThrower from '../../../src/domain/helper/SuccessfulDiceThrower'
 
 function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe): void {
-    const player = new Player(tribe, 'test_player')
+    const player = new Player(tribe)
     const turn = new Turn(player)
 
     expect(tribe.territory.tiles.length).toBe(0)
@@ -21,7 +21,6 @@ function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe):
 }
 
 test('expedition adds one tile', () => {
-    container.reset()
     const turnDecisionManager = container
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, SuccessfulDiceThrower)
@@ -33,7 +32,6 @@ test('expedition adds one tile', () => {
 })
 
 test('expedition can result in failure', () => {
-    container.reset()
     const turnDecisionManager = container
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, LosingDiceThrower)

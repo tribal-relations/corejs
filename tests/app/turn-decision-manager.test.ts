@@ -11,7 +11,7 @@ test('q to quit game', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
 
     const tribe = new Tribe()
-    const player = new Player(tribe, 'test_player')
+    const player = new Player(tribe)
 
     const turn = new Turn(player)
     const action = ActionRepository.createFromName(ActionName.Quit)

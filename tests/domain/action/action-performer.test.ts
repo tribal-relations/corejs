@@ -18,7 +18,7 @@ test('action constraints must be respected', () => {
         0,
         new Population(0, 0, 0),
         )
-    const player = new Player(tribe, 'test_player')
+    const player = new Player(tribe)
     const turn = new Turn(player)
 
     expect(tribe.population.total).toStrictEqual(0)
