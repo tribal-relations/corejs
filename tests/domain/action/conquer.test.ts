@@ -13,9 +13,7 @@ test('can conquer', () => {
     tribe.goToNextRadius()
     tribe.goToNextRadius()
     tribe.grow(10)
-    tribe.arm()
-    tribe.arm()
-    tribe.arm()
+    tribe.arm(10)
 
     const action = ActionRepository.createFromName(ActionName.Conquer)
     const turnResult = turnDecisionManager.processTurn(action, turn)

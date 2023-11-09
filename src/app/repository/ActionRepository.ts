@@ -49,6 +49,18 @@ const actions: Record<string, {
         action_cost: 0,
         wealth_cost: 0,
     },
+    'Attack a tribe': {
+        name_ru: 'Атаковать племя',
+        name: 'Attack a tribe',
+        radius: 4,
+        description: 'Выберете племя для атаки. Побеждает игрок с большей вооруженностью. Защитник несет потери, равные разнице вооруженностей.',
+        description_ru: 'Выберете племя для атаки. Побеждает игрок с большей вооруженностью. Защитник несет потери, равные разнице вооруженностей.',
+        culture: 0,
+        population: 0,
+        production: 0,
+        action_cost: 0,
+        wealth_cost: 0,
+    },
     'Hire warriors for 1 round': {
         name_ru: 'Нанять воинов на 1 раунд',
         name: 'Hire warriors for 1 round',

@@ -67,10 +67,6 @@ class Rome implements CanFight {
         return upperBound
     }
 
-    arm(): void {
-        this.population.arm()
-    }
-
     research(name: string): void {
         this._knownTechs[name] = true
     }

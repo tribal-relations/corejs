@@ -1,5 +1,4 @@
 enum TribeName {
-    // Count = 36,
     North = 'North',
     Northeast = 'Northeast',
     East = 'East',

@@ -5,6 +5,10 @@ import Rand from './Rand'
 class DiceThrower {
     sides = 6
 
+    public d6(): number {
+        return this.throwDice()
+    }
+
     public ifSuccessD6(successSides: number): boolean {
         return this.ifSuccessD6Manual([...Array(successSides).keys()])
     }

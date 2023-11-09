@@ -32,13 +32,17 @@ class TestBootstrapper {
         }
     }
 
-    public static createStarterTribe(name: string = 'test'): Tribe {
+    public static createStarterTribe(
+        name: string = 'test',
+        population: Population | null = null,
+        territory: Territory | null = null,
+    ): Tribe {
         return new Tribe(
             name,
             0,
             0,
-            Population.createStarterPopulation(),
-            Territory.createStarterTerritory(),
+            population ?? Population.createStarterPopulation(),
+            territory ?? Territory.createStarterTerritory(),
         )
     }
 
