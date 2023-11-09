@@ -10,10 +10,11 @@ module.exports = {
     //     "**/tests/**/*.+(ts|tsx|js)",
     //     "**/?(*.)+(spec|test).+(ts|tsx|js)"
     // ],
-    "silent": false,
-    "verbose": true,
-    "setupFiles": ['dotenv/config'],
-    "transform": {
-        "^.+\\.(ts|tsx)$": "ts-jest"
+    setupFilesAfterEnv: ['./tests/setup-tests.ts'],
+    silent: false,
+    verbose: true,
+    setupFiles: ['dotenv/config'],
+    transform: {
+        '^.+\\.(ts|tsx)$': 'ts-jest',
     },
 }

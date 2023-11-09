@@ -4,14 +4,14 @@ import ConsoleGameProcess from './ConsoleGameProcess'
 
 @singleton()
 class TribalRelationsGame {
-    startBrowser(names: string[], name: string = ''): void {
+    startBrowser(): void {
         const gameProcess = container.resolve(BrowserGameProcess)
-        gameProcess.start(names, name)
+        gameProcess.start()
     }
 
-    startConsole(names: string[], name: string = ''): void {
+    startConsole(): void {
         const gameProcess = container.resolve(ConsoleGameProcess)
-        gameProcess.start(names, name)
+        gameProcess.start()
     }
 }
 

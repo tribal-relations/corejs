@@ -38,8 +38,8 @@ class BrowserGameProcess {
         return this._endGameManager
     }
 
-    start(names: string[], name: string = ''): void {
-        this.game = this.startGameManager.start(names, name)
+    start(): void {
+        this.game = this.startGameManager.start()
 
         this.playerInterface.game = this.game
         this.playerInterface.startTurns()

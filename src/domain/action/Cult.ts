@@ -4,7 +4,9 @@ import type Turn from '../entity/Turn'
 import ActionName from '../enum/ActionName'
 import DiceThrower from '../helper/DiceThrower'
 
-// deprecated
+/**
+ * @deprecated
+ */
 @singleton()
 class Cult implements ActionInterface {
     actionName = ActionName.Cult

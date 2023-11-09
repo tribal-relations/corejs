@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import { container } from 'tsyringe'
 import ActionRepository from '../../../src/app/repository/ActionRepository'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
+import type Action from '../../../src/domain/entity/Action'
 import Player from '../../../src/domain/entity/Player'
 import Population from '../../../src/domain/entity/Population'
 import Territory from '../../../src/domain/entity/Territory'
@@ -19,7 +20,6 @@ test('arm for amount of production', () => {
         0,
         new Population(100, 0, 0),
         new Territory(0, 0, 10),
-
     )
     expect(tribe.population.total).toBe(100)
     expect(tribe.population.civilizedness).toBe(0)
@@ -46,7 +46,6 @@ test('arm for amount of production, but not bigger than non-armed population', (
         0,
         new Population(100, 0, 0),
         new Territory(0, 0, 1000),
-
     )
     expect(tribe.population.total).toBe(100)
     expect(tribe.population.civilizedness).toBe(0)
@@ -62,6 +61,44 @@ test('arm for amount of production, but not bigger than non-armed population', (
     expect(tribe.population.total).toBe(100)
     expect(tribe.population.civilizedness).toBe(0)
     expect(tribe.population.combatReadiness).toBe(100)
+})
+
+test('cannot arm more than population', () => {
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = new Tribe(
+        '',
+        0,
+        0,
+        new Population(100, 0, 0),
+        new Territory(0, 0, 90),
+    )
+    const player = new Player(tribe, 'test_player')
+    const turn = new Turn(player)
+    let action: Action
+    expect(tribe.population.total).toBe(100)
+    expect(tribe.population.combatReadiness).toBe(0)
+    expect(tribe.territory.production).toBe(90)
+
+    action = ActionRepository.createFromName(ActionName.Arm)
+    turnDecisionManager.processTurn(action, turn)
+
+    expect(tribe.population.total).toBe(100)
+    expect(tribe.population.combatReadiness).toBe(90)
+
+    action = ActionRepository.createFromName(ActionName.Arm)
+    turnDecisionManager.processTurn(action, turn)
+
+    expect(tribe.population.total).toBe(100)
+    expect(tribe.population.combatReadiness).toBe(100)
+
+    const throwingFunction = (): void => {
+        const action = ActionRepository.createFromName(ActionName.Arm)
+        turnDecisionManager.processTurn(action, turn)
+    }
+    expect(tribe.population.combatReadiness).toBe(100)
+
+    expect(throwingFunction).toThrow('Cannot arm further. Maximal combat readiness for such population.')
 })
 
 test('arm reduces civilizedness if no extra population', () => {

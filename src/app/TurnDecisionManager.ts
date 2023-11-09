@@ -16,15 +16,15 @@ class TurnDecisionManager {
 
     public processTurn(action: Action, nextTurn: Turn): TurnResult {
         if (action.name === ActionName.Quit) {
-            return new TurnResult(true, true)
+            return new TurnResult(true, true, true)
         }
         const actionResult = this.performAction(action, nextTurn)
 
         if (action.name === ActionName.Conquer && actionResult) {
-            return new TurnResult(true, true)
+            return new TurnResult(true, true, true)
         }
 
-        return new TurnResult(false, true)
+        return new TurnResult(false, true, actionResult)
     }
 
     private performAction(action: Action, nextTurn: Turn): boolean {

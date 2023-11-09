@@ -3,14 +3,14 @@ import { container } from 'tsyringe'
 import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess'
 import Std from '../../../src/ui/Std'
 
-test('can quit game immediately', () => {
-    const names = ['artem', 'rinat', 'gena', 'vlad']
-
+test('can quit game immediately after adding a player', () => {
     const gameProcess = container.resolve(ConsoleGameProcess)
 
     const std = container.resolve(Std)
+    std.sendIn('player')
+    std.sendIn('\n')
     std.sendIn('q')
-    gameProcess.start(names, 'test')
+    gameProcess.start()
 
     expect(gameProcess.game.isFinished).toBe(true)
 })
@@ -20,10 +20,17 @@ test('can have up to 20 players', () => {
     const names = longString.split('')
 
     const gameProcess = container.resolve(ConsoleGameProcess)
+    const std = container.resolve(Std)
 
-    gameProcess.start(names, 'test')
+    for (let i = 0; i < names.length; i++) {
+        std.sendIn(names[i])
+    }
+    std.sendIn('q')
+
+    gameProcess.start()
 
     expect(gameProcess.game.isFinished).toBe(true)
+    expect(gameProcess.game.players.length).toBe(20)
 })
 
 test('cannot have 21 players', () => {
@@ -31,11 +38,15 @@ test('cannot have 21 players', () => {
     const names = longString.split('')
 
     const gameProcess = container.resolve(ConsoleGameProcess)
+    const std = container.resolve(Std)
 
-    const throwingFunction = (): void => {
-        gameProcess.start(names, 'test')
-
-        expect(gameProcess.game.isFinished).toBe(true)
+    for (let i = 0; i < names.length; i++) {
+        std.sendIn(names[i])
     }
-    expect(throwingFunction).toThrow('Maximum number of players allowed is 20.')
+    std.sendIn('q')
+
+    gameProcess.start()
+
+    expect(gameProcess.game.isFinished).toBe(true)
+    expect(gameProcess.game.players.length).toBe(20)
 })
