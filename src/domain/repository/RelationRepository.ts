@@ -1,5 +1,5 @@
-import Relation from '../../domain/entity/Relation'
-import RelationName from '../../domain/enum/RelationName'
+import Relation from '../entity/Relation'
+import RelationName from '../enum/RelationName'
 
 const relations: Record<RelationName, { name: RelationName, agent_bonus: number, recipient_bonus: number }> = {
     Equals: {

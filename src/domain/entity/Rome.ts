@@ -2,6 +2,7 @@ import { singleton } from 'tsyringe'
 import Population from './Population'
 import Technology from './Technology'
 import Territory from './Territory'
+import TechnologyName from '../enum/TechnologyName'
 import type CanFight from '../interface/CanFight'
 
 @singleton()
@@ -37,6 +38,14 @@ class Rome implements CanFight {
 
     get territory(): Territory {
         return this._territory
+    }
+
+    get food(): number {
+        const food = this._territory.food
+        if (this.hasTech(TechnologyName.Calendar)) {
+            return food * 2
+        }
+        return food
     }
 
     get technologies(): Record<string, boolean> {

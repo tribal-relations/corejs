@@ -1,7 +1,5 @@
 import { singleton } from 'tsyringe'
 import type ActionInterface from './ActionInterface'
-import TechnologyRepository from '../../app/repository/TechnologyRepository'
-import type Tribe from '../entity/Tribe'
 import type Turn from '../entity/Turn'
 import ActionName from '../enum/ActionName'
 import TechnologyName from '../enum/TechnologyName'
@@ -17,21 +15,7 @@ class Research implements ActionInterface {
     private research(turn: Turn): void {
         const techName = turn.parameters
         const validTechName: TechnologyName = this.getValidTechnologyNameOrThrow(techName)
-        this.checkTechnologyIsNotBlocked(turn.player.tribe, validTechName)
-        turn.player.tribe.research(techName)
-    }
-
-    private checkTechnologyIsNotBlocked(tribe: Tribe, techName: TechnologyName): void {
-        if (techName in tribe.technologies) {
-            throw new Error(`${tribe.name} cannot research ${techName}, because it is already known`)
-        }
-        const techInstance = TechnologyRepository.createFromName(techName)
-        let prerequisiteName: string
-        for (prerequisiteName in techInstance.prerequisites) {
-            if (!(prerequisiteName in tribe.technologies)) {
-                throw new Error(`${tribe.name} cannot research ${techName}, because not all prerequisites are met`)
-            }
-        }
+        turn.player.tribe.research(validTechName)
     }
 
     private getValidTechnologyNameOrThrow(techName: string): TechnologyName {

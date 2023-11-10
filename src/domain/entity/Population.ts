@@ -1,5 +1,8 @@
 import Rome from './Rome'
 
+/**
+ * @deprecated need to move to tribe
+ */
 class Population {
     static defaultTotal = 2
     static defaultCombatReadiness = 1

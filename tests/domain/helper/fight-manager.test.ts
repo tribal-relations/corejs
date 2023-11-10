@@ -7,7 +7,7 @@ test('tribe with greater combat readiness wins ', () => {
     const fightManager = container.resolve(FightManager)
 
     const attacker = TestBootstrapper.createStarterTribe()
-    attacker.arm(3)
+    attacker.arm()
     const defender = TestBootstrapper.createStarterTribe()
 
     let attackerWon = false
@@ -20,7 +20,7 @@ test('defender does not suffer losses in case of failure', () => {
     const fightManager = container.resolve(FightManager)
 
     const attacker = TestBootstrapper.createStarterTribe()
-    attacker.arm(3)
+    attacker.arm()
     const defender = TestBootstrapper.createStarterTribe()
     expect(attacker.population.total).toBe(2)
     expect(defender.population.total).toBe(2)
@@ -52,12 +52,12 @@ test('attacker takes losses if he is weaker', () => {
     const fightManager = container.resolve(FightManager)
 
     const attacker = TestBootstrapper.createStarterTribe()
-    attacker.arm(1)
+    attacker.arm()
     expect(attacker.population.combatReadiness).toBe(2)
 
     const defender = TestBootstrapper.createStarterTribe()
     defender.grow(10)
-    defender.arm(2)
+    defender.arm()
     expect(attacker.population.total).toBe(2)
     expect(defender.population.total).toBe(2 + 20)
     expect(defender.population.combatReadiness).toBe(3)
@@ -75,12 +75,13 @@ test('attacker takes big losses but cannot lose whole army', () => {
     const fightManager = container.resolve(FightManager)
 
     const attacker = TestBootstrapper.createStarterTribe()
-    attacker.arm(1)
+    attacker.arm()
     expect(attacker.population.combatReadiness).toBe(2)
 
     const defender = TestBootstrapper.createStarterTribe()
     defender.grow(10)
-    defender.arm(4)
+    defender.arm()
+    defender.arm()
     expect(attacker.population.total).toBe(2)
     expect(defender.population.total).toBe(2 + 20)
     expect(defender.population.combatReadiness).toBe(5)

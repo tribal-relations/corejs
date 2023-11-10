@@ -1,6 +1,7 @@
 import 'reflect-metadata'
-import ActionRepository from '../../../src/app/repository/ActionRepository'
 import ActionName from '../../../src/domain/enum/ActionName'
+import TechnologyName from '../../../src/domain/enum/TechnologyName'
+import ActionRepository from '../../../src/domain/repository/ActionRepository'
 import TestBootstrapper from '../../test-bootstrapper'
 
 test('research adds technology', () => {
@@ -34,7 +35,7 @@ test('cannot research already known technology', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
 
     const techName = 'Pottery'
-    tribe.research(techName)
+    tribe.research(TechnologyName.Pottery)
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
 
     const throwingFunction = (): void => {
