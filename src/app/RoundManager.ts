@@ -36,7 +36,7 @@ class RoundManager {
         for (let i = 0; i < this.game.players.length; ++i) {
             currentTribe = this.game.players[i].tribe
             diceBonus = this.getDiceBonus(currentTribe)
-            currentTribe.population.grow((diceResult + diceBonus) * currentTribe.territory.food)
+            currentTribe.population.grow((diceResult + diceBonus) * currentTribe.food)
         }
     }
 

@@ -55,6 +55,20 @@ class TestBootstrapper {
         tribe.territory.addTile(tile)
         tribe.territory.updateResources()
     }
+
+    public static addProduction(tribe: Tribe): void {
+        const tile = Tile.createFromResourceName(ResourceName.Metal)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.addTile(tile)
+        tribe.territory.updateResources()
+    }
 }
 
 export default TestBootstrapper

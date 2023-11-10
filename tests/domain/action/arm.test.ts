@@ -1,6 +1,5 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import ActionRepository from '../../../src/app/repository/ActionRepository'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
 import type Action from '../../../src/domain/entity/Action'
 import Player from '../../../src/domain/entity/Player'
@@ -9,6 +8,7 @@ import Territory from '../../../src/domain/entity/Territory'
 import Tribe from '../../../src/domain/entity/Tribe'
 import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
+import ActionRepository from '../../../src/domain/repository/ActionRepository'
 import TestBootstrapper from '../../test-bootstrapper'
 
 test('arm for amount of production', () => {

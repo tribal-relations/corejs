@@ -1,6 +1,5 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import ActionRepository from '../../../src/app/repository/ActionRepository'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
 import Player from '../../../src/domain/entity/Player'
 import Population from '../../../src/domain/entity/Population'
@@ -10,6 +9,7 @@ import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
 import SpecificDiceThrower from '../../../src/domain/helper/SpecificDiceThrower'
+import ActionRepository from '../../../src/domain/repository/ActionRepository'
 import TestBootstrapper from '../../test-bootstrapper'
 
 const startingCulture = 10

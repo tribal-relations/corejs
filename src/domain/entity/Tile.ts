@@ -1,6 +1,6 @@
 import type Resource from './Resource'
-import ResourceRepository from '../../app/repository/ResourceRepository'
 import ResourceName from '../enum/ResourceName'
+import ResourceRepository from '../repository/ResourceRepository'
 
 class Tile {
     static defaultTilesCount = 2

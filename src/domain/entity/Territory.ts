@@ -1,5 +1,8 @@
 import Tile from './Tile'
 
+/**
+ * @deprecated need to move to tribe
+ */
 class Territory {
     constructor(
         private _food: number = 0,

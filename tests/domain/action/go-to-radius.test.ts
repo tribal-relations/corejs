@@ -1,6 +1,6 @@
 import 'reflect-metadata'
-import ActionRepository from '../../../src/app/repository/ActionRepository'
 import ActionName from '../../../src/domain/enum/ActionName'
+import ActionRepository from '../../../src/domain/repository/ActionRepository'
 import TestBootstrapper from '../../test-bootstrapper'
 
 test('can go to 3rd radius from 4th', () => {

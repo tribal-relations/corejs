@@ -38,12 +38,17 @@ test('Pottery increases crops yield', () => {
 
 test('Plough increases crops yield', () => {
     const startFood = 1
+    const calendarMultiplier = 2
     const ploughBonus = 2
+    const potteryBonus = 2
     const tribe = TestBootstrapper.createStarterTribe(
         '',
         new Population(10),
         new Territory(startFood, 0, 0, 0),
     )
+    tribe.research(TechnologyName.Pottery)
+    tribe.research(TechnologyName.PrimitiveWriting)
+    tribe.research(TechnologyName.Calendar)
     tribe.research(TechnologyName.Plough)
     const player = new Player(tribe)
 
@@ -55,20 +60,25 @@ test('Plough increases crops yield', () => {
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')
 
-    const diceResultWithBonus = SpecificDiceThrower.target + ploughBonus
+    const diceResultWithBonus = SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.finalizeRound()
 
-    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood)
+    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
 })
 
 test('Plough with animal husbandry adds a dice', () => {
     const startFood = 1
+    const calendarMultiplier = 2
     const ploughBonus = 2
+    const potteryBonus = 2
     const tribe = TestBootstrapper.createStarterTribe(
         '',
         new Population(10),
         new Territory(startFood, 0, 0, 0),
     )
+    tribe.research(TechnologyName.Pottery)
+    tribe.research(TechnologyName.PrimitiveWriting)
+    tribe.research(TechnologyName.Calendar)
     tribe.research(TechnologyName.Plough)
     tribe.research(TechnologyName.AnimalHusbandry)
     const player = new Player(tribe)
@@ -81,8 +91,8 @@ test('Plough with animal husbandry adds a dice', () => {
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')
 
-    const diceResultWithBonus = SpecificDiceThrower.target + SpecificDiceThrower.target + ploughBonus
+    const diceResultWithBonus = SpecificDiceThrower.target + SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.finalizeRound()
 
-    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood)
+    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
 })
