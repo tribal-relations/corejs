@@ -6,15 +6,15 @@ import Tribe from '../../../src/domain/entity/Tribe'
 import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
-import LosingDiceThrower from '../../../src/domain/helper/LosingDiceThrower'
-import SuccessfulDiceThrower from '../../../src/domain/helper/SuccessfulDiceThrower'
 import ActionRepository from '../../../src/domain/repository/ActionRepository'
+import LosingDiceThrower from '../../mock/LosingDiceThrower'
+import SuccessfulDiceThrower from '../../mock/SuccessfulDiceThrower'
 
 function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe): void {
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    expect(tribe.territory.tiles.length).toBe(0)
+    expect(tribe.tiles.length).toBe(2)
 
     const action = ActionRepository.createFromName(ActionName.Expedition)
     turnDecisionManager.processTurn(action, turn)
@@ -28,7 +28,7 @@ test('expedition adds one tile', () => {
     const tribe = new Tribe()
     makeExpedition(turnDecisionManager, tribe)
 
-    expect(tribe.territory.tiles.length).toBe(1)
+    expect(tribe.tiles.length).toBe(2 + 1)
 })
 
 test('expedition can result in failure', () => {
@@ -40,5 +40,5 @@ test('expedition can result in failure', () => {
     const tribe = new Tribe()
     makeExpedition(turnDecisionManager, tribe)
 
-    expect(tribe.territory.tiles.length).toBe(0)
+    expect(tribe.tiles.length).toBe(2 + 0)
 })

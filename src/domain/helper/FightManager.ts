@@ -23,13 +23,13 @@ class FightManager {
             return false
         }
         if (battleResult < 0) {
-            currentTribe.population.takeLosses(-battleResult)
+            currentTribe.takeLosses(-battleResult)
         }
         return false
     }
 
     private compareCombatReadiness(currentTribe: Tribe, defender: CanFight): number {
-        return currentTribe.population.combatReadiness - defender.population.combatReadiness
+        return currentTribe.combatReadiness - defender.combatReadiness
     }
 }
 export default FightManager

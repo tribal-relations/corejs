@@ -2,9 +2,9 @@ import 'reflect-metadata'
 import { container } from 'tsyringe'
 import StartGameManager from '../../../src/app/StartGameManager'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
-import SpecificDiceThrower from '../../../src/domain/helper/SpecificDiceThrower'
 import ConsoleUi from '../../../src/ui/ConsoleUi'
 import Std from '../../../src/ui/Std'
+import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 
 test('can add players', async () => {
     const consoleUi = container.resolve(ConsoleUi)
@@ -52,10 +52,10 @@ test('population growth', async () => {
     consoleUi.startTurns()
 
     expect(consoleUi.game.players.length).toBe(4)
-    expect(consoleUi.game.players[0].tribe.population.total).toBe(updatedPopulation)
-    expect(consoleUi.game.players[1].tribe.population.total).toBe(updatedPopulation)
-    expect(consoleUi.game.players[2].tribe.population.total).toBe(updatedPopulation)
-    expect(consoleUi.game.players[3].tribe.population.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[0].tribe.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[1].tribe.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[2].tribe.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[3].tribe.total).toBe(updatedPopulation)
 })
 
 test('one round consists of one turn per each player', async () => {

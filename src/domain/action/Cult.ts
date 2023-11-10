@@ -23,29 +23,29 @@ class Cult implements ActionInterface {
 
     private performByDiceResult(turn: Turn, diceResult: number): void {
         if (diceResult === 1) {
-            // turn.player.tribe.population.takeLosses(-5)
+            // turn.player.tribe.takeLosses(-5)
             return
         }
         if (diceResult === 2) {
             return
         }
         if (diceResult === 3) {
-            // turn.player.tribe.territory.culture += 2
+            // turn.player.tribe.culture += 2
 
             return
         }
         if (diceResult === 4) {
-            // turn.player.tribe.territory.culture += 3
+            // turn.player.tribe.culture += 3
 
             return
         }
         if (diceResult === 5) {
-            // turn.player.tribe.territory.culture += 4
+            // turn.player.tribe.culture += 4
 
             return
         }
         if (diceResult === 6) {
-            // turn.player.tribe.territory.culture += 6
+            // turn.player.tribe.culture += 6
 
             return
         }
