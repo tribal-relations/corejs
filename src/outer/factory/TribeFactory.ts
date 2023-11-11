@@ -5,8 +5,25 @@ import ResourceName from '../../domain/enum/ResourceName'
 class TribeFactory {
     public static createEmpty(options: Record<string, any> = {}): Tribe {
         TribeFactory.checkOptions(options)
+        const createdTribe = TribeFactory.create(options)
+        this.addPoints(options, createdTribe)
+        return createdTribe
+    }
 
-        return TribeFactory.create(options)
+    private static addPoints(options: Record<string, any>, createdTribe: Tribe): void {
+        // TODO right now we cannot add X production without adding Y food, because tiles always contain more than one currency
+        if (options.food) {
+            TribeFactory.addFood(createdTribe, options.food)
+        }
+        if (options.production) {
+            TribeFactory.addProduction(createdTribe, options.production)
+        }
+        if (options.culture) {
+            TribeFactory.addCulture(createdTribe, options.culture)
+        }
+        if (options.tradingAbility) {
+            TribeFactory.addTradingAbility(createdTribe, options.tradingAbility)
+        }
     }
 
     public static createStarterTribeWithOptions(options: Record<string, any> = {}): Tribe {
@@ -19,26 +36,21 @@ class TribeFactory {
         const population = options.population ?? Tribe.defaultTotal
         const combatReadiness = options.combatReadiness ?? Tribe.defaultCombatReadiness
         const civilizedness = options.civilizedness ?? Tribe.defaultCivilizedness
-        const food = options.food ?? 4 // TODO remove hardcode
-        const production = options.production ?? 2 // TODO remove hardcode
-        const culture = options.culture ?? 0
-        const tradingAbility = options.tradingAbility ?? 0
         const tiles = options.tiles ?? Tile.createStarterTiles()
 
-        return TribeFactory.create({
+        const createdTribe = TribeFactory.create({
             name,
             wealth,
             points,
             techs,
             population,
-            food,
-            production,
             tiles,
-            tradingAbility,
-            culture,
             civilizedness,
             combatReadiness,
         })
+        this.addPoints(options, createdTribe)
+
+        return createdTribe
     }
 
     public static addFood(tribe: Tribe, amount: number = 1): void {
@@ -46,7 +58,6 @@ class TribeFactory {
         for (let i = 0; i < amount; ++i) {
             tribe.addTile(tile)
         }
-        tribe.updateResources()
     }
 
     public static addCulture(tribe: Tribe, amount: number = 1): void {
@@ -54,7 +65,6 @@ class TribeFactory {
         for (let i = 0; i < amount; ++i) {
             tribe.addTile(tile)
         }
-        tribe.updateResources()
     }
 
     public static addProduction(tribe: Tribe, amount: number = 1): void {
@@ -65,8 +75,16 @@ class TribeFactory {
         for (let i = 0; i < amount / 2; ++i) {
             tribe.addTile(tile)
         }
+    }
 
-        tribe.updateResources()
+    public static addTradingAbility(tribe: Tribe, amount: number = 1): void {
+        if (amount % 2 !== 0) {
+            throw new Error('There are only tiles with tradingAbility 2.')
+        }
+        const tile = Tile.createFromResourceName(ResourceName.Fruit)
+        for (let i = 0; i < amount / 2; ++i) {
+            tribe.addTile(tile)
+        }
     }
 
     private static create(options: Record<string, any> = {}): Tribe {
@@ -77,13 +95,9 @@ class TribeFactory {
         const population = options.population ?? 0
         const combatReadiness = options.combatReadiness ?? 0
         const civilizedness = options.civilizedness ?? 0
-        const food = options.food ?? 0
-        const production = options.production ?? 0
-        const culture = options.culture ?? 0
-        const tradingAbility = options.tradingAbility ?? 0
         const tiles = options.tiles ?? []
 
-        return new Tribe(name, wealth, points, techs, population, combatReadiness, civilizedness, food, tradingAbility, production, culture, tiles)
+        return new Tribe(name, points, wealth, population, combatReadiness, civilizedness, techs, tiles)
     }
 
     private static checkOptions(options: Record<string, any> = {}): void {
