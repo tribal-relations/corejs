@@ -1,4 +1,3 @@
-import Territory from './Territory'
 import Tile from './Tile'
 import TechnologyName from '../enum/TechnologyName'
 import type CanFight from '../interface/CanFight'
@@ -17,9 +16,7 @@ class Tribe implements CanFight {
         private readonly _name: string = '',
         private readonly _wealth: number = 0,
         private readonly _points: number = 0,
-        private readonly _territory: Territory = new Territory(),
         private readonly _knownTechs: Record<string, boolean> = {},
-
         private _total: number = Tribe.defaultTotal,
         private _combatReadiness: number = Tribe.defaultCombatReadiness,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
@@ -49,10 +46,6 @@ class Tribe implements CanFight {
 
     get points(): number {
         return this._points
-    }
-
-    get territory(): Territory {
-        return this._territory
     }
 
     get total(): number {

@@ -1,10 +1,21 @@
 import 'reflect-metadata'
+import { container } from 'tsyringe'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
+import Player from '../../../src/domain/entity/Player'
+import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
 import ActionRepository from '../../../src/domain/repository/ActionRepository'
+import TribeFactory from '../../../src/outer/factory/TribeFactory'
 import TestBootstrapper from '../../test-bootstrapper'
 
 test('can go to 3rd radius from 4th', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
     expect(tribe.radius).toStrictEqual(4)
 
     const action = ActionRepository.createFromName(ActionName.GoTo3rdRadius)
@@ -14,7 +25,14 @@ test('can go to 3rd radius from 4th', () => {
 })
 
 test('cannot go to 2nd radius from 4th', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
+
     expect(tribe.radius).toStrictEqual(4)
     TestBootstrapper.addCulture(tribe, 10)
 
@@ -30,7 +48,14 @@ test('cannot go to 2nd radius from 4th', () => {
 })
 
 test('cannot go to 1st radius from 4th', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
+
     expect(tribe.radius).toStrictEqual(4)
     TestBootstrapper.addCulture(tribe, 10)
 
@@ -46,7 +71,14 @@ test('cannot go to 1st radius from 4th', () => {
 })
 
 test('can go to 2nd radius from 3rd', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
+
     TestBootstrapper.addCulture(tribe, 10)
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(3)
@@ -58,7 +90,14 @@ test('can go to 2nd radius from 3rd', () => {
 })
 
 test('cannot go to 1st radius from 3rd', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
+
     TestBootstrapper.addCulture(tribe, 10)
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(3)
@@ -75,7 +114,14 @@ test('cannot go to 1st radius from 3rd', () => {
 })
 
 test('can go to 1st radius from 2nd', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
+
     TestBootstrapper.addCulture(tribe, 10)
     tribe.goToNextRadius()
     tribe.goToNextRadius()

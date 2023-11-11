@@ -2,12 +2,12 @@ import 'reflect-metadata'
 import { container } from 'tsyringe'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
 import Player from '../../../src/domain/entity/Player'
-import Territory from '../../../src/domain/entity/Territory'
 import Tribe from '../../../src/domain/entity/Tribe'
 import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
 import ActionRepository from '../../../src/domain/repository/ActionRepository'
+import TribeFactory from '../../../src/outer/factory/TribeFactory'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 
 const startingCulture = 10
@@ -20,7 +20,8 @@ function sendCult(diceResult: number, totalPopulation: number = 10): Tribe {
 
     SpecificDiceThrower.target = diceResult
 
-    const sender = new Tribe('', 0, 0, new Territory(0, 0, 0, startingCulture), {}, totalPopulation)
+    const sender = TribeFactory.createEmpty({ culture: startingCulture, population: totalPopulation })
+
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
     const action = ActionRepository.createFromName(ActionName.Cult)

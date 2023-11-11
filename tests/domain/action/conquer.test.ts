@@ -14,7 +14,7 @@ test('can conquer', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
     const starterFood = 4
 
-    const tribe = TribeFactory.createStarterTribe()
+    const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.total).toStrictEqual(Tribe.defaultTotal)
     expect(tribe.food).toStrictEqual(starterFood)
 

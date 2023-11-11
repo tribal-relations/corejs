@@ -3,21 +3,16 @@ import { container } from 'tsyringe'
 import RoundManager from '../../../src/app/RoundManager'
 import Game from '../../../src/domain/entity/Game'
 import Player from '../../../src/domain/entity/Player'
-import Territory from '../../../src/domain/entity/Territory'
-import Tribe from '../../../src/domain/entity/Tribe'
 import TechnologyName from '../../../src/domain/enum/TechnologyName'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
+import TribeFactory from '../../../src/outer/factory/TribeFactory'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 
 test('Pottery increases crops yield', () => {
     const startFood = 4
     const potteryBonus = 2
-    const tribe = new Tribe(
-        '',
-        0,
-        0,
-        new Territory(0, 0, 0, 0), {}, 10, 0, 0,
-    )
+    const tribe = TribeFactory.createStarterTribeWithOptions({ population: 10 })
+
     tribe.research(TechnologyName.Pottery)
     const player = new Player(tribe)
 
@@ -43,12 +38,8 @@ test('Plough increases crops yield', () => {
     const potteryBonus = 2
     const populationMultiplierLimit = 10
     const startPopulation = 10
-    const tribe = new Tribe(
-        '',
-        0,
-        0,
-        new Territory(0, 0, 0, 0), {}, startPopulation,
-    )
+    const tribe = TribeFactory.createStarterTribeWithOptions({ population: startPopulation })
+
     expect(tribe.food).toBe(startFood)
 
     tribe.research(TechnologyName.Pottery)
@@ -81,12 +72,7 @@ test('Plough with animal husbandry adds a dice', () => {
     const calendarMultiplier = 2
     const ploughBonus = 2
     const potteryBonus = 2
-    const tribe = new Tribe(
-        '',
-        0,
-        0,
-        new Territory(0, 0, 0, 0), {}, 10, 0, 0,
-    )
+    const tribe = TribeFactory.createStarterTribeWithOptions({ population: 10 })
 
     tribe.research(TechnologyName.Pottery)
     tribe.research(TechnologyName.PrimitiveWriting)
