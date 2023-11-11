@@ -11,8 +11,6 @@ import type TurnResult from '../app/TurnResult'
 import type Action from '../domain/entity/Action'
 import Game from '../domain/entity/Game'
 import Player from '../domain/entity/Player'
-import Population from '../domain/entity/Population'
-import Territory from '../domain/entity/Territory'
 import Tribe from '../domain/entity/Tribe'
 import type Turn from '../domain/entity/Turn'
 import ActionName from '../domain/enum/ActionName'
@@ -243,13 +241,7 @@ class ConsoleUi {
 
         for (let i = 0; i < playerNames.length; i++) {
             players[i] = new Player(
-                new Tribe(
-                    tribeNames[i],
-                    0,
-                    0,
-                    Population.createStarterPopulation(),
-                    Territory.createStarterTerritory(),
-                ),
+                new Tribe(tribeNames[i]),
                 playerNames[i],
             )
         }

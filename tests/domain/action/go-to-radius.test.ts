@@ -16,7 +16,7 @@ test('can go to 3rd radius from 4th', () => {
 test('cannot go to 2nd radius from 4th', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
     expect(tribe.radius).toStrictEqual(4)
-    TestBootstrapper.addCulture(tribe)
+    TestBootstrapper.addCulture(tribe, 10)
 
     const action = ActionRepository.createFromName(ActionName.GoTo2ndRadius)
     const throwingFunction = (): void => {
@@ -32,7 +32,7 @@ test('cannot go to 2nd radius from 4th', () => {
 test('cannot go to 1st radius from 4th', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
     expect(tribe.radius).toStrictEqual(4)
-    TestBootstrapper.addCulture(tribe)
+    TestBootstrapper.addCulture(tribe, 10)
 
     const action = ActionRepository.createFromName(ActionName.GoTo1stRadius)
     const throwingFunction = (): void => {
@@ -47,7 +47,7 @@ test('cannot go to 1st radius from 4th', () => {
 
 test('can go to 2nd radius from 3rd', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
-    TestBootstrapper.addCulture(tribe)
+    TestBootstrapper.addCulture(tribe, 10)
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(3)
 
@@ -59,7 +59,7 @@ test('can go to 2nd radius from 3rd', () => {
 
 test('cannot go to 1st radius from 3rd', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
-    TestBootstrapper.addCulture(tribe)
+    TestBootstrapper.addCulture(tribe, 10)
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(3)
 
@@ -76,7 +76,7 @@ test('cannot go to 1st radius from 3rd', () => {
 
 test('can go to 1st radius from 2nd', () => {
     const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
-    TestBootstrapper.addCulture(tribe)
+    TestBootstrapper.addCulture(tribe, 10)
     tribe.goToNextRadius()
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(2)

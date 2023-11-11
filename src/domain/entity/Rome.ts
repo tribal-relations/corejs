@@ -1,8 +1,7 @@
 import { singleton } from 'tsyringe'
-import Population from './Population'
 import Technology from './Technology'
 import Territory from './Territory'
-import TechnologyName from '../enum/TechnologyName'
+import type Tile from './Tile'
 import type CanFight from '../interface/CanFight'
 
 @singleton()
@@ -16,9 +15,16 @@ class Rome implements CanFight {
 
     private readonly _wealth: number = 0
     private readonly _points: number = 0
-    private readonly _population: Population = Population.rome()
-    private readonly _territory: Territory = Territory.rome()
+    private readonly _combatReadiness = 50
+    private readonly _civilizedness = 50
+    private readonly _total = 100
+    private readonly _territory: Territory = new Territory()
     private readonly _knownTechs: Record<string, boolean> = Technology.rome()
+    private readonly _food: number = 0
+    private readonly _tradingAbility: number = 0
+    private readonly _production: number = 0
+    private readonly _culture: number = 0
+    private readonly _tiles: Tile[] = []
 
     get radius(): number {
         return this._radius
@@ -32,20 +38,8 @@ class Rome implements CanFight {
         return this._points
     }
 
-    get population(): Population {
-        return this._population
-    }
-
     get territory(): Territory {
         return this._territory
-    }
-
-    get food(): number {
-        const food = this._territory.food
-        if (this.hasTech(TechnologyName.Calendar)) {
-            return food * 2
-        }
-        return food
     }
 
     get technologies(): Record<string, boolean> {
@@ -60,24 +54,44 @@ class Rome implements CanFight {
         this._isWinner = _isWinner
     }
 
+    get total(): number {
+        return this._total
+    }
+
+    get combatReadiness(): number {
+        return this._combatReadiness
+    }
+
+    get civilizedness(): number {
+        return this._civilizedness
+    }
+
     hasTech(name: string): boolean {
         return (name in this._knownTechs)
     }
 
-    getNewPopulationCount(fertility: number): number {
-        const food = this._territory.getTotalFood()
-        const cropsYield = food * fertility
-        const upperBound = this._population.total * 10
-
-        if (cropsYield < upperBound) {
-            return cropsYield
-        }
-
-        return upperBound
-    }
-
     research(name: string): void {
         this._knownTechs[name] = true
+    }
+
+    get tiles(): Tile[] {
+        return this._tiles
+    }
+
+    get food(): number {
+        return this._food
+    }
+
+    get culture(): number {
+        return this._culture
+    }
+
+    get production(): number {
+        return this._production
+    }
+
+    get tradingAbility(): number {
+        return this._tradingAbility
     }
 }
 

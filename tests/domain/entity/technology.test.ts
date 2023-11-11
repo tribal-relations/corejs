@@ -3,20 +3,20 @@ import { container } from 'tsyringe'
 import RoundManager from '../../../src/app/RoundManager'
 import Game from '../../../src/domain/entity/Game'
 import Player from '../../../src/domain/entity/Player'
-import Population from '../../../src/domain/entity/Population'
 import Territory from '../../../src/domain/entity/Territory'
+import Tribe from '../../../src/domain/entity/Tribe'
 import TechnologyName from '../../../src/domain/enum/TechnologyName'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
-import SpecificDiceThrower from '../../../src/domain/helper/SpecificDiceThrower'
-import TestBootstrapper from '../../test-bootstrapper'
+import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 
 test('Pottery increases crops yield', () => {
-    const startFood = 1
+    const startFood = 4
     const potteryBonus = 2
-    const tribe = TestBootstrapper.createStarterTribe(
+    const tribe = new Tribe(
         '',
-        new Population(10),
-        new Territory(startFood, 0, 0, 0),
+        0,
+        0,
+        new Territory(0, 0, 0, 0), {}, 10, 0, 0,
     )
     tribe.research(TechnologyName.Pottery)
     const player = new Player(tribe)
@@ -33,23 +33,30 @@ test('Pottery increases crops yield', () => {
     roundManager.finalizeRound()
 
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
-    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood)
+    expect(tribe.total).toBe(10 + diceResultWithBonus * startFood)
 })
 
 test('Plough increases crops yield', () => {
-    const startFood = 1
+    const startFood = 4
     const calendarMultiplier = 2
     const ploughBonus = 2
     const potteryBonus = 2
-    const tribe = TestBootstrapper.createStarterTribe(
+    const populationMultiplierLimit = 10
+    const startPopulation = 10
+    const tribe = new Tribe(
         '',
-        new Population(10),
-        new Territory(startFood, 0, 0, 0),
+        0,
+        0,
+        new Territory(0, 0, 0, 0), {}, startPopulation,
     )
+    expect(tribe.food).toBe(startFood)
+
     tribe.research(TechnologyName.Pottery)
     tribe.research(TechnologyName.PrimitiveWriting)
     tribe.research(TechnologyName.Calendar)
     tribe.research(TechnologyName.Plough)
+    expect(tribe.food).toBe(startFood * calendarMultiplier)
+
     const player = new Player(tribe)
 
     const roundManager = container
@@ -63,19 +70,24 @@ test('Plough increases crops yield', () => {
     const diceResultWithBonus = SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.finalizeRound()
 
-    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
+    const resultPopulation = Math.min(
+        startPopulation * populationMultiplierLimit,
+        startPopulation + diceResultWithBonus * startFood * calendarMultiplier)
+    expect(tribe.total).toBe(resultPopulation)
 })
 
 test('Plough with animal husbandry adds a dice', () => {
-    const startFood = 1
+    const startFood = 4
     const calendarMultiplier = 2
     const ploughBonus = 2
     const potteryBonus = 2
-    const tribe = TestBootstrapper.createStarterTribe(
+    const tribe = new Tribe(
         '',
-        new Population(10),
-        new Territory(startFood, 0, 0, 0),
+        0,
+        0,
+        new Territory(0, 0, 0, 0), {}, 10, 0, 0,
     )
+
     tribe.research(TechnologyName.Pottery)
     tribe.research(TechnologyName.PrimitiveWriting)
     tribe.research(TechnologyName.Calendar)
@@ -94,5 +106,5 @@ test('Plough with animal husbandry adds a dice', () => {
     const diceResultWithBonus = SpecificDiceThrower.target + SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.finalizeRound()
 
-    expect(tribe.population.total).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
+    expect(tribe.total).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
 })

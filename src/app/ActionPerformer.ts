@@ -65,13 +65,13 @@ class ActionPerformer {
         if (action.constraints.radius < tribe.radius) {
             throw new WrongRadius(tribe.name, action.constraints.radius, action.name)
         }
-        if (action.constraints.culture > tribe.territory.culture) {
+        if (action.constraints.culture > tribe.culture) {
             throw new ActionUnavailable(tribe.name, action.name, Currency.Culture)
         }
-        if (action.constraints.production > tribe.territory.production) {
+        if (action.constraints.production > tribe.production) {
             throw new ActionUnavailable(tribe.name, action.name, Currency.Production)
         }
-        if (action.constraints.population > tribe.population.total) {
+        if (action.constraints.population > tribe.total) {
             throw new ActionUnavailable(tribe.name, action.name, Currency.Population)
         }
         if (action.constraints.wealth_cost > tribe.wealth) {

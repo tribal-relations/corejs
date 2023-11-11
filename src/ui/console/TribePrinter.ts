@@ -8,12 +8,11 @@ class TribePrinter {
             Radius: tribe.radius,
             Wealth: tribe.wealth,
             Points: tribe.points,
-            Population: tribe.population.total,
-            'Combat Readiness': tribe.population.combatReadiness,
-            Civilizedness: tribe.population.civilizedness,
-            Culture: tribe.territory.culture,
-            Production: tribe.territory.production,
-            'Trading Ability': tribe.territory.tradingAbility,
+            Population: tribe.total,
+            'Combat Readiness': tribe.combatReadiness,
+            Culture: tribe.culture,
+            Production: tribe.production,
+            'Trading Ability': tribe.tradingAbility,
             Technologies: tribe.technologies,
 
         }
