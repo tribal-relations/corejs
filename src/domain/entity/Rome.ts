@@ -6,20 +6,20 @@ import type CanFight from '../interface/CanFight'
 @singleton()
 class Rome implements CanFight {
     static defaultPopulation = 100
-    static defaultCombatReadiness = 50
+    static defaultMilitaryPower = 50
     static defaultCivilizedness = 50
 
     private readonly _radius = 0
     private _isWinner = false
 
-    private readonly _wealth: number = 0
+    private readonly _gold: number = 0
     private readonly _points: number = 0
-    private readonly _combatReadiness = 50
+    private readonly _militaryPower = 50
     private readonly _civilizedness = 50
-    private readonly _total = 100
+    private readonly _population = 100
     private readonly _knownTechs: Record<string, boolean> = Technology.rome()
     private readonly _food: number = 0
-    private readonly _tradingAbility: number = 0
+    private readonly _mercantility: number = 0
     private readonly _production: number = 0
     private readonly _culture: number = 0
     private readonly _tiles: Tile[] = []
@@ -28,8 +28,8 @@ class Rome implements CanFight {
         return this._radius
     }
 
-    get wealth(): number {
-        return this._wealth
+    get gold(): number {
+        return this._gold
     }
 
     get points(): number {
@@ -48,12 +48,12 @@ class Rome implements CanFight {
         this._isWinner = _isWinner
     }
 
-    get total(): number {
-        return this._total
+    get population(): number {
+        return this._population
     }
 
-    get combatReadiness(): number {
-        return this._combatReadiness
+    get militaryPower(): number {
+        return this._militaryPower
     }
 
     get civilizedness(): number {
@@ -84,8 +84,8 @@ class Rome implements CanFight {
         return this._production
     }
 
-    get tradingAbility(): number {
-        return this._tradingAbility
+    get mercantility(): number {
+        return this._mercantility
     }
 }
 

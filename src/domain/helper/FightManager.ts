@@ -15,7 +15,7 @@ class FightManager {
     }
 
     public fightWithAnotherTribe(currentTribe: Tribe, defender: CanFight): boolean {
-        const battleResult = this.compareCombatReadiness(currentTribe, defender)
+        const battleResult = this.compareMilitaryPower(currentTribe, defender)
         if (battleResult > 0) {
             return true
         }
@@ -28,8 +28,8 @@ class FightManager {
         return false
     }
 
-    private compareCombatReadiness(currentTribe: Tribe, defender: CanFight): number {
-        return currentTribe.combatReadiness - defender.combatReadiness
+    private compareMilitaryPower(currentTribe: Tribe, defender: CanFight): number {
+        return currentTribe.militaryPower - defender.militaryPower
     }
 }
 export default FightManager

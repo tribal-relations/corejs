@@ -12,7 +12,7 @@ import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 
 const startingCulture = 10
 
-function sendCult(diceResult: number, totalPopulation: number = 10): Tribe {
+function sendCult(diceResult: number, populationPopulation: number = 10): Tribe {
     const turnDecisionManager = container
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
@@ -20,7 +20,7 @@ function sendCult(diceResult: number, totalPopulation: number = 10): Tribe {
 
     SpecificDiceThrower.target = diceResult
 
-    const sender = TribeFactory.createEmpty({ culture: startingCulture, population: totalPopulation })
+    const sender = TribeFactory.createEmpty({ culture: startingCulture, population: populationPopulation })
 
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
@@ -33,7 +33,7 @@ test('can send cult with result 1', () => {
     return
     const sender = sendCult(1)
 
-    expect(sender.total).toBe(10 - 5)
+    expect(sender.population).toBe(10 - 5)
     expect(sender.culture).toBe(startingCulture)
 })
 
@@ -42,7 +42,7 @@ test('can send cult with result 1 when less than 5 - 1 persists', () => {
 
     const sender = sendCult(1, 4)
 
-    expect(sender.total).toBe(1)
+    expect(sender.population).toBe(1)
     expect(sender.culture).toBe(startingCulture)
 })
 
@@ -52,8 +52,8 @@ test('can send cult with result 2', () => {
     const sender = sendCult(2)
 
     expect(sender.culture).toBe(startingCulture)
-    expect(sender.total).toBe(10)
-    expect(sender.combatReadiness).toBe(Tribe.defaultCombatReadiness)
+    expect(sender.population).toBe(10)
+    expect(sender.militaryPower).toBe(Tribe.defaultMilitaryPower)
 })
 
 test('can send cult with result 3', () => {

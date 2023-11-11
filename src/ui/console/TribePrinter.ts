@@ -6,13 +6,13 @@ class TribePrinter {
         const tribeWithOnlyNecessaryFields = {
             Name: tribe.name,
             Radius: tribe.radius,
-            Wealth: tribe.wealth,
+            Gold: tribe.gold,
             Points: tribe.points,
-            Population: tribe.total,
-            'Combat Readiness': tribe.combatReadiness,
+            Population: tribe.population,
+            'Military Power': tribe.militaryPower,
             Culture: tribe.culture,
             Production: tribe.production,
-            'Trading Ability': tribe.tradingAbility,
+            Mercantility: tribe.mercantility,
             Technologies: tribe.technologies,
 
         }

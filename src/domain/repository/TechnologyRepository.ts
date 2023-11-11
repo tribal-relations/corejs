@@ -55,7 +55,7 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
     },
     'Bronze Weapons': {
         name: TechnologyName.BronzeWeapons,
-        description: 'Metal +1 Wealth +1 Production. Combat Readiness *2',
+        description: 'Metal +1 Mercantility +1 Production. Combat Readiness *2',
         prerequisites: {
             'Stone Working': true,
         },
@@ -81,7 +81,7 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
     },
     'Primitive Writing': {
         name: TechnologyName.PrimitiveWriting,
-        description: 'Wealth +3',
+        description: 'Mercantility +3',
         prerequisites: {
             Pottery: true,
         },

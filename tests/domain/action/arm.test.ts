@@ -12,8 +12,8 @@ test('arm for amount of production', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
 
     const tribe = TribeFactory.createEmpty({ production: 10, population: 100 })
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(0)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(0)
 
     const player = new Player(tribe)
     const turn = new Turn(player)
@@ -21,8 +21,8 @@ test('arm for amount of production', () => {
 
     turnDecisionManager.processTurn(action, turn)
 
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(10)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(10)
 })
 
 test('arm for amount of production, but not bigger than non-armed population', () => {
@@ -30,8 +30,8 @@ test('arm for amount of production, but not bigger than non-armed population', (
 
     const tribe = TribeFactory.createEmpty({ production: 1000, population: 100 })
 
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(0)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(0)
 
     const player = new Player(tribe)
     const turn = new Turn(player)
@@ -39,8 +39,8 @@ test('arm for amount of production, but not bigger than non-armed population', (
 
     turnDecisionManager.processTurn(action, turn)
 
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(100)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(100)
 })
 
 test('cannot arm more than population', () => {
@@ -51,27 +51,27 @@ test('cannot arm more than population', () => {
     const player = new Player(tribe)
     const turn = new Turn(player)
     let action: Action
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(0)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(0)
     expect(tribe.production).toBe(90)
 
     action = ActionRepository.createFromName(ActionName.Arm)
     turnDecisionManager.processTurn(action, turn)
 
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(90)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(90)
 
     action = ActionRepository.createFromName(ActionName.Arm)
     turnDecisionManager.processTurn(action, turn)
 
-    expect(tribe.total).toBe(100)
-    expect(tribe.combatReadiness).toBe(100)
+    expect(tribe.population).toBe(100)
+    expect(tribe.militaryPower).toBe(100)
 
     const throwingFunction = (): void => {
         const action = ActionRepository.createFromName(ActionName.Arm)
         turnDecisionManager.processTurn(action, turn)
     }
-    expect(tribe.combatReadiness).toBe(100)
+    expect(tribe.militaryPower).toBe(100)
 
     expect(throwingFunction).toThrow('Cannot arm further. Maximal combat readiness for such population.')
 })

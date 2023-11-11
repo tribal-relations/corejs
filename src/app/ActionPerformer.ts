@@ -71,11 +71,11 @@ class ActionPerformer {
         if (action.constraints.production > tribe.production) {
             throw new ActionUnavailable(tribe.name, action.name, Currency.Production)
         }
-        if (action.constraints.population > tribe.total) {
+        if (action.constraints.population > tribe.population) {
             throw new ActionUnavailable(tribe.name, action.name, Currency.Population)
         }
-        if (action.constraints.wealth_cost > tribe.wealth) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Wealth)
+        if (action.constraints.gold_cost > tribe.gold) {
+            throw new ActionUnavailable(tribe.name, action.name, Currency.Gold)
         }
     }
 }

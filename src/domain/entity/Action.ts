@@ -9,7 +9,7 @@ class Action {
             population: number
             production: number
             action_cost: number
-            wealth_cost: number
+            gold_cost: number
         },
     ) {
     }
@@ -24,7 +24,7 @@ class Action {
         population: number
         production: number
         action_cost: number
-        wealth_cost: number
+        gold_cost: number
     } {
         return this._constraints
     }

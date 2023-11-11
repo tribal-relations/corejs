@@ -15,7 +15,7 @@ test('can conquer', () => {
     const starterFood = 4
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
-    expect(tribe.total).toStrictEqual(Tribe.defaultTotal)
+    expect(tribe.population).toStrictEqual(Tribe.defaultPopulation)
     expect(tribe.food).toStrictEqual(starterFood)
 
     const player = new Player(tribe)
@@ -34,9 +34,9 @@ test('can conquer', () => {
     tribe.arm()
 
     const rome = container.resolve(Rome)
-    expect(rome.combatReadiness).toStrictEqual(Rome.defaultCombatReadiness)
+    expect(rome.militaryPower).toStrictEqual(Rome.defaultMilitaryPower)
 
-    expect(tribe.combatReadiness).toBeGreaterThan(rome.combatReadiness)
+    expect(tribe.militaryPower).toBeGreaterThan(rome.militaryPower)
 
     const action = ActionRepository.createFromName(ActionName.Conquer)
     const turnResult = turnDecisionManager.processTurn(action, turn)
