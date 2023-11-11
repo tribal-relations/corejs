@@ -2,91 +2,91 @@ import Technology from '../entity/Technology'
 import TechnologyName from '../enum/TechnologyName'
 
 const techs: Record<TechnologyName, { name: TechnologyName, description: string, prerequisites: Record<string, boolean> }> = {
-    Pottery: {
+    [TechnologyName.Pottery]: {
         name: TechnologyName.Pottery,
         description: 'Harvest result +2',
         prerequisites: {},
     },
-    'Animal Husbandry': {
+    [TechnologyName.AnimalHusbandry]: {
         name: TechnologyName.AnimalHusbandry,
         description: 'Pasture +2 Food',
         prerequisites: {},
     },
-    Hunting: {
+    [TechnologyName.Hunting]: {
         name: TechnologyName.Hunting,
         description: 'Forest +1 Food',
         prerequisites: {},
     },
-    Plough: {
+    [TechnologyName.Plough]: {
         name: TechnologyName.Plough,
         description: 'Harvest result +2. Throw 2 dice if Animal Husbandry is discovered',
         prerequisites: {
             Calendar: true,
         },
     },
-    'Advanced Writing': {
+    [TechnologyName.AdvancedWriting]: {
         name: TechnologyName.AdvancedWriting,
         description: 'Culture *2',
         prerequisites: {
             'Primitive Writing': true,
         },
     },
-    Fishing: {
+    [TechnologyName.Fishing]: {
         name: TechnologyName.Fishing,
         description: 'River and Lake +2 Food',
         prerequisites: {},
     },
-    Archery: {
+    [TechnologyName.Archery]: {
         name: TechnologyName.Archery,
         description: 'Combat Readiness *2',
         prerequisites: {},
     },
-    'Organized Army': {
+    [TechnologyName.OrganizedArmy]: {
         name: TechnologyName.OrganizedArmy,
         description: 'Combat Readiness *3',
         prerequisites: {
             'Bronze Weapons': true,
         },
     },
-    'Musical Instruments': {
+    [TechnologyName.MusicalInstruments]: {
         name: TechnologyName.MusicalInstruments,
         description: 'Culture *2',
         prerequisites: {},
     },
-    'Bronze Weapons': {
+    [TechnologyName.BronzeWeapons]: {
         name: TechnologyName.BronzeWeapons,
         description: 'Metal +1 Mercantility +1 Production. Combat Readiness *2',
         prerequisites: {
             'Stone Working': true,
         },
     },
-    Idols: {
+    [TechnologyName.Idols]: {
         name: TechnologyName.Idols,
         description: 'Stone +2 Culture',
         prerequisites: {
             'Stone Working': true,
         },
     },
-    Poetry: {
+    [TechnologyName.Poetry]: {
         name: TechnologyName.Poetry,
         description: 'Culture *2',
         prerequisites: {},
     },
-    Calendar: {
+    [TechnologyName.Calendar]: {
         name: TechnologyName.Calendar,
         description: 'Food *2',
         prerequisites: {
             'Primitive Writing': true,
         },
     },
-    'Primitive Writing': {
+    [TechnologyName.PrimitiveWriting]: {
         name: TechnologyName.PrimitiveWriting,
         description: 'Mercantility +3',
         prerequisites: {
             Pottery: true,
         },
     },
-    'Stone Working': {
+    [TechnologyName.StoneWorking]: {
         name: TechnologyName.StoneWorking,
         description: 'Stone +2 Production +1 Culture',
         prerequisites: {},
@@ -95,9 +95,38 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
 
 class TechnologyRepository {
     static technologiesCount = 15
+    static readonly technologyTree = TechnologyRepository.buildTechnologyTree()
 
     public static createFromName(name: TechnologyName): Technology {
         return new Technology(String(name), techs[name].description, techs[name].prerequisites)
+    }
+
+    /**
+     * This is hardcoded because I failed to write a graph algorithm
+     */
+    private static buildTechnologyTree(): Record<string, any> {
+        return {
+            [TechnologyName.AnimalHusbandry]: {},
+            [TechnologyName.Archery]: {},
+            [TechnologyName.Fishing]: {},
+            [TechnologyName.Hunting]: {},
+            [TechnologyName.MusicalInstruments]: {},
+            [TechnologyName.Poetry]: {},
+            [TechnologyName.StoneWorking]: {
+                [TechnologyName.Idols]: {},
+                [TechnologyName.BronzeWeapons]: {
+                    [TechnologyName.OrganizedArmy]: {},
+                },
+            },
+            [TechnologyName.Pottery]: {
+                [TechnologyName.PrimitiveWriting]: {
+                    [TechnologyName.AdvancedWriting]: {},
+                    [TechnologyName.Calendar]: {
+                        [TechnologyName.Plough]: {},
+                    },
+                },
+            },
+        }
     }
 }
 

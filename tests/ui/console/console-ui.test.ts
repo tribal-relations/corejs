@@ -1,23 +1,51 @@
 import 'reflect-metadata'
-import { container } from 'tsyringe'
+import { container, type DependencyContainer } from 'tsyringe'
+import RoundManager from '../../../src/app/RoundManager'
 import StartGameManager from '../../../src/app/StartGameManager'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
+import TurnManager from '../../../src/app/TurnManager'
 import DiceThrower from '../../../src/domain/helper/DiceThrower'
+import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerformer'
 import ConsoleUi from '../../../src/ui/ConsoleUi'
-import Std from '../../../src/ui/Std'
+import MockStd from '../../mock/MockStd'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 
-test('can add players', async () => {
-    const consoleUi = container.resolve(ConsoleUi)
-    const startGameManager = container.resolve(StartGameManager)
+function prepareConsoleUi(localContainer: DependencyContainer = container): { mockStd: MockStd, consoleUi: ConsoleUi } {
+    // this will not work
+    // const c = container
+    //     .createChildContainer()
+    //     .register<Std>(Std, MockStd)
+    // const consoleUi = c.resolve(ConsoleUi)
+
+    // I need to build ConsoleUi manually because it contains Std in its constructor
+    // otherwise, test fails, because container does not inject the correct Std instance
+    // I don't know why
+    const startGameManager = localContainer.resolve(StartGameManager)
+    const turnManager = localContainer.resolve(TurnManager)
+    const roundManager = localContainer.resolve(RoundManager)
+    const turnDecisionManager = localContainer.resolve(TurnDecisionManager)
+    const mockStd = localContainer.resolve(MockStd)
+    const consoleCommandPerformer = localContainer.resolve(ConsoleCommandPerformer)
+
+    const consoleUi = new ConsoleUi(turnManager,
+        roundManager,
+        turnDecisionManager,
+        mockStd,
+        consoleCommandPerformer,
+    )
 
     consoleUi.game = startGameManager.start()
-    const std = container.resolve(Std)
-    std.sendIn('artem')
-    std.sendIn('rinat')
-    std.sendIn('gena')
-    std.sendIn('vlad')
-    std.sendIn('\n')
-    std.sendIn('q')
+    return { mockStd, consoleUi }
+}
+
+test('can add players', async () => {
+    const { mockStd, consoleUi } = prepareConsoleUi()
+    mockStd.sendIn('artem')
+    mockStd.sendIn('rinat')
+    mockStd.sendIn('gena')
+    mockStd.sendIn('vlad')
+    mockStd.sendIn('\n')
+    mockStd.sendIn('q')
 
     const turnResult = consoleUi.startTurns()
 
@@ -28,25 +56,25 @@ test('population growth', async () => {
     const localContainer = container
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
+    const { mockStd, consoleUi } = prepareConsoleUi(localContainer)
+
     SpecificDiceThrower.target = 1
 
     const defaultPopulation = 2
     const defaultFood = 4 // pasture and forest
     const updatedPopulation = defaultPopulation + defaultFood * SpecificDiceThrower.target
-    const consoleUi = localContainer.resolve(ConsoleUi)
     const startGameManager = localContainer.resolve(StartGameManager)
 
     consoleUi.game = startGameManager.start()
-    const std = localContainer.resolve(Std)
-    std.sendIn('artem')
-    std.sendIn('rinat')
-    std.sendIn('gena')
-    std.sendIn('vlad')
-    std.sendIn('\n')
-    std.sendIn('a')
-    std.sendIn('a')
-    std.sendIn('a')
-    std.sendIn('a')
+    mockStd.sendIn('artem')
+    mockStd.sendIn('rinat')
+    mockStd.sendIn('gena')
+    mockStd.sendIn('vlad')
+    mockStd.sendIn('\n')
+    mockStd.sendIn('a')
+    mockStd.sendIn('a')
+    mockStd.sendIn('a')
+    mockStd.sendIn('a')
     // round ended, new round
 
     consoleUi.startTurns()
@@ -62,22 +90,22 @@ test('one round consists of one turn per each player', async () => {
     const localContainer = container
         .createChildContainer()
         .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
+    const { mockStd, consoleUi } = prepareConsoleUi(localContainer)
+
     SpecificDiceThrower.target = 1
 
-    const consoleUi = localContainer.resolve(ConsoleUi)
     const startGameManager = localContainer.resolve(StartGameManager)
 
     consoleUi.game = startGameManager.start()
-    const std = localContainer.resolve(Std)
-    std.sendIn('artem')
-    std.sendIn('rinat')
-    std.sendIn('gena')
-    std.sendIn('vlad')
-    std.sendIn('\n')
-    std.sendIn('a')
-    std.sendIn('a')
-    std.sendIn('a')
-    std.sendIn('a')
+    mockStd.sendIn('artem')
+    mockStd.sendIn('rinat')
+    mockStd.sendIn('gena')
+    mockStd.sendIn('vlad')
+    mockStd.sendIn('\n')
+    mockStd.sendIn('a')
+    mockStd.sendIn('a')
+    mockStd.sendIn('a')
+    mockStd.sendIn('a')
     // round ended, new round
 
     consoleUi.startTurns()
@@ -87,15 +115,11 @@ test('one round consists of one turn per each player', async () => {
 })
 
 test('q to quit game', async () => {
-    const consoleUi = container.resolve(ConsoleUi)
-    const startGameManager = container.resolve(StartGameManager)
+    const { mockStd, consoleUi } = prepareConsoleUi()
 
-    consoleUi.game = startGameManager.start()
-
-    const std = container.resolve(Std)
-    std.sendIn('player')
-    std.sendIn('\n')
-    std.sendIn('q')
+    mockStd.sendIn('player')
+    mockStd.sendIn('\n')
+    mockStd.sendIn('q')
 
     const turnResult = consoleUi.startTurns()
 
@@ -103,15 +127,11 @@ test('q to quit game', async () => {
 })
 
 test('exception does not kill the app', async () => {
-    const consoleUi = container.resolve(ConsoleUi)
-    const startGameManager = container.resolve(StartGameManager)
+    const { mockStd, consoleUi } = prepareConsoleUi()
 
-    consoleUi.game = startGameManager.start()
-
-    const std = container.resolve(Std)
-    std.sendIn('player')
-    std.sendIn('\n')
-    std.sendIn('r') // no parameter will throw
+    mockStd.sendIn('player')
+    mockStd.sendIn('\n')
+    mockStd.sendIn('r') // no parameter will throw
     const turnResult = consoleUi.startTurns()
 
     expect(turnResult.isLast).toBe(true)

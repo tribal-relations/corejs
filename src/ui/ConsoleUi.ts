@@ -51,8 +51,9 @@ class ConsoleUi {
 
     static decisionToCommandDataMap: Record<string, { name: CommandName, parameters: string }> = {
         p: { name: CommandName.PrintCurrentPlayerTribe, parameters: '' },
-        pt: { name: CommandName.PrintTribe, parameters: '<tribe name>' },
-        ptt: { name: CommandName.PrintAllTribes, parameters: '' },
+        pt: { name: CommandName.PrintAllTribes, parameters: '' },
+        ptt: { name: CommandName.PrintTechnologyTree, parameters: '' },
+        pti: { name: CommandName.PrintTechnologyInfo, parameters: '<tech name>' },
         paa: { name: CommandName.PrintAvailableActions, parameters: '' },
         pac: { name: CommandName.PrintAvailableCommands, parameters: '' },
         '?': { name: CommandName.PrintAvailableCommands, parameters: '' },
@@ -86,6 +87,7 @@ class ConsoleUi {
         // but game cannot be singleton because players?
         // no, we can add players later
         // yes, must make game singleton
+        // TODO make game singleton
         this._consoleCommandPerformer.game = this.game
         this._roundManager.game = this.game
 

@@ -1,20 +1,22 @@
+import { singleton } from 'tsyringe'
 import YAML from 'yaml'
+import Currency from '../../domain/entity/Currency'
 import type Tribe from '../../domain/entity/Tribe'
 
+@singleton()
 class TribePrinter {
-    getString(tribe: Tribe): string {
+    public getString(tribe: Tribe): string {
         const tribeWithOnlyNecessaryFields = {
             Name: tribe.name,
             Radius: tribe.radius,
-            Gold: tribe.gold,
-            Points: tribe.points,
-            Population: tribe.population,
-            'Military Power': tribe.militaryPower,
-            Culture: tribe.culture,
-            Production: tribe.production,
-            Mercantility: tribe.mercantility,
+            [Currency.Gold]: tribe.gold,
+            [Currency.Points]: tribe.points,
+            [Currency.Population]: tribe.population,
+            [Currency.MilitaryPower]: tribe.militaryPower,
+            [Currency.Culture]: tribe.culture,
+            [Currency.Production]: tribe.production,
+            [Currency.Mercantility]: tribe.mercantility,
             Technologies: tribe.technologies,
-
         }
 
         return YAML.stringify(tribeWithOnlyNecessaryFields)

@@ -1,5 +1,4 @@
 import { singleton } from 'tsyringe'
-import Technology from './Technology'
 import type Tile from './Tile'
 import type CanFight from '../interface/CanFight'
 
@@ -17,7 +16,7 @@ class Rome implements CanFight {
     private readonly _militaryPower = 50
     private readonly _civilizedness = 50
     private readonly _population = 100
-    private readonly _knownTechs: Record<string, boolean> = Technology.rome()
+    private readonly _knownTechs: Record<string, boolean> = {}
     private readonly _food: number = 0
     private readonly _mercantility: number = 0
     private readonly _production: number = 0

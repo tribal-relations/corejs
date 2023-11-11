@@ -1,11 +1,15 @@
 import { singleton } from 'tsyringe'
 import type ConsoleCommand from './entity/ConsoleCommand'
 import CommandName from './enum/CommandName'
+import Printer from './Printer'
 import TribePrinter from './TribePrinter'
 import type Game from '../../domain/entity/Game'
+import type Technology from '../../domain/entity/Technology'
 import type Tribe from '../../domain/entity/Tribe'
 import type Turn from '../../domain/entity/Turn'
 import type ActionName from '../../domain/enum/ActionName'
+import type TechnologyName from '../../domain/enum/TechnologyName'
+import TechnologyRepository from '../../domain/repository/TechnologyRepository'
 import ConsoleUi from '../ConsoleUi'
 import Std from '../Std'
 
@@ -16,6 +20,7 @@ class ConsoleCommandPerformer {
     constructor(
         private readonly _std: Std,
         private readonly _tribePrinter: TribePrinter,
+        private readonly _printer: Printer,
     ) {
     }
 
@@ -81,6 +86,12 @@ class ConsoleCommandPerformer {
         if (commandName === CommandName.PrintAvailableActions) {
             this.outputAvailableActions()
         }
+        if (commandName === CommandName.PrintTechnologyTree) {
+            this.outputTechnologyTree()
+        }
+        if (commandName === CommandName.PrintTechnologyInfo && parameter) {
+            this.outputTechnologyInfo(parameter)
+        }
     }
 
     private printAllTribes(): void {
@@ -105,6 +116,27 @@ class ConsoleCommandPerformer {
             }
         }
         throw new Error(`Tribe ${tribeName} not found.`)
+    }
+
+    private outputTechnologyTree(): void {
+        this._std.out('Technology tree:')
+        let techTreeAsString = this._printer.getCleanYaml(TechnologyRepository.technologyTree, '')
+        techTreeAsString = techTreeAsString.replaceAll(':', '   -->  ')
+
+        this._std.out(techTreeAsString)
+    }
+
+    private outputTechnologyInfo(parameter: string): void {
+        const tech = this.getTechnologyByName(parameter)
+        this.printTechnology(tech)
+    }
+
+    private getTechnologyByName(techName: string): Technology {
+        return TechnologyRepository.createFromName(techName as TechnologyName)
+    }
+
+    private printTechnology(tech: Technology): void {
+        this._std.out(this._printer.getCleanYaml(tech, ': no'))
     }
 }
 

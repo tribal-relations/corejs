@@ -3,17 +3,25 @@ import ConsoleCommand from '../entity/ConsoleCommand'
 import CommandName from '../enum/CommandName'
 
 const consoleCommands: Record<string, { name: string, description: string, parameters: string }> = {
-    'Print current player tribe': { name: CommandName.PrintCurrentPlayerTribe, description: '', parameters: '' },
-    'Print tribe': { name: CommandName.PrintTribe, description: '', parameters: '<tribe name>' },
-    'Print all tribes': { name: CommandName.PrintAllTribes, description: '', parameters: '' },
-    'Print available actions': { name: CommandName.PrintAvailableActions, description: '', parameters: '' },
-    'Print available commands': { name: CommandName.PrintAvailableCommands, description: '', parameters: '' },
+    [CommandName.PrintCurrentPlayerTribe]: { name: CommandName.PrintCurrentPlayerTribe, description: '', parameters: '' },
+    [CommandName.PrintTribe]: { name: CommandName.PrintTribe, description: '', parameters: '<tribe name>' },
+    [CommandName.PrintAllTribes]: { name: CommandName.PrintAllTribes, description: '', parameters: '' },
+
+    [CommandName.PrintTechnologyTree]: { name: CommandName.PrintTechnologyTree, description: '', parameters: '' },
+    [CommandName.PrintTechnologyInfo]: {
+        name: CommandName.PrintTechnologyInfo,
+        description: '',
+        parameters: '<tech name>',
+    },
+
+    [CommandName.PrintAvailableActions]: { name: CommandName.PrintAvailableActions, description: '', parameters: '' },
+    [CommandName.PrintAvailableCommands]: { name: CommandName.PrintAvailableCommands, description: '', parameters: '' },
 }
 
 @singleton()
 class ConsoleCommandRepository {
-    static createFromName(name: CommandName): ConsoleCommand {
-        return new ConsoleCommand(String(name), consoleCommands[name].description, consoleCommands[name].parameters)
+    static createFromName(name: CommandName, parameters: string = ''): ConsoleCommand {
+        return new ConsoleCommand(String(name), consoleCommands[name].description, parameters)
     }
 }
 
