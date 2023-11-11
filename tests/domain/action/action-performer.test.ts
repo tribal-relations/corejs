@@ -11,7 +11,7 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory'
 test('action constraints must be respected', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
 
-    const tribe = TribeFactory.create()
+    const tribe = TribeFactory.createEmpty()
     const player = new Player(tribe)
     const turn = new Turn(player)
     expect(tribe.tiles.length).toBe(0)

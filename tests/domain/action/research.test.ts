@@ -1,11 +1,21 @@
 import 'reflect-metadata'
+import { container } from 'tsyringe'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
+import Player from '../../../src/domain/entity/Player'
+import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
 import TechnologyName from '../../../src/domain/enum/TechnologyName'
 import ActionRepository from '../../../src/domain/repository/ActionRepository'
-import TestBootstrapper from '../../test-bootstrapper'
+import TribeFactory from '../../../src/outer/factory/TribeFactory'
 
 test('research adds technology', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
 
     const action = ActionRepository.createFromName(ActionName.Research)
     turn.parameters = 'Pottery'
@@ -16,7 +26,13 @@ test('research adds technology', () => {
 })
 
 test('cannot research blocked technology', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
 
     const techName = 'Advanced Writing'
 
@@ -32,7 +48,13 @@ test('cannot research blocked technology', () => {
 })
 
 test('cannot research already known technology', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
 
     const techName = 'Pottery'
     tribe.research(TechnologyName.Pottery)
@@ -51,7 +73,13 @@ test('cannot research already known technology', () => {
 })
 
 test('cannot research undefined technology', () => {
-    const { turnDecisionManager, tribe, turn } = TestBootstrapper.getStarterData()
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
+
+    const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.technologies).toStrictEqual({})
+
+    const player = new Player(tribe)
+    const turn = new Turn(player)
 
     const techName = 'Hello World'
 

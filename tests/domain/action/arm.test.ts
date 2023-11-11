@@ -3,21 +3,15 @@ import { container } from 'tsyringe'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
 import type Action from '../../../src/domain/entity/Action'
 import Player from '../../../src/domain/entity/Player'
-import Territory from '../../../src/domain/entity/Territory'
-import Tribe from '../../../src/domain/entity/Tribe'
 import Turn from '../../../src/domain/entity/Turn'
 import ActionName from '../../../src/domain/enum/ActionName'
 import ActionRepository from '../../../src/domain/repository/ActionRepository'
+import TribeFactory from '../../../src/outer/factory/TribeFactory'
 
 test('arm for amount of production', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
 
-    const tribe = new Tribe(
-        '',
-        0,
-        0,
-        new Territory(0, 0, 10), {}, 100, 0, 0, 0, 0, 10,
-    )
+    const tribe = TribeFactory.createEmpty({ production: 10, population: 100 })
     expect(tribe.total).toBe(100)
     expect(tribe.combatReadiness).toBe(0)
 
@@ -34,12 +28,8 @@ test('arm for amount of production', () => {
 test('arm for amount of production, but not bigger than non-armed population', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
 
-    const tribe = new Tribe(
-        '',
-        0,
-        0,
-        new Territory(0, 0, 1000), {}, 100, 0, 0, 0, 0, 1000,
-    )
+    const tribe = TribeFactory.createEmpty({ production: 1000, population: 100 })
+
     expect(tribe.total).toBe(100)
     expect(tribe.combatReadiness).toBe(0)
 
@@ -56,12 +46,8 @@ test('arm for amount of production, but not bigger than non-armed population', (
 test('cannot arm more than population', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
 
-    const tribe = new Tribe(
-        '',
-        0,
-        0,
-        new Territory(0, 0, 90), {}, 100, 0, 0, 0, 0, 90,
-    )
+    const tribe = TribeFactory.createEmpty({ production: 90, population: 100 })
+
     const player = new Player(tribe)
     const turn = new Turn(player)
     let action: Action

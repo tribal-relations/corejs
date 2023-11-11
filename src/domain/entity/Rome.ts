@@ -1,6 +1,5 @@
 import { singleton } from 'tsyringe'
 import Technology from './Technology'
-import Territory from './Territory'
 import type Tile from './Tile'
 import type CanFight from '../interface/CanFight'
 
@@ -18,7 +17,6 @@ class Rome implements CanFight {
     private readonly _combatReadiness = 50
     private readonly _civilizedness = 50
     private readonly _total = 100
-    private readonly _territory: Territory = new Territory()
     private readonly _knownTechs: Record<string, boolean> = Technology.rome()
     private readonly _food: number = 0
     private readonly _tradingAbility: number = 0
@@ -36,10 +34,6 @@ class Rome implements CanFight {
 
     get points(): number {
         return this._points
-    }
-
-    get territory(): Territory {
-        return this._territory
     }
 
     get technologies(): Record<string, boolean> {

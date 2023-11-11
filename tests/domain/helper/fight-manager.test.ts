@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
 import FightManager from '../../../src/domain/helper/FightManager'
-import TestBootstrapper from '../../test-bootstrapper'
+import TribeFactory from '../../../src/outer/factory/TribeFactory'
 
-test('tribe with greater combat readiness wins ', () => {
+test('tribe with greater combat readiness wins', () => {
     const fightManager = container.resolve(FightManager)
 
-    const attacker = TestBootstrapper.createStarterTribe()
+    const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
-    const defender = TestBootstrapper.createStarterTribe()
+    const defender = TribeFactory.createStarterTribeWithOptions()
 
     let attackerWon = false
     attackerWon = fightManager.fightWithAnotherTribe(attacker, defender)
@@ -19,9 +19,9 @@ test('tribe with greater combat readiness wins ', () => {
 test('defender does not suffer losses in case of failure', () => {
     const fightManager = container.resolve(FightManager)
 
-    const attacker = TestBootstrapper.createStarterTribe()
+    const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
-    const defender = TestBootstrapper.createStarterTribe()
+    const defender = TribeFactory.createStarterTribeWithOptions()
     expect(attacker.total).toBe(2)
     expect(defender.total).toBe(2)
 
@@ -35,8 +35,8 @@ test('defender does not suffer losses in case of failure', () => {
 test('tribes with equal combat readiness do not win', () => {
     const fightManager = container.resolve(FightManager)
 
-    const attacker = TestBootstrapper.createStarterTribe()
-    const defender = TestBootstrapper.createStarterTribe()
+    const attacker = TribeFactory.createStarterTribeWithOptions()
+    const defender = TribeFactory.createStarterTribeWithOptions()
     expect(attacker.total).toBe(2)
     expect(defender.total).toBe(2)
 
@@ -51,11 +51,11 @@ test('tribes with equal combat readiness do not win', () => {
 test('attacker takes losses if he is weaker', () => {
     const fightManager = container.resolve(FightManager)
 
-    const attacker = TestBootstrapper.createStarterTribe()
+    const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
     expect(attacker.combatReadiness).toBe(2)
 
-    const defender = TestBootstrapper.createStarterTribe()
+    const defender = TribeFactory.createStarterTribeWithOptions()
     defender.growPopulation(10)
     defender.arm()
     expect(attacker.total).toBe(2)
@@ -74,11 +74,11 @@ test('attacker takes losses if he is weaker', () => {
 test('attacker takes big losses but cannot lose whole army', () => {
     const fightManager = container.resolve(FightManager)
 
-    const attacker = TestBootstrapper.createStarterTribe()
+    const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
     expect(attacker.combatReadiness).toBe(2)
 
-    const defender = TestBootstrapper.createStarterTribe()
+    const defender = TribeFactory.createStarterTribeWithOptions()
     defender.growPopulation(10)
     defender.arm()
     defender.arm()
