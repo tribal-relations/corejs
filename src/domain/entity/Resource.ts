@@ -3,7 +3,7 @@ class Resource {
         private readonly _name: string,
         private readonly _quantity: number,
         private readonly _food: number,
-        private readonly _tradingAbility: number,
+        private readonly _mercantility: number,
         private readonly _production: number,
         private readonly _culture: number,
     ) {
@@ -21,8 +21,8 @@ class Resource {
         return this._food
     }
 
-    get tradingAbility(): number {
-        return this._tradingAbility
+    get mercantility(): number {
+        return this._mercantility
     }
 
     get production(): number {

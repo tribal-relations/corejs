@@ -1,9 +1,9 @@
 enum Currency {
     Food = 'Food',
-    Wealth = 'Wealth',
+    Gold = 'Gold',
     Production = 'Production',
     Culture = 'Culture',
-    CombatReadiness = 'Combat Readiness',
+    MilitaryPower = 'Military Power',
     Population = 'Population',
 }
 

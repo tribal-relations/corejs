@@ -5,10 +5,10 @@ import ResourceRepository from '../repository/ResourceRepository'
 import TechnologyRepository from '../repository/TechnologyRepository'
 
 class Tribe implements CanFight {
-    static readonly defaultTotal = 2
-    static readonly defaultCombatReadiness = 1
+    static readonly defaultPopulation = 2
+    static readonly defaultMilitaryPower = 1
     static readonly defaultCivilizedness = 1
-    static readonly defaultWealth = 10
+    static readonly defaultGold = 10
 
     private _radius = 4
     private _isWinner = false
@@ -16,9 +16,9 @@ class Tribe implements CanFight {
     constructor(
         private readonly _name: string = '',
         private readonly _points: number = 0,
-        private readonly _wealth: number = Tribe.defaultWealth,
-        private _total: number = Tribe.defaultTotal,
-        private _combatReadiness: number = Tribe.defaultCombatReadiness,
+        private readonly _gold: number = Tribe.defaultGold,
+        private _population: number = Tribe.defaultPopulation,
+        private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
         private readonly _knownTechs: Record<string, boolean> = {},
         private readonly _tiles: Tile[] = Tile.createStarterTiles(),
@@ -37,19 +37,19 @@ class Tribe implements CanFight {
         return this._name
     }
 
-    get wealth(): number {
-        return this._wealth
+    get gold(): number {
+        return this._gold
     }
 
     get points(): number {
         return this._points
     }
 
-    get total(): number {
-        return this._total
+    get population(): number {
+        return this._population
     }
 
-    get combatReadiness(): number {
+    get militaryPower(): number {
         let multiplier = 1
         if (this.hasTech(TechnologyName.Archery)) {
             multiplier *= 2
@@ -61,7 +61,7 @@ class Tribe implements CanFight {
             multiplier *= 2
         }
 
-        return this._combatReadiness * multiplier
+        return this._militaryPower * multiplier
     }
 
     get civilizedness(): number {
@@ -102,42 +102,42 @@ class Tribe implements CanFight {
 
     public growPopulation(fertility: number): void {
         const amount = this.getPopulationSurplus(fertility)
-        this._total += amount
+        this._population += amount
     }
 
     public takeLosses(amount: number): void {
         this.shrink(amount)
-        if (amount < this._combatReadiness) {
-            this._combatReadiness -= amount
+        if (amount < this._militaryPower) {
+            this._militaryPower -= amount
         } else {
-            this._combatReadiness = 1
+            this._militaryPower = 1
         }
     }
 
     private shrink(amount: number): void {
-        this._total -= amount
-        if (this._total < 1) {
-            this._total = 1
+        this._population -= amount
+        if (this._population < 1) {
+            this._population = 1
         }
     }
 
     public arm(): void {
-        if (this.total === this.combatReadiness) {
+        if (this.population === this.militaryPower) {
             throw new Error('Cannot arm further. Maximal combat readiness for such population.')
         }
 
         const amount = Math.min(
-            this.total - this.combatReadiness,
+            this.population - this.militaryPower,
             this.production,
         )
 
-        this._combatReadiness += amount
+        this._militaryPower += amount
     }
 
     private getPopulationSurplus(fertility: number): number {
         const food = this.food
         const cropsYield = food * fertility
-        const upperBound = this.total * 10
+        const upperBound = this.population * 10
 
         if (cropsYield < upperBound) {
             return cropsYield
@@ -188,10 +188,10 @@ class Tribe implements CanFight {
         return accumulator
     }
 
-    get tradingAbility(): number {
+    get mercantility(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.tradingAbility
+            accumulator += this._tiles[i].resource.mercantility
         }
         return accumulator
     }

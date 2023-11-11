@@ -13,7 +13,7 @@ test('can send caravan', () => {
     // const action = ActionRepository.createFromName(ActionName.Caravan)
     // turnDecisionManager.processTurn(action, turn)
     //
-    // expect(sender.wealth).toBe(2 + 15)
+    // expect(sender.gold).toBe(2 + 15)
     // TODO implement
 })
 

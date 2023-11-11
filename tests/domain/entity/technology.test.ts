@@ -28,7 +28,7 @@ test('Pottery increases crops yield', () => {
     roundManager.finalizeRound()
 
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
-    expect(tribe.total).toBe(10 + diceResultWithBonus * startFood)
+    expect(tribe.population).toBe(10 + diceResultWithBonus * startFood)
 })
 
 test('Plough increases crops yield', () => {
@@ -64,7 +64,7 @@ test('Plough increases crops yield', () => {
     const resultPopulation = Math.min(
         startPopulation * populationMultiplierLimit,
         startPopulation + diceResultWithBonus * startFood * calendarMultiplier)
-    expect(tribe.total).toBe(resultPopulation)
+    expect(tribe.population).toBe(resultPopulation)
 })
 
 test('Plough with animal husbandry adds a dice', () => {
@@ -92,5 +92,5 @@ test('Plough with animal husbandry adds a dice', () => {
     const diceResultWithBonus = SpecificDiceThrower.target + SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.finalizeRound()
 
-    expect(tribe.total).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
+    expect(tribe.population).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
 })

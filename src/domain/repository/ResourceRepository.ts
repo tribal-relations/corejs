@@ -5,77 +5,77 @@ import Rand from '../helper/Rand'
 const resources: Record<string, {
     quantity: number
     food: number
-    trading_ability: number
+    mercantility: number
     production: number
     culture: number
 }> = {
     Metal: {
         quantity: 10,
         food: 0,
-        trading_ability: 1,
+        mercantility: 1,
         production: 2,
         culture: 0,
     },
     Fruit: {
         quantity: 8,
         food: 2,
-        trading_ability: 1,
+        mercantility: 1,
         production: 0,
         culture: 0,
     },
     Lake: {
         quantity: 4,
         food: 2,
-        trading_ability: 0,
+        mercantility: 0,
         production: 0,
         culture: 1,
     },
     Forest: {
         quantity: 20,
         food: 1,
-        trading_ability: 0,
+        mercantility: 0,
         production: 2,
         culture: 0,
     },
     River: {
         quantity: 6,
         food: 1,
-        trading_ability: 2,
+        mercantility: 2,
         production: 0,
         culture: 1,
     },
     Pasture: {
         quantity: 10,
         food: 3,
-        trading_ability: 0,
+        mercantility: 0,
         production: 0,
         culture: 0,
     },
     Stone: {
         quantity: 10,
         food: 0,
-        trading_ability: 0,
+        mercantility: 0,
         production: 2,
         culture: 1,
     },
     Gold: {
         quantity: 2,
         food: 0,
-        trading_ability: 4,
+        mercantility: 4,
         production: 0,
         culture: 0,
     },
     Silver: {
         quantity: 4,
         food: 0,
-        trading_ability: 2,
+        mercantility: 2,
         production: 0,
         culture: 1,
     },
     Desert: {
         quantity: 6,
         food: 0,
-        trading_ability: 1,
+        mercantility: 1,
         production: 0,
         culture: 1,
     },
@@ -89,7 +89,7 @@ class ResourceRepository {
             String(name),
             resources[name].quantity,
             resources[name].food,
-            resources[name].trading_ability,
+            resources[name].mercantility,
             resources[name].production,
             resources[name].culture,
         )

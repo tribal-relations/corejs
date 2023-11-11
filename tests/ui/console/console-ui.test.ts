@@ -52,10 +52,10 @@ test('population growth', async () => {
     consoleUi.startTurns()
 
     expect(consoleUi.game.players.length).toBe(4)
-    expect(consoleUi.game.players[0].tribe.total).toBe(updatedPopulation)
-    expect(consoleUi.game.players[1].tribe.total).toBe(updatedPopulation)
-    expect(consoleUi.game.players[2].tribe.total).toBe(updatedPopulation)
-    expect(consoleUi.game.players[3].tribe.total).toBe(updatedPopulation)
+    expect(consoleUi.game.players[0].tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.players[1].tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.players[2].tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.players[3].tribe.population).toBe(updatedPopulation)
 })
 
 test('one round consists of one turn per each player', async () => {

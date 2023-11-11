@@ -1,5 +1,5 @@
 interface CanFight {
-    get combatReadiness(): number
+    get militaryPower(): number
 }
 
 export default CanFight

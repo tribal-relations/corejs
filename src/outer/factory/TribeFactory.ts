@@ -21,8 +21,8 @@ class TribeFactory {
         if (options.culture) {
             TribeFactory.addCulture(createdTribe, options.culture)
         }
-        if (options.tradingAbility) {
-            TribeFactory.addTradingAbility(createdTribe, options.tradingAbility)
+        if (options.mercantility) {
+            TribeFactory.addMercantility(createdTribe, options.mercantility)
         }
     }
 
@@ -30,23 +30,23 @@ class TribeFactory {
         TribeFactory.checkOptions(options)
 
         const name = options.name ?? ''
-        const wealth = options.wealth ?? 0
+        const gold = options.gold ?? 0
         const points = options.points ?? 0
         const techs = options.technoligies ?? {}
-        const population = options.population ?? Tribe.defaultTotal
-        const combatReadiness = options.combatReadiness ?? Tribe.defaultCombatReadiness
+        const population = options.population ?? Tribe.defaultPopulation
+        const militaryPower = options.militaryPower ?? Tribe.defaultMilitaryPower
         const civilizedness = options.civilizedness ?? Tribe.defaultCivilizedness
         const tiles = options.tiles ?? Tile.createStarterTiles()
 
         const createdTribe = TribeFactory.create({
             name,
-            wealth,
+            gold,
             points,
             techs,
             population,
             tiles,
             civilizedness,
-            combatReadiness,
+            militaryPower,
         })
         this.addPoints(options, createdTribe)
 
@@ -77,9 +77,9 @@ class TribeFactory {
         }
     }
 
-    public static addTradingAbility(tribe: Tribe, amount: number = 1): void {
+    public static addMercantility(tribe: Tribe, amount: number = 1): void {
         if (amount % 2 !== 0) {
-            throw new Error('There are only tiles with tradingAbility 2.')
+            throw new Error('There are only tiles with mercantility 2.')
         }
         const tile = Tile.createFromResourceName(ResourceName.Fruit)
         for (let i = 0; i < amount / 2; ++i) {
@@ -89,15 +89,15 @@ class TribeFactory {
 
     private static create(options: Record<string, any> = {}): Tribe {
         const name = options.name ?? ''
-        const wealth = options.wealth ?? 0
+        const gold = options.gold ?? 0
         const points = options.points ?? 0
         const techs = options.technoligies ?? {}
         const population = options.population ?? 0
-        const combatReadiness = options.combatReadiness ?? 0
+        const militaryPower = options.militaryPower ?? 0
         const civilizedness = options.civilizedness ?? 0
         const tiles = options.tiles ?? []
 
-        return new Tribe(name, points, wealth, population, combatReadiness, civilizedness, techs, tiles)
+        return new Tribe(name, points, gold, population, militaryPower, civilizedness, techs, tiles)
     }
 
     private static checkOptions(options: Record<string, any> = {}): void {
@@ -110,8 +110,8 @@ class TribeFactory {
         if (options.culture && options.tiles) {
             throw new Error('Use either culture or tiles, not both')
         }
-        if (options.tradingAbility && options.tiles) {
-            throw new Error('Use either tradingAbility or tiles, not both')
+        if (options.mercantility && options.tiles) {
+            throw new Error('Use either mercantility or tiles, not both')
         }
     }
 }

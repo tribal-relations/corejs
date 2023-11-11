@@ -11,7 +11,7 @@ const actions: Record<string, {
     population: number
     production: number
     action_cost: number
-    wealth_cost: number
+    gold_cost: number
 }> = {
     Quit: {
         name_ru: 'Закончить игру',
@@ -23,7 +23,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 0,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Hire warriors': {
         name_ru: 'Нанять воинов',
@@ -35,7 +35,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Attack a tile': {
         name_ru: 'Атаковать тайл',
@@ -47,7 +47,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 0,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Attack a tribe': {
         name_ru: 'Атаковать племя',
@@ -59,7 +59,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 0,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Hire warriors for 1 round': {
         name_ru: 'Нанять воинов на 1 раунд',
@@ -71,7 +71,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Pray the guardian God': {
         name_ru: 'Обратиться к Богу хранителю племени',
@@ -83,7 +83,7 @@ const actions: Record<string, {
         population: 10,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Settle near the borders': {
         name_ru: 'Внедриться в пограничные территории',
@@ -95,7 +95,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 2,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Remove a caravan': {
         name_ru: 'Убрать караван',
@@ -107,7 +107,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 0,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Pillage a caravan': {
         name_ru: 'Разграбить караван',
@@ -119,7 +119,7 @@ const actions: Record<string, {
         population: 10,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Arm the population': {
         name_ru: 'Вооружить население',
@@ -131,7 +131,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Make an expedition': {
         name_ru: 'Сделать экспедицию',
@@ -143,7 +143,7 @@ const actions: Record<string, {
         population: 1,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Send a caravan': {
         name_ru: 'Отправить торговый караван',
@@ -155,7 +155,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 3,
-        wealth_cost: 2,
+        gold_cost: 2,
     },
     'Expand the cult': {
         name_ru: 'Распространить культ',
@@ -167,7 +167,7 @@ const actions: Record<string, {
         population: 10,
         production: 0,
         action_cost: 3,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     Research: {
         name_ru: 'Изучить технологию',
@@ -179,7 +179,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Settle inside the state': {
         name_ru: 'Поселить семью',
@@ -191,7 +191,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 3,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Make an alliance': {
         name_ru: 'Заключить союз с племенем',
@@ -203,7 +203,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Settle inside the city': {
         name_ru: 'Поселиться в город',
@@ -215,7 +215,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 4,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
     'Conquer the palace': {
         name_ru: 'Захватить дворец',
@@ -227,7 +227,7 @@ const actions: Record<string, {
         population: 0,
         production: 0,
         action_cost: 1,
-        wealth_cost: 0,
+        gold_cost: 0,
     },
 }
 
@@ -245,7 +245,7 @@ class ActionRepository {
                 population: actions[name].population,
                 production: actions[name].production,
                 action_cost: actions[name].action_cost,
-                wealth_cost: actions[name].wealth_cost,
+                gold_cost: actions[name].gold_cost,
             },
         )
     }
