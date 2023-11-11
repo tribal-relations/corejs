@@ -11,4 +11,8 @@ to start console app:
 
 ## Dependency structure
 
-`src/* `---> `src/outer` ---> `src/ui` ---> `src/app` ---> `src/domain`
+`src/* `---> `src/outer` ---> `src/ui` ---> `src/app` ---> `src/domain` ---> `src/domain/repository` ---> `src/domain/enum`  
+
+`src/domain/enum` contains hardcoded game object names, enums don't depend on anything  
+`src/domain/repository` contains all possible game objects  
+`src/domain/entity` contains entities and their logic  
