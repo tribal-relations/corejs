@@ -8,22 +8,19 @@ class Tribe implements CanFight {
     static readonly defaultTotal = 2
     static readonly defaultCombatReadiness = 1
     static readonly defaultCivilizedness = 1
+    static readonly defaultWealth = 10
 
     private _radius = 4
     private _isWinner = false
 
     constructor(
         private readonly _name: string = '',
-        private readonly _wealth: number = 0,
         private readonly _points: number = 0,
-        private readonly _knownTechs: Record<string, boolean> = {},
+        private readonly _wealth: number = Tribe.defaultWealth,
         private _total: number = Tribe.defaultTotal,
         private _combatReadiness: number = Tribe.defaultCombatReadiness,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
-        private _food: number = 4,
-        private _tradingAbility: number = 0,
-        private _production: number = 2,
-        private _culture: number = 0,
+        private readonly _knownTechs: Record<string, boolean> = {},
         private readonly _tiles: Tile[] = Tile.createStarterTiles(),
     ) {
     }
@@ -53,7 +50,18 @@ class Tribe implements CanFight {
     }
 
     get combatReadiness(): number {
-        return this._combatReadiness
+        let multiplier = 1
+        if (this.hasTech(TechnologyName.Archery)) {
+            multiplier *= 2
+        }
+        if (this.hasTech(TechnologyName.OrganizedArmy)) {
+            multiplier *= 3
+        }
+        if (this.hasTech(TechnologyName.BronzeWeapons)) {
+            multiplier *= 2
+        }
+
+        return this._combatReadiness * multiplier
     }
 
     get civilizedness(): number {
@@ -61,11 +69,14 @@ class Tribe implements CanFight {
     }
 
     get food(): number {
-        const food = this._food
-        if (this.hasTech(TechnologyName.Calendar)) {
-            return food * 2
+        let accumulator = 0
+        for (let i = 0; i < this._tiles.length; i++) {
+            accumulator += this._tiles[i].resource.food
         }
-        return food
+        if (this.hasTech(TechnologyName.Calendar)) {
+            return accumulator * 2
+        }
+        return accumulator
     }
 
     get technologies(): Record<string, boolean> {
@@ -87,11 +98,6 @@ class Tribe implements CanFight {
     public makeTerritorialDiscovery(): void {
         const newTile = Tribe.discoverNewTile()
         this.addTile(newTile)
-        this.updateResources()
-    }
-
-    private grow(fertility: number): void {
-        // this.population.grow(this.getPopulationSurplus(fertility))
     }
 
     public growPopulation(fertility: number): void {
@@ -167,34 +173,14 @@ class Tribe implements CanFight {
     }
 
     get culture(): number {
-        return this._culture
+        let accumulator = 0
+        for (let i = 0; i < this._tiles.length; i++) {
+            accumulator += this._tiles[i].resource.culture
+        }
+        return accumulator
     }
 
     get production(): number {
-        return this._production
-    }
-
-    get tradingAbility(): number {
-        return this._tradingAbility
-    }
-
-    private getTotalFood(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.food
-        }
-        return accumulator
-    }
-
-    public getTotalTradingAbility(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.tradingAbility
-        }
-        return accumulator
-    }
-
-    public getTotalProduction(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
             accumulator += this._tiles[i].resource.production
@@ -202,11 +188,10 @@ class Tribe implements CanFight {
         return accumulator
     }
 
-    public getTotalCulture(): number {
-        // TODO need to move it to tribe because techs influence culture and production output
+    get tradingAbility(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.culture
+            accumulator += this._tiles[i].resource.tradingAbility
         }
         return accumulator
     }
@@ -216,16 +201,6 @@ class Tribe implements CanFight {
      */
     public addTile(newTile: Tile): void {
         this._tiles.push(newTile)
-    }
-
-    /**
-     * TODO this must be private
-     */
-    public updateResources(): void {
-        this._food = this.getTotalFood()
-        this._tradingAbility = this.getTotalTradingAbility()
-        this._production = this.getTotalProduction()
-        this._culture = this.getTotalCulture()
     }
 }
 
