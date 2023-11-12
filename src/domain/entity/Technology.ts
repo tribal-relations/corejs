@@ -1,28 +1,22 @@
+import type TechnologyName from '../enum/TechnologyName'
+
 class Technology {
     constructor(
         private readonly _name: string,
         private readonly _description: string,
-        private readonly _prerequisites: Record<string, boolean>,
+        private readonly _prerequisites: Record<TechnologyName | string, boolean>,
     ) {
-    }
-
-    static rome(): Record<string, boolean> {
-        return {
-            // Pottery: true,
-            // Plough: true,
-            // 'Primitive Writing': true,
-            // 'Advanced Writing': true,
-            // Poetry: true,
-            // Calendar: true,
-            // BronzeWeapons: true,
-        }
     }
 
     get name(): string {
         return this._name
     }
 
-    get prerequisites(): Record<string, boolean> {
+    get description(): string {
+        return this._description
+    }
+
+    get prerequisites(): Record<TechnologyName | string, boolean> {
         return this._prerequisites
     }
 }
