@@ -7,6 +7,7 @@ test('can quit game immediately after adding a player', () => {
     const gameProcess = container.resolve(ConsoleGameProcess)
 
     const std = container.resolve(Std)
+    std.sendIn('s')
     std.sendIn('player')
     std.sendIn('\n')
     std.sendIn('q')
@@ -21,6 +22,7 @@ test('can have up to 20 players', () => {
 
     const gameProcess = container.resolve(ConsoleGameProcess)
     const std = container.resolve(Std)
+    std.sendIn('s')
 
     for (let i = 0; i < names.length; i++) {
         std.sendIn(names[i])
@@ -39,6 +41,7 @@ test('cannot have 21 players', () => {
 
     const gameProcess = container.resolve(ConsoleGameProcess)
     const std = container.resolve(Std)
+    std.sendIn('s')
 
     for (let i = 0; i < names.length; i++) {
         std.sendIn(names[i])

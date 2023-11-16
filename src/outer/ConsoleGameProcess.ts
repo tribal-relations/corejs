@@ -2,6 +2,7 @@ import { singleton } from 'tsyringe'
 import EndGameManager from '../app/EndGameManager'
 import StartGameManager from '../app/StartGameManager'
 import type Game from '../domain/entity/Game'
+import MainMenu from '../ui/console/MainMenu'
 import ConsoleUi from '../ui/ConsoleUi'
 
 @singleton()
@@ -12,6 +13,7 @@ class ConsoleGameProcess {
         private readonly _startGameManager: StartGameManager,
         private readonly _playerInterface: ConsoleUi,
         private readonly _endGameManager: EndGameManager,
+        private readonly _mainMenu: MainMenu,
     ) {
     }
 
@@ -39,6 +41,10 @@ class ConsoleGameProcess {
     }
 
     start(): void {
+        const isStart = this._mainMenu.start()
+        if (!isStart) {
+            return
+        }
         this.game = this.startGameManager.start()
 
         this.playerInterface.game = this.game
