@@ -10,7 +10,12 @@
     "start-console-app": "npx webpack && node dist/main.js",
     "start": "npm run build:live",
     "build": "tsc -p .",
-    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'npx ts-node' src/console-app.ts"
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'npx ts-node' src/console-app.ts",
+    "build-nuxt": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "repository": {
     "type": "git",
@@ -33,6 +38,10 @@
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-typescript": "^7.23.2",
+    "@nuxt/devtools": "latest",
+    "@nuxt/types": "^2.17.2",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@rollup/plugin-typescript": "^11.1.5",
     "@types/jest": "^29.5.6",
     "@types/node": "^20.8.9",
     "@types/prompt-sync": "^4.2.2",
@@ -40,7 +49,7 @@
     "babel-jest": "^29.7.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "css-loader": "^6.8.1",
-    "eslint": "^8.52.0",
+    "eslint": "^8.54.0",
     "eslint-config-standard-with-typescript": "^39.1.1",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-jest": "^27.6.0",
@@ -52,10 +61,13 @@
     "eslint-plugin-vue": "^9.18.1",
     "jest": "^29.7.0",
     "nodemon": "^3.0.1",
+    "nuxt": "^3.8.1",
     "ts-jest": "^29.1.1",
     "ts-loader": "^9.5.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4"
   }
