@@ -1,6 +1,6 @@
 import { singleton } from 'tsyringe'
-import ConsoleCommand from '../entity/ConsoleCommand'
-import CommandName from '../enum/CommandName'
+import ConsoleCommand from '../entity/ConsoleCommand.ts'
+import CommandName from '../enum/CommandName.ts'
 
 const consoleCommands: Record<string, { name: string, description: string, parameters: string }> = {
     [CommandName.PrintCurrentPlayerTribe]: { name: CommandName.PrintCurrentPlayerTribe, description: '', parameters: '' },

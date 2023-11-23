@@ -1,6 +1,6 @@
 import { singleton } from 'tsyringe'
-import type Game from '../domain/entity/Game'
-import Turn from '../domain/entity/Turn'
+import type Game from '../domain/entity/Game.ts'
+import Turn from '../domain/entity/Turn.ts'
 
 @singleton()
 class TurnManager {

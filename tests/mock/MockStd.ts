@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import Std from '../../src/ui/Std'
+import Std from '../../src/ui/Std.ts'
 
 @singleton()
 class MockStd extends Std {

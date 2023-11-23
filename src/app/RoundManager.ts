@@ -1,8 +1,8 @@
 import { singleton } from 'tsyringe'
-import type Game from '../domain/entity/Game'
-import type Tribe from '../domain/entity/Tribe'
-import TechnologyName from '../domain/enum/TechnologyName'
-import DiceThrower from '../domain/helper/DiceThrower'
+import type Game from '../domain/entity/Game.ts'
+import type Tribe from '../domain/entity/Tribe.ts'
+import TechnologyName from '../domain/enum/TechnologyName.ts'
+import DiceThrower from '../domain/helper/DiceThrower.ts'
 
 @singleton()
 class RoundManager {

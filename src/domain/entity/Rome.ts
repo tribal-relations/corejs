@@ -1,6 +1,6 @@
 import { singleton } from 'tsyringe'
-import type Tile from './Tile'
-import type CanFight from '../interface/CanFight'
+import type Tile from './Tile.ts'
+import type CanFight from '../interface/CanFight.ts'
 
 @singleton()
 class Rome implements CanFight {

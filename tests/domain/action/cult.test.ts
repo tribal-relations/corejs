@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
-import Player from '../../../src/domain/entity/Player'
-import Tribe from '../../../src/domain/entity/Tribe'
-import Turn from '../../../src/domain/entity/Turn'
-import ActionName from '../../../src/domain/enum/ActionName'
-import DiceThrower from '../../../src/domain/helper/DiceThrower'
-import ActionRepository from '../../../src/domain/repository/ActionRepository'
-import TribeFactory from '../../../src/outer/factory/TribeFactory'
-import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import Player from '../../../src/domain/entity/Player.ts'
+import Tribe from '../../../src/domain/entity/Tribe.ts'
+import Turn from '../../../src/domain/entity/Turn.ts'
+import ActionName from '../../../src/domain/enum/ActionName.ts'
+import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
+import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
+import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 const startingCulture = 10
 

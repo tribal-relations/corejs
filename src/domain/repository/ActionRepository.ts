@@ -1,5 +1,5 @@
-import Action from '../entity/Action'
-import type ActionName from '../enum/ActionName'
+import Action from '../entity/Action.ts'
+import type ActionName from '../enum/ActionName.ts'
 
 const actions: Record<string, {
     name_ru: string

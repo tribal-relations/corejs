@@ -1,8 +1,8 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import MainMenu from '../../../src/ui/console/MainMenu'
-import Std from '../../../src/ui/Std'
-import MockStd from '../../mock/MockStd'
+import MainMenu from '../../../src/ui/console/MainMenu.ts'
+import Std from '../../../src/ui/Std.ts'
+import MockStd from '../../mock/MockStd.ts'
 
 test('main menu', async () => {
     container.register<Std>(Std, MockStd)

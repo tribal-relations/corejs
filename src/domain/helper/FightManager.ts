@@ -1,7 +1,7 @@
 import { singleton } from 'tsyringe'
-import Rome from '../entity/Rome'
-import type Tribe from '../entity/Tribe'
-import type CanFight from '../interface/CanFight'
+import Rome from '../entity/Rome.ts'
+import type Tribe from '../entity/Tribe.ts'
+import type CanFight from '../interface/CanFight.ts'
 
 @singleton()
 class FightManager {

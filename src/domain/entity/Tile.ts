@@ -1,6 +1,6 @@
-import type Resource from './Resource'
-import ResourceName from '../enum/ResourceName'
-import ResourceRepository from '../repository/ResourceRepository'
+import type Resource from './Resource.ts'
+import ResourceName from '../enum/ResourceName.ts'
+import ResourceRepository from '../repository/ResourceRepository.ts'
 
 class Tile {
     static defaultTilesCount = 2

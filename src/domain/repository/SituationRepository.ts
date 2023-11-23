@@ -1,5 +1,5 @@
-import Situation from '../entity/Situation'
-import SituationName from '../enum/SituationName'
+import Situation from '../entity/Situation.ts'
+import SituationName from '../enum/SituationName.ts'
 
 const situations: Record<SituationName, { name: SituationName, description: string, quantity: number }> = {
     Columbus: {

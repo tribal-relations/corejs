@@ -1,8 +1,8 @@
 import { singleton } from 'tsyringe'
-import type ActionInterface from './ActionInterface'
-import type Turn from '../entity/Turn'
-import ActionName from '../enum/ActionName'
-import DiceThrower from '../helper/DiceThrower'
+import type ActionInterface from './ActionInterface.ts'
+import type Turn from '../entity/Turn.ts'
+import ActionName from '../enum/ActionName.ts'
+import DiceThrower from '../helper/DiceThrower.ts'
 
 @singleton()
 class Expedition implements ActionInterface {

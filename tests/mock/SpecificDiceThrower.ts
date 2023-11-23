@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import DiceThrower from '../../src/domain/helper/DiceThrower'
+import DiceThrower from '../../src/domain/helper/DiceThrower.ts'
 
 @singleton()
 class SpecificDiceThrower extends DiceThrower {

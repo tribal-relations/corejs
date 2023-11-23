@@ -1,12 +1,12 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
-import Currency from '../../../src/domain/entity/Currency'
-import Player from '../../../src/domain/entity/Player'
-import Turn from '../../../src/domain/entity/Turn'
-import ActionName from '../../../src/domain/enum/ActionName'
-import ActionRepository from '../../../src/domain/repository/ActionRepository'
-import TribeFactory from '../../../src/outer/factory/TribeFactory'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import Currency from '../../../src/domain/entity/Currency.ts'
+import Player from '../../../src/domain/entity/Player.ts'
+import Turn from '../../../src/domain/entity/Turn.ts'
+import ActionName from '../../../src/domain/enum/ActionName.ts'
+import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('action constraints must be respected', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)

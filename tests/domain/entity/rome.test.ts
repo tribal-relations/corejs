@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import Rome from '../../../src/domain/entity/Rome'
+import Rome from '../../../src/domain/entity/Rome.ts'
 
 test('rome is created with correct default data', () => {
     const rome = container.resolve(Rome)
