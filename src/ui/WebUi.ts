@@ -1,9 +1,9 @@
 import { singleton } from 'tsyringe'
-import TurnDecisionManager from '../app/TurnDecisionManager'
-import TurnManager from '../app/TurnManager'
-import type TurnResult from '../app/TurnResult'
-import type Action from '../domain/entity/Action'
-import type Game from '../domain/entity/Game'
+import TurnDecisionManager from '../app/TurnDecisionManager.ts'
+import TurnManager from '../app/TurnManager.ts'
+import type TurnResult from '../app/TurnResult.ts'
+import type Action from '../domain/entity/Action.ts'
+import type Game from '../domain/entity/Game.ts'
 
 @singleton()
 class WebUi {

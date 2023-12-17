@@ -1,4 +1,4 @@
-import type TechnologyName from '../enum/TechnologyName'
+import type TechnologyName from '../enum/TechnologyName.ts'
 
 class Technology {
     constructor(

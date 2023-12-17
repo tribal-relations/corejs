@@ -1,6 +1,6 @@
-import Tile from '../../domain/entity/Tile'
-import Tribe from '../../domain/entity/Tribe'
-import ResourceName from '../../domain/enum/ResourceName'
+import Tile from '../../domain/entity/Tile.ts'
+import Tribe from '../../domain/entity/Tribe.ts'
+import ResourceName from '../../domain/enum/ResourceName.ts'
 
 class TribeFactory {
     public static createEmpty(options: Record<string, any> = {}): Tribe {

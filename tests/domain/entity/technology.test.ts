@@ -1,12 +1,12 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import RoundManager from '../../../src/app/RoundManager'
-import Game from '../../../src/domain/entity/Game'
-import Player from '../../../src/domain/entity/Player'
-import TechnologyName from '../../../src/domain/enum/TechnologyName'
-import DiceThrower from '../../../src/domain/helper/DiceThrower'
-import TribeFactory from '../../../src/outer/factory/TribeFactory'
-import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
+import RoundManager from '../../../src/app/RoundManager.ts'
+import Game from '../../../src/domain/entity/Game.ts'
+import Player from '../../../src/domain/entity/Player.ts'
+import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
+import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
+import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
+import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 test('Pottery increases crops yield', () => {
     const startFood = 4

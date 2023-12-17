@@ -1,4 +1,4 @@
-module.exports = {
+const config = {
     // "roots": [
     //     "./src"
     // ],
@@ -18,3 +18,6 @@ module.exports = {
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },
 }
+// module.exports = config
+
+export default config

@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess'
-import Std from '../../../src/ui/Std'
+import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess.ts'
+import Std from '../../../src/ui/Std.ts'
 
 test('can quit game immediately after adding a player', () => {
     const gameProcess = container.resolve(ConsoleGameProcess)

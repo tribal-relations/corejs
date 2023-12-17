@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
-import Player from '../../../src/domain/entity/Player'
-import Rome from '../../../src/domain/entity/Rome'
-import Tribe from '../../../src/domain/entity/Tribe'
-import Turn from '../../../src/domain/entity/Turn'
-import ActionName from '../../../src/domain/enum/ActionName'
-import ActionRepository from '../../../src/domain/repository/ActionRepository'
-import TribeFactory from '../../../src/outer/factory/TribeFactory'
-import TestBootstrapper from '../../test-bootstrapper'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import Player from '../../../src/domain/entity/Player.ts'
+import Rome from '../../../src/domain/entity/Rome.ts'
+import Tribe from '../../../src/domain/entity/Tribe.ts'
+import Turn from '../../../src/domain/entity/Turn.ts'
+import ActionName from '../../../src/domain/enum/ActionName.ts'
+import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
+import TestBootstrapper from '../../test-bootstrapper.ts'
 
 test('can conquer', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)

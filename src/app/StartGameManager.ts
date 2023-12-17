@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import Game from '../domain/entity/Game'
+import Game from '../domain/entity/Game.ts'
 
 @singleton()
 class StartGameManager {

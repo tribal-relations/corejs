@@ -1,8 +1,8 @@
-import Tile from './Tile'
-import TechnologyName from '../enum/TechnologyName'
-import type CanFight from '../interface/CanFight'
-import ResourceRepository from '../repository/ResourceRepository'
-import TechnologyRepository from '../repository/TechnologyRepository'
+import Tile from './Tile.ts'
+import TechnologyName from '../enum/TechnologyName.ts'
+import type CanFight from '../interface/CanFight.ts'
+import ResourceRepository from '../repository/ResourceRepository.ts'
+import TechnologyRepository from '../repository/TechnologyRepository.ts'
 
 class Tribe implements CanFight {
     static readonly defaultPopulation = 2

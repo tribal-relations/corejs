@@ -1,9 +1,9 @@
 import { singleton } from 'tsyringe'
-import ActionPerformer from './ActionPerformer'
-import TurnResult from './TurnResult'
-import type Action from '../domain/entity/Action'
-import type Turn from '../domain/entity/Turn'
-import ActionName from '../domain/enum/ActionName'
+import ActionPerformer from './ActionPerformer.ts'
+import TurnResult from './TurnResult.ts'
+import type Action from '../domain/entity/Action.ts'
+import type Turn from '../domain/entity/Turn.ts'
+import ActionName from '../domain/enum/ActionName.ts'
 
 @singleton()
 class TurnDecisionManager {

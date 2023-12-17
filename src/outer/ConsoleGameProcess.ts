@@ -1,9 +1,9 @@
 import { singleton } from 'tsyringe'
-import EndGameManager from '../app/EndGameManager'
-import StartGameManager from '../app/StartGameManager'
-import type Game from '../domain/entity/Game'
-import MainMenu from '../ui/console/MainMenu'
-import ConsoleUi from '../ui/ConsoleUi'
+import EndGameManager from '../app/EndGameManager.ts'
+import StartGameManager from '../app/StartGameManager.ts'
+import type Game from '../domain/entity/Game.ts'
+import MainMenu from '../ui/console/MainMenu.ts'
+import ConsoleUi from '../ui/ConsoleUi.ts'
 
 @singleton()
 class ConsoleGameProcess {

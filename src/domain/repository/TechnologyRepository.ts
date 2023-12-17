@@ -1,5 +1,5 @@
-import Technology from '../entity/Technology'
-import TechnologyName from '../enum/TechnologyName'
+import Technology from '../entity/Technology.ts'
+import TechnologyName from '../enum/TechnologyName.ts'
 
 const techs: Record<TechnologyName, { name: TechnologyName, description: string, prerequisites: Record<string, boolean> }> = {
     [TechnologyName.Pottery]: {

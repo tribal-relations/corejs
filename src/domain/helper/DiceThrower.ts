@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import Rand from './Rand'
+import Rand from './Rand.ts'
 
 @singleton()
 class DiceThrower {

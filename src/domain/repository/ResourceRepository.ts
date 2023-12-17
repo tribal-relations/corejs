@@ -1,6 +1,6 @@
-import Resource from '../entity/Resource'
-import ResourceName from '../enum/ResourceName'
-import Rand from '../helper/Rand'
+import Resource from '../entity/Resource.ts'
+import ResourceName from '../enum/ResourceName.ts'
+import Rand from '../helper/Rand.ts'
 
 const resources: Record<string, {
     quantity: number

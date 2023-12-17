@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe'
-import Std from '../Std'
+import Std from '../Std.ts'
 
 @singleton()
 class MainMenu {

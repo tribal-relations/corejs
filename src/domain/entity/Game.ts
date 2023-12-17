@@ -1,6 +1,6 @@
-import type Player from './Player'
-import type Turn from './Turn'
-import type WinningCondition from './WinningCondition'
+import type Player from './Player.ts'
+import type Turn from './Turn.ts'
+import type WinningCondition from './WinningCondition.ts'
 
 class Game {
     public static readonly maxPlayers = 20

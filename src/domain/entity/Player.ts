@@ -1,4 +1,4 @@
-import type Tribe from './Tribe'
+import type Tribe from './Tribe.ts'
 
 class Player {
     constructor(

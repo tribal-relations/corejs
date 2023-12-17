@@ -1,8 +1,8 @@
 import { container, type DependencyContainer } from 'tsyringe'
-import MockStd from './mock/MockStd'
-import type Tribe from '../src/domain/entity/Tribe'
-import TribeFactory from '../src/outer/factory/TribeFactory'
-import Std from '../src/ui/Std'
+import MockStd from './mock/MockStd.ts'
+import type Tribe from '../src/domain/entity/Tribe.ts'
+import TribeFactory from '../src/outer/factory/TribeFactory.ts'
+import Std from '../src/ui/Std.ts'
 
 class TestBootstrapper {
     public static addFood(tribe: Tribe, amount: number = 1): void {

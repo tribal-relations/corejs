@@ -5,13 +5,26 @@
 
 This is console and web app for playing Tribal Relations boardgame.  
 
-to start console app:  
-`npm start-console-app`
+## How to run  
 
+to start console app:  
+`npm run start-console-app`
+
+to start web client:  
+`npm run start-web-client`
 
 ## Dependency structure
 
-`src/* `---> `src/outer` ---> `src/ui` ---> `src/app` ---> `src/domain` ---> `src/domain/repository` ---> `src/domain/enum`  
+```yaml
+src/*:
+    src/outer:
+        src/ui:
+            src/app:
+                src/exception:
+                src/domain:
+                    src/domain/repository:
+                        src/domain/enum:
+```
 
 `src/domain/enum` contains hardcoded game object names, enums don't depend on anything  
 `src/domain/repository` contains all possible game objects  

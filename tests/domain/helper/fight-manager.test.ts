@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import { container } from 'tsyringe'
-import FightManager from '../../../src/domain/helper/FightManager'
-import TribeFactory from '../../../src/outer/factory/TribeFactory'
+import FightManager from '../../../src/domain/helper/FightManager.ts'
+import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('tribe with greater combat readiness wins', () => {
     const fightManager = container.resolve(FightManager)

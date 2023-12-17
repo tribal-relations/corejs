@@ -1,7 +1,7 @@
 import { singleton } from 'tsyringe'
-import type Game from '../domain/entity/Game'
-import type Player from '../domain/entity/Player'
-import WinningCondition from '../domain/entity/WinningCondition'
+import type Game from '../domain/entity/Game.ts'
+import type Player from '../domain/entity/Player.ts'
+import WinningCondition from '../domain/entity/WinningCondition.ts'
 
 @singleton()
 class EndGameManager {

@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { container, type DependencyContainer } from 'tsyringe'
-import RoundManager from '../../../src/app/RoundManager'
-import StartGameManager from '../../../src/app/StartGameManager'
-import TurnDecisionManager from '../../../src/app/TurnDecisionManager'
-import TurnManager from '../../../src/app/TurnManager'
-import DiceThrower from '../../../src/domain/helper/DiceThrower'
-import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerformer'
-import ConsoleUi from '../../../src/ui/ConsoleUi'
-import MockStd from '../../mock/MockStd'
-import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
+import RoundManager from '../../../src/app/RoundManager.ts'
+import StartGameManager from '../../../src/app/StartGameManager.ts'
+import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import TurnManager from '../../../src/app/TurnManager.ts'
+import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
+import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerformer.ts'
+import ConsoleUi from '../../../src/ui/ConsoleUi.ts'
+import MockStd from '../../mock/MockStd.ts'
+import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 function prepareConsoleUi(localContainer: DependencyContainer = container): { mockStd: MockStd, consoleUi: ConsoleUi } {
     // this will not work

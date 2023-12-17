@@ -1,6 +1,6 @@
 import { container, singleton } from 'tsyringe'
-import BrowserGameProcess from './BrowserGameProcess'
-import ConsoleGameProcess from './ConsoleGameProcess'
+import BrowserGameProcess from './BrowserGameProcess.ts'
+import ConsoleGameProcess from './ConsoleGameProcess.ts'
 
 @singleton()
 class TribalRelationsGame {
