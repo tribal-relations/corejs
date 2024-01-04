@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/console-app.ts",
-  "type": "module",
   "scripts": {
     "test:coverage": "npm test -- --coverage",
     "test": "jest",
@@ -31,6 +30,7 @@
   },
   "homepage": "https://github.com/tribal-relations/client#readme",
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.23.7",
     "dotenv": "^16.3.1",
     "prompt-sync": "^4.2.0",
     "reflect-metadata": "^0.1.13",

@@ -13,6 +13,9 @@ to start console app:
 to start web client:  
 `npm run start-web-client`
 
+to run tests:  
+`npm run test`
+
 ## Dependency structure
 
 ```yaml

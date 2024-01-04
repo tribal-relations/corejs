@@ -14,10 +14,11 @@ const config = {
     silent: false,
     verbose: true,
     setupFiles: ['dotenv/config'],
-    transform: {
-        '^.+\\.(ts|tsx)$': 'ts-jest',
-    },
+    extensionsToTreatAsEsm: ['.ts'],
+    // transform: {
+    //     '^.+\\.(ts|tsx)$': 'ts-jest',
+    // },
 }
-// module.exports = config
+module.exports = config
 
-export default config
+// export default config
