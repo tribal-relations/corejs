@@ -1,4 +1,4 @@
-import { container } from 'src/NaiveDiContainer.ts'
+import { container } from '../NaiveDiContainer.ts'
 import BrowserGameProcess from './BrowserGameProcess.ts'
 import ConsoleGameProcess from './ConsoleGameProcess.ts'
 
