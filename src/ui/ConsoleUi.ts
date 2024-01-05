@@ -1,11 +1,11 @@
-import ConsoleCommandPerformer from './console/ConsoleCommandPerformer.ts'
+import type ConsoleCommandPerformer from './console/ConsoleCommandPerformer.ts'
 import ConsoleCommand from './console/entity/ConsoleCommand.ts'
 import CommandName from './console/enum/CommandName.ts'
 import ConsoleCommandRepository from './console/repository/ConsoleCommandRepository.ts'
-import Std from './Std.ts'
-import RoundManager from '../app/RoundManager.ts'
-import TurnDecisionManager from '../app/TurnDecisionManager.ts'
-import TurnManager from '../app/TurnManager.ts'
+import type Std from './Std.ts'
+import type RoundManager from '../app/RoundManager.ts'
+import type TurnDecisionManager from '../app/TurnDecisionManager.ts'
+import type TurnManager from '../app/TurnManager.ts'
 import type TurnResult from '../app/TurnResult.ts'
 import type Action from '../domain/entity/Action.ts'
 import Game from '../domain/entity/Game.ts'
@@ -17,7 +17,6 @@ import TribeName from '../domain/enum/TribeName.ts'
 import ActionRepository from '../domain/repository/ActionRepository.ts'
 import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
 import InvalidInput from '../exception/console/InvalidInput.ts'
-
 
 class ConsoleUi {
     static decisionToActionDataMap: Record<string, { name: ActionName, parameters: string }> = {

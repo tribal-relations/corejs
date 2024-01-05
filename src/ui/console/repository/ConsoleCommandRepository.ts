@@ -17,7 +17,6 @@ const consoleCommands: Record<string, { name: string, description: string, param
     [CommandName.PrintAvailableCommands]: { name: CommandName.PrintAvailableCommands, description: '', parameters: '' },
 }
 
-
 class ConsoleCommandRepository {
     static createFromName(name: CommandName, parameters: string = ''): ConsoleCommand {
         return new ConsoleCommand(String(name), consoleCommands[name].description, parameters)

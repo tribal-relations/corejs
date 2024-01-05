@@ -2,7 +2,6 @@ import type Game from '../domain/entity/Game.ts'
 import type Player from '../domain/entity/Player.ts'
 import WinningCondition from '../domain/entity/WinningCondition.ts'
 
-
 class EndGameManager {
     _game: Game | undefined
 

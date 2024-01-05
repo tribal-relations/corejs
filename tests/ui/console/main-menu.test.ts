@@ -1,7 +1,5 @@
-
 import { container } from '../../../src/NaiveDiContainer.ts'
 import MainMenu from '../../../src/ui/console/MainMenu.ts'
-import Std from '../../../src/ui/Std.ts'
 import MockStd from '../../mock/MockStd.ts'
 
 test('main menu', async () => {

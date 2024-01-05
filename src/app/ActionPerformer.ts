@@ -1,12 +1,12 @@
 import type ActionInterface from '../domain/action/ActionInterface.ts'
-import Arm from '../domain/action/Arm.ts'
-import Conquer from '../domain/action/Conquer.ts'
-import Cult from '../domain/action/Cult.ts'
-import Expedition from '../domain/action/Expedition.ts'
-import GoTo1stRadius from '../domain/action/GoTo1stRadius.ts'
-import GoTo2ndRadius from '../domain/action/GoTo2ndRadius.ts'
-import GoTo3rdRadius from '../domain/action/GoTo3rdRadius.ts'
-import Research from '../domain/action/Research.ts'
+import type Arm from '../domain/action/Arm.ts'
+import type Conquer from '../domain/action/Conquer.ts'
+import type Cult from '../domain/action/Cult.ts'
+import type Expedition from '../domain/action/Expedition.ts'
+import type GoTo1stRadius from '../domain/action/GoTo1stRadius.ts'
+import type GoTo2ndRadius from '../domain/action/GoTo2ndRadius.ts'
+import type GoTo3rdRadius from '../domain/action/GoTo3rdRadius.ts'
+import type Research from '../domain/action/Research.ts'
 import type Action from '../domain/entity/Action.ts'
 import Currency from '../domain/entity/Currency.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
@@ -14,7 +14,6 @@ import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
 import ActionUnavailable from '../exception/ActionUnavailable.ts'
 import WrongRadius from '../exception/WrongRadius.ts'
-
 
 class ActionPerformer {
     _performers: Record<string, ActionInterface> = {}

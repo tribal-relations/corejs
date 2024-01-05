@@ -1,5 +1,4 @@
-import Std from '../Std.ts'
-
+import type Std from '../Std.ts'
 
 class MainMenu {
     constructor(

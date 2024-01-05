@@ -1,8 +1,7 @@
-
-import { container } from '../../../src/NaiveDiContainer.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerformer.ts'
 import CommandName from '../../../src/ui/console/enum/CommandName.ts'

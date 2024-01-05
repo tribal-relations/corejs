@@ -1,6 +1,5 @@
 import prompt from 'prompt-sync'
 
-
 class Std {
     private readonly _cin
 
@@ -9,6 +8,7 @@ class Std {
     }
 
     out(...data: any[]): void {
+        // eslint-disable-next-line
         console.log(...data)
     }
 

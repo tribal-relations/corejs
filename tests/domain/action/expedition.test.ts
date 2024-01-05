@@ -1,4 +1,3 @@
-import { container } from '../../../src/NaiveDiContainer.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import type Tribe from '../../../src/domain/entity/Tribe.ts'
@@ -6,10 +5,11 @@ import Turn from '../../../src/domain/entity/Turn.ts'
 import ActionName from '../../../src/domain/enum/ActionName.ts'
 import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
 import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import LosingDiceThrower from '../../mock/LosingDiceThrower.ts'
 import SuccessfulDiceThrower from '../../mock/SuccessfulDiceThrower.ts'
-import TestBootstrapper from "../../test-bootstrapper"
+import TestBootstrapper from '../../test-bootstrapper'
 
 function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe): void {
     const player = new Player(tribe)

@@ -3,7 +3,6 @@ import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 
-
 class Research implements ActionInterface {
     actionName = ActionName.Research
 

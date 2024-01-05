@@ -1,6 +1,5 @@
 import YAML from 'yaml'
 
-
 class Printer {
     public getCleanYaml(value: any, emptyValue: string = '', colon: string = ':'): string {
         let techTreeAsString = YAML.stringify(value, { indent: 24 })

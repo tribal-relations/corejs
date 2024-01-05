@@ -2,7 +2,6 @@ import type ActionInterface from './ActionInterface.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 
-
 class GoTo1stRadius implements ActionInterface {
     actionName = ActionName.GoTo1stRadius
 

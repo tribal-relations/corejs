@@ -1,5 +1,6 @@
 import {defineConfig} from 'vite'
 import dotenv from 'dotenv'
+import eslint from 'vite-plugin-eslint';
 
 dotenv.config()
 
@@ -10,7 +11,9 @@ if (process.env.APP_ENV === 'local') {
 }
 
 export default defineConfig({
-    plugins: [],
+    plugins: [
+        eslint(),
+    ],
     build: {
         minify: minify,
         outDir: 'dist',

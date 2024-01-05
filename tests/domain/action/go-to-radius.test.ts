@@ -1,10 +1,9 @@
-
-import { container } from '../../../src/NaiveDiContainer.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import ActionName from '../../../src/domain/enum/ActionName.ts'
 import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import TestBootstrapper from '../../test-bootstrapper.ts'
 

@@ -1,5 +1,3 @@
-
-
 test('can send caravan', () => {
     // const turnDecisionManager = container.resolve(TurnDecisionManager)
     //

@@ -1,8 +1,7 @@
 import type ActionInterface from './ActionInterface.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
-import FightManager from '../helper/FightManager.ts'
-
+import type FightManager from '../helper/FightManager.ts'
 
 class Conquer implements ActionInterface {
     actionName = ActionName.Conquer

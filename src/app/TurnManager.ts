@@ -1,7 +1,6 @@
 import type Game from '../domain/entity/Game.ts'
 import Turn from '../domain/entity/Turn.ts'
 
-
 class TurnManager {
     private _playersLength = 0
 

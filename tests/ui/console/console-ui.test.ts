@@ -1,15 +1,9 @@
-import { container } from '../../../src/NaiveDiContainer.ts'
-import RoundManager from '../../../src/app/RoundManager.ts'
 import StartGameManager from '../../../src/app/StartGameManager.ts'
-import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
-import TurnManager from '../../../src/app/TurnManager.ts'
-import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
-import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerformer.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleUi from '../../../src/ui/ConsoleUi.ts'
-import MockStd from '../../mock/MockStd.ts'
+import Std from '../../../src/ui/Std'
+import type MockStd from '../../mock/MockStd.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
-import TestBootstrapper from "../../test-bootstrapper";
-import Std from "../../../src/ui/Std";
 
 function prepareConsoleUi(localContainer = container): { mockStd: MockStd, consoleUi: ConsoleUi } {
     // this will not work
@@ -55,7 +49,6 @@ test('can add players', async () => {
 })
 
 test('population growth', async () => {
-
     const localContainer = container
     const { mockStd, consoleUi } = prepareConsoleUi(localContainer)
 

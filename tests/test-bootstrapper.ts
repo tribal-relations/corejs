@@ -1,6 +1,6 @@
-import {container} from '../src/NaiveDiContainer.ts'
 import MockStd from './mock/MockStd.ts'
 import type Tribe from '../src/domain/entity/Tribe.ts'
+import { container } from '../src/NaiveDiContainer.ts'
 import TribeFactory from '../src/outer/factory/TribeFactory.ts'
 import Std from '../src/ui/Std.ts'
 
@@ -25,9 +25,9 @@ class TestBootstrapper {
         return container
     }
 
-    public static addMocks(mocks: Array<object>) {
+    public static addMocks(mocks: object[]) {
         container.clearInstances()
-        for (let index in mocks) {
+        for (const index of mocks) {
             container.setMock(mocks[index].class, mocks[index].instance)
         }
         container.rebuildMap()

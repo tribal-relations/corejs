@@ -1,6 +1,5 @@
-
-import { container } from '../../../src/NaiveDiContainer.ts'
 import FightManager from '../../../src/domain/helper/FightManager.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('tribe with greater combat readiness wins', () => {

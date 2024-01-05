@@ -1,14 +1,14 @@
-import { container } from '../src/NaiveDiContainer.ts'
+import ActionPerformer from '../src/app/ActionPerformer'
 import TurnDecisionManager from '../src/app/TurnDecisionManager.ts'
-import Research from "../src/domain/action/Research";
-import ActionPerformer from "../src/app/ActionPerformer";
-import Arm from "../src/domain/action/Arm";
-import Expedition from "../src/domain/action/Expedition";
-import GoTo3rdRadius from "../src/domain/action/GoTo3rdRadius";
-import GoTo2ndRadius from "../src/domain/action/GoTo2ndRadius";
-import GoTo1stRadius from "../src/domain/action/GoTo1stRadius";
-import Conquer from "../src/domain/action/Conquer";
-import Cult from "../src/domain/action/Cult";
+import Arm from '../src/domain/action/Arm'
+import Conquer from '../src/domain/action/Conquer'
+import Cult from '../src/domain/action/Cult'
+import Expedition from '../src/domain/action/Expedition'
+import GoTo1stRadius from '../src/domain/action/GoTo1stRadius'
+import GoTo2ndRadius from '../src/domain/action/GoTo2ndRadius'
+import GoTo3rdRadius from '../src/domain/action/GoTo3rdRadius'
+import Research from '../src/domain/action/Research'
+import { container } from '../src/NaiveDiContainer.ts'
 
 test('can get independent singleton from container', () => {
     const research = container.resolve(Research)

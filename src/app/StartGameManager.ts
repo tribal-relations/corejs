@@ -1,6 +1,5 @@
 import Game from '../domain/entity/Game.ts'
 
-
 class StartGameManager {
     start(): Game {
         return this.startGame(this.createNewGame(this.generateGameName()))
