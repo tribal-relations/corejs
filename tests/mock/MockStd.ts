@@ -1,6 +1,5 @@
 import Std from '../../src/ui/Std.ts'
 
-
 class MockStd extends Std {
     private _isSilent: boolean = true
     private readonly _inputBuffer: string[] = []
@@ -20,6 +19,7 @@ class MockStd extends Std {
         if (this._isSilent) {
             return
         }
+        // eslint-disable-next-line
         console.log(...data)
     }
 

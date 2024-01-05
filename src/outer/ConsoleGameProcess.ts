@@ -1,9 +1,8 @@
-import EndGameManager from '../app/EndGameManager.ts'
-import StartGameManager from '../app/StartGameManager.ts'
+import type EndGameManager from '../app/EndGameManager.ts'
+import type StartGameManager from '../app/StartGameManager.ts'
 import type Game from '../domain/entity/Game.ts'
-import MainMenu from '../ui/console/MainMenu.ts'
-import ConsoleUi from '../ui/ConsoleUi.ts'
-
+import type MainMenu from '../ui/console/MainMenu.ts'
+import type ConsoleUi from '../ui/ConsoleUi.ts'
 
 class ConsoleGameProcess {
     _game: Game | undefined

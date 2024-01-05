@@ -1,12 +1,10 @@
-import { container } from '../../../src/NaiveDiContainer.ts'
 import RoundManager from '../../../src/app/RoundManager.ts'
 import Game from '../../../src/domain/entity/Game.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
-import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
-import TestBootstrapper from "../../test-bootstrapper";
 
 test('Pottery increases crops yield', () => {
     const startFood = 4

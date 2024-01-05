@@ -1,7 +1,7 @@
 import type ConsoleCommand from './entity/ConsoleCommand.ts'
 import CommandName from './enum/CommandName.ts'
-import Printer from './Printer.ts'
-import TribePrinter from './TribePrinter.ts'
+import type Printer from './Printer.ts'
+import type TribePrinter from './TribePrinter.ts'
 import type Game from '../../domain/entity/Game.ts'
 import type Technology from '../../domain/entity/Technology.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
@@ -10,8 +10,7 @@ import type ActionName from '../../domain/enum/ActionName.ts'
 import type TechnologyName from '../../domain/enum/TechnologyName.ts'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
 import ConsoleUi from '../ConsoleUi.ts'
-import Std from '../Std.ts'
-
+import type Std from '../Std.ts'
 
 class ConsoleCommandPerformer {
     _game: Game | undefined

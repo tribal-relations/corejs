@@ -1,5 +1,5 @@
-module.exports = {
-    parser: '@typescript-eslint/parser',
+const config = {
+    parser: 'vue-eslint-parser',
     env: {
         browser: true,
         es2021: true,
@@ -35,6 +35,8 @@ module.exports = {
         }
     ],
     parserOptions: {
+        extraFileExtensions: ['.vue'],
+        parser: "@typescript-eslint/parser",
         ecmaVersion: "latest",
         sourceType: "module",
     },
@@ -326,5 +328,17 @@ module.exports = {
                 },
             },
         ],
+        "require-await": "off",
+        "no-useless-constructor": "off",
+        "vue/html-indent": ["error", 4, {
+            "attribute": 1,
+            "baseIndent": 1,
+            "closeBracket": 0,
+            "alignAttributesVertically": true,
+            "ignores": []
+        }]
     }
 }
+
+module.exports = config
+// export default config

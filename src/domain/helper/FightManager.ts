@@ -1,7 +1,6 @@
-import Rome from '../entity/Rome.ts'
+import type Rome from '../entity/Rome.ts'
 import type Tribe from '../entity/Tribe.ts'
 import type CanFight from '../interface/CanFight.ts'
-
 
 class FightManager {
     constructor(

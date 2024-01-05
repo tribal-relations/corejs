@@ -1,29 +1,29 @@
-import Std from "./ui/Std";
-import Research from "./domain/action/Research";
-import ActionPerformer from "./app/ActionPerformer";
-import EndGameManager from "./app/EndGameManager";
-import MainMenu from "./ui/console/MainMenu";
-import ConsoleUi from "./ui/ConsoleUi";
-import TurnManager from "./app/TurnManager";
-import RoundManager from "./app/RoundManager";
-import DiceThrower from "./domain/helper/DiceThrower";
-import TurnDecisionManager from "./app/TurnDecisionManager";
-import ConsoleCommandPerformer from "./ui/console/ConsoleCommandPerformer";
-import TribePrinter from "./ui/console/TribePrinter";
-import Printer from "./ui/console/Printer";
-import StartGameManager from "./app/StartGameManager";
-import Arm from "./domain/action/Arm";
-import Expedition from "./domain/action/Expedition";
-import GoTo3rdRadius from "./domain/action/GoTo3rdRadius";
-import GoTo2ndRadius from "./domain/action/GoTo2ndRadius";
-import GoTo1stRadius from "./domain/action/GoTo1stRadius";
-import Conquer from "./domain/action/Conquer";
-import Cult from "./domain/action/Cult";
-import Rome from "./domain/entity/Rome";
-import FightManager from "./domain/helper/FightManager";
-import ConsoleGameProcess from "./outer/ConsoleGameProcess";
-import TribalRelationsGame from "./outer/TribalRelationsGame";
-import WebUi from "./ui/WebUi";
+import ActionPerformer from './app/ActionPerformer'
+import EndGameManager from './app/EndGameManager'
+import RoundManager from './app/RoundManager'
+import StartGameManager from './app/StartGameManager'
+import TurnDecisionManager from './app/TurnDecisionManager'
+import TurnManager from './app/TurnManager'
+import Arm from './domain/action/Arm'
+import Conquer from './domain/action/Conquer'
+import Cult from './domain/action/Cult'
+import Expedition from './domain/action/Expedition'
+import GoTo1stRadius from './domain/action/GoTo1stRadius'
+import GoTo2ndRadius from './domain/action/GoTo2ndRadius'
+import GoTo3rdRadius from './domain/action/GoTo3rdRadius'
+import Research from './domain/action/Research'
+import Rome from './domain/entity/Rome'
+import DiceThrower from './domain/helper/DiceThrower'
+import FightManager from './domain/helper/FightManager'
+import ConsoleGameProcess from './outer/ConsoleGameProcess'
+import TribalRelationsGame from './outer/TribalRelationsGame'
+import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
+import MainMenu from './ui/console/MainMenu'
+import Printer from './ui/console/Printer'
+import TribePrinter from './ui/console/TribePrinter'
+import ConsoleUi from './ui/ConsoleUi'
+import Std from './ui/Std'
+import WebUi from './ui/WebUi'
 
 class NaiveDiContainer {
     public singletonToInstanceMap = {}
@@ -168,6 +168,4 @@ class NaiveDiContainer {
 
 const container = new NaiveDiContainer()
 
-export {
-    container
-}
+export { container }

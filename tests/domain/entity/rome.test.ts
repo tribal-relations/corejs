@@ -1,6 +1,5 @@
-
-import { container } from '../../../src/NaiveDiContainer.ts'
 import Rome from '../../../src/domain/entity/Rome.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 
 test('rome is created with correct default data', () => {
     const rome = container.resolve(Rome)
