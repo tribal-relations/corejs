@@ -5,7 +5,7 @@
   "main": "src/console-app.ts",
   "type": "module",
   "scripts": {
-    "test:coverage": "npm test -- --coverage",
+    "test:coverage": "vitest run --coverage",
     "test": "vitest",
     "fix-code-style": "npx eslint --fix src tests",
     "start-console-app": "npx vite-node src/console-app.ts",
