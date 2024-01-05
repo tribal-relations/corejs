@@ -10,16 +10,12 @@ import GoTo1stRadius from "../src/domain/action/GoTo1stRadius";
 import Conquer from "../src/domain/action/Conquer";
 import Cult from "../src/domain/action/Cult";
 
-
 test('can get independent singleton from container', () => {
     const research = container.resolve(Research)
 
-    console.log('research', research)
-    console.log('typeof research', typeof research)
-
     expect(typeof research).toBe('object')
+    expect(research instanceof Research).toBe(true)
 })
-
 
 test('can get singleton with all its dependencies from container', () => {
     const turnDecisionManager = container.resolve(TurnDecisionManager)
