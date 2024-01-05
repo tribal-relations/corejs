@@ -28,10 +28,9 @@
 
     /* Modules */
     /* Specify what module code is generated. */
-    "module": "commonjs", // if tests (bc using babel)
-//    "module": "commonjs", // if console (bc using webpack)
+//    "module": "commonjs", // legacy console/tests (bc using webpack/babel)
 //    "module": "esnext", // if web
-//    "module": "nodenext",
+    "module": "nodenext", // if console
 
     // "rootDir": "src",                                    /* Specify the root folder within your source files. */
     // "moduleResolution": "nodenext",                     /* Specify how TypeScript looks up a file from a given module specifier. */
