@@ -10,19 +10,31 @@ on:
 
 jobs:
     update-coverage-in-readme:
-        name: Update Coverage in README
+        name: Vitest Coverage Report
+        uses: davelosert/vitest-coverage-report-action@v2.2.0
         runs-on: ubuntu-latest
+        permissions:
+            # Required to checkout the code
+            contents: read
+            # Required to put a comment into the pull-request
+            pull-requests: write
+
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
+
+            - name: 'Install Node'
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '20.x'
 
             - name: NPM Cache
               id: npm-cache
               uses: actions/cache@v3
               with:
-                  path: '**/node_modules'
-                  key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-npm
+                path: '**/node_modules'
+                key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+                restore-keys: |
+                  ${{ runner.os }}-npm
 
             - name: Install Dependencies
               if: steps.npm-cache.outputs.cache-hit != 'true'
@@ -31,45 +43,29 @@ jobs:
             - name: Run Tests
               run: npm run test:coverage | tee ./coverage.txt
 
-            - name: Jest Coverage Comment
-              id: coverageComment
-              uses: MishaKav/jest-coverage-comment@main
-              with:
-                  hide-comment: true
-                  coverage-path: ./coverage.txt
-                  junitxml-path: ./coverage/junit.xml
+            - name: 'Report Coverage'
+                # Set if: always() to also generate the report if tests are failing
+                # Only works if you set `reportOnFailure: true` in your vite config as specified above
+              if: always()
+              uses:  davelosert/vitest-coverage-report-action@v2
 
-            - name: Check the output coverage
-              run: |
-                  echo "Summary Report"
-                  echo "Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
-                  echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
-                  echo "Summary Html - ${{ steps.coverageComment.outputs.summaryHtml }}"
-                  
-                  echo "JUnit Report"
-                  echo "tests - ${{ steps.coverageComment.outputs.tests }}"
-                  echo "skipped - ${{ steps.coverageComment.outputs.skipped }}"
-                  echo "failures - ${{ steps.coverageComment.outputs.failures }}"
-                  echo "errors - ${{ steps.coverageComment.outputs.errors }}"
-                  echo "time - ${{ steps.coverageComment.outputs.time }}"
-                  
-                  echo "Coverage Report"
-                  echo "lines - ${{ steps.coverageComment.outputs.lines }}"
-                  echo "branches - ${{ steps.coverageComment.outputs.branches }}"
-                  echo "functions - ${{ steps.coverageComment.outputs.functions }}"
-                  echo "statements - ${{ steps.coverageComment.outputs.statements }}"
-                  echo "coverage - ${{ steps.coverageComment.outputs.coverage }}"
-                  echo "color - ${{ steps.coverageComment.outputs.color }}"
-                  echo "Coverage Html - ${{ steps.coverageComment.outputs.coverageHtml }}"
+#            - name: Jest Coverage Comment (legacy, this needs to be updated to use vitest)
+#              id: coverageComment
+#              uses: MishaKav/jest-coverage-comment@main
+#              with:
+#                hide-comment: true
+#                coverage-path: ./coverage.txt
+#                junitxml-path: ./coverage/junit.xml
+
 
             - name: Create the badge
-#              if: github.ref == 'refs/heads/main'
+              #              if: github.ref == 'refs/heads/main'
               uses: schneegans/dynamic-badges-action@v1.6.0
               with:
-                  auth: ${{ secrets.GIST_SECRET }}
-                  gistID: 7571a4c577e80cce945baedaba153669
-                  filename: test.json
-                  label: coverage
-                  message: ${{ steps.coverageComment.outputs.coverage }}%
-                  color: ${{ steps.coverageComment.outputs.color }}
-                  namedLogo: javascript
+                auth: ${{ secrets.GIST_SECRET }}
+                gistID: 7571a4c577e80cce945baedaba153669
+                filename: test.json
+                label: coverage
+                message: ${{ steps.coverageComment.outputs.coverage }}%
+                color: ${{ steps.coverageComment.outputs.color }}
+                namedLogo: javascript
