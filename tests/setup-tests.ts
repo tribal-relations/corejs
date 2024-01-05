@@ -1,13 +1,13 @@
-import { container } from '../src/NaiveDiContainer.ts'
+import { beforeEach } from 'vitest'
 import MockStd from './mock/MockStd.ts'
+import SpecificDiceThrower from './mock/SpecificDiceThrower'
+import TestBootstrapper from './test-bootstrapper'
+import DiceThrower from '../src/domain/helper/DiceThrower'
 import Std from '../src/ui/Std.ts'
-import TestBootstrapper from "./test-bootstrapper";
-import DiceThrower from "../src/domain/helper/DiceThrower";
-import SpecificDiceThrower from "./mock/SpecificDiceThrower";
 
-global.beforeEach(() => {
+beforeEach(() => {
     TestBootstrapper.addMocks([
-        {class: DiceThrower, instance: new SpecificDiceThrower()},
-        {class: Std, instance: new MockStd()},
+        { class: DiceThrower, instance: new SpecificDiceThrower() },
+        { class: Std, instance: new MockStd() },
     ])
 })
