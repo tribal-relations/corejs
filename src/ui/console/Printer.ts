@@ -1,7 +1,6 @@
-import { singleton } from 'tsyringe'
 import YAML from 'yaml'
 
-@singleton()
+
 class Printer {
     public getCleanYaml(value: any, emptyValue: string = '', colon: string = ':'): string {
         let techTreeAsString = YAML.stringify(value, { indent: 24 })

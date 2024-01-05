@@ -1,9 +1,8 @@
-import { singleton } from 'tsyringe'
 import YAML from 'yaml'
 import Currency from '../../domain/entity/Currency.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 
-@singleton()
+
 class TribePrinter {
     public getString(tribe: Tribe): string {
         const tribeWithOnlyNecessaryFields = {

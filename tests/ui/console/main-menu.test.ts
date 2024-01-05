@@ -1,11 +1,11 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+
+import { container } from '../../../src/NaiveDiContainer.ts'
 import MainMenu from '../../../src/ui/console/MainMenu.ts'
 import Std from '../../../src/ui/Std.ts'
 import MockStd from '../../mock/MockStd.ts'
 
 test('main menu', async () => {
-    container.register<Std>(Std, MockStd)
+    // container.setMock(Std, new MockStd())
 
     const mockStd = container.resolve(MockStd)
     const mainMenu = new MainMenu(mockStd)

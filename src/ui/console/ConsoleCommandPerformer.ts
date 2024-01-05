@@ -1,4 +1,3 @@
-import { singleton } from 'tsyringe'
 import type ConsoleCommand from './entity/ConsoleCommand.ts'
 import CommandName from './enum/CommandName.ts'
 import Printer from './Printer.ts'
@@ -13,7 +12,7 @@ import TechnologyRepository from '../../domain/repository/TechnologyRepository.t
 import ConsoleUi from '../ConsoleUi.ts'
 import Std from '../Std.ts'
 
-@singleton()
+
 class ConsoleCommandPerformer {
     _game: Game | undefined
 

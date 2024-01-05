@@ -1,8 +1,7 @@
-import { singleton } from 'tsyringe'
 import type Tile from './Tile.ts'
 import type CanFight from '../interface/CanFight.ts'
 
-@singleton()
+
 class Rome implements CanFight {
     static defaultPopulation = 100
     static defaultMilitaryPower = 50

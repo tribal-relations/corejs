@@ -1,7 +1,6 @@
-import { singleton } from 'tsyringe'
 import Std from '../Std.ts'
 
-@singleton()
+
 class MainMenu {
     constructor(
         private readonly _std: Std,

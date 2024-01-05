@@ -1,7 +1,6 @@
 import prompt from 'prompt-sync'
-import { singleton } from 'tsyringe'
 
-@singleton()
+
 class Std {
     private readonly _cin
 

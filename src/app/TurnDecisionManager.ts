@@ -1,11 +1,10 @@
-import { singleton } from 'tsyringe'
 import ActionPerformer from './ActionPerformer.ts'
 import TurnResult from './TurnResult.ts'
 import type Action from '../domain/entity/Action.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
 
-@singleton()
+
 class TurnDecisionManager {
     constructor(
         private readonly _actionPerformer: ActionPerformer,

@@ -1,10 +1,9 @@
-import { singleton } from 'tsyringe'
 import type ActionInterface from './ActionInterface.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 
-@singleton()
+
 class Research implements ActionInterface {
     actionName = ActionName.Research
 

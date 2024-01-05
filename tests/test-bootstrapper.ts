@@ -1,4 +1,4 @@
-import { container, type DependencyContainer } from 'tsyringe'
+import {container} from '../src/NaiveDiContainer.ts'
 import MockStd from './mock/MockStd.ts'
 import type Tribe from '../src/domain/entity/Tribe.ts'
 import TribeFactory from '../src/outer/factory/TribeFactory.ts'
@@ -17,15 +17,22 @@ class TestBootstrapper {
         TribeFactory.addProduction(tribe, amount)
     }
 
-    public static getContainerWithMockStd(): DependencyContainer {
+    public static getContainerWithMockStd() {
+        container.clearInstances()
+        container.setMock(Std, new MockStd())
+        container.rebuildMap()
+
         return container
-            .createChildContainer()
-            .register<Std>(Std, MockStd)
     }
 
-    public static addMockStd(cont: DependencyContainer): DependencyContainer {
-        return cont
-            .register<Std>(Std, MockStd)
+    public static addMocks(mocks: Array<object>) {
+        container.clearInstances()
+        for (let index in mocks) {
+            container.setMock(mocks[index].class, mocks[index].instance)
+        }
+        container.rebuildMap()
+
+        return container
     }
 }
 

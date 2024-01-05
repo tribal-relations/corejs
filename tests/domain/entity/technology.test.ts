@@ -1,5 +1,4 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import RoundManager from '../../../src/app/RoundManager.ts'
 import Game from '../../../src/domain/entity/Game.ts'
 import Player from '../../../src/domain/entity/Player.ts'
@@ -7,6 +6,7 @@ import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
+import TestBootstrapper from "../../test-bootstrapper";
 
 test('Pottery increases crops yield', () => {
     const startFood = 4
@@ -16,10 +16,7 @@ test('Pottery increases crops yield', () => {
     tribe.research(TechnologyName.Pottery)
     const player = new Player(tribe)
 
-    const roundManager = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
-        .resolve(RoundManager)
+    const roundManager = container.resolve(RoundManager)
 
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')
@@ -49,11 +46,7 @@ test('Plough increases crops yield', () => {
     expect(tribe.food).toBe(startFood * calendarMultiplier)
 
     const player = new Player(tribe)
-
-    const roundManager = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
-        .resolve(RoundManager)
+    const roundManager = container.resolve(RoundManager)
 
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')
@@ -80,11 +73,7 @@ test('Plough with animal husbandry adds a dice', () => {
     tribe.research(TechnologyName.Plough)
     tribe.research(TechnologyName.AnimalHusbandry)
     const player = new Player(tribe)
-
-    const roundManager = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
-        .resolve(RoundManager)
+    const roundManager = container.resolve(RoundManager)
 
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')

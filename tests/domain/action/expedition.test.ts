@@ -1,5 +1,4 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import type Tribe from '../../../src/domain/entity/Tribe.ts'
@@ -10,6 +9,7 @@ import ActionRepository from '../../../src/domain/repository/ActionRepository.ts
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import LosingDiceThrower from '../../mock/LosingDiceThrower.ts'
 import SuccessfulDiceThrower from '../../mock/SuccessfulDiceThrower.ts'
+import TestBootstrapper from "../../test-bootstrapper"
 
 function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe): void {
     const player = new Player(tribe)
@@ -22,11 +22,12 @@ function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe):
 }
 
 test('expedition adds one tile', () => {
-    const turnDecisionManager = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SuccessfulDiceThrower)
-        .resolve(TurnDecisionManager)
+    TestBootstrapper.addMocks([{
+        class: DiceThrower, instance: new SuccessfulDiceThrower(),
+    }])
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
     const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.tiles.length).toBe(2 + 0)
 
     makeExpedition(turnDecisionManager, tribe)
 
@@ -34,12 +35,13 @@ test('expedition adds one tile', () => {
 })
 
 test('expedition can result in failure', () => {
-    const turnDecisionManager = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, LosingDiceThrower)
-        .resolve(TurnDecisionManager)
+    TestBootstrapper.addMocks([{
+        class: DiceThrower, instance: new LosingDiceThrower(),
+    }])
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
+    expect(tribe.tiles.length).toBe(2 + 0)
 
     makeExpedition(turnDecisionManager, tribe)
 

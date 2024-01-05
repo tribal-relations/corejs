@@ -1,5 +1,5 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+
+import { container } from '../../src/NaiveDiContainer.ts'
 import TurnDecisionManager from '../../src/app/TurnDecisionManager.ts'
 import Player from '../../src/domain/entity/Player.ts'
 import Turn from '../../src/domain/entity/Turn.ts'
