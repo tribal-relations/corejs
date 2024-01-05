@@ -1,5 +1,5 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+
+import { container } from '../../../src/NaiveDiContainer.ts'
 import Rome from '../../../src/domain/entity/Rome.ts'
 
 test('rome is created with correct default data', () => {

@@ -1,10 +1,9 @@
-import { singleton } from 'tsyringe'
 import EndGameManager from '../app/EndGameManager.ts'
 import StartGameManager from '../app/StartGameManager.ts'
 import type Game from '../domain/entity/Game.ts'
 import WebUi from '../ui/WebUi.ts'
 
-@singleton()
+
 class BrowserGameProcess {
     _game: Game | undefined
 

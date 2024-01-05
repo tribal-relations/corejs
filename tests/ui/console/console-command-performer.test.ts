@@ -1,5 +1,5 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+
+import { container } from '../../../src/NaiveDiContainer.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'

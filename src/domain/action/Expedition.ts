@@ -1,13 +1,11 @@
-import { singleton } from 'tsyringe'
 import type ActionInterface from './ActionInterface.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
-import DiceThrower from '../helper/DiceThrower.ts'
+import type DiceThrower from '../helper/DiceThrower.ts'
 
-@singleton()
 class Expedition implements ActionInterface {
     actionName = ActionName.Expedition
-    successSides = 5 // if 1 then failure
+    successSides = [2, 3, 4, 5] // if 1 then failure
 
     constructor(
         private readonly _diceThrower: DiceThrower,

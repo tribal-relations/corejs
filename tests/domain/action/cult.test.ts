@@ -1,5 +1,5 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Tribe from '../../../src/domain/entity/Tribe.ts'
@@ -9,14 +9,12 @@ import DiceThrower from '../../../src/domain/helper/DiceThrower.ts'
 import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
+import TestBootstrapper from "../../test-bootstrapper";
 
 const startingCulture = 10
 
 function sendCult(diceResult: number, populationPopulation: number = 10): Tribe {
-    const turnDecisionManager = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
-        .resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolve(TurnDecisionManager)
 
     SpecificDiceThrower.target = diceResult
 

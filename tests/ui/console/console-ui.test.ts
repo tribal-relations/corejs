@@ -1,5 +1,4 @@
-import 'reflect-metadata'
-import { container, type DependencyContainer } from 'tsyringe'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import RoundManager from '../../../src/app/RoundManager.ts'
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
@@ -9,8 +8,10 @@ import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerfo
 import ConsoleUi from '../../../src/ui/ConsoleUi.ts'
 import MockStd from '../../mock/MockStd.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
+import TestBootstrapper from "../../test-bootstrapper";
+import Std from "../../../src/ui/Std";
 
-function prepareConsoleUi(localContainer: DependencyContainer = container): { mockStd: MockStd, consoleUi: ConsoleUi } {
+function prepareConsoleUi(localContainer = container): { mockStd: MockStd, consoleUi: ConsoleUi } {
     // this will not work
     // const c = container
     //     .createChildContainer()
@@ -21,18 +22,19 @@ function prepareConsoleUi(localContainer: DependencyContainer = container): { mo
     // otherwise, test fails, because container does not inject the correct Std instance
     // I don't know why
     const startGameManager = localContainer.resolve(StartGameManager)
-    const turnManager = localContainer.resolve(TurnManager)
-    const roundManager = localContainer.resolve(RoundManager)
-    const turnDecisionManager = localContainer.resolve(TurnDecisionManager)
-    const mockStd = localContainer.resolve(MockStd)
-    const consoleCommandPerformer = localContainer.resolve(ConsoleCommandPerformer)
-
-    const consoleUi = new ConsoleUi(turnManager,
-        roundManager,
-        turnDecisionManager,
-        mockStd,
-        consoleCommandPerformer,
-    )
+    // const turnManager = localContainer.resolve(TurnManager)
+    // const roundManager = localContainer.resolve(RoundManager)
+    // const turnDecisionManager = localContainer.resolve(TurnDecisionManager)
+    const mockStd = localContainer.resolve(Std)
+    // const consoleCommandPerformer = localContainer.resolve(ConsoleCommandPerformer)
+    //
+    // const consoleUi = new ConsoleUi(turnManager,
+    //     roundManager,
+    //     turnDecisionManager,
+    //     mockStd,
+    //     consoleCommandPerformer,
+    // )
+    const consoleUi = localContainer.resolve(ConsoleUi)
 
     consoleUi.game = startGameManager.start()
     return { mockStd, consoleUi }
@@ -53,9 +55,8 @@ test('can add players', async () => {
 })
 
 test('population growth', async () => {
+
     const localContainer = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
     const { mockStd, consoleUi } = prepareConsoleUi(localContainer)
 
     SpecificDiceThrower.target = 1
@@ -63,9 +64,6 @@ test('population growth', async () => {
     const defaultPopulation = 2
     const defaultFood = 4 // pasture and forest
     const updatedPopulation = defaultPopulation + defaultFood * SpecificDiceThrower.target
-    const startGameManager = localContainer.resolve(StartGameManager)
-
-    consoleUi.game = startGameManager.start()
     mockStd.sendIn('artem')
     mockStd.sendIn('rinat')
     mockStd.sendIn('gena')
@@ -88,8 +86,6 @@ test('population growth', async () => {
 
 test('one round consists of one turn per each player', async () => {
     const localContainer = container
-        .createChildContainer()
-        .register<DiceThrower>(DiceThrower, SpecificDiceThrower)
     const { mockStd, consoleUi } = prepareConsoleUi(localContainer)
 
     SpecificDiceThrower.target = 1

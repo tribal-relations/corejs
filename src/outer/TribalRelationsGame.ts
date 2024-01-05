@@ -1,8 +1,8 @@
-import { container, singleton } from 'tsyringe'
+import { container } from 'src/NaiveDiContainer.ts'
 import BrowserGameProcess from './BrowserGameProcess.ts'
 import ConsoleGameProcess from './ConsoleGameProcess.ts'
 
-@singleton()
+
 class TribalRelationsGame {
     startBrowser(): void {
         const gameProcess = container.resolve(BrowserGameProcess)

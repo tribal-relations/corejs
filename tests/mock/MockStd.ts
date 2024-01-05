@@ -1,7 +1,6 @@
-import { singleton } from 'tsyringe'
 import Std from '../../src/ui/Std.ts'
 
-@singleton()
+
 class MockStd extends Std {
     private _isSilent: boolean = true
     private readonly _inputBuffer: string[] = []

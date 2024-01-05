@@ -1,7 +1,5 @@
-import { singleton } from 'tsyringe'
 import Rand from './Rand.ts'
 
-@singleton()
 class DiceThrower {
     sides = 6
 
@@ -9,12 +7,13 @@ class DiceThrower {
         return this.throwDice()
     }
 
-    public ifSuccessD6(successSides: number): boolean {
-        return this.ifSuccessD6Manual([...Array(successSides).keys()])
+    public ifSuccessD6(successSides: number[]): boolean {
+        return this.ifSuccessD6Manual(successSides)
     }
 
     private ifSuccessD6Manual(successSides: number[]): boolean {
-        const diceResult = this.throwDice()
+        const diceResult = this.d6()
+
         for (let i = 0; i < successSides.length; i++) {
             if (successSides[i] === diceResult) {
                 return true

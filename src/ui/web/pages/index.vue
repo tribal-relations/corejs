@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import 'reflect-metadata'
-import {container} from 'tsyringe'
+
+import {container} from 'src/NaiveDiContainer.ts'
 import TribalRelationsGame from '../../../outer/TribalRelationsGame'
 
 export default {

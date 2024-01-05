@@ -1,7 +1,6 @@
-import { singleton } from 'tsyringe'
 import Game from '../domain/entity/Game.ts'
 
-@singleton()
+
 class StartGameManager {
     start(): Game {
         return this.startGame(this.createNewGame(this.generateGameName()))

@@ -1,5 +1,5 @@
-import 'reflect-metadata'
-import { container } from 'tsyringe'
+
+import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess.ts'
 import Std from '../../../src/ui/Std.ts'
 

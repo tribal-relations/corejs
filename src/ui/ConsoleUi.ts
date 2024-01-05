@@ -1,4 +1,3 @@
-import { singleton } from 'tsyringe'
 import ConsoleCommandPerformer from './console/ConsoleCommandPerformer.ts'
 import ConsoleCommand from './console/entity/ConsoleCommand.ts'
 import CommandName from './console/enum/CommandName.ts'
@@ -19,7 +18,7 @@ import ActionRepository from '../domain/repository/ActionRepository.ts'
 import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
 import InvalidInput from '../exception/console/InvalidInput.ts'
 
-@singleton()
+
 class ConsoleUi {
     static decisionToActionDataMap: Record<string, { name: ActionName, parameters: string }> = {
         a: { name: ActionName.Arm, parameters: '' },

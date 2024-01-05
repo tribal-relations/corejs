@@ -1,4 +1,3 @@
-import { singleton } from 'tsyringe'
 import type ActionInterface from '../domain/action/ActionInterface.ts'
 import Arm from '../domain/action/Arm.ts'
 import Conquer from '../domain/action/Conquer.ts'
@@ -16,7 +15,7 @@ import ActionName from '../domain/enum/ActionName.ts'
 import ActionUnavailable from '../exception/ActionUnavailable.ts'
 import WrongRadius from '../exception/WrongRadius.ts'
 
-@singleton()
+
 class ActionPerformer {
     _performers: Record<string, ActionInterface> = {}
 
