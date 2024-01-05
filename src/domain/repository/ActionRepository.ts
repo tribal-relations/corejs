@@ -1,5 +1,5 @@
-import Action from '../entity/Action.ts'
-import type ActionName from '../enum/ActionName.ts'
+import GameAction from '../entity/GameAction.ts'
+import ActionName from '../enum/ActionName.ts'
 
 const actions: Record<string, {
     name_ru: string
@@ -13,7 +13,7 @@ const actions: Record<string, {
     action_cost: number
     gold_cost: number
 }> = {
-    Quit: {
+    [ActionName.Quit]: {
         name_ru: 'Закончить игру',
         name: 'Quit',
         radius: 4,
@@ -25,7 +25,7 @@ const actions: Record<string, {
         action_cost: 0,
         gold_cost: 0,
     },
-    'Hire warriors': {
+    [ActionName.Hire]: {
         name_ru: 'Нанять воинов',
         name: 'Hire warriors',
         radius: 4,
@@ -37,7 +37,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Attack a tile': {
+    [ActionName.AttackTile]: {
         name_ru: 'Атаковать тайл',
         name: 'Attack a tile',
         radius: 4,
@@ -49,7 +49,7 @@ const actions: Record<string, {
         action_cost: 0,
         gold_cost: 0,
     },
-    'Attack a tribe': {
+    [ActionName.AttackTribe]: {
         name_ru: 'Атаковать племя',
         name: 'Attack a tribe',
         radius: 4,
@@ -61,7 +61,7 @@ const actions: Record<string, {
         action_cost: 0,
         gold_cost: 0,
     },
-    'Hire warriors for 1 round': {
+    [ActionName.HireOneRound]: {
         name_ru: 'Нанять воинов на 1 раунд',
         name: 'Hire warriors for 1 round',
         radius: 4,
@@ -73,7 +73,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Pray the guardian God': {
+    [ActionName.Pray]: {
         name_ru: 'Обратиться к Богу хранителю племени',
         name: 'Pray the guardian God',
         radius: 4,
@@ -85,7 +85,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Settle near the borders': {
+    [ActionName.GoTo3rdRadius]: {
         name_ru: 'Внедриться в пограничные территории',
         name: 'Settle near the borders',
         radius: 4,
@@ -97,7 +97,7 @@ const actions: Record<string, {
         action_cost: 2,
         gold_cost: 0,
     },
-    'Remove a caravan': {
+    [ActionName.RemoveCaravan]: {
         name_ru: 'Убрать караван',
         name: 'Remove a caravan',
         radius: 4,
@@ -109,7 +109,7 @@ const actions: Record<string, {
         action_cost: 0,
         gold_cost: 0,
     },
-    'Pillage a caravan': {
+    [ActionName.Pillage]: {
         name_ru: 'Разграбить караван',
         name: 'Pillage a caravan',
         radius: 4,
@@ -121,7 +121,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Arm the population': {
+    [ActionName.Arm]: {
         name_ru: 'Вооружить население',
         name: 'Arm the population',
         radius: 4,
@@ -133,7 +133,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Make an expedition': {
+    [ActionName.Expedition]: {
         name_ru: 'Сделать экспедицию',
         name: 'Make an expedition',
         radius: 4,
@@ -145,7 +145,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Send a caravan': {
+    [ActionName.Caravan]: {
         name_ru: 'Отправить торговый караван',
         name: 'Send a caravan',
         radius: 4,
@@ -157,7 +157,7 @@ const actions: Record<string, {
         action_cost: 3,
         gold_cost: 2,
     },
-    'Expand the cult': {
+    [ActionName.Cult]: {
         name_ru: 'Распространить культ',
         name: 'Expand the cult',
         radius: 4,
@@ -169,7 +169,7 @@ const actions: Record<string, {
         action_cost: 3,
         gold_cost: 0,
     },
-    Research: {
+    [ActionName.Research]: {
         name_ru: 'Изучить технологию',
         name: 'Research',
         radius: 4,
@@ -181,7 +181,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Settle inside the state': {
+    [ActionName.GoTo2ndRadius]: {
         name_ru: 'Поселить семью',
         name: 'Settle inside the state',
         radius: 3,
@@ -193,7 +193,7 @@ const actions: Record<string, {
         action_cost: 3,
         gold_cost: 0,
     },
-    'Make an alliance': {
+    [ActionName.Alliance]: {
         name_ru: 'Заключить союз с племенем',
         name: 'Make an alliance',
         radius: 2,
@@ -205,7 +205,7 @@ const actions: Record<string, {
         action_cost: 1,
         gold_cost: 0,
     },
-    'Settle inside the city': {
+    [ActionName.GoTo1stRadius]: {
         name_ru: 'Поселиться в город',
         name: 'Settle inside the city',
         radius: 2,
@@ -217,7 +217,7 @@ const actions: Record<string, {
         action_cost: 4,
         gold_cost: 0,
     },
-    'Conquer the palace': {
+    [ActionName.Conquer]: {
         name_ru: 'Захватить дворец',
         name: 'Conquer the palace',
         radius: 1,
@@ -234,8 +234,8 @@ const actions: Record<string, {
 class ActionRepository {
     static actionsCount = 17
 
-    public static createFromName(name: ActionName): Action {
-        return new Action(
+    public static createFromName(name: ActionName): GameAction {
+        return new GameAction(
             String(name),
             actions[name].description,
             actions[name].radius,

@@ -1,4 +1,5 @@
 import type ActionInterface from './ActionInterface.ts'
+import type ResearchPlayerAction from '../entity/action/ResearchPlayerAction'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
@@ -6,16 +7,13 @@ import TechnologyName from '../enum/TechnologyName.ts'
 class Research implements ActionInterface {
     actionName = ActionName.Research
 
-    public perform(turn: Turn): void {
-        this.research(turn)
+    public perform(action: ResearchPlayerAction, turn: Turn): void {
+        turn.player.tribe.research(action.technology)
     }
 
-    private research(turn: Turn): void {
-        const techName = turn.parameters
-        const validTechName: TechnologyName = this.getValidTechnologyNameOrThrow(techName)
-        turn.player.tribe.research(validTechName)
-    }
-
+    /**
+     * @deprecated
+     */
     private getValidTechnologyNameOrThrow(techName: string): TechnologyName {
         const enumValuesFiltered = (Object as any)
             .values(TechnologyName)

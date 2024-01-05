@@ -8,10 +8,10 @@ import CommandName from '../../../src/ui/console/enum/CommandName.ts'
 import Printer from '../../../src/ui/console/Printer.ts'
 import ConsoleCommandRepository from '../../../src/ui/console/repository/ConsoleCommandRepository.ts'
 import TribePrinter from '../../../src/ui/console/TribePrinter.ts'
-import MockStd from '../../mock/MockStd.ts'
+import Std from '../../../src/ui/Std'
 
 test('can output tech tree', () => {
-    const mockStd = container.resolve(MockStd)
+    const mockStd = container.resolve(Std)
     const tribePrinter = container.resolve(TribePrinter)
     const printer = container.resolve(Printer)
 
@@ -44,7 +44,7 @@ test('can output tech tree', () => {
 })
 
 test('can get tech info', () => {
-    const mockStd = container.resolve(MockStd)
+    const mockStd = container.resolve(Std)
     const tribePrinter = container.resolve(TribePrinter)
     const printer = container.resolve(Printer)
 

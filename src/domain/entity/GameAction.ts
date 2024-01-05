@@ -1,4 +1,4 @@
-class Action {
+class GameAction {
     constructor(
         private readonly _name: string,
         private readonly _description: string,
@@ -30,4 +30,4 @@ class Action {
     }
 }
 
-export default Action
+export default GameAction

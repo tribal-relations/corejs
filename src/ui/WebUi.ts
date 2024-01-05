@@ -1,8 +1,8 @@
 import type TurnDecisionManager from '../app/TurnDecisionManager.ts'
 import type TurnManager from '../app/TurnManager.ts'
 import type TurnResult from '../app/TurnResult.ts'
-import type Action from '../domain/entity/Action.ts'
 import type Game from '../domain/entity/Game.ts'
+import type GameAction from '../domain/entity/GameAction.ts'
 
 class WebUi {
     _game: Game | undefined
@@ -30,7 +30,7 @@ class WebUi {
         this._turnManager.addPlayers(this.game.players.length)
 
         let turnResult: TurnResult
-        let decision: Action
+        let decision: GameAction
         let parameters: string
 
         // TODO issue-16 add front https://github.com/tribal-relations/corejs/issues/16
