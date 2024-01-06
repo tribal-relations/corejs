@@ -1,74 +1,20 @@
 import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
 import ConsoleCommand from './entity/ConsoleCommand.ts'
-import PlayerActionCliParameter from './entity/PlayerActionCliParameter'
-import CommandName from './enum/CommandName.ts'
 import type PlayerActionGetter from './PlayerActionGetter'
+import type PlayerController from './PlayerController'
 import type Std from './Std.ts'
 import type RoundManager from '../../app/RoundManager.ts'
 import type TurnDecisionManager from '../../app/TurnDecisionManager.ts'
 import type TurnManager from '../../app/TurnManager.ts'
 import type TurnResult from '../../app/TurnResult.ts'
 import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface'
-import Game from '../../domain/entity/Game.ts'
-import Player from '../../domain/entity/Player.ts'
-import Tribe from '../../domain/entity/Tribe.ts'
+import type Game from '../../domain/entity/Game.ts'
+import type Player from '../../domain/entity/Player.ts'
 import type Turn from '../../domain/entity/Turn.ts'
-import ActionName from '../../domain/enum/ActionName.ts'
-import ResourceName from '../../domain/enum/ResourceName'
-import TechnologyName from '../../domain/enum/TechnologyName'
-import TribeName from '../../domain/enum/TribeName.ts'
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
 import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class ConsoleUi {
-    static decisionToActionDataMap: Record<string, { name: ActionName, parameters: PlayerActionCliParameter[] }> = {
-        a: { name: ActionName.Arm, parameters: [] },
-        al: { name: ActionName.Alliance, parameters: [new PlayerActionCliParameter(TribeName)] },
-        atile: {
-            name: ActionName.AttackTile,
-            parameters: [new PlayerActionCliParameter(TribeName), new PlayerActionCliParameter(ResourceName)],
-        },
-        atr: { name: ActionName.AttackTribe, parameters: [new PlayerActionCliParameter(TribeName)] },
-
-        c: { name: ActionName.Caravan, parameters: [new PlayerActionCliParameter(TribeName)] },
-        e: { name: ActionName.Expedition, parameters: [] },
-
-        g3: { name: ActionName.GoTo3rdRadius, parameters: [] },
-        g2: { name: ActionName.GoTo2ndRadius, parameters: [] },
-        g1: { name: ActionName.GoTo1stRadius, parameters: [] },
-
-        h: {
-            name: ActionName.Hire,
-            parameters: [new PlayerActionCliParameter(TribeName), new PlayerActionCliParameter(Number), new PlayerActionCliParameter(Number)],
-        },
-        h1: {
-            name: ActionName.HireOneRound,
-            parameters: [new PlayerActionCliParameter(TribeName), new PlayerActionCliParameter(Number), new PlayerActionCliParameter(Number)],
-        },
-
-        pray: { name: ActionName.Pray, parameters: [] },
-        pil: { name: ActionName.Pillage, parameters: [new PlayerActionCliParameter(TribeName)] },
-
-        q: { name: ActionName.Quit, parameters: [] },
-        r: { name: ActionName.Research, parameters: [new PlayerActionCliParameter(TechnologyName)] },
-
-        rmca: { name: ActionName.RemoveCaravan, parameters: [new PlayerActionCliParameter(TribeName)] },
-
-        co: { name: ActionName.Conquer, parameters: [] },
-        cu: { name: ActionName.Cult, parameters: [] },
-    }
-
-    static decisionToCommandDataMap: Record<string, { name: CommandName, parameters: string }> = {
-        p: { name: CommandName.PrintCurrentPlayerTribe, parameters: '' },
-        pt: { name: CommandName.PrintAllTribes, parameters: '' },
-        ptt: { name: CommandName.PrintTechnologyTree, parameters: '' },
-        pti: { name: CommandName.PrintTechnologyInfo, parameters: '<tech name>' },
-        paa: { name: CommandName.PrintAvailableActions, parameters: '' },
-        pac: { name: CommandName.PrintAvailableCommands, parameters: '' },
-        '?': { name: CommandName.PrintAvailableCommands, parameters: '' },
-        help: { name: CommandName.PrintAvailableCommands, parameters: '' },
-    }
-
     _game: Game | undefined
 
     constructor(
@@ -78,6 +24,7 @@ class ConsoleUi {
         private readonly _std: Std,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
         private readonly _playerActionGetter: PlayerActionGetter,
+        private readonly _playerController: PlayerController,
     ) {
     }
 
@@ -93,6 +40,7 @@ class ConsoleUi {
         this._consoleCommandPerformer.game = game
         this._roundManager.game = game
         this._playerActionGetter.game = game
+        this._playerController.game = game
     }
 
     get std(): Std {
@@ -108,8 +56,9 @@ class ConsoleUi {
         this._consoleCommandPerformer.game = this.game
         this._roundManager.game = this.game
         this._playerActionGetter.game = this.game
+        this._playerController.game = this.game
 
-        this.updatePlayers()
+        this._playerController.updatePlayers()
 
         this.outputStartInfo()
         this._consoleCommandPerformer.outputAvailableCommands()
@@ -182,42 +131,6 @@ class ConsoleUi {
 
             this._std.out(line)
         }
-    }
-
-    private updatePlayers(): void {
-        this._std.out('Adding players')
-
-        const playerNames: string[] = []
-        let playerName: string
-        for (; true;) {
-            for (let i = 1; i <= Game.maxPlayers; i++) {
-                this._std.out(`Adding player ${i}/${Game.maxPlayers}`)
-
-                playerName = this._std.in(`Enter player ${i} name (or return to end adding players)>`) ?? `player ${i}`
-                if (!playerName || playerName === '\n') {
-                    break
-                }
-                playerNames.push(playerName)
-            }
-            if (playerNames.length !== 0) {
-                break
-            }
-        }
-        this.game.players = this.createPlayers(playerNames)
-        this._turnManager.addPlayers(this.game.players.length)
-    }
-
-    private createPlayers(playerNames: string[]): Player[] {
-        const players = []
-        const tribeNames = (Object as any).values(TribeName).slice(0, playerNames.length)
-
-        for (let i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(
-                new Tribe(tribeNames[i]),
-                playerNames[i],
-            )
-        }
-        return players
     }
 }
 
