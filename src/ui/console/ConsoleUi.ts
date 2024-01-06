@@ -18,6 +18,7 @@ import ResourceName from '../../domain/enum/ResourceName'
 import TechnologyName from '../../domain/enum/TechnologyName'
 import TribeName from '../../domain/enum/TribeName.ts'
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
+import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class ConsoleUi {
     static decisionToActionDataMap: Record<string, { name: ActionName, parameters: PlayerActionCliParameter[] }> = {
@@ -82,7 +83,7 @@ class ConsoleUi {
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }

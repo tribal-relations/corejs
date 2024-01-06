@@ -1,3 +1,5 @@
+import ValueNotInEnum from '../../../exception/ValueNotInEnum'
+
 class PlayerActionCliParameter {
     constructor(private readonly _enum) {
     }
@@ -8,7 +10,7 @@ class PlayerActionCliParameter {
 
     public check(value: string): void {
         if (!this.isValueInEnum(value)) {
-            throw new Error('value is not in enum')
+            throw new ValueNotInEnum(value)
         }
     }
 

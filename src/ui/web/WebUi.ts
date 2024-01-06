@@ -3,6 +3,7 @@ import type TurnManager from '../../app/TurnManager.ts'
 import type TurnResult from '../../app/TurnResult.ts'
 import type Game from '../../domain/entity/Game.ts'
 import type GameAction from '../../domain/entity/GameAction.ts'
+import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class WebUi {
     _game: Game | undefined
@@ -15,7 +16,7 @@ class WebUi {
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }

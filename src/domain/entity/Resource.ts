@@ -1,6 +1,8 @@
+import type ResourceName from '../enum/ResourceName'
+
 class Resource {
     constructor(
-        private readonly _name: string,
+        private readonly _name: ResourceName,
         private readonly _quantity: number,
         private readonly _food: number,
         private readonly _mercantility: number,
@@ -9,7 +11,7 @@ class Resource {
     ) {
     }
 
-    get name(): string {
+    get name(): ResourceName {
         return this._name
     }
 

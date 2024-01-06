@@ -1,7 +1,13 @@
 import type Technology from './Technology'
 import Tile from './Tile.ts'
+import AlreadyKnownTechnology from '../../exception/AlreadyKnownTechnology'
+import MaximalMilitaryPower from '../../exception/MaximalMilitaryPower'
+import TribeResourceNotFound from '../../exception/TribeResourceNotFound'
+import TribeTileNotFound from '../../exception/TribeTileNotFound'
+import UnavailableTechnology from '../../exception/UnavailableTechnology'
 import type ResourceName from '../enum/ResourceName'
 import TechnologyName from '../enum/TechnologyName.ts'
+import type TribeName from '../enum/TribeName'
 import type CanFight from '../interface/CanFight.ts'
 import ResourceRepository from '../repository/ResourceRepository.ts'
 import TechnologyRepository from '../repository/TechnologyRepository'
@@ -16,7 +22,7 @@ class Tribe implements CanFight {
     private _isWinner = false
 
     constructor(
-        private readonly _name: string = '',
+        private readonly _name: TribeName,
         private readonly _points: number = 0,
         private readonly _gold: number = Tribe.defaultGold,
         private _population: number = Tribe.defaultPopulation,
@@ -35,7 +41,7 @@ class Tribe implements CanFight {
         return this._radius
     }
 
-    get name(): string {
+    get name(): TribeName {
         return this._name
     }
 
@@ -125,7 +131,7 @@ class Tribe implements CanFight {
 
     public arm(): void {
         if (this.population === this.militaryPower) {
-            throw new Error('Cannot arm further. Maximal combat readiness for such population.')
+            throw new MaximalMilitaryPower(this.militaryPower, this.population)
         }
 
         const amount = Math.min(
@@ -163,12 +169,12 @@ class Tribe implements CanFight {
 
     private checkTechnologyIsNotBlocked(tribe: Tribe, tech: Technology): void {
         if (tech.name in tribe.technologies) {
-            throw new Error(`${tribe.name} cannot research ${tech.name}, because it is already known.`)
+            throw new AlreadyKnownTechnology(tribe.name, tech.name)
         }
         let prerequisiteName: string
         for (prerequisiteName in tech.prerequisites) {
             if (!(prerequisiteName in tribe.technologies)) {
-                throw new Error(`${tribe.name} cannot research ${tech.name}, because not all prerequisites are met.`)
+                throw new UnavailableTechnology(tribe.name, tech.name)
             }
         }
     }
@@ -214,13 +220,13 @@ class Tribe implements CanFight {
                 return tileInstance
             }
         }
-        throw new Error(`tribe "${this.name}" does not have resource "${resourceName}"`)
+        throw new TribeResourceNotFound(this.name, resourceName)
     }
 
     public detachTile(tile: Tile): void {
         const index = this.tiles.indexOf(tile)
         if (index === -1) {
-            throw new Error(`cannot detach tile with resource resource "${tile.resource.name}" from tribe "${this.name}": tile not found`)
+            throw new TribeTileNotFound(this.name, tile.resource.name)
         }
         if (index > -1) {
             this.tiles.splice(index, 1)

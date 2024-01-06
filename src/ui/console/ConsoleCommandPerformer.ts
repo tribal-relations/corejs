@@ -10,7 +10,9 @@ import type Tribe from '../../domain/entity/Tribe.ts'
 import type Turn from '../../domain/entity/Turn.ts'
 import type ActionName from '../../domain/enum/ActionName.ts'
 import type TechnologyName from '../../domain/enum/TechnologyName.ts'
+import type TribeName from '../../domain/enum/TribeName'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
+import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class ConsoleCommandPerformer {
     _game: Game | undefined
@@ -24,7 +26,7 @@ class ConsoleCommandPerformer {
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }
@@ -60,7 +62,7 @@ class ConsoleCommandPerformer {
 
         for (const key in ConsoleUi.decisionToActionDataMap) {
             actionName = ConsoleUi.decisionToActionDataMap[key].name
-            actionParameters = ConsoleUi.decisionToActionDataMap[key].parameters
+            actionParameters = ConsoleUi.decisionToActionDataMap[key].parameters.map(val => `${val}`).join(' ')
 
             line = `\t${key}\t-\t${actionName}\t${actionParameters}`
             this._std.out(line)
@@ -108,12 +110,7 @@ class ConsoleCommandPerformer {
     }
 
     private getTribeByName(tribeName: string): Tribe {
-        for (let i = 0; i < this.game.players.length; i++) {
-            if (tribeName === this.game.players[i].tribe.name) {
-                return this.game.players[i].tribe
-            }
-        }
-        throw new Error(`Tribe ${tribeName} not found.`)
+        return this.game.getTribe((tribeName as TribeName))
     }
 
     private outputTechnologyTree(): void {

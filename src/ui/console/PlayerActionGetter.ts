@@ -17,6 +17,8 @@ import type TribeName from '../../domain/enum/TribeName'
 import ActionRepository from '../../domain/repository/ActionRepository'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository'
 import InvalidInput from '../../exception/console/InvalidInput'
+import GameNotYetCreated from '../../exception/GameNotYetCreated'
+import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
 
 class PlayerActionGetter {
     _game: Game | undefined
@@ -28,7 +30,7 @@ class PlayerActionGetter {
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }
@@ -81,8 +83,9 @@ class PlayerActionGetter {
         const gameAction = ActionRepository.createFromName(mapEntry.name)
 
         if (words.length - 1 !== mapEntry.parameters.length) {
-            throw new Error('insufficient parameters')
+            throw new InsufficientCliParameters(mapEntry.parameters.length, words.length - 1)
         }
+
         if (words.length === 1 && mapEntry.parameters.length === 0) { // only command
             return new AbstractPlayerAction(gameAction, player.tribe)
         }

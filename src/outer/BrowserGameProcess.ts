@@ -1,6 +1,7 @@
 import type EndGameManager from '../app/EndGameManager.ts'
 import type StartGameManager from '../app/StartGameManager.ts'
 import type Game from '../domain/entity/Game.ts'
+import GameNotYetCreated from '../exception/GameNotYetCreated'
 import type WebUi from '../ui/web/WebUi.ts'
 
 class BrowserGameProcess {
@@ -15,7 +16,7 @@ class BrowserGameProcess {
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }
