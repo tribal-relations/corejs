@@ -12,7 +12,7 @@ import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 const startingCulture = 10
 
 function sendCult(diceResult: number, populationPopulation: number = 10): Tribe {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     SpecificDiceThrower.target = diceResult
 

@@ -7,13 +7,13 @@ import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerfo
 import CommandName from '../../../src/ui/console/enum/CommandName.ts'
 import Printer from '../../../src/ui/console/Printer.ts'
 import ConsoleCommandRepository from '../../../src/ui/console/repository/ConsoleCommandRepository.ts'
+import Std from '../../../src/ui/console/Std'
 import TribePrinter from '../../../src/ui/console/TribePrinter.ts'
-import Std from '../../../src/ui/Std'
 
 test('can output tech tree', () => {
-    const mockStd = container.resolve(Std)
-    const tribePrinter = container.resolve(TribePrinter)
-    const printer = container.resolve(Printer)
+    const mockStd = container.resolveSafely(Std)
+    const tribePrinter = container.resolveSafely(TribePrinter)
+    const printer = container.resolveSafely(Printer)
 
     const consoleCommandPerformer = new ConsoleCommandPerformer(mockStd, tribePrinter, printer)
     const command = ConsoleCommandRepository.createFromName(CommandName.PrintTechnologyTree)
@@ -44,9 +44,9 @@ test('can output tech tree', () => {
 })
 
 test('can get tech info', () => {
-    const mockStd = container.resolve(Std)
-    const tribePrinter = container.resolve(TribePrinter)
-    const printer = container.resolve(Printer)
+    const mockStd = container.resolveSafely(Std)
+    const tribePrinter = container.resolveSafely(TribePrinter)
+    const printer = container.resolveSafely(Printer)
 
     const consoleCommandPerformer = new ConsoleCommandPerformer(mockStd, tribePrinter, printer)
     const command = ConsoleCommandRepository.createFromName(CommandName.PrintTechnologyInfo)

@@ -11,7 +11,7 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import TestBootstrapper from '../../test-bootstrapper.ts'
 
 test('can conquer', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const starterFood = 4
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
@@ -33,7 +33,7 @@ test('can conquer', () => {
     tribe.growPopulation(500)
     tribe.arm()
 
-    const rome = container.resolve(Rome)
+    const rome = container.resolveSafely(Rome)
     expect(rome.militaryPower).toStrictEqual(Rome.defaultMilitaryPower)
 
     expect(tribe.militaryPower).toBeGreaterThan(rome.militaryPower)

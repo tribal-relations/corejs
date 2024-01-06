@@ -8,7 +8,7 @@ import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('research adds technology', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -24,7 +24,7 @@ test('research adds technology', () => {
 })
 
 test('cannot research blocked technology', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -45,7 +45,7 @@ test('cannot research blocked technology', () => {
 })
 
 test('cannot research already known technology', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -70,7 +70,7 @@ test('cannot research already known technology', () => {
 
 test('cannot research undefined technology', () => {
     // TODO test this in another place, where the actual validation happens
-    // const turnDecisionManager = container.resolve(TurnDecisionManager)
+    // const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     //
     // const tribe = TribeFactory.createStarterTribeWithOptions()
     // expect(tribe.technologies).toStrictEqual({})

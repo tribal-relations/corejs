@@ -10,7 +10,7 @@ import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('arm for amount of production', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createEmpty({ production: 10, population: 100 })
     expect(tribe.population).toBe(100)
@@ -28,7 +28,7 @@ test('arm for amount of production', () => {
 })
 
 test('arm for amount of production, but not bigger than non-armed population', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createEmpty({ production: 1000, population: 100 })
 
@@ -47,7 +47,7 @@ test('arm for amount of production, but not bigger than non-armed population', (
 })
 
 test('cannot arm more than population', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createEmpty({ production: 90, population: 100 })
 

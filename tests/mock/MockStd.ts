@@ -1,4 +1,4 @@
-import Std from '../../src/ui/Std.ts'
+import Std from '../../src/ui/console/Std.ts'
 
 class MockStd extends Std {
     private _isSilent: boolean = true

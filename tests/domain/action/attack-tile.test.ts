@@ -52,7 +52,7 @@ function assertTribePoints(turnResult, attacker: Tribe, defender: Tribe) {
 }
 
 test('can attack a tile', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const attacker = createStrongAttacker()
     const defender = createWeakDefender()
 
@@ -68,7 +68,7 @@ test('can attack a tile', () => {
 })
 
 test('attacker takes losses if attacker is weaker', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const attacker = createWeakDefender()
     const defender = createStrongAttacker()
 
