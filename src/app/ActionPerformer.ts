@@ -1,14 +1,16 @@
-import type ActionInterface from '../domain/action/ActionInterface.ts'
-import type Arm from '../domain/action/Arm.ts'
-import type Conquer from '../domain/action/Conquer.ts'
-import type Cult from '../domain/action/Cult.ts'
-import type Expedition from '../domain/action/Expedition.ts'
-import type GoTo1stRadius from '../domain/action/GoTo1stRadius.ts'
-import type GoTo2ndRadius from '../domain/action/GoTo2ndRadius.ts'
-import type GoTo3rdRadius from '../domain/action/GoTo3rdRadius.ts'
-import type Research from '../domain/action/Research.ts'
-import type Action from '../domain/entity/Action.ts'
+import type ActionInterface from '../domain/action-performer/ActionInterface.ts'
+import type Arm from '../domain/action-performer/Arm.ts'
+import type AttackTile from '../domain/action-performer/AttackTile'
+import type Conquer from '../domain/action-performer/Conquer.ts'
+import type Cult from '../domain/action-performer/Cult.ts'
+import type Expedition from '../domain/action-performer/Expedition.ts'
+import type GoTo1stRadius from '../domain/action-performer/GoTo1stRadius.ts'
+import type GoTo2ndRadius from '../domain/action-performer/GoTo2ndRadius.ts'
+import type GoTo3rdRadius from '../domain/action-performer/GoTo3rdRadius.ts'
+import type Research from '../domain/action-performer/Research.ts'
+import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface'
 import Currency from '../domain/entity/Currency.ts'
+import type GameAction from '../domain/entity/GameAction.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
@@ -27,15 +29,16 @@ class ActionPerformer {
         private readonly _goTo1stRadius: GoTo1stRadius,
         private readonly _conquer: Conquer,
         private readonly _cult: Cult,
+        private readonly _attackTile: AttackTile,
     ) {
         this.buildPerformersMap()
     }
 
-    public performAction(action: Action, turn: Turn): boolean {
-        this.checkActionConstraints(action, turn.player.tribe)
-        const performer = this.getPerformerClass(action)
+    public performAction(playerAction: PlayerActionInterface, turn: Turn): boolean {
+        this.checkActionConstraints(playerAction.gameAction, turn.player.tribe)
+        const performer = this.getPerformerClass(playerAction.gameAction)
         if (performer) {
-            performer.perform(turn)
+            performer.perform(playerAction, turn)
             return true
         }
 
@@ -52,14 +55,15 @@ class ActionPerformer {
             [ActionName.GoTo1stRadius]: this._goTo1stRadius,
             [ActionName.Conquer]: this._conquer,
             [ActionName.Cult]: this._cult,
+            [ActionName.AttackTile]: this._attackTile,
         }
     }
 
-    private getPerformerClass(action: Action): ActionInterface | undefined {
+    private getPerformerClass(action: GameAction): ActionInterface | undefined {
         return this._performers[action.name]
     }
 
-    private checkActionConstraints(action: Action, tribe: Tribe): void {
+    private checkActionConstraints(action: GameAction, tribe: Tribe): void {
         if (action.constraints.radius < tribe.radius) {
             throw new WrongRadius(tribe.name, action.constraints.radius, action.name)
         }

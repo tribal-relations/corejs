@@ -1,6 +1,8 @@
 import type Player from './Player.ts'
+import type Tribe from './Tribe'
 import type Turn from './Turn.ts'
 import type WinningCondition from './WinningCondition.ts'
+import type TribeName from '../enum/TribeName'
 
 class Game {
     public static readonly maxPlayers = 20
@@ -106,6 +108,26 @@ class Game {
 
     addPlayer(player: Player): void {
         this.players.push(player)
+    }
+
+    public getPlayer(playerName: string): Player {
+        // because we store players in an array. maybe map would be better
+        for (const playerInstance: Player of this.players) {
+            if (playerName === playerInstance.name) {
+                return playerInstance
+            }
+        }
+        throw new Error(`player with name "${playerName}" not found in this game "${this.name}"`)
+    }
+
+    public getTribe(tribeName: TribeName): Tribe {
+        // because we store players in an array. maybe map would be better
+        for (const playerInstance: Player of this.players) {
+            if (tribeName === playerInstance.tribe.name) {
+                return playerInstance.tribe
+            }
+        }
+        throw new Error(`tribe with name "${tribeName}" not found in this game "${this.name}"`)
     }
 
     nextRound(): void {

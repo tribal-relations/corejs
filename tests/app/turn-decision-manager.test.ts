@@ -1,4 +1,5 @@
 import TurnDecisionManager from '../../src/app/TurnDecisionManager.ts'
+import AbstractPlayerAction from '../../src/domain/entity/action/AbstractPlayerAction'
 import Player from '../../src/domain/entity/Player.ts'
 import Turn from '../../src/domain/entity/Turn.ts'
 import ActionName from '../../src/domain/enum/ActionName.ts'
@@ -13,8 +14,9 @@ test('q to quit game', () => {
     const player = new Player(tribe)
 
     const turn = new Turn(player)
-    const action = ActionRepository.createFromName(ActionName.Quit)
-    const turnResult = turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.Quit)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
+    const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     expect(turnResult.isLast).toBe(true)
 })

@@ -11,7 +11,7 @@ test('Pottery increases crops yield', () => {
     const potteryBonus = 2
     const tribe = TribeFactory.createStarterTribeWithOptions({ population: 10 })
 
-    tribe.research(TechnologyName.Pottery)
+    tribe.researchByName(TechnologyName.Pottery)
     const player = new Player(tribe)
 
     const roundManager = container.resolve(RoundManager)
@@ -37,10 +37,10 @@ test('Plough increases crops yield', () => {
 
     expect(tribe.food).toBe(startFood)
 
-    tribe.research(TechnologyName.Pottery)
-    tribe.research(TechnologyName.PrimitiveWriting)
-    tribe.research(TechnologyName.Calendar)
-    tribe.research(TechnologyName.Plough)
+    tribe.researchByName(TechnologyName.Pottery)
+    tribe.researchByName(TechnologyName.PrimitiveWriting)
+    tribe.researchByName(TechnologyName.Calendar)
+    tribe.researchByName(TechnologyName.Plough)
     expect(tribe.food).toBe(startFood * calendarMultiplier)
 
     const player = new Player(tribe)
@@ -65,11 +65,11 @@ test('Plough with animal husbandry adds a dice', () => {
     const potteryBonus = 2
     const tribe = TribeFactory.createStarterTribeWithOptions({ population: 10 })
 
-    tribe.research(TechnologyName.Pottery)
-    tribe.research(TechnologyName.PrimitiveWriting)
-    tribe.research(TechnologyName.Calendar)
-    tribe.research(TechnologyName.Plough)
-    tribe.research(TechnologyName.AnimalHusbandry)
+    tribe.researchByName(TechnologyName.Pottery)
+    tribe.researchByName(TechnologyName.PrimitiveWriting)
+    tribe.researchByName(TechnologyName.Calendar)
+    tribe.researchByName(TechnologyName.Plough)
+    tribe.researchByName(TechnologyName.AnimalHusbandry)
     const player = new Player(tribe)
     const roundManager = container.resolve(RoundManager)
 

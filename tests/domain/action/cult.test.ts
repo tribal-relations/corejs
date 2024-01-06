@@ -1,4 +1,5 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction'
 import Player from '../../../src/domain/entity/Player.ts'
 import Tribe from '../../../src/domain/entity/Tribe.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
@@ -19,8 +20,10 @@ function sendCult(diceResult: number, populationPopulation: number = 10): Tribe 
 
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
-    const action = ActionRepository.createFromName(ActionName.Cult)
-    turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.Cult)
+    const playerAction = new AbstractPlayerAction(gameAction, sender)
+
+    turnDecisionManager.processTurn(playerAction, turn)
     return sender
 }
 

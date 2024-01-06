@@ -1,4 +1,5 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction'
 import Player from '../../../src/domain/entity/Player.ts'
 import type Tribe from '../../../src/domain/entity/Tribe.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
@@ -17,8 +18,10 @@ function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe):
 
     expect(tribe.tiles.length).toBe(2)
 
-    const action = ActionRepository.createFromName(ActionName.Expedition)
-    turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.Expedition)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
+
+    const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 }
 
 test('expedition adds one tile', () => {

@@ -1,8 +1,10 @@
+import type Technology from './Technology'
 import Tile from './Tile.ts'
+import type ResourceName from '../enum/ResourceName'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type CanFight from '../interface/CanFight.ts'
 import ResourceRepository from '../repository/ResourceRepository.ts'
-import TechnologyRepository from '../repository/TechnologyRepository.ts'
+import TechnologyRepository from '../repository/TechnologyRepository'
 
 class Tribe implements CanFight {
     static readonly defaultPopulation = 2
@@ -150,20 +152,23 @@ class Tribe implements CanFight {
         this._radius--
     }
 
-    public research(techName: TechnologyName): void {
-        this.checkTechnologyIsNotBlocked(this, techName)
-        this._knownTechs[String(techName)] = true
+    public researchByName(techName: TechnologyName): void {
+        this.research(TechnologyRepository.createFromName(techName))
     }
 
-    private checkTechnologyIsNotBlocked(tribe: Tribe, techName: TechnologyName): void {
-        if (techName in tribe.technologies) {
-            throw new Error(`${tribe.name} cannot research ${techName}, because it is already known.`)
+    public research(tech: Technology): void {
+        this.checkTechnologyIsNotBlocked(this, tech)
+        this._knownTechs[String(tech.name)] = true
+    }
+
+    private checkTechnologyIsNotBlocked(tribe: Tribe, tech: Technology): void {
+        if (tech.name in tribe.technologies) {
+            throw new Error(`${tribe.name} cannot research ${tech.name}, because it is already known.`)
         }
-        const techInstance = TechnologyRepository.createFromName(techName)
         let prerequisiteName: string
-        for (prerequisiteName in techInstance.prerequisites) {
+        for (prerequisiteName in tech.prerequisites) {
             if (!(prerequisiteName in tribe.technologies)) {
-                throw new Error(`${tribe.name} cannot research ${techName}, because not all prerequisites are met.`)
+                throw new Error(`${tribe.name} cannot research ${tech.name}, because not all prerequisites are met.`)
             }
         }
     }
@@ -201,6 +206,29 @@ class Tribe implements CanFight {
      */
     public addTile(newTile: Tile): void {
         this._tiles.push(newTile)
+    }
+
+    public getFirstTileWithResource(resourceName: ResourceName): Tile {
+        for (const tileInstance: Tile of this.tiles) {
+            if (resourceName === tileInstance.resource.name) {
+                return tileInstance
+            }
+        }
+        throw new Error(`tribe "${this.name}" does not have resource "${resourceName}"`)
+    }
+
+    public detachTile(tile: Tile): void {
+        const index = this.tiles.indexOf(tile)
+        if (index === -1) {
+            throw new Error(`cannot detach tile with resource resource "${tile.resource.name}" from tribe "${this.name}": tile not found`)
+        }
+        if (index > -1) {
+            this.tiles.splice(index, 1)
+        }
+    }
+
+    public attachTile(tile: Tile): void {
+        this.addTile(tile)
     }
 }
 

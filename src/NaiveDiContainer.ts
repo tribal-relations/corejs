@@ -4,14 +4,15 @@ import RoundManager from './app/RoundManager'
 import StartGameManager from './app/StartGameManager'
 import TurnDecisionManager from './app/TurnDecisionManager'
 import TurnManager from './app/TurnManager'
-import Arm from './domain/action/Arm'
-import Conquer from './domain/action/Conquer'
-import Cult from './domain/action/Cult'
-import Expedition from './domain/action/Expedition'
-import GoTo1stRadius from './domain/action/GoTo1stRadius'
-import GoTo2ndRadius from './domain/action/GoTo2ndRadius'
-import GoTo3rdRadius from './domain/action/GoTo3rdRadius'
-import Research from './domain/action/Research'
+import Arm from './domain/action-performer/Arm'
+import AttackTile from './domain/action-performer/AttackTile'
+import Conquer from './domain/action-performer/Conquer'
+import Cult from './domain/action-performer/Cult'
+import Expedition from './domain/action-performer/Expedition'
+import GoTo1stRadius from './domain/action-performer/GoTo1stRadius'
+import GoTo2ndRadius from './domain/action-performer/GoTo2ndRadius'
+import GoTo3rdRadius from './domain/action-performer/GoTo3rdRadius'
+import Research from './domain/action-performer/Research'
 import Rome from './domain/entity/Rome'
 import DiceThrower from './domain/helper/DiceThrower'
 import FightManager from './domain/helper/FightManager'
@@ -147,6 +148,7 @@ class NaiveDiContainer {
             this.resolve(GoTo1stRadius),
             this.resolve(Conquer),
             this.resolve(Cult),
+            this.resolve(AttackTile),
         ))
         this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolve(ActionPerformer)))
     }
@@ -158,6 +160,7 @@ class NaiveDiContainer {
         this.setSingleton(Conquer, new Conquer(this.resolve(FightManager)))
         this.setSingleton(Cult, new Cult(this.resolve(DiceThrower)))
         this.setSingleton(Expedition, new Expedition(this.resolve(DiceThrower)))
+        this.setSingleton(AttackTile, new AttackTile(this.resolve(FightManager)))
     }
 
     private buildMap(): void {

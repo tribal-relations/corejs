@@ -1,4 +1,5 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import ActionName from '../../../src/domain/enum/ActionName.ts'
@@ -17,8 +18,9 @@ test('can go to 3rd radius from 4th', () => {
     const turn = new Turn(player)
     expect(tribe.radius).toStrictEqual(4)
 
-    const action = ActionRepository.createFromName(ActionName.GoTo3rdRadius)
-    turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.GoTo3rdRadius)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
+    turnDecisionManager.processTurn(playerAction, turn)
 
     expect(tribe.radius).toStrictEqual(3)
 })
@@ -35,9 +37,10 @@ test('cannot go to 2nd radius from 4th', () => {
     expect(tribe.radius).toStrictEqual(4)
     TestBootstrapper.addCulture(tribe, 10)
 
-    const action = ActionRepository.createFromName(ActionName.GoTo2ndRadius)
+    const gameAction = ActionRepository.createFromName(ActionName.GoTo2ndRadius)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
     const throwingFunction = (): void => {
-        turnDecisionManager.processTurn(action, turn)
+        turnDecisionManager.processTurn(playerAction, turn)
     }
     const targetRadius = 2
     expect(throwingFunction).toThrow(
@@ -58,9 +61,10 @@ test('cannot go to 1st radius from 4th', () => {
     expect(tribe.radius).toStrictEqual(4)
     TestBootstrapper.addCulture(tribe, 10)
 
-    const action = ActionRepository.createFromName(ActionName.GoTo1stRadius)
+    const gameAction = ActionRepository.createFromName(ActionName.GoTo1stRadius)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
     const throwingFunction = (): void => {
-        turnDecisionManager.processTurn(action, turn)
+        turnDecisionManager.processTurn(playerAction, turn)
     }
     const targetRadius = 1
     expect(throwingFunction).toThrow(
@@ -82,8 +86,9 @@ test('can go to 2nd radius from 3rd', () => {
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(3)
 
-    const action = ActionRepository.createFromName(ActionName.GoTo2ndRadius)
-    turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.GoTo2ndRadius)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
+    turnDecisionManager.processTurn(playerAction, turn)
 
     expect(tribe.radius).toStrictEqual(2)
 })
@@ -101,9 +106,10 @@ test('cannot go to 1st radius from 3rd', () => {
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(3)
 
-    const action = ActionRepository.createFromName(ActionName.GoTo1stRadius)
+    const gameAction = ActionRepository.createFromName(ActionName.GoTo1stRadius)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
     const throwingFunction = (): void => {
-        turnDecisionManager.processTurn(action, turn)
+        turnDecisionManager.processTurn(playerAction, turn)
     }
     const targetRadius = 1
     expect(throwingFunction).toThrow(
@@ -126,8 +132,9 @@ test('can go to 1st radius from 2nd', () => {
     tribe.goToNextRadius()
     expect(tribe.radius).toStrictEqual(2)
 
-    const action = ActionRepository.createFromName(ActionName.GoTo1stRadius)
-    turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.GoTo1stRadius)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
+    turnDecisionManager.processTurn(playerAction, turn)
 
     expect(tribe.radius).toStrictEqual(1)
 })

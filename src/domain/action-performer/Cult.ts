@@ -1,4 +1,5 @@
 import type ActionInterface from './ActionInterface.ts'
+import type PlayerActionInterface from '../entity/action/PlayerActionInterface'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 import type DiceThrower from '../helper/DiceThrower.ts'
@@ -15,7 +16,7 @@ class Cult implements ActionInterface {
     ) {
     }
 
-    public perform(turn: Turn): void {
+    public perform(playerAction: PlayerActionInterface, turn: Turn): void {
         const diceResult = this._diceThrower.d6()
         this.performByDiceResult(turn, diceResult)
     }

@@ -1,5 +1,6 @@
 import type ConsoleCommandPerformer from './console/ConsoleCommandPerformer.ts'
 import ConsoleCommand from './console/entity/ConsoleCommand.ts'
+import PlayerActionCliParameter from './console/entity/PlayerActionCliParameter'
 import CommandName from './console/enum/CommandName.ts'
 import ConsoleCommandRepository from './console/repository/ConsoleCommandRepository.ts'
 import type Std from './Std.ts'
@@ -7,44 +8,61 @@ import type RoundManager from '../app/RoundManager.ts'
 import type TurnDecisionManager from '../app/TurnDecisionManager.ts'
 import type TurnManager from '../app/TurnManager.ts'
 import type TurnResult from '../app/TurnResult.ts'
-import type Action from '../domain/entity/Action.ts'
+import AbstractPlayerAction from '../domain/entity/action/AbstractPlayerAction'
+import AttackTilePlayerAction from '../domain/entity/action/AttackTilePlayerAction'
+import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface'
+import ResearchPlayerAction from '../domain/entity/action/ResearchPlayerAction'
 import Game from '../domain/entity/Game.ts'
+import type GameAction from '../domain/entity/GameAction.ts'
 import Player from '../domain/entity/Player.ts'
+import type Tile from '../domain/entity/Tile'
 import Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
+import ResourceName from '../domain/enum/ResourceName'
+import TechnologyName from '../domain/enum/TechnologyName'
 import TribeName from '../domain/enum/TribeName.ts'
 import ActionRepository from '../domain/repository/ActionRepository.ts'
+import TechnologyRepository from '../domain/repository/TechnologyRepository'
 import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
 import InvalidInput from '../exception/console/InvalidInput.ts'
 
 class ConsoleUi {
-    static decisionToActionDataMap: Record<string, { name: ActionName, parameters: string }> = {
-        a: { name: ActionName.Arm, parameters: '' },
-        al: { name: ActionName.Alliance, parameters: '<tribe name>' },
-        atile: { name: ActionName.AttackTile, parameters: '<tribe name> <resource name>' },
-        atr: { name: ActionName.AttackTribe, parameters: '<tribe name>' },
+    static decisionToActionDataMap: Record<string, { name: ActionName, parameters: PlayerActionCliParameter[] }> = {
+        a: { name: ActionName.Arm, parameters: [] },
+        al: { name: ActionName.Alliance, parameters: [new PlayerActionCliParameter(TribeName)] },
+        atile: {
+            name: ActionName.AttackTile,
+            parameters: [new PlayerActionCliParameter(TribeName), new PlayerActionCliParameter(ResourceName)],
+        },
+        atr: { name: ActionName.AttackTribe, parameters: [new PlayerActionCliParameter(TribeName)] },
 
-        c: { name: ActionName.Caravan, parameters: '<tribe name>' },
-        e: { name: ActionName.Expedition, parameters: '' },
+        c: { name: ActionName.Caravan, parameters: [new PlayerActionCliParameter(TribeName)] },
+        e: { name: ActionName.Expedition, parameters: [] },
 
-        g3: { name: ActionName.GoTo3rdRadius, parameters: '' },
-        g2: { name: ActionName.GoTo2ndRadius, parameters: '' },
-        g1: { name: ActionName.GoTo1stRadius, parameters: '' },
+        g3: { name: ActionName.GoTo3rdRadius, parameters: [] },
+        g2: { name: ActionName.GoTo2ndRadius, parameters: [] },
+        g1: { name: ActionName.GoTo1stRadius, parameters: [] },
 
-        h: { name: ActionName.Hire, parameters: '<tribe name> <how much to hire> <total price>' },
-        h1: { name: ActionName.HireOneRound, parameters: '<tribe name> <how much to hire> <total price>' },
+        h: {
+            name: ActionName.Hire,
+            parameters: [new PlayerActionCliParameter(TribeName), new PlayerActionCliParameter(Number), new PlayerActionCliParameter(Number)],
+        },
+        h1: {
+            name: ActionName.HireOneRound,
+            parameters: [new PlayerActionCliParameter(TribeName), new PlayerActionCliParameter(Number), new PlayerActionCliParameter(Number)],
+        },
 
-        pray: { name: ActionName.Pray, parameters: '' },
-        pil: { name: ActionName.Pillage, parameters: '<tribe name>' },
+        pray: { name: ActionName.Pray, parameters: [] },
+        pil: { name: ActionName.Pillage, parameters: [new PlayerActionCliParameter(TribeName)] },
 
-        q: { name: ActionName.Quit, parameters: '' },
-        r: { name: ActionName.Research, parameters: '<technology name>' },
+        q: { name: ActionName.Quit, parameters: [] },
+        r: { name: ActionName.Research, parameters: [new PlayerActionCliParameter(TechnologyName)] },
 
-        rmca: { name: ActionName.RemoveCaravan, parameters: '<tribe name>' },
+        rmca: { name: ActionName.RemoveCaravan, parameters: [new PlayerActionCliParameter(TribeName)] },
 
-        co: { name: ActionName.Conquer, parameters: '' },
-        cu: { name: ActionName.Cult, parameters: '' },
+        co: { name: ActionName.Conquer, parameters: [] },
+        cu: { name: ActionName.Cult, parameters: [] },
     }
 
     static decisionToCommandDataMap: Record<string, { name: CommandName, parameters: string }> = {
@@ -80,6 +98,10 @@ class ConsoleUi {
         this._game = game
     }
 
+    get std(): Std {
+        return this._std
+    }
+
     public startTurns(): TurnResult {
         // something is wrong here....
         // but game cannot be singleton because players?
@@ -107,8 +129,7 @@ class ConsoleUi {
             for (let i = 0; i < this.game.players.length; ++i, ++globalTurnNumber) {
                 this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
                 const nextTurn = this._turnManager.nextTurn(this.game)
-                const playerName = nextTurn.player.name
-                turnResult = this.doWhatPlayerSaysSafely(playerName, nextTurn)
+                turnResult = this.doWhatPlayerSaysSafely(nextTurn.player, nextTurn)
 
                 if (turnResult.isLast) {
                     this._std.out('last turn')
@@ -123,13 +144,13 @@ class ConsoleUi {
         }
     }
 
-    private doWhatPlayerSaysSafely(playerName: string, nextTurn: Turn): TurnResult {
+    private doWhatPlayerSaysSafely(player: Player, nextTurn: Turn): TurnResult {
         let turnResult: TurnResult
-        let decision: Action | ConsoleCommand
+        let decision: GameAction | ConsoleCommand
         let parameters: string
         for (; ;) {
             try {
-                const decisionWithParameters = this.getDecisionSafe(playerName)
+                const decisionWithParameters = this.getDecisionSafe(player)
                 decision = decisionWithParameters.decision
                 parameters = decisionWithParameters.parameters
 
@@ -155,15 +176,15 @@ class ConsoleUi {
         return turnResult
     }
 
-    getDecisionSafe(playerName: string): { decision: Action | ConsoleCommand, parameters: string } {
+    getDecisionSafe(player: Player): { decision: PlayerActionInterface | ConsoleCommand, parameters: string } {
         let rawDecision: string
-        let decision: Action | ConsoleCommand
+        let decision: PlayerActionInterface | ConsoleCommand
         let parameters: string
 
         for (; ;) {
             try {
-                rawDecision = this._std.in(`${playerName} Decision >`) ?? 'q'
-                decision = this.getDecision(rawDecision)
+                rawDecision = this._std.in(`${player.name} Decision >`) ?? 'q'
+                decision = this.getDecision(rawDecision, player)
                 parameters = this.getParameter(rawDecision)
 
                 break
@@ -178,12 +199,12 @@ class ConsoleUi {
         return { decision, parameters }
     }
 
-    getDecision(rawDecision: string): Action | ConsoleCommand {
+    getDecision(rawDecision: string, player: Player): PlayerActionInterface | ConsoleCommand {
         const words = rawDecision.split(' ')
         const actionOrCommand = words[0].toLowerCase()
 
         if (actionOrCommand in ConsoleUi.decisionToActionDataMap) {
-            return ActionRepository.createFromName(ConsoleUi.decisionToActionDataMap[actionOrCommand].name)
+            return this.getPlayerActionFromRawDecision(player, actionOrCommand, words)
         }
 
         if (actionOrCommand in ConsoleUi.decisionToCommandDataMap) {
@@ -191,6 +212,48 @@ class ConsoleUi {
         }
 
         throw new InvalidInput()
+    }
+
+    private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
+        const mapEntry = ConsoleUi.decisionToActionDataMap[actionOrCommand]
+        const gameAction = ActionRepository.createFromName(mapEntry.name)
+
+        if (words.length !== mapEntry.parameters.length) {
+            throw new Error('insufficient parameters')
+        }
+        if (words.length === 0 && mapEntry.parameters.length === 0) {
+            return new AbstractPlayerAction(gameAction, player)
+        }
+
+        if (mapEntry.name === ActionName.Alliance) {
+            mapEntry.parameters[0].check(words[0])
+            // TODO implement after these actions are added
+            return new AbstractPlayerAction(gameAction, player)
+        }
+
+        if (mapEntry.name === ActionName.Research) {
+            mapEntry.parameters[0].check(words[0])
+            return new ResearchPlayerAction(player, TechnologyRepository.createFromName(words[0]))
+        }
+
+        if (mapEntry.name === ActionName.AttackTile) {
+            mapEntry.parameters[0].check(words[0])
+            mapEntry.parameters[1].check(words[1])
+            const defender = this.getTribeByTribeName((words[0] as TribeName))
+            const tile = this.getTribeTileByResourceName(defender, (words[1] as ResourceName))
+
+            return new AttackTilePlayerAction(player.tribe, defender, tile)
+        }
+
+        return new AbstractPlayerAction(gameAction, player)
+    }
+
+    private getTribeByTribeName(tribeName: TribeName): Tribe {
+        return this.game.getTribe(tribeName)
+    }
+
+    private getTribeTileByResourceName(tribe: Tribe, resourceName: ResourceName): Tile {
+        return tribe.getFirstTileWithResource(resourceName)
     }
 
     private getParameter(rawDecision: string): string {

@@ -1,9 +1,9 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import ResearchPlayerAction from '../../../src/domain/entity/action/ResearchPlayerAction'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
-import ActionName from '../../../src/domain/enum/ActionName.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
-import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import TechnologyRepository from '../../../src/domain/repository/TechnologyRepository'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
@@ -16,9 +16,8 @@ test('research adds technology', () => {
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    const action = ActionRepository.createFromName(ActionName.Research)
-    turn.parameters = 'Pottery'
-    const turnResult = turnDecisionManager.processTurn(action, turn)
+    const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName(TechnologyName.Pottery))
+    const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     expect(turnResult.isLast).toBe(false)
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
@@ -36,9 +35,8 @@ test('cannot research blocked technology', () => {
     const techName = 'Advanced Writing'
 
     const throwingFunction = (): void => {
-        const action = ActionRepository.createFromName(ActionName.Research)
-        turn.parameters = techName
-        const turnResult = turnDecisionManager.processTurn(action, turn)
+        const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName(TechnologyName.AdvancedWriting))
+        const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
         expect(turnResult.isLast).toBe(false)
         expect(tribe.technologies).toStrictEqual({})
@@ -56,13 +54,12 @@ test('cannot research already known technology', () => {
     const turn = new Turn(player)
 
     const techName = 'Pottery'
-    tribe.research(TechnologyName.Pottery)
+    tribe.researchByName(TechnologyName.Pottery)
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
 
     const throwingFunction = (): void => {
-        const action = ActionRepository.createFromName(ActionName.Research)
-        turn.parameters = techName
-        const turnResult = turnDecisionManager.processTurn(action, turn)
+        const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName(TechnologyName.Pottery))
+        const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
         expect(turnResult.isLast).toBe(false)
         expect(tribe.technologies).toStrictEqual({ Pottery: true })
@@ -72,22 +69,22 @@ test('cannot research already known technology', () => {
 })
 
 test('cannot research undefined technology', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
-
-    const tribe = TribeFactory.createStarterTribeWithOptions()
-    expect(tribe.technologies).toStrictEqual({})
-
-    const player = new Player(tribe)
-    const turn = new Turn(player)
-
-    const techName = 'Hello World'
-
-    const throwingFunction = (): void => {
-        const action = ActionRepository.createFromName(ActionName.Research)
-        turn.parameters = techName
-        turnDecisionManager.processTurn(action, turn)
-
-        expect(tribe.technologies).toStrictEqual({})
-    }
-    expect(throwingFunction).toThrow(`Invalid technology name '${techName}'.`)
+    // TODO test this in another place, where the actual validation happens
+    // const turnDecisionManager = container.resolve(TurnDecisionManager)
+    //
+    // const tribe = TribeFactory.createStarterTribeWithOptions()
+    // expect(tribe.technologies).toStrictEqual({})
+    //
+    // const player = new Player(tribe)
+    // const turn = new Turn(player)
+    //
+    // const techName = 'Hello World'
+    //
+    // const throwingFunction = (): void => {
+    //     const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName(TechnologyName.Pottery))
+    //     const turnResult = turnDecisionManager.processTurn(playerAction, turn)
+    //
+    //     expect(tribe.technologies).toStrictEqual({})
+    // }
+    // expect(throwingFunction).toThrow(`Invalid technology name '${techName}'.`)
 })

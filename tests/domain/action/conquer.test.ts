@@ -1,4 +1,5 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
+import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction'
 import Player from '../../../src/domain/entity/Player.ts'
 import Rome from '../../../src/domain/entity/Rome.ts'
 import Tribe from '../../../src/domain/entity/Tribe.ts'
@@ -37,8 +38,10 @@ test('can conquer', () => {
 
     expect(tribe.militaryPower).toBeGreaterThan(rome.militaryPower)
 
-    const action = ActionRepository.createFromName(ActionName.Conquer)
-    const turnResult = turnDecisionManager.processTurn(action, turn)
+    const gameAction = ActionRepository.createFromName(ActionName.Conquer)
+    const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
+
+    const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     expect(turnResult.isLast).toBe(true)
     expect(tribe.isWinner).toStrictEqual(true)
