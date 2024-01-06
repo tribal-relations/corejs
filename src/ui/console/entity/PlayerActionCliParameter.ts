@@ -1,7 +1,14 @@
 import ValueNotInEnum from '../../../exception/ValueNotInEnum'
 
 class PlayerActionCliParameter {
-    constructor(private readonly _enum) {
+    constructor(
+        private readonly _enum,
+        private readonly _name,
+    ) {
+    }
+
+    get name() {
+        return this._name
     }
 
     get enum() {

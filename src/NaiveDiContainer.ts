@@ -23,6 +23,7 @@ import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
 import ConsoleUi from './ui/console/ConsoleUi'
 import MainMenu from './ui/console/MainMenu'
 import PlayerActionGetter from './ui/console/PlayerActionGetter'
+import PlayerController from './ui/console/PlayerController'
 import Printer from './ui/console/Printer'
 import Std from './ui/console/Std'
 import TribePrinter from './ui/console/TribePrinter'
@@ -127,6 +128,8 @@ class NaiveDiContainer {
         // // // console
         this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
         this.setSingleton(PlayerActionGetter, new PlayerActionGetter(this.resolveSafely(Std)))
+        this.setSingleton(PlayerController, new PlayerController(this.resolveSafely(TurnManager), this.resolveSafely(Std)))
+
         this.setSingleton(ConsoleCommandPerformer, new ConsoleCommandPerformer(
             this.resolveSafely(Std),
             this.resolveSafely(TribePrinter),
@@ -140,6 +143,7 @@ class NaiveDiContainer {
             this.resolveSafely(Std),
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(PlayerActionGetter),
+            this.resolveSafely(PlayerController),
         ))
         this.setSingleton(ConsoleUi, new WebUi(
             this.resolveSafely(TurnManager),

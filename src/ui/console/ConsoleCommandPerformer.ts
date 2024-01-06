@@ -1,4 +1,5 @@
-import ConsoleUi from './ConsoleUi.ts'
+import ConsoleActionRepository from './ConsoleActionRepository'
+import ConsoleCommandRepository from './ConsoleCommandRepository'
 import type ConsoleCommand from './entity/ConsoleCommand.ts'
 import CommandName from './enum/CommandName.ts'
 import type Printer from './Printer.ts'
@@ -45,9 +46,9 @@ class ConsoleCommandPerformer {
         let actionName: string
         let actionParameters: string
 
-        for (const key in ConsoleUi.decisionToCommandDataMap) {
-            actionName = ConsoleUi.decisionToCommandDataMap[key].name
-            actionParameters = ConsoleUi.decisionToCommandDataMap[key].parameters
+        for (const key in ConsoleCommandRepository.decisionToCommandDataMap) {
+            actionName = ConsoleCommandRepository.decisionToCommandDataMap[key].name
+            actionParameters = ConsoleCommandRepository.decisionToCommandDataMap[key].parameters
 
             line = `\t${key}\t-\t${actionName}\t${actionParameters}`
             this._std.out(line)
@@ -60,11 +61,11 @@ class ConsoleCommandPerformer {
         let actionName: ActionName
         let actionParameters: string
 
-        for (const key in ConsoleUi.decisionToActionDataMap) {
-            actionName = ConsoleUi.decisionToActionDataMap[key].name
-            actionParameters = ConsoleUi.decisionToActionDataMap[key].parameters.map(val => `${val}`).join(' ')
+        for (const key in ConsoleActionRepository.decisionToActionDataMap) {
+            actionName = ConsoleActionRepository.decisionToActionDataMap[key].name
+            actionParameters = ConsoleActionRepository.decisionToActionDataMap[key].parameters.map(val => `<${val.name}>`).join(' ')
 
-            line = `\t${key}\t-\t${actionName}\t${actionParameters}`
+            line = `\t${key}\t-\t${actionName} ${actionParameters}`
             this._std.out(line)
         }
     }

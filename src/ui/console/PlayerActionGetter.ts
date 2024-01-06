@@ -1,4 +1,4 @@
-import ConsoleUi from './ConsoleUi'
+import ConsoleActionRepository from './ConsoleActionRepository'
 import type ConsoleCommand from './entity/ConsoleCommand'
 import ConsoleCommandRepository from './repository/ConsoleCommandRepository'
 import type Std from './Std'
@@ -67,19 +67,19 @@ class PlayerActionGetter {
         const words = rawDecision.split(' ')
         const actionOrCommand = words[0].toLowerCase()
 
-        if (actionOrCommand in ConsoleUi.decisionToActionDataMap) {
+        if (actionOrCommand in ConsoleActionRepository.decisionToActionDataMap) {
             return this.getPlayerActionFromRawDecision(player, actionOrCommand, words)
         }
 
-        if (actionOrCommand in ConsoleUi.decisionToCommandDataMap) {
-            return ConsoleCommandRepository.createFromName(ConsoleUi.decisionToCommandDataMap[actionOrCommand].name)
+        if (actionOrCommand in ConsoleCommandRepository.decisionToCommandDataMap) {
+            return ConsoleCommandRepository.createFromName(ConsoleCommandRepository.decisionToCommandDataMap[actionOrCommand].name)
         }
 
         throw new InvalidInput()
     }
 
     private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
-        const mapEntry = ConsoleUi.decisionToActionDataMap[actionOrCommand]
+        const mapEntry = ConsoleActionRepository.decisionToActionDataMap[actionOrCommand]
         const gameAction = ActionRepository.createFromName(mapEntry.name)
 
         if (words.length - 1 !== mapEntry.parameters.length) {
