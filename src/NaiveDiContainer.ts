@@ -16,6 +16,7 @@ import Research from './domain/action-performer/Research'
 import Rome from './domain/entity/Rome'
 import DiceThrower from './domain/helper/DiceThrower'
 import FightManager from './domain/helper/FightManager'
+import NotInContainer from './exception/NotInContainer'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
@@ -38,7 +39,7 @@ class NaiveDiContainer {
         if (className.name in this.singletonToInstanceMap) {
             return this.singletonToInstanceMap[className.name]
         }
-        throw new Error(`class ${className.name} not found in container`)
+        throw new NotInContainer(className.name)
     }
 
     public resolve(className: Function, throwOnNotFound: boolean = true): object | null {
@@ -47,7 +48,7 @@ class NaiveDiContainer {
         }
 
         if (throwOnNotFound) {
-            throw new Error(`class ${className.name} not found in container`)
+            throw new NotInContainer(className.name)
         }
 
         return null

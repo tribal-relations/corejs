@@ -2,6 +2,7 @@ import type Game from '../domain/entity/Game.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
 import TechnologyName from '../domain/enum/TechnologyName.ts'
 import type DiceThrower from '../domain/helper/DiceThrower.ts'
+import GameNotYetCreated from '../exception/GameNotYetCreated'
 
 class RoundManager {
     _game: Game | undefined
@@ -13,7 +14,7 @@ class RoundManager {
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }

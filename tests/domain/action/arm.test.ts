@@ -83,5 +83,5 @@ test('cannot arm more than population', () => {
     }
     expect(tribe.militaryPower).toBe(100)
 
-    expect(throwingFunction).toThrow('Cannot arm further. Maximal combat readiness for such population.')
+    expect(throwingFunction).toThrow('Cannot arm further. Attained maximal military power 100 for population 100.')
 })

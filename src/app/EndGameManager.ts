@@ -1,13 +1,14 @@
 import type Game from '../domain/entity/Game.ts'
 import type Player from '../domain/entity/Player.ts'
 import WinningCondition from '../domain/entity/WinningCondition.ts'
+import GameNotYetCreated from '../exception/GameNotYetCreated'
 
 class EndGameManager {
     _game: Game | undefined
 
     get game(): Game {
         if (this._game === undefined) {
-            throw new Error('game is not yet created')
+            throw new GameNotYetCreated()
         }
         return this._game
     }

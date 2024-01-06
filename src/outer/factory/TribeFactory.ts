@@ -1,6 +1,7 @@
 import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'
+import InvalidFactoryOption from '../../exception/InvalidFactoryOption'
 
 class TribeFactory {
     public static createEmpty(options: Record<string, any> = {}): Tribe {
@@ -102,16 +103,16 @@ class TribeFactory {
 
     private static checkOptions(options: Record<string, any> = {}): void {
         if (options.production && options.tiles) {
-            throw new Error('Use either production or tiles, not both')
+            throw new InvalidFactoryOption('production', 'tiles')
         }
         if (options.food && options.tiles) {
-            throw new Error('Use either food or tiles, not both')
+            throw new InvalidFactoryOption('food', 'tiles')
         }
         if (options.culture && options.tiles) {
-            throw new Error('Use either culture or tiles, not both')
+            throw new InvalidFactoryOption('culture', 'tiles')
         }
         if (options.mercantility && options.tiles) {
-            throw new Error('Use either mercantility or tiles, not both')
+            throw new InvalidFactoryOption('mercantility', 'tiles')
         }
     }
 }

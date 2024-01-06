@@ -2,6 +2,8 @@ import type Player from './Player.ts'
 import type Tribe from './Tribe'
 import type Turn from './Turn.ts'
 import type WinningCondition from './WinningCondition.ts'
+import PlayerNotFound from '../../exception/PlayerNotFound'
+import TribeNotFound from '../../exception/TribeNotFound'
 import type TribeName from '../enum/TribeName'
 
 class Game {
@@ -117,7 +119,7 @@ class Game {
                 return playerInstance
             }
         }
-        throw new Error(`player with name "${playerName}" not found in this game "${this.name}"`)
+        throw new PlayerNotFound(playerName, this.name)
     }
 
     public getTribe(tribeName: TribeName): Tribe {
@@ -127,7 +129,7 @@ class Game {
                 return playerInstance.tribe
             }
         }
-        throw new Error(`tribe with name "${tribeName}" not found in this game "${this.name}"`)
+        throw new TribeNotFound(tribeName)
     }
 
     nextRound(): void {
