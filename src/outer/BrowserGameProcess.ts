@@ -1,7 +1,7 @@
 import type EndGameManager from '../app/EndGameManager.ts'
 import type StartGameManager from '../app/StartGameManager.ts'
 import type Game from '../domain/entity/Game.ts'
-import type WebUi from '../ui/WebUi.ts'
+import type WebUi from '../ui/web/WebUi.ts'
 
 class BrowserGameProcess {
     _game: Game | undefined

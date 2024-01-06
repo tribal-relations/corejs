@@ -1,31 +1,23 @@
-import type ConsoleCommandPerformer from './console/ConsoleCommandPerformer.ts'
-import ConsoleCommand from './console/entity/ConsoleCommand.ts'
-import PlayerActionCliParameter from './console/entity/PlayerActionCliParameter'
-import CommandName from './console/enum/CommandName.ts'
-import ConsoleCommandRepository from './console/repository/ConsoleCommandRepository.ts'
+import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
+import ConsoleCommand from './entity/ConsoleCommand.ts'
+import PlayerActionCliParameter from './entity/PlayerActionCliParameter'
+import CommandName from './enum/CommandName.ts'
+import type PlayerActionGetter from './PlayerActionGetter'
 import type Std from './Std.ts'
-import type RoundManager from '../app/RoundManager.ts'
-import type TurnDecisionManager from '../app/TurnDecisionManager.ts'
-import type TurnManager from '../app/TurnManager.ts'
-import type TurnResult from '../app/TurnResult.ts'
-import AbstractPlayerAction from '../domain/entity/action/AbstractPlayerAction'
-import AttackTilePlayerAction from '../domain/entity/action/AttackTilePlayerAction'
-import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface'
-import ResearchPlayerAction from '../domain/entity/action/ResearchPlayerAction'
-import Game from '../domain/entity/Game.ts'
-import type GameAction from '../domain/entity/GameAction.ts'
-import Player from '../domain/entity/Player.ts'
-import type Tile from '../domain/entity/Tile'
-import Tribe from '../domain/entity/Tribe.ts'
-import type Turn from '../domain/entity/Turn.ts'
-import ActionName from '../domain/enum/ActionName.ts'
-import ResourceName from '../domain/enum/ResourceName'
-import TechnologyName from '../domain/enum/TechnologyName'
-import TribeName from '../domain/enum/TribeName.ts'
-import ActionRepository from '../domain/repository/ActionRepository.ts'
-import TechnologyRepository from '../domain/repository/TechnologyRepository'
-import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
-import InvalidInput from '../exception/console/InvalidInput.ts'
+import type RoundManager from '../../app/RoundManager.ts'
+import type TurnDecisionManager from '../../app/TurnDecisionManager.ts'
+import type TurnManager from '../../app/TurnManager.ts'
+import type TurnResult from '../../app/TurnResult.ts'
+import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface'
+import Game from '../../domain/entity/Game.ts'
+import Player from '../../domain/entity/Player.ts'
+import Tribe from '../../domain/entity/Tribe.ts'
+import type Turn from '../../domain/entity/Turn.ts'
+import ActionName from '../../domain/enum/ActionName.ts'
+import ResourceName from '../../domain/enum/ResourceName'
+import TechnologyName from '../../domain/enum/TechnologyName'
+import TribeName from '../../domain/enum/TribeName.ts'
+import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
 
 class ConsoleUi {
     static decisionToActionDataMap: Record<string, { name: ActionName, parameters: PlayerActionCliParameter[] }> = {
@@ -84,6 +76,7 @@ class ConsoleUi {
         private readonly _turnDecisionManager: TurnDecisionManager,
         private readonly _std: Std,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
+        private readonly _playerActionGetter: PlayerActionGetter,
     ) {
     }
 
@@ -96,6 +89,9 @@ class ConsoleUi {
 
     set game(game: Game) {
         this._game = game
+        this._consoleCommandPerformer.game = game
+        this._roundManager.game = game
+        this._playerActionGetter.game = game
     }
 
     get std(): Std {
@@ -110,6 +106,7 @@ class ConsoleUi {
         // TODO make game singleton
         this._consoleCommandPerformer.game = this.game
         this._roundManager.game = this.game
+        this._playerActionGetter.game = this.game
 
         this.updatePlayers()
 
@@ -146,11 +143,11 @@ class ConsoleUi {
 
     private doWhatPlayerSaysSafely(player: Player, nextTurn: Turn): TurnResult {
         let turnResult: TurnResult
-        let decision: GameAction | ConsoleCommand
+        let decision: PlayerActionInterface | ConsoleCommand
         let parameters: string
         for (; ;) {
             try {
-                const decisionWithParameters = this.getDecisionSafe(player)
+                const decisionWithParameters = this._playerActionGetter.getDecisionSafe(player)
                 decision = decisionWithParameters.decision
                 parameters = decisionWithParameters.parameters
 
@@ -162,7 +159,7 @@ class ConsoleUi {
                 nextTurn.parameters = parameters
                 turnResult = this._turnDecisionManager.processTurn(decision, nextTurn)
                 if (!turnResult.success) {
-                    throw new ActionUnsuccessful(decision.name, turnResult.errorMessage)
+                    throw new ActionUnsuccessful(decision.gameAction.name, turnResult.errorMessage)
                 }
                 break
             } catch (error) {
@@ -174,95 +171,6 @@ class ConsoleUi {
             }
         }
         return turnResult
-    }
-
-    getDecisionSafe(player: Player): { decision: PlayerActionInterface | ConsoleCommand, parameters: string } {
-        let rawDecision: string
-        let decision: PlayerActionInterface | ConsoleCommand
-        let parameters: string
-
-        for (; ;) {
-            try {
-                rawDecision = this._std.in(`${player.name} Decision >`) ?? 'q'
-                decision = this.getDecision(rawDecision, player)
-                parameters = this.getParameter(rawDecision)
-
-                break
-            } catch (error) {
-                if (error instanceof Error) {
-                    this._std.out(error.message)
-                } else {
-                    this._std.out(error)
-                }
-            }
-        }
-        return { decision, parameters }
-    }
-
-    getDecision(rawDecision: string, player: Player): PlayerActionInterface | ConsoleCommand {
-        const words = rawDecision.split(' ')
-        const actionOrCommand = words[0].toLowerCase()
-
-        if (actionOrCommand in ConsoleUi.decisionToActionDataMap) {
-            return this.getPlayerActionFromRawDecision(player, actionOrCommand, words)
-        }
-
-        if (actionOrCommand in ConsoleUi.decisionToCommandDataMap) {
-            return ConsoleCommandRepository.createFromName(ConsoleUi.decisionToCommandDataMap[actionOrCommand].name)
-        }
-
-        throw new InvalidInput()
-    }
-
-    private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
-        const mapEntry = ConsoleUi.decisionToActionDataMap[actionOrCommand]
-        const gameAction = ActionRepository.createFromName(mapEntry.name)
-
-        if (words.length !== mapEntry.parameters.length) {
-            throw new Error('insufficient parameters')
-        }
-        if (words.length === 0 && mapEntry.parameters.length === 0) {
-            return new AbstractPlayerAction(gameAction, player)
-        }
-
-        if (mapEntry.name === ActionName.Alliance) {
-            mapEntry.parameters[0].check(words[0])
-            // TODO implement after these actions are added
-            return new AbstractPlayerAction(gameAction, player)
-        }
-
-        if (mapEntry.name === ActionName.Research) {
-            mapEntry.parameters[0].check(words[0])
-            return new ResearchPlayerAction(player, TechnologyRepository.createFromName(words[0]))
-        }
-
-        if (mapEntry.name === ActionName.AttackTile) {
-            mapEntry.parameters[0].check(words[0])
-            mapEntry.parameters[1].check(words[1])
-            const defender = this.getTribeByTribeName((words[0] as TribeName))
-            const tile = this.getTribeTileByResourceName(defender, (words[1] as ResourceName))
-
-            return new AttackTilePlayerAction(player.tribe, defender, tile)
-        }
-
-        return new AbstractPlayerAction(gameAction, player)
-    }
-
-    private getTribeByTribeName(tribeName: TribeName): Tribe {
-        return this.game.getTribe(tribeName)
-    }
-
-    private getTribeTileByResourceName(tribe: Tribe, resourceName: ResourceName): Tile {
-        return tribe.getFirstTileWithResource(resourceName)
-    }
-
-    private getParameter(rawDecision: string): string {
-        const words = rawDecision.split(' ')
-        if (words.length > 1) {
-            const paramStrings = (words.slice(1)).join(' ')
-            return paramStrings
-        }
-        return ''
     }
 
     private outputStartInfo(): void {

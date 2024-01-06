@@ -11,14 +11,14 @@ import Research from '../src/domain/action-performer/Research'
 import { container } from '../src/NaiveDiContainer.ts'
 
 test('can get independent singleton from container', () => {
-    const research = container.resolve(Research)
+    const research = container.resolveSafely(Research)
 
     expect(typeof research).toBe('object')
     expect(research instanceof Research).toBe(true)
 })
 
 test('can get singleton with all its dependencies from container', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     expect(typeof turnDecisionManager).toBe('object')
     expect(turnDecisionManager._actionPerformer instanceof ActionPerformer).toBe(true)

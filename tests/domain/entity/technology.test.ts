@@ -14,7 +14,7 @@ test('Pottery increases crops yield', () => {
     tribe.researchByName(TechnologyName.Pottery)
     const player = new Player(tribe)
 
-    const roundManager = container.resolve(RoundManager)
+    const roundManager = container.resolveSafely(RoundManager)
 
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')
@@ -44,7 +44,7 @@ test('Plough increases crops yield', () => {
     expect(tribe.food).toBe(startFood * calendarMultiplier)
 
     const player = new Player(tribe)
-    const roundManager = container.resolve(RoundManager)
+    const roundManager = container.resolveSafely(RoundManager)
 
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')
@@ -71,7 +71,7 @@ test('Plough with animal husbandry adds a dice', () => {
     tribe.researchByName(TechnologyName.Plough)
     tribe.researchByName(TechnologyName.AnimalHusbandry)
     const player = new Player(tribe)
-    const roundManager = container.resolve(RoundManager)
+    const roundManager = container.resolveSafely(RoundManager)
 
     SpecificDiceThrower.target = 1
     roundManager.game = new Game([player], '')

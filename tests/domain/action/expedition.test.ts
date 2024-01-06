@@ -28,7 +28,7 @@ test('expedition adds one tile', () => {
     TestBootstrapper.addMocks([{
         class: DiceThrower, instance: new SuccessfulDiceThrower(),
     }])
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.tiles.length).toBe(2 + 0)
 
@@ -41,7 +41,7 @@ test('expedition can result in failure', () => {
     TestBootstrapper.addMocks([{
         class: DiceThrower, instance: new LosingDiceThrower(),
     }])
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.tiles.length).toBe(2 + 0)

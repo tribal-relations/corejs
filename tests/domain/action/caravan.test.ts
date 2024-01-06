@@ -1,5 +1,5 @@
 test('can send caravan', () => {
-    // const turnDecisionManager = container.resolve(TurnDecisionManager)
+    // const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     //
     // const sender = TestBootstrapper.createStarterTribe()
     // const recipient = TestBootstrapper.createStarterTribe()

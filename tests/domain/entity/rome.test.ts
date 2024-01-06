@@ -2,7 +2,7 @@ import Rome from '../../../src/domain/entity/Rome.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 
 test('rome is created with correct default data', () => {
-    const rome = container.resolve(Rome)
+    const rome = container.resolveSafely(Rome)
 
     expect(rome.radius).toBe(0)
     expect(rome.gold).toBe(0)

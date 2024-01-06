@@ -1,8 +1,8 @@
-import type TurnDecisionManager from '../app/TurnDecisionManager.ts'
-import type TurnManager from '../app/TurnManager.ts'
-import type TurnResult from '../app/TurnResult.ts'
-import type Game from '../domain/entity/Game.ts'
-import type GameAction from '../domain/entity/GameAction.ts'
+import type TurnDecisionManager from '../../app/TurnDecisionManager.ts'
+import type TurnManager from '../../app/TurnManager.ts'
+import type TurnResult from '../../app/TurnResult.ts'
+import type Game from '../../domain/entity/Game.ts'
+import type GameAction from '../../domain/entity/GameAction.ts'
 
 class WebUi {
     _game: Game | undefined

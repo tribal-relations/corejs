@@ -19,18 +19,26 @@ import FightManager from './domain/helper/FightManager'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
+import ConsoleUi from './ui/console/ConsoleUi'
 import MainMenu from './ui/console/MainMenu'
+import PlayerActionGetter from './ui/console/PlayerActionGetter'
 import Printer from './ui/console/Printer'
+import Std from './ui/console/Std'
 import TribePrinter from './ui/console/TribePrinter'
-import ConsoleUi from './ui/ConsoleUi'
-import Std from './ui/Std'
-import WebUi from './ui/WebUi'
+import WebUi from './ui/web/WebUi'
 
 class NaiveDiContainer {
     public singletonToInstanceMap = {}
 
     constructor() {
         this.buildMap()
+    }
+
+    public resolveSafely<T>(className: Function): T {
+        if (className.name in this.singletonToInstanceMap) {
+            return this.singletonToInstanceMap[className.name]
+        }
+        throw new Error(`class ${className.name} not found in container`)
     }
 
     public resolve(className: Function, throwOnNotFound: boolean = true): object | null {
@@ -106,61 +114,63 @@ class NaiveDiContainer {
 
         // // outer
         this.setSingleton(ConsoleGameProcess, new ConsoleGameProcess(
-            this.resolve(StartGameManager),
-            this.resolve(ConsoleUi),
-            this.resolve(EndGameManager),
-            this.resolve(MainMenu),
+            this.resolveSafely(StartGameManager),
+            this.resolveSafely(ConsoleUi),
+            this.resolveSafely(EndGameManager),
+            this.resolveSafely(MainMenu),
         ))
     }
 
     private setUiSingletons() {
         // // ui
         // // // console
-        this.setSingleton(MainMenu, new MainMenu(this.resolve(Std)))
+        this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
+        this.setSingleton(PlayerActionGetter, new PlayerActionGetter(this.resolveSafely(Std)))
         this.setSingleton(ConsoleCommandPerformer, new ConsoleCommandPerformer(
-            this.resolve(Std),
-            this.resolve(TribePrinter),
-            this.resolve(Printer),
+            this.resolveSafely(Std),
+            this.resolveSafely(TribePrinter),
+            this.resolveSafely(Printer),
         ))
         // // ui-root
         this.setSingleton(ConsoleUi, new ConsoleUi(
-            this.resolve(TurnManager),
-            this.resolve(RoundManager),
-            this.resolve(TurnDecisionManager),
-            this.resolve(Std),
-            this.resolve(ConsoleCommandPerformer),
+            this.resolveSafely(TurnManager),
+            this.resolveSafely(RoundManager),
+            this.resolveSafely(TurnDecisionManager),
+            this.resolveSafely(Std),
+            this.resolveSafely(ConsoleCommandPerformer),
+            this.resolveSafely(PlayerActionGetter),
         ))
         this.setSingleton(ConsoleUi, new WebUi(
-            this.resolve(TurnManager),
-            this.resolve(TurnDecisionManager),
+            this.resolveSafely(TurnManager),
+            this.resolveSafely(TurnDecisionManager),
         ))
     }
 
     private setAppSingletons() {
         // // app
-        this.setSingleton(RoundManager, new RoundManager(this.resolve(DiceThrower)))
+        this.setSingleton(RoundManager, new RoundManager(this.resolveSafely(DiceThrower)))
         this.setSingleton(ActionPerformer, new ActionPerformer(
-            this.resolve(Arm),
-            this.resolve(Research),
-            this.resolve(Expedition),
-            this.resolve(GoTo3rdRadius),
-            this.resolve(GoTo2ndRadius),
-            this.resolve(GoTo1stRadius),
-            this.resolve(Conquer),
-            this.resolve(Cult),
-            this.resolve(AttackTile),
+            this.resolveSafely(Arm),
+            this.resolveSafely(Research),
+            this.resolveSafely(Expedition),
+            this.resolveSafely(GoTo3rdRadius),
+            this.resolveSafely(GoTo2ndRadius),
+            this.resolveSafely(GoTo1stRadius),
+            this.resolveSafely(Conquer),
+            this.resolveSafely(Cult),
+            this.resolveSafely(AttackTile),
         ))
-        this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolve(ActionPerformer)))
+        this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
     }
 
     private setDomainSingletons() {
         // // domain
         // // // action
-        this.setSingleton(FightManager, new FightManager(this.resolve(Rome)))
-        this.setSingleton(Conquer, new Conquer(this.resolve(FightManager)))
-        this.setSingleton(Cult, new Cult(this.resolve(DiceThrower)))
-        this.setSingleton(Expedition, new Expedition(this.resolve(DiceThrower)))
-        this.setSingleton(AttackTile, new AttackTile(this.resolve(FightManager)))
+        this.setSingleton(FightManager, new FightManager(this.resolveSafely(Rome)))
+        this.setSingleton(Conquer, new Conquer(this.resolveSafely(FightManager)))
+        this.setSingleton(Cult, new Cult(this.resolveSafely(DiceThrower)))
+        this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
+        this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
     }
 
     private buildMap(): void {

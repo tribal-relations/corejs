@@ -3,7 +3,7 @@ import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('tribe with greater combat readiness wins', () => {
-    const fightManager = container.resolve(FightManager)
+    const fightManager = container.resolveSafely(FightManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
@@ -16,7 +16,7 @@ test('tribe with greater combat readiness wins', () => {
 })
 
 test('defender does not suffer losses in case of failure', () => {
-    const fightManager = container.resolve(FightManager)
+    const fightManager = container.resolveSafely(FightManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
@@ -32,7 +32,7 @@ test('defender does not suffer losses in case of failure', () => {
 })
 
 test('tribes with equal combat readiness do not win', () => {
-    const fightManager = container.resolve(FightManager)
+    const fightManager = container.resolveSafely(FightManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
     const defender = TribeFactory.createStarterTribeWithOptions()
@@ -48,7 +48,7 @@ test('tribes with equal combat readiness do not win', () => {
 })
 
 test('attacker takes losses if he is weaker', () => {
-    const fightManager = container.resolve(FightManager)
+    const fightManager = container.resolveSafely(FightManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()
@@ -71,7 +71,7 @@ test('attacker takes losses if he is weaker', () => {
 })
 
 test('attacker takes big losses but cannot lose whole army', () => {
-    const fightManager = container.resolve(FightManager)
+    const fightManager = container.resolveSafely(FightManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
     attacker.arm()

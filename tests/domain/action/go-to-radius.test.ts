@@ -9,7 +9,7 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import TestBootstrapper from '../../test-bootstrapper.ts'
 
 test('can go to 3rd radius from 4th', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -26,7 +26,7 @@ test('can go to 3rd radius from 4th', () => {
 })
 
 test('cannot go to 2nd radius from 4th', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -50,7 +50,7 @@ test('cannot go to 2nd radius from 4th', () => {
 })
 
 test('cannot go to 1st radius from 4th', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -74,7 +74,7 @@ test('cannot go to 1st radius from 4th', () => {
 })
 
 test('can go to 2nd radius from 3rd', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -94,7 +94,7 @@ test('can go to 2nd radius from 3rd', () => {
 })
 
 test('cannot go to 1st radius from 3rd', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -119,7 +119,7 @@ test('cannot go to 1st radius from 3rd', () => {
 })
 
 test('can go to 1st radius from 2nd', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})

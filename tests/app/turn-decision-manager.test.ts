@@ -8,7 +8,7 @@ import { container } from '../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../src/outer/factory/TribeFactory.ts'
 
 test('q to quit game', () => {
-    const turnDecisionManager = container.resolve(TurnDecisionManager)
+    const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     const player = new Player(tribe)

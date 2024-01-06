@@ -1,11 +1,11 @@
 import { container } from '../../../src/NaiveDiContainer.ts'
 import MainMenu from '../../../src/ui/console/MainMenu.ts'
-import Std from '../../../src/ui/Std'
+import Std from '../../../src/ui/console/Std'
 
 test('main menu', async () => {
     // container.setMock(Std, new MockStd())
 
-    const mockStd = container.resolve(Std)
+    const mockStd = container.resolveSafely(Std)
     const mainMenu = new MainMenu(mockStd)
 
     mainMenu.start()
