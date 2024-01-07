@@ -45,24 +45,3 @@ jobs:
                 contents: read
                 # Required to put a comment into the pull-request
                 pull-requests: write
-
-#            - name: Jest Coverage Comment (legacy, this needs to be updated to use vitest)
-#              id: coverageComment
-#              uses: MishaKav/jest-coverage-comment@main
-#              with:
-#                hide-comment: true
-#                coverage-path: ./coverage.txt
-#                junitxml-path: ./coverage/junit.xml
-
-# old action to update badge does not work anymore - need to figure out how to adapt it to current workflow
-#            - name: Create the badge
-#              #              if: github.ref == 'refs/heads/main'
-#              uses: schneegans/dynamic-badges-action@v1.6.0
-#              with:
-#                auth: ${{ secrets.GIST_SECRET }}
-#                gistID: 7571a4c577e80cce945baedaba153669
-#                filename: test.json
-#                label: coverage
-#                message: ${{ steps.coverageComment.outputs.coverage }}%
-#                color: ${{ steps.coverageComment.outputs.color }}
-#                namedLogo: javascript
