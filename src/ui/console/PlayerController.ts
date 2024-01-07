@@ -53,6 +53,16 @@ class PlayerController {
         this._turnManager.addPlayers(this.game.players.length)
     }
 
+    public outputPlayersWithTribes(): void {
+        let line: string
+
+        for (let i = 0; i < this.game.players.length; i++) {
+            line = `\t${this.game.players[i].name}\t-\tTribe '${this.game.players[i].tribe.name}'`
+
+            this._std.out(line)
+        }
+    }
+
     private createPlayers(playerNames: string[]): Player[] {
         const players = []
         const tribeNames = (Object as any).values(TribeName).slice(0, playerNames.length)

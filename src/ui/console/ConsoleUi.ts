@@ -48,23 +48,16 @@ class ConsoleUi {
     }
 
     public startTurns(): TurnResult {
-        // something is wrong here....
-        // but game cannot be singleton because players?
-        // no, we can add players later
-        // yes, must make game singleton
-        // TODO make game singleton
-        this._consoleCommandPerformer.game = this.game
-        this._roundManager.game = this.game
-        this._playerActionGetter.game = this.game
-        this._playerController.game = this.game
-
-        this._playerController.updatePlayers()
-
-        this.outputStartInfo()
-        this._consoleCommandPerformer.outputAvailableCommands()
-        this._consoleCommandPerformer.outputAvailableActions()
+        this.makeFirstOneTimeSetup()
 
         return this.startRounds()
+    }
+
+    private makeFirstOneTimeSetup() {
+        this._playerController.updatePlayers()
+        this._playerController.outputPlayersWithTribes()
+        this._consoleCommandPerformer.outputAvailableCommands()
+        this._consoleCommandPerformer.outputAvailableActions()
     }
 
     private startRounds(): TurnResult {
@@ -121,16 +114,6 @@ class ConsoleUi {
             }
         }
         return turnResult
-    }
-
-    private outputStartInfo(): void {
-        let line: string
-
-        for (let i = 0; i < this.game.players.length; i++) {
-            line = `\t${this.game.players[i].name}\t-\tTribe '${this.game.players[i].tribe.name}'`
-
-            this._std.out(line)
-        }
     }
 }
 
