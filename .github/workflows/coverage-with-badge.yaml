@@ -10,14 +10,8 @@ on:
 
 jobs:
     update-coverage-in-readme:
-        name: Vitest Coverage Report
-        uses: davelosert/vitest-coverage-report-action@v2.2.0
+        name: Test Coverage Report
         runs-on: ubuntu-latest
-        permissions:
-            # Required to checkout the code
-            contents: read
-            # Required to put a comment into the pull-request
-            pull-requests: write
 
         steps:
             - uses: actions/checkout@v4
@@ -43,11 +37,14 @@ jobs:
             - name: Run Tests
               run: npm run test:coverage | tee ./coverage.txt
 
-            - name: 'Report Coverage'
-                # Set if: always() to also generate the report if tests are failing
-                # Only works if you set `reportOnFailure: true` in your vite config as specified above
+            - name: Vitest Coverage Report action
+              uses: davelosert/vitest-coverage-report-action@v2.2.0
               if: always()
-              uses:  davelosert/vitest-coverage-report-action@v2
+              permissions:
+                # Required to checkout the code
+                contents: read
+                # Required to put a comment into the pull-request
+                pull-requests: write
 
 #            - name: Jest Coverage Comment (legacy, this needs to be updated to use vitest)
 #              id: coverageComment
