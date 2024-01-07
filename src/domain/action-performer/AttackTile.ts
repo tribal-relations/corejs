@@ -13,7 +13,7 @@ class AttackTile implements ActionInterface {
     }
 
     public perform(playerAction: AttackTilePlayerAction, _: Turn): void {
-        const didAttackerWin = this._fightManager.fightWithAnotherTribe(
+        const didAttackerWin = this._fightManager.fightWithAnotherTribeOverTile(
             playerAction.actor,
             playerAction.defender,
         )

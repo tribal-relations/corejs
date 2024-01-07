@@ -84,6 +84,9 @@ class Rome implements CanFight {
     get mercantility(): number {
         return this._mercantility
     }
+
+    public takeLosses(_amount: number): void {
+    }
 }
 
 export default Rome
