@@ -13,10 +13,6 @@ class Conquer implements ActionInterface {
     }
 
     public perform(playerAction: PlayerActionInterface, turn: Turn): void {
-        this.startExpedition(turn)
-    }
-
-    private startExpedition(turn: Turn): void {
         if (this._fightManager.fightWithRome(turn.player.tribe)) {
             turn.player.tribe.isWinner = true
         }

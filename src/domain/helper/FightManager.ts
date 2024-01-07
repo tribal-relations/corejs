@@ -15,6 +15,22 @@ class FightManager {
     public fightWithAnotherTribe(currentTribe: Tribe, defender: CanFight): boolean {
         const battleResult = this.compareMilitaryPower(currentTribe, defender)
         if (battleResult > 0) {
+            defender.takeLosses(battleResult)
+            return true
+        }
+        if (battleResult === 0) {
+            return false
+        }
+        if (battleResult < 0) {
+            currentTribe.takeLosses(-battleResult)
+        }
+        return false
+    }
+
+    public fightWithAnotherTribeOverTile(currentTribe: Tribe, defender: CanFight): boolean {
+        const battleResult = this.compareMilitaryPower(currentTribe, defender)
+        // when fighting over tile, defender does not suffer losses, except for tile
+        if (battleResult > 0) {
             return true
         }
         if (battleResult === 0) {

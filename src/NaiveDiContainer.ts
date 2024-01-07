@@ -6,6 +6,7 @@ import TurnDecisionManager from './app/TurnDecisionManager'
 import TurnManager from './app/TurnManager'
 import Arm from './domain/action-performer/Arm'
 import AttackTile from './domain/action-performer/AttackTile'
+import AttackTribe from './domain/action-performer/AttackTribe'
 import Conquer from './domain/action-performer/Conquer'
 import Cult from './domain/action-performer/Cult'
 import Expedition from './domain/action-performer/Expedition'
@@ -164,6 +165,7 @@ class NaiveDiContainer {
             this.resolveSafely(Conquer),
             this.resolveSafely(Cult),
             this.resolveSafely(AttackTile),
+            this.resolveSafely(AttackTribe),
         ))
         this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
     }
@@ -176,6 +178,7 @@ class NaiveDiContainer {
         this.setSingleton(Cult, new Cult(this.resolveSafely(DiceThrower)))
         this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
         this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
+        this.setSingleton(AttackTribe, new AttackTribe(this.resolveSafely(FightManager)))
     }
 
     private buildMap(): void {

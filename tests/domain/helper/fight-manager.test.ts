@@ -15,7 +15,23 @@ test('tribe with greater combat readiness wins', () => {
     expect(attackerWon).toBe(true)
 })
 
-test('defender does not suffer losses in case of failure', () => {
+test('defender does not suffer losses in case of failure when fighting over tile', () => {
+    const fightManager = container.resolveSafely(FightManager)
+
+    const attacker = TribeFactory.createStarterTribeWithOptions()
+    attacker.arm()
+    const defender = TribeFactory.createStarterTribeWithOptions()
+    expect(attacker.population).toBe(2)
+    expect(defender.population).toBe(2)
+
+    let attackerWon = false
+    attackerWon = fightManager.fightWithAnotherTribeOverTile(attacker, defender)
+    expect(attackerWon).toBe(true)
+    expect(attacker.population).toBe(2)
+    expect(defender.population).toBe(2)
+})
+
+test('defender suffers losses when weaker', () => {
     const fightManager = container.resolveSafely(FightManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
@@ -28,7 +44,7 @@ test('defender does not suffer losses in case of failure', () => {
     attackerWon = fightManager.fightWithAnotherTribe(attacker, defender)
     expect(attackerWon).toBe(true)
     expect(attacker.population).toBe(2)
-    expect(defender.population).toBe(2)
+    expect(defender.population).toBe(1)
 })
 
 test('tribes with equal combat readiness do not win', () => {

@@ -1,6 +1,7 @@
 import type ActionInterface from '../domain/action-performer/ActionInterface.ts'
 import type Arm from '../domain/action-performer/Arm.ts'
 import type AttackTile from '../domain/action-performer/AttackTile'
+import type AttackTribe from '../domain/action-performer/AttackTribe'
 import type Conquer from '../domain/action-performer/Conquer.ts'
 import type Cult from '../domain/action-performer/Cult.ts'
 import type Expedition from '../domain/action-performer/Expedition.ts'
@@ -30,6 +31,7 @@ class ActionPerformer {
         private readonly _conquer: Conquer,
         private readonly _cult: Cult,
         private readonly _attackTile: AttackTile,
+        private readonly _attackTribe: AttackTribe,
     ) {
         this.buildPerformersMap()
     }
@@ -56,6 +58,7 @@ class ActionPerformer {
             [ActionName.Conquer]: this._conquer,
             [ActionName.Cult]: this._cult,
             [ActionName.AttackTile]: this._attackTile,
+            [ActionName.AttackTribe]: this._attackTribe,
         }
     }
 
