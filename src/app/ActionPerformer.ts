@@ -16,6 +16,7 @@ import type Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
 import ActionUnavailable from '../exception/ActionUnavailable.ts'
+import ActionUnsuccessful from '../exception/ActionUnsuccessful'
 import WrongRadius from '../exception/WrongRadius.ts'
 
 class ActionPerformer {
@@ -36,15 +37,13 @@ class ActionPerformer {
         this.buildPerformersMap()
     }
 
-    public performAction(playerAction: PlayerActionInterface, turn: Turn): boolean {
+    public performAction(playerAction: PlayerActionInterface, turn: Turn): void {
         this.checkActionConstraints(playerAction.gameAction, turn.player.tribe)
         const performer = this.getPerformerClass(playerAction.gameAction)
-        if (performer) {
-            performer.perform(playerAction, turn)
-            return true
+        if (!performer) {
+            throw new ActionUnsuccessful(playerAction.gameAction.name)
         }
-
-        return false
+        performer.perform(playerAction, turn)
     }
 
     private buildPerformersMap(): void {
@@ -68,19 +67,24 @@ class ActionPerformer {
 
     private checkActionConstraints(action: GameAction, tribe: Tribe): void {
         if (action.constraints.radius < tribe.radius) {
-            throw new WrongRadius(tribe.name, action.constraints.radius, action.name)
+            const error: Error = new WrongRadius(tribe.name, action.constraints.radius, action.name)
+            throw error
         }
         if (action.constraints.culture > tribe.culture) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Culture)
+            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Culture)
+            throw error
         }
         if (action.constraints.production > tribe.production) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Production)
+            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Production)
+            throw error
         }
         if (action.constraints.population > tribe.population) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Population)
+            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Population)
+            throw error
         }
         if (action.constraints.gold_cost > tribe.gold) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Gold)
+            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Gold)
+            throw error
         }
     }
 }

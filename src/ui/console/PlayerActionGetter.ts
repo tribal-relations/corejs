@@ -16,6 +16,7 @@ import type TechnologyName from '../../domain/enum/TechnologyName'
 import type TribeName from '../../domain/enum/TribeName'
 import ActionRepository from '../../domain/repository/ActionRepository'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository'
+import CannotGetPlayerDecision from '../../exception/console/CannotGetPlayerDecision'
 import InvalidInput from '../../exception/console/InvalidInput'
 import GameNotYetCreated from '../../exception/GameNotYetCreated'
 import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
@@ -39,6 +40,10 @@ class PlayerActionGetter {
         this._game = game
     }
 
+    get std(): Std {
+        return this._std
+    }
+
     getDecisionSafe(player: Player): { decision: PlayerActionInterface | ConsoleCommand, parameters: string } {
         let rawDecision: string
         let decision: PlayerActionInterface | ConsoleCommand
@@ -46,17 +51,17 @@ class PlayerActionGetter {
 
         for (; ;) {
             try {
-                rawDecision = this._std.in(`${player.name} Decision >`) ?? 'q'
+                rawDecision = this._std.in(`${player.tribe.name} Decision >`) ?? 'q'
                 // next line prob
                 decision = this.getDecision(rawDecision, player)
                 parameters = this.getParameter(rawDecision)
 
                 break
             } catch (error) {
-                if (error instanceof Error) {
-                    this._std.out(error.message)
+                if (error instanceof CannotGetPlayerDecision) {
+                    this.std.out(error.message)
                 } else {
-                    this._std.out(error)
+                    throw error
                 }
             }
         }

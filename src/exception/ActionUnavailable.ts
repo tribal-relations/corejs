@@ -1,4 +1,6 @@
-class ActionUnavailable extends Error {
+import AppException from './AppException'
+
+class ActionUnavailable extends AppException {
     constructor(tribeName: string, actionName: string, constraint: string | null = null) {
         if (constraint) {
             super(

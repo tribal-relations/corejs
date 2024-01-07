@@ -1,6 +1,6 @@
 import ActionPerformer from './app/ActionPerformer'
 import EndGameManager from './app/EndGameManager'
-import RoundManager from './app/RoundManager'
+import RelationsManager from './app/RelationsManager'
 import StartGameManager from './app/StartGameManager'
 import TurnDecisionManager from './app/TurnDecisionManager'
 import TurnManager from './app/TurnManager'
@@ -17,7 +17,7 @@ import Research from './domain/action-performer/Research'
 import Rome from './domain/entity/Rome'
 import DiceThrower from './domain/helper/DiceThrower'
 import FightManager from './domain/helper/FightManager'
-import NotInContainer from './exception/NotInContainer'
+import NotInContainer from './exception/internal/NotInContainer'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
@@ -25,7 +25,10 @@ import ConsoleUi from './ui/console/ConsoleUi'
 import MainMenu from './ui/console/MainMenu'
 import PlayerActionGetter from './ui/console/PlayerActionGetter'
 import PlayerController from './ui/console/PlayerController'
+import PlayerRelationActionGetter from './ui/console/PlayerRelationActionGetter'
 import Printer from './ui/console/Printer'
+import RelationRoundManager from './ui/console/RelationRoundManager'
+import RoundManager from './ui/console/RoundManager'
 import Std from './ui/console/Std'
 import TribePrinter from './ui/console/TribePrinter'
 import WebUi from './ui/web/WebUi'
@@ -104,6 +107,7 @@ class NaiveDiContainer {
         this.setSingleton(StartGameManager, new StartGameManager())
         this.setSingleton(EndGameManager, new EndGameManager())
         this.setSingleton(TurnManager, new TurnManager())
+        this.setSingleton(RelationsManager, new RelationsManager())
 
         // // outer
         this.setSingleton(TribalRelationsGame, new TribalRelationsGame())
@@ -129,21 +133,32 @@ class NaiveDiContainer {
         // // // console
         this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
         this.setSingleton(PlayerActionGetter, new PlayerActionGetter(this.resolveSafely(Std)))
+        this.setSingleton(PlayerRelationActionGetter, new PlayerRelationActionGetter(this.resolveSafely(Std)))
         this.setSingleton(PlayerController, new PlayerController(this.resolveSafely(TurnManager), this.resolveSafely(Std)))
-
+        this.setSingleton(RelationRoundManager, new RelationRoundManager(
+            this.resolveSafely(Std),
+            this.resolveSafely(RelationsManager),
+            this.resolveSafely(PlayerRelationActionGetter),
+        ))
         this.setSingleton(ConsoleCommandPerformer, new ConsoleCommandPerformer(
             this.resolveSafely(Std),
             this.resolveSafely(TribePrinter),
             this.resolveSafely(Printer),
         ))
-        // // ui-root
-        this.setSingleton(ConsoleUi, new ConsoleUi(
-            this.resolveSafely(TurnManager),
-            this.resolveSafely(RoundManager),
-            this.resolveSafely(TurnDecisionManager),
+        this.setSingleton(RoundManager, new RoundManager(
+            this.resolveSafely(DiceThrower),
             this.resolveSafely(Std),
+            this.resolveSafely(TurnManager),
+            this.resolveSafely(TurnDecisionManager),
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(PlayerActionGetter),
+            this.resolveSafely(RelationRoundManager),
+        ))
+
+        // // ui-root
+        this.setSingleton(ConsoleUi, new ConsoleUi(
+            this.resolveSafely(RoundManager),
+            this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(PlayerController),
         ))
         this.setSingleton(ConsoleUi, new WebUi(
@@ -154,7 +169,6 @@ class NaiveDiContainer {
 
     private setAppSingletons() {
         // // app
-        this.setSingleton(RoundManager, new RoundManager(this.resolveSafely(DiceThrower)))
         this.setSingleton(ActionPerformer, new ActionPerformer(
             this.resolveSafely(Arm),
             this.resolveSafely(Research),

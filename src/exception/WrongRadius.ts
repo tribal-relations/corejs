@@ -1,4 +1,6 @@
-class WrongRadius extends Error {
+import AppException from './AppException'
+
+class WrongRadius extends AppException {
     constructor(tribeName: string, radius: number, actionName: string) {
         super(`Tribe '${tribeName}' has not yet reached radius ${radius} necessary to perform action '${actionName}'.`)
     }

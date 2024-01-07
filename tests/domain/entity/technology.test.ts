@@ -1,9 +1,9 @@
-import RoundManager from '../../../src/app/RoundManager.ts'
 import Game from '../../../src/domain/entity/Game.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
+import RoundManager from '../../../src/ui/console/RoundManager.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 test('Pottery increases crops yield', () => {
@@ -20,7 +20,7 @@ test('Pottery increases crops yield', () => {
     roundManager.game = new Game([player], '')
 
     const diceResultWithBonus = SpecificDiceThrower.target + potteryBonus
-    roundManager.finalizeRound()
+    roundManager.populationGrowth()
 
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
     expect(tribe.population).toBe(10 + diceResultWithBonus * startFood)
@@ -50,7 +50,7 @@ test('Plough increases crops yield', () => {
     roundManager.game = new Game([player], '')
 
     const diceResultWithBonus = SpecificDiceThrower.target + ploughBonus + potteryBonus
-    roundManager.finalizeRound()
+    roundManager.populationGrowth()
 
     const resultPopulation = Math.min(
         startPopulation * populationMultiplierLimit,
@@ -77,7 +77,7 @@ test('Plough with animal husbandry adds a dice', () => {
     roundManager.game = new Game([player], '')
 
     const diceResultWithBonus = SpecificDiceThrower.target + SpecificDiceThrower.target + ploughBonus + potteryBonus
-    roundManager.finalizeRound()
+    roundManager.populationGrowth()
 
     expect(tribe.population).toBe(10 + diceResultWithBonus * startFood * calendarMultiplier)
 })

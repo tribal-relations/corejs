@@ -1,4 +1,6 @@
-class NotInContainer extends Error {
+import InternalException from './InternalException'
+
+class NotInContainer extends InternalException {
     constructor(className: string) {
         super(`Class ${className} not found in container.`)
     }

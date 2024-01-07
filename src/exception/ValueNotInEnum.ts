@@ -1,4 +1,6 @@
-class ValueNotInEnum extends Error {
+import AppException from './AppException'
+
+class ValueNotInEnum extends AppException {
     constructor(value: string) {
         super(`The value '${value}' is not in enum.`)
     }
