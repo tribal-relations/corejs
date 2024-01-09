@@ -1,7 +1,7 @@
 import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'
-import InvalidFactoryOption from '../../exception/InvalidFactoryOption'
+import InvalidFactoryOption from '../../exception/internal/InvalidFactoryOption'
 
 class TribeFactory {
     public static createEmpty(options: Record<string, any> = {}): Tribe {

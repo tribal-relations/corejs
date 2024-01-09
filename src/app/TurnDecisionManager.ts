@@ -14,17 +14,17 @@ class TurnDecisionManager {
         if (action.gameAction.name === ActionName.Quit) {
             return new TurnResult(true, true, true)
         }
-        const actionResult = this.performAction(action, nextTurn)
+        this.performAction(action, nextTurn)
 
-        if (action.gameAction.name === ActionName.Conquer && actionResult) {
+        if (action.gameAction.name === ActionName.Conquer) {
             return new TurnResult(true, true, true)
         }
 
-        return new TurnResult(false, true, actionResult)
+        return new TurnResult(false, true, true)
     }
 
-    private performAction(action: PlayerActionInterface, nextTurn: Turn): boolean {
-        return this._actionPerformer.performAction(action, nextTurn)
+    private performAction(action: PlayerActionInterface, nextTurn: Turn): void {
+        this._actionPerformer.performAction(action, nextTurn)
     }
 }
 

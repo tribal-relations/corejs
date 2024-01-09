@@ -40,8 +40,4 @@ jobs:
             - name: Vitest Coverage Report action
               uses: davelosert/vitest-coverage-report-action@v2.2.0
               if: always()
-              permissions:
-                # Required to checkout the code
-                contents: read
-                # Required to put a comment into the pull-request
-                pull-requests: write
+

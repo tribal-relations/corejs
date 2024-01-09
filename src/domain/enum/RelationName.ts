@@ -5,7 +5,7 @@ enum RelationName {
     Bourgeois = 'Bourgeois',
     KnowItAlls = 'KnowItAlls',
     Equals = 'Equals',
-    Respectable = 'Respectable',
+    Respectables = 'Respectables',
     Mates = 'Mates',
     Proteges = 'Proteges',
     Idols = 'Idols',

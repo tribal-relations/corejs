@@ -1,3 +1,4 @@
+import BufferEmpty from '../../src/exception/console/BufferEmpty'
 import Std from '../../src/ui/console/Std.ts'
 
 class MockStd extends Std {
@@ -32,8 +33,11 @@ class MockStd extends Std {
     }
 
     readFromBufferIfTest(): string {
-        if (this._inputBufferIndex >= this._inputBuffer.length) { // if no elements left, quit game
+        if (this._inputBufferIndex === this._inputBuffer.length) { // if we read next-after-last, send quit action
             return 'q'
+        }
+        if (this._inputBufferIndex > this._inputBuffer.length) { // if no elements left, quit game forcefully to avoid loop
+            throw new BufferEmpty()
         }
         return this._inputBuffer[this._inputBufferIndex++]
     }

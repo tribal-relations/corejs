@@ -17,8 +17,8 @@ class TurnManager {
     }
 
     nextTurn(game: Game): Turn {
-        game.currentTurnNumber++
         const turn = new Turn(game.players[game.currentTurnNumber % this.playersLength])
+        game.currentTurnNumber++
         game.currentTurn = turn
 
         return turn

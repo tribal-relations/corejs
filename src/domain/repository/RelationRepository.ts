@@ -2,52 +2,52 @@ import Relation from '../entity/Relation.ts'
 import RelationName from '../enum/RelationName.ts'
 
 const relations: Record<RelationName, { name: RelationName, agent_bonus: number, recipient_bonus: number }> = {
-    Equals: {
+    [RelationName.Equals]: {
         name: RelationName.Equals,
         agent_bonus: 0,
         recipient_bonus: 0,
     },
-    Respectable: {
-        name: RelationName.Respectable,
+    [RelationName.Respectables]: {
+        name: RelationName.Respectables,
         agent_bonus: 1,
         recipient_bonus: 2,
     },
-    Proteges: {
+    [RelationName.Proteges]: {
         name: RelationName.Proteges,
         agent_bonus: 1,
         recipient_bonus: 4,
     },
-    KnowItAlls: {
+    [RelationName.KnowItAlls]: {
         name: RelationName.KnowItAlls,
         agent_bonus: 1,
         recipient_bonus: -1,
     },
-    Barbarians: {
+    [RelationName.Barbarians]: {
         name: RelationName.Barbarians,
         agent_bonus: 1,
         recipient_bonus: -2,
     },
-    Rogues: {
+    [RelationName.Rogues]: {
         name: RelationName.Rogues,
         agent_bonus: 2,
         recipient_bonus: -1,
     },
-    Bourgeois: {
+    [RelationName.Bourgeois]: {
         name: RelationName.Bourgeois,
         agent_bonus: 2,
         recipient_bonus: 0,
     },
-    Mates: {
+    [RelationName.Mates]: {
         name: RelationName.Mates,
         agent_bonus: 2,
         recipient_bonus: 2,
     },
-    Idols: {
+    [RelationName.Idols]: {
         name: RelationName.Idols,
         agent_bonus: 3,
         recipient_bonus: 2,
     },
-    Cannibals: {
+    [RelationName.Cannibals]: {
         name: RelationName.Cannibals,
         agent_bonus: 0,
         recipient_bonus: -3,

@@ -1,4 +1,6 @@
-class InvalidInput extends Error {
+import ConsoleException from './ConsoleException'
+
+class InvalidInput extends ConsoleException {
     constructor() {
         super('Unexpected input.')
     }

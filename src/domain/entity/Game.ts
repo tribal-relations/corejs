@@ -2,8 +2,8 @@ import type Player from './Player.ts'
 import type Tribe from './Tribe'
 import type Turn from './Turn.ts'
 import type WinningCondition from './WinningCondition.ts'
-import PlayerNotFound from '../../exception/PlayerNotFound'
-import TribeNotFound from '../../exception/TribeNotFound'
+import PlayerNotFound from '../../exception/not-found/PlayerNotFound'
+import TribeNotFound from '../../exception/not-found/TribeNotFound'
 import type TribeName from '../enum/TribeName'
 
 class Game {
@@ -14,7 +14,7 @@ class Game {
         private _name: string,
         private _startDate: Date = new Date(),
         private _endDate: Date | null = null,
-        private _currentTurnNumber: number = 1,
+        private _currentTurnNumber: number = 0,
         private _currentTurn: Turn | null = null,
         private _currentRoundNumber: number = 1,
         private _isStarted: boolean = false,
@@ -134,6 +134,10 @@ class Game {
 
     nextRound(): void {
         this._currentRoundNumber++
+    }
+
+    nextHalfRound() {
+        this._currentRoundNumber += 0.5
     }
 }
 
