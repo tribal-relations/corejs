@@ -41,6 +41,6 @@ jobs:
             - name: Vitest Coverage Report action
               uses: davelosert/vitest-coverage-report-action@v2.2.0
               if: always()
-                with:
-                  json-summary-path: '.vitest-coverage-report/coverage-summary.json'
+              with:
+                json-summary-path: '.vitest-coverage-report/coverage-summary.json'
 
