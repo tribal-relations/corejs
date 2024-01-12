@@ -35,9 +35,12 @@ jobs:
               run: npm ci
 
             - name: Run Tests
-              run: npm run test:coverage | tee ./coverage.txt
+              run: npm run test:coverage
+#-- --reporter=json > .vitest-coverage-report/coverage-summary.json
 
             - name: Vitest Coverage Report action
               uses: davelosert/vitest-coverage-report-action@v2.2.0
               if: always()
+                with:
+                  json-summary-path: '.vitest-coverage-report/coverage-summary.json'
 

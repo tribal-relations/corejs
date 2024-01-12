@@ -1,5 +1,4 @@
-import {defineConfig} from 'vitest/config'
-import {configDefaults} from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 
 export default defineConfig({
     test: {
@@ -16,9 +15,9 @@ export default defineConfig({
             reportsDirectory: './.vitest-coverage-report',
             reportOnFailure: true,
             reporter: [
-                // 'text',
-                // 'json',
-                // 'json-summary',
+                'text',
+                'json',
+                'json-summary',
                 'html',
             ],
         },
