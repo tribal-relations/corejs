@@ -56,7 +56,7 @@ class RoundManager {
         for (let round = 1; true; ++round) {
             this._std.out(`\t\t\tRound ${round}`)
 
-            for (let i = 0; i < this.game.players.length; ++i, ++globalTurnNumber) {
+            for (let i = 0; i < this.game.playersLength; ++i, ++globalTurnNumber) {
                 this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
                 const nextTurn = this._turnManager.nextTurn(this.game)
                 turnResult = this.doWhatPlayerSaysSafely(nextTurn.player, nextTurn)
@@ -114,11 +114,10 @@ class RoundManager {
     public populationGrowth(): void {
         const diceResult = this._diceThrower.d6()
         let diceBonus: number = 0
-        let currentTribe: Tribe
-        for (let i = 0; i < this.game.players.length; ++i) {
-            currentTribe = this.game.players[i].tribe
-            diceBonus = this.getDiceBonus(currentTribe)
-            currentTribe.growPopulation((diceResult + diceBonus))
+
+        for (const playerName in this.game.players) {
+            diceBonus = this.getDiceBonus(this.game.players[playerName].tribe)
+            this.game.players[playerName].tribe.growPopulation((diceResult + diceBonus))
         }
     }
 

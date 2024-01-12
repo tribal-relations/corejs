@@ -38,7 +38,7 @@ test('can have up to 20 players', () => {
     gameProcess.start()
 
     expect(gameProcess.game.isFinished).toBe(true)
-    expect(gameProcess.game.players.length).toBe(20)
+    expect(gameProcess.game.playersLength).toBe(20)
 })
 
 test('cannot have 21 players', () => {
@@ -58,5 +58,5 @@ test('cannot have 21 players', () => {
     gameProcess.start()
 
     expect(gameProcess.game.isFinished).toBe(true)
-    expect(gameProcess.game.players.length).toBe(20)
+    expect(gameProcess.game.playersLength).toBe(20)
 })

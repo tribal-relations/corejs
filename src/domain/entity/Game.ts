@@ -10,7 +10,8 @@ class Game {
     public static readonly maxPlayers = 20
 
     constructor(
-        private _players: Player[],
+        private _players: Record<string, Player>,
+        private _playersLength: number = 0,
         private _name: string,
         private _startDate: Date = new Date(),
         private _endDate: Date | null = null,
@@ -24,12 +25,20 @@ class Game {
     ) {
     }
 
-    get players(): Player[] {
+    get players(): Record<string, Player> {
         return this._players
     }
 
-    set players(players: Player[]) {
+    set players(players: Record<string, Player>) {
         this._players = players
+    }
+
+    get playersLength(): number {
+        return this._playersLength
+    }
+
+    set playersLength(len: number) {
+         this._playersLength = len
     }
 
     get startDate(): Date {
@@ -109,7 +118,7 @@ class Game {
     }
 
     addPlayer(player: Player): void {
-        this.players.push(player)
+        this.players[player.name] = player
     }
 
     public getPlayer(playerName: string): Player {

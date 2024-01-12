@@ -13,10 +13,10 @@ export default defineConfig({
         setupFiles: ['/tests/setup-tests.ts'],
         coverage: {
             thresholds: {
-                lines: 60,
-                branches: 60,
-                functions: 60,
-                statements: 60,
+                lines: 80,
+                branches: 80,
+                functions: 65,
+                statements: 80,
             },
             reportsDirectory: './.vitest-coverage-report',
             reportOnFailure: true,

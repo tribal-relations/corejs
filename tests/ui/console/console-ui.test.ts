@@ -29,7 +29,7 @@ test('can add players', async () => {
 
     consoleUi.startTurns()
 
-    expect(consoleUi.game.players.length).toBe(4)
+    expect(consoleUi.game.playersLength).toBe(4)
 })
 
 test('population growth', async () => {
@@ -58,11 +58,11 @@ test('population growth', async () => {
 
     consoleUi.startTurns()
 
-    expect(consoleUi.game.players.length).toBe(4)
-    expect(consoleUi.game.players[0].tribe.population).toBe(updatedPopulation)
-    expect(consoleUi.game.players[1].tribe.population).toBe(updatedPopulation)
-    expect(consoleUi.game.players[2].tribe.population).toBe(updatedPopulation)
-    expect(consoleUi.game.players[3].tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.playersLength).toBe(4)
+    expect(consoleUi.game.players.artem.tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.players.rinat.tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.players.gena.tribe.population).toBe(updatedPopulation)
+    expect(consoleUi.game.players.vlad.tribe.population).toBe(updatedPopulation)
 })
 
 test('one round consists of one turn per each player', async () => {
@@ -87,7 +87,7 @@ test('one round consists of one turn per each player', async () => {
 
     consoleUi.startTurns()
 
-    expect(consoleUi.game.players.length).toBe(4)
+    expect(consoleUi.game.playersLength).toBe(4)
     expect(consoleUi.game.currentRoundNumber).toBe(2)
 })
 
@@ -117,28 +117,28 @@ test('relations round after regular round', async () => {
 
     consoleUi.startTurns()
 
-    expect(consoleUi.game.players.length).toBe(4)
+    expect(consoleUi.game.playersLength).toBe(4)
     expect(consoleUi.game.currentRoundNumber).toBe(2)
 
-    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players[0].tribe.name)).toStrictEqual({
-        [consoleUi.game.players[1].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[2].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[3].tribe.name]: RelationName.Barbarians,
+    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players.artem.tribe.name)).toStrictEqual({
+        [consoleUi.game.players.rinat.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.gena.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.vlad.tribe.name]: RelationName.Barbarians,
     })
-    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players[1].tribe.name)).toStrictEqual({
-        [consoleUi.game.players[0].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[2].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[3].tribe.name]: RelationName.Barbarians,
+    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players.rinat.tribe.name)).toStrictEqual({
+        [consoleUi.game.players.artem.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.gena.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.vlad.tribe.name]: RelationName.Barbarians,
     })
-    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players[2].tribe.name)).toStrictEqual({
-        [consoleUi.game.players[0].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[1].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[3].tribe.name]: RelationName.Barbarians,
+    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players.gena.tribe.name)).toStrictEqual({
+        [consoleUi.game.players.artem.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.rinat.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.vlad.tribe.name]: RelationName.Barbarians,
     })
-    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players[3].tribe.name)).toStrictEqual({
-        [consoleUi.game.players[0].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[1].tribe.name]: RelationName.Barbarians,
-        [consoleUi.game.players[2].tribe.name]: RelationName.Barbarians,
+    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players.vlad.tribe.name)).toStrictEqual({
+        [consoleUi.game.players.artem.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.rinat.tribe.name]: RelationName.Barbarians,
+        [consoleUi.game.players.gena.tribe.name]: RelationName.Barbarians,
     })
 })
 
