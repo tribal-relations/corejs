@@ -5,9 +5,6 @@ on:
       - '**'
     paths-ignore:
       - '**/*.md'
-      - '**/*.yml'
-      - '.github/**'
-      - 'data/**'
       - 'dist/**'
 
 jobs:
@@ -45,4 +42,5 @@ jobs:
         if: always()
         with:
           json-summary-path: '.vitest-coverage-report/coverage-summary.json'
+          json-final-path: '.vitest-coverage-report/coverage-final.json'
 
