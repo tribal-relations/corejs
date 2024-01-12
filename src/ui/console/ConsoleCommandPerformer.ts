@@ -96,8 +96,8 @@ class ConsoleCommandPerformer {
     }
 
     private printAllTribes(): void {
-        for (let i = 0; i < this.game.players.length; i++) {
-            this.printTribe(this.game.players[i].tribe)
+        for (const playerName in this.game.players) {
+            this.printTribe(this.game.players[playerName].tribe)
         }
     }
 

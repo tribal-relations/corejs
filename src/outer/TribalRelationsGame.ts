@@ -4,12 +4,12 @@ import { container } from '../NaiveDiContainer.ts'
 
 class TribalRelationsGame {
     startBrowser(): void {
-        const gameProcess = container.resolve(BrowserGameProcess)
+        const gameProcess: BrowserGameProcess = container.resolveSafely(BrowserGameProcess)
         gameProcess.start()
     }
 
     startConsole(): void {
-        const gameProcess = container.resolve(ConsoleGameProcess)
+        const gameProcess: ConsoleGameProcess = container.resolveSafely(ConsoleGameProcess)
         gameProcess.start()
     }
 }

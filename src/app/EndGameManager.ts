@@ -35,7 +35,8 @@ class EndGameManager {
 
     private calculateWinner(): Player {
         // TODO: implement
-        return this.game.players[0]
+        const firstKey = Object.keys(this.game.players)[0]
+        return this.game.players[firstKey]
     }
 }
 

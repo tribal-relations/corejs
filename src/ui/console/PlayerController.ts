@@ -32,6 +32,7 @@ class PlayerController {
 
     public updatePlayers(): void {
         this.std.out('Adding players')
+        this.std.out('Players must have unique names.')
 
         const playerNames: string[] = []
         let playerName: string
@@ -50,25 +51,24 @@ class PlayerController {
             }
         }
         this.game.players = this.createPlayers(playerNames)
-        this._turnManager.addPlayers(this.game.players.length)
+        this.game.playersLength = Object.keys(this.game.players).length
     }
 
     public outputPlayersWithTribes(): void {
         let line: string
 
-        for (let i = 0; i < this.game.players.length; i++) {
-            line = `\t${this.game.players[i].name}\t-\tTribe '${this.game.players[i].tribe.name}'`
-
+        for (const playerName in this.game.players) {
+            line = `\t${playerName}\t-\tTribe '${this.game.players[playerName].tribe.name}'`
             this._std.out(line)
         }
     }
 
-    private createPlayers(playerNames: string[]): Player[] {
-        const players = []
+    private createPlayers(playerNames: string[]): Record<string, Player> {
+        const players = {}
         const tribeNames = (Object as any).values(TribeName).slice(0, playerNames.length)
 
         for (let i = 0; i < playerNames.length; i++) {
-            players[i] = new Player(
+            players[playerNames[i]] = new Player(
                 new Tribe(tribeNames[i]),
                 playerNames[i],
             )

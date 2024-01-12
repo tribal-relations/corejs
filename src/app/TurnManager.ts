@@ -2,22 +2,10 @@ import type Game from '../domain/entity/Game.ts'
 import Turn from '../domain/entity/Turn.ts'
 
 class TurnManager {
-    private _playersLength = 0
-
-    get playersLength(): number {
-        return this._playersLength
-    }
-
-    addPlayer(): void {
-        this._playersLength++
-    }
-
-    addPlayers(n: number): void {
-        this._playersLength += n
-    }
-
     nextTurn(game: Game): Turn {
-        const turn = new Turn(game.players[game.currentTurnNumber % this.playersLength])
+        const playerNames = Object.keys(game.players)
+        const nextName = playerNames[game.currentTurnNumber % game.playersLength]
+        const turn = new Turn(game.players[nextName])
         game.currentTurnNumber++
         game.currentTurn = turn
 

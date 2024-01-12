@@ -28,8 +28,6 @@ class WebUi {
     startTurns(): void {
         // TODO get player names from ui
 
-        this._turnManager.addPlayers(this.game.players.length)
-
         let turnResult: TurnResult
         let decision: GameAction
         let parameters: string

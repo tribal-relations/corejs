@@ -27,7 +27,7 @@ class RelationRoundManager {
 
     set game(game: Game) {
         this._game = game
-        this._relationsManager.setStarterRelations(game.players.map((value: Player) => value.tribe.name))
+        this._relationsManager.setStarterRelations(Object.values(game.players).map((value: Player) => value.tribe.name))
     }
 
     get std(): Std {
@@ -39,8 +39,8 @@ class RelationRoundManager {
     }
 
     private startRelationRounds(): void {
-        for (let i = 0; i < this.game.players.length; ++i) {
-            this.determineRelationsForTribe(this.game.players[i].tribe)
+        for (const playerName in this.game.players) {
+            this.determineRelationsForTribe(this.game.players[playerName].tribe)
         }
     }
 
@@ -53,7 +53,7 @@ class RelationRoundManager {
     }
 
     private getOtherTribes(tribe: Tribe): Tribe[] {
-        return this.game.players
+        return Object.values(this.game.players)
             .filter((value: Player) => value.tribe.name !== tribe.name)
             .map((value: Player) => value.tribe)
     }
