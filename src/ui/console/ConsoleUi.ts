@@ -1,5 +1,6 @@
 import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
 import type PlayerController from './PlayerController'
+import type RelationRoundManager from './RelationRoundManager'
 import type RoundManager from './RoundManager.ts'
 import type TurnResult from '../../app/TurnResult.ts'
 import type Game from '../../domain/entity/Game.ts'
@@ -10,6 +11,7 @@ class ConsoleUi {
 
     constructor(
         private readonly _roundManager: RoundManager,
+        private readonly _relationRoundManager: RelationRoundManager,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
         private readonly _playerController: PlayerController,
     ) {
@@ -37,6 +39,7 @@ class ConsoleUi {
 
     private makeFirstOneTimeSetup() {
         this._playerController.updatePlayers()
+        this._relationRoundManager.setStarterRelationsFromGame(this.game)
         this._playerController.outputPlayersWithTribes()
         this._consoleCommandPerformer.outputAvailableCommands()
         this._consoleCommandPerformer.outputAvailableActions()

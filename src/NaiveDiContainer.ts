@@ -153,11 +153,13 @@ class NaiveDiContainer {
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(PlayerActionGetter),
             this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(RelationsManager),
         ))
 
         // // ui-root
         this.setSingleton(ConsoleUi, new ConsoleUi(
             this.resolveSafely(RoundManager),
+            this.resolveSafely(RelationRoundManager),
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(PlayerController),
         ))

@@ -7,7 +7,6 @@ import type DiceThrower from '../helper/DiceThrower.ts'
 /**
  * @deprecated
  */
-
 class Cult implements ActionInterface {
     actionName = ActionName.Cult
 

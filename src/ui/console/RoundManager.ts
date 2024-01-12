@@ -3,6 +3,7 @@ import ConsoleCommand from './entity/ConsoleCommand'
 import type PlayerActionGetter from './PlayerActionGetter'
 import type RelationRoundManager from './RelationRoundManager'
 import type Std from './Std'
+import type RelationsManager from '../../app/RelationsManager'
 import type TurnDecisionManager from '../../app/TurnDecisionManager'
 import type TurnManager from '../../app/TurnManager'
 import type TurnResult from '../../app/TurnResult'
@@ -29,6 +30,7 @@ class RoundManager {
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
         private readonly _playerActionGetter: PlayerActionGetter,
         private readonly _relationRoundManager: RelationRoundManager,
+        private readonly _relationsManager: RelationsManager,
     ) {
     }
 
@@ -59,7 +61,7 @@ class RoundManager {
             for (let i = 0; i < this.game.playersLength; ++i, ++globalTurnNumber) {
                 this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
                 const nextTurn = this._turnManager.nextTurn(this.game)
-                turnResult = this.doWhatPlayerSaysSafely(nextTurn.player, nextTurn)
+                turnResult = this.doAllPlayerActions(nextTurn)
 
                 if (turnResult.isLast) {
                     this._std.out('last turn')
@@ -72,6 +74,20 @@ class RoundManager {
             this.game.nextHalfRound()
             this.finalizeRound()
         }
+    }
+
+    private doAllPlayerActions(nextTurn: Turn): TurnResult {
+        const totalActions = Math.max(
+            this._relationsManager.getTribeTotalBonus(nextTurn.player.tribe.name) + 1,
+            1,
+        )
+
+        let turnResult: TurnResult
+        for (let i = 0; i < totalActions; ++i) {
+            turnResult = this.doWhatPlayerSaysSafely(nextTurn.player, nextTurn)
+        }
+
+        return turnResult
     }
 
     public finalizeRound(): void {

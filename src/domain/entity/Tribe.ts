@@ -28,7 +28,7 @@ class Tribe implements CanFight {
         private _population: number = Tribe.defaultPopulation,
         private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
-        private readonly _knownTechs: Record<string, boolean> = {},
+        private readonly _knownTechs: Record<TechnologyName, boolean> = Object(),
         private readonly _tiles: Tile[] = Tile.createStarterTiles(),
     ) {
     }
@@ -87,7 +87,7 @@ class Tribe implements CanFight {
         return accumulator
     }
 
-    get technologies(): Record<string, boolean> {
+    get technologies(): Record<TechnologyName, boolean> {
         return this._knownTechs
     }
 

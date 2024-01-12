@@ -5,6 +5,7 @@
   "main": "src/console-app.ts",
   "type": "module",
   "scripts": {
+    "test:coverage-server": "python3 -m http.server -d .vitest-coverage-report",
     "test:coverage": "vitest run --coverage",
     "test": "vitest",
     "fix-code-style": "npx eslint --fix src tests",
