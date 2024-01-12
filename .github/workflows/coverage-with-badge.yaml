@@ -1,43 +1,48 @@
 name: Update Coverage in README
 on:
-    push:
-        paths-ignore:
-            - '**/*.md'
-            - '**/*.yml'
-            - '.github/**'
-            - 'data/**'
-            - 'dist/**'
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.yml'
+      - '.github/**'
+      - 'data/**'
+      - 'dist/**'
 
 jobs:
-    update-coverage-in-readme:
-        name: Test Coverage Report
-        runs-on: ubuntu-latest
+  update-coverage-in-readme:
+    name: Test Coverage Report
+    runs-on: ubuntu-latest
 
-        steps:
-            - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-            - name: 'Install Node'
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '20.x'
+      - name: 'Install Node'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
 
-            - name: NPM Cache
-              id: npm-cache
-              uses: actions/cache@v3
-              with:
-                path: '**/node_modules'
-                key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-npm
+      - name: NPM Cache
+        id: npm-cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm
 
-            - name: Install Dependencies
-              if: steps.npm-cache.outputs.cache-hit != 'true'
-              run: npm ci
+      - name: Install Dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci
 
-            - name: Run Tests
-              run: npm run test:coverage | tee ./coverage.txt
+      - name: Run Tests
+        run: npm run test:coverage
+      #-- --reporter=json > .vitest-coverage-report/coverage-summary.json
 
-            - name: Vitest Coverage Report action
-              uses: davelosert/vitest-coverage-report-action@v2.2.0
-              if: always()
+      - name: Vitest Coverage Report action
+        uses: davelosert/vitest-coverage-report-action@v2.2.0
+        if: always()
+        with:
+          json-summary-path: '.vitest-coverage-report/coverage-summary.json'
 
