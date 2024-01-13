@@ -18,6 +18,7 @@ import Rome from './domain/entity/Rome'
 import DiceThrower from './domain/helper/DiceThrower'
 import FightManager from './domain/helper/FightManager'
 import NotInContainer from './exception/internal/NotInContainer'
+import ExceptionHandler from './exception-handler/ExceptionHandler'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
@@ -81,6 +82,8 @@ class NaiveDiContainer {
 
     private buildIndependentSingletons(): void {
         // src
+        // // exception
+        this.setSingleton(ExceptionHandler, new ExceptionHandler())
 
         // // ui
         this.setSingleton(Std, new Std())

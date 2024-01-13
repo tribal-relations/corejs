@@ -6,6 +6,7 @@ let exceptionHandler: ExceptionHandler
 try {
      exceptionHandler = container.resolveSafely(ExceptionHandler)
 } catch (error) {
+    console.error(error)
     process.exit(1)
 }
 
