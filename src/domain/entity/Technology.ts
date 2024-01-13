@@ -4,7 +4,7 @@ class Technology {
     constructor(
         private readonly _name: TechnologyName,
         private readonly _description: string,
-        private readonly _prerequisites: Record<TechnologyName | string, boolean>,
+        private readonly _prerequisites: Record<string, boolean>,
     ) {
     }
 
@@ -16,7 +16,7 @@ class Technology {
         return this._description
     }
 
-    get prerequisites(): Record<TechnologyName | string, boolean> {
+    get prerequisites(): Record<string, boolean> {
         return this._prerequisites
     }
 }

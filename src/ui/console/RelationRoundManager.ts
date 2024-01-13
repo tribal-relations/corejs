@@ -27,11 +27,14 @@ class RelationRoundManager {
 
     set game(game: Game) {
         this._game = game
-        this._relationsManager.setStarterRelations(Object.values(game.players).map((value: Player) => value.tribe.name))
     }
 
     get std(): Std {
         return this._std
+    }
+
+    public setStarterRelationsFromGame(game: Game) {
+        this._relationsManager.setStarterRelations(Object.values(game.players).map((value: Player) => value.tribe.name))
     }
 
     public determineRelations(): void {

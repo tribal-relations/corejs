@@ -98,7 +98,7 @@ class TechnologyRepository {
     static readonly technologyTree = TechnologyRepository.buildTechnologyTree()
 
     public static createFromName(name: TechnologyName): Technology {
-        return new Technology(String(name), techs[name].description, techs[name].prerequisites)
+        return new Technology(name, techs[name].description, techs[name].prerequisites)
     }
 
     /**

@@ -11,7 +11,6 @@ test('can quit game immediately after adding a player', () => {
 
     const std = container.resolveSafely(Std)
 
-    expect(1).toBe(1)
     std.sendIn('s')
     std.sendIn('player')
     std.sendIn('\n')

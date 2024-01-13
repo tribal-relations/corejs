@@ -1,5 +1,6 @@
 import RelationName from '../domain/enum/RelationName'
 import type TribeName from '../domain/enum/TribeName'
+import RelationRepository from '../domain/repository/RelationRepository'
 
 class RelationsManager {
     // example
@@ -15,9 +16,9 @@ class RelationsManager {
     // game meaning: West thinks that East are Respectables
     // data structure: {"East": {"West": "Cannibals"}, "West": {"East": "Respectables"}}
     // Record<TribeName, Record<TribeName, RelationName>>
-    private _relations: object
+    private _relations: Record<TribeName, Record<TribeName, RelationName>>
 
-    get relations(): object {
+    get relations(): Record<TribeName, Record<TribeName, RelationName>> {
         return this._relations
     }
 
@@ -29,34 +30,62 @@ class RelationsManager {
         if (agent in this._relations) {
             this._relations[agent][recipient] = relation
         } else {
-            this._relations[agent] = {}
+            this._relations[agent] = Object()
             this._relations[agent][recipient] = relation
         }
     }
 
     public howThisTribeReactsToOthers(agent: TribeName): Record<TribeName, RelationName> {
-        return this.relations[agent]
+        if (agent in this._relations) {
+            return this.relations[agent]
+        }
+        return Object()
     }
 
-    public howOthersReactToThisTribe(recipient: TribeName): object {
-        // const reactions: Record<TribeName, RelationName> = ({} as Record<TribeName, RelationName>)
-        const reactions = {}
-        for (const agentName of this.relations) {
-            reactions[agentName] = this.relations[agentName][recipient]
+    public howOthersReactToThisTribe(recipient: TribeName): Record<TribeName, RelationName> {
+        const reactions: Record<TribeName, RelationName> = Object()
+        for (const agentName in this.relations) {
+            if (recipient in this.relations[agentName]) {
+                reactions[agentName] = this.relations[agentName][recipient]
+            }
         }
+
+        if (!Object.keys(reactions)) {
+            // throw new TribeRecipientRelationNotFound(recipient)
+        }
+
         return reactions
     }
 
     public setStarterRelations(names: TribeName[]) {
-        this._relations = {}
+        this._relations = Object()
 
         for (const agentName of names) {
             for (const recipientName of names) {
                 if (agentName !== recipientName) {
+                    if (!(agentName in this._relations)) {
+                        this._relations[agentName] = Object()
+                    }
                     this._relations[agentName][recipientName] = RelationName.Equals
                 }
             }
         }
+    }
+
+    public getTribeTotalBonus(agent: TribeName): number {
+        return this.getTribeBonusAsAgent(agent) + this.getTribeBonusAsRecipient(agent)
+    }
+
+    private getTribeBonusAsAgent(agent: TribeName): number {
+        return Object.values(this.howThisTribeReactsToOthers(agent))
+            .map((value: RelationName) => RelationRepository.createFromName(value).agentBonus)
+            .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
+    }
+
+    private getTribeBonusAsRecipient(agent: TribeName): number {
+        return Object.values(this.howOthersReactToThisTribe(agent))
+            .map((value: RelationName) => RelationRepository.createFromName(value).recipientBonus)
+            .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
     }
 }
 

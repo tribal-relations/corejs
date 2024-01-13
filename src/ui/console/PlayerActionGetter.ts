@@ -96,21 +96,21 @@ class PlayerActionGetter {
         }
 
         if (mapEntry.name === ActionName.Alliance) {
-            mapEntry.parameters[0].check(words[0])
+            mapEntry.parameters[0].check(words[1])
             // TODO implement after these actions are added
             return new AbstractPlayerAction(gameAction, player.tribe)
         }
 
         if (mapEntry.name === ActionName.Research) {
-            mapEntry.parameters[0].check(words[0])
-            return new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName((words[0] as TechnologyName)))
+            mapEntry.parameters[0].check(words[1])
+            return new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName((words[1] as TechnologyName)))
         }
 
         if (mapEntry.name === ActionName.AttackTile) {
-            mapEntry.parameters[0].check(words[0])
-            mapEntry.parameters[1].check(words[1])
-            const defender = this.getTribeByTribeName((words[0] as TribeName))
-            const tile = this.getTribeTileByResourceName(defender, (words[1] as ResourceName))
+            mapEntry.parameters[0].check(words[1])
+            mapEntry.parameters[1].check(words[2])
+            const defender = this.getTribeByTribeName((words[1] as TribeName))
+            const tile = this.getTribeTileByResourceName(defender, (words[2] as ResourceName))
 
             return new AttackTilePlayerAction(player.tribe, defender, tile)
         }

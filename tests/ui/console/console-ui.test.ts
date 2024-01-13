@@ -91,6 +91,54 @@ test('one round consists of one turn per each player', async () => {
     expect(consoleUi.game.currentRoundNumber).toBe(2)
 })
 
+test('relationship bonus adds action points', async () => {
+    const consoleUi = prepareConsoleUi()
+
+    SpecificDiceThrower.target = 1
+    const std = container.resolveSafely(Std)
+
+    const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
+    const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
+
+    consoleUi.game = startGameManager.start()
+    std.sendIn('artem')
+    std.sendIn('rinat')
+    std.sendIn('\n')
+    std.sendIn('a')
+    std.sendIn('a')
+    // round ended, new round
+    std.sendIn('e') // gives nothing
+    std.sendIn('bo') // gives +2 to rinat, 0 to artem
+
+    std.sendIn('r Pottery') // one action for artem
+
+    // three actions for rinat because of +2
+    std.sendIn('r Pottery')
+    std.sendIn('r Archery')
+    std.sendIn('r Fishing')
+
+    std.sendIn('e')
+    std.sendIn('bo')
+    consoleUi.startTurns()
+
+    expect(consoleUi.game.playersLength).toBe(2)
+    expect(consoleUi.game.currentRoundNumber).toBe(3)
+
+    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players.artem.tribe.name)).toStrictEqual({
+        [consoleUi.game.players.rinat.tribe.name]: RelationName.Equals,
+    })
+    expect(relationsManager.howThisTribeReactsToOthers(consoleUi.game.players.rinat.tribe.name)).toStrictEqual({
+        [consoleUi.game.players.artem.tribe.name]: RelationName.Bourgeois,
+    })
+    expect(consoleUi.game.players.artem.tribe.technologies.Pottery).toStrictEqual(true)
+    expect(consoleUi.game.players.artem.tribe.technologies.Archery).toBeFalsy()
+    expect(consoleUi.game.players.artem.tribe.technologies.Fishing).toBeFalsy()
+
+    expect(consoleUi.game.players.rinat.tribe.technologies.Pottery).toStrictEqual(true)
+    expect(consoleUi.game.players.rinat.tribe.technologies.Archery).toStrictEqual(true)
+    expect(consoleUi.game.players.rinat.tribe.technologies.Fishing).toStrictEqual(true)
+})
+
 test('relations round after regular round', async () => {
     const consoleUi = prepareConsoleUi()
 

@@ -58,7 +58,7 @@ class RelationRepository {
     static relationsCount = 10
 
     public static createFromName(name: RelationName): Relation {
-        return new Relation(String(name), relations[name].agent_bonus, relations[name].recipient_bonus)
+        return new Relation(name, relations[name].agent_bonus, relations[name].recipient_bonus)
     }
 }
 
