@@ -1,16 +1,16 @@
-import type TurnDecisionManager from '../../app/TurnDecisionManager.ts'
-import type TurnManager from '../../app/TurnManager.ts'
-import type TurnResult from '../../app/TurnResult.ts'
 import type Game from '../../domain/entity/Game.ts'
-import type GameAction from '../../domain/entity/GameAction.ts'
 import GameNotYetCreated from '../../exception/GameNotYetCreated'
+import type CommonPlayerController from '../common/CommonPlayerController'
+import type RelationRoundManager from '../console/RelationRoundManager'
+import type RoundManager from '../console/RoundManager'
 
 class WebUi {
     _game: Game | undefined
 
     constructor(
-        private readonly _turnManager: TurnManager,
-        private readonly _turnDecisionManager: TurnDecisionManager,
+        private readonly _roundManager: RoundManager,
+        private readonly _relationRoundManager: RelationRoundManager,
+        private readonly _playerController: CommonPlayerController,
     ) {
     }
 
@@ -23,16 +23,17 @@ class WebUi {
 
     set game(game: Game) {
         this._game = game
+        this._roundManager.game = game
+        this._playerController.game = game
     }
 
-    startTurns(): void {
-        // TODO get player names from ui
+    public startTurns(names: string[]): void {
+        this.makeFirstOneTimeSetup(names)
+    }
 
-        let turnResult: TurnResult
-        let decision: GameAction
-        let parameters: string
-
-        // TODO issue-16 add front https://github.com/tribal-relations/corejs/issues/16
+    private makeFirstOneTimeSetup(names: string[]) {
+        this._playerController.createPlayers(names)
+        this._relationRoundManager.setStarterRelationsFromGame(this.game)
     }
 }
 

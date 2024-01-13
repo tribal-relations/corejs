@@ -25,6 +25,8 @@ class ConsoleGameProcess {
 
     set game(game: Game) {
         this._game = game
+        this.playerInterface.game = game
+        this.endGameManager.game = game
     }
 
     get startGameManager(): StartGameManager {
@@ -46,10 +48,8 @@ class ConsoleGameProcess {
         }
         this.game = this.startGameManager.start()
 
-        this.playerInterface.game = this.game
         this.playerInterface.startTurns()
 
-        this.endGameManager.game = this.game
         this.endGameManager.initiateFinish()
     }
 }

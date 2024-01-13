@@ -41,8 +41,6 @@
 </template>
 
 <script lang="ts">
-import { container } from '../../../NaiveDiContainer.ts'
-import TribalRelationsGame from '../../../outer/TribalRelationsGame'
 
 export default {
     data() {
@@ -55,8 +53,7 @@ export default {
     },
     methods: {
         onStartClick() {
-            const trGame = container.resolveSafely(TribalRelationsGame)
-            trGame.startBrowser()
+            window.location.href = 'game'
         },
         onRulesClick() {
             this.areRulesShown = !this.areRulesShown

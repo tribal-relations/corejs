@@ -1,10 +1,10 @@
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
-import PlayerController from '../../../src/ui/console/PlayerController'
+import ConsolePlayerController from '../../../src/ui/console/ConsolePlayerController'
 import Std from '../../../src/ui/console/Std'
 
 test('cannot add players with identical name', async () => {
-    const playerController = container.resolveSafely(PlayerController)
+    const playerController = container.resolveSafely(ConsolePlayerController)
     const startGameManager = container.resolveSafely(StartGameManager)
     playerController.game = startGameManager.start()
     const std = container.resolveSafely(Std)
@@ -21,7 +21,7 @@ test('cannot add players with identical name', async () => {
 })
 
 test('must have at least one player', async () => {
-    const playerController = container.resolveSafely(PlayerController)
+    const playerController = container.resolveSafely(ConsolePlayerController)
     const startGameManager = container.resolveSafely(StartGameManager)
     playerController.game = startGameManager.start()
     const std = container.resolveSafely(Std)
