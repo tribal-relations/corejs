@@ -19,6 +19,7 @@ import DiceThrower from './domain/helper/DiceThrower'
 import FightManager from './domain/helper/FightManager'
 import NotInContainer from './exception/internal/NotInContainer'
 import ExceptionHandler from './exception-handler/ExceptionHandler'
+import BrowserGameProcess from './outer/BrowserGameProcess'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
@@ -129,6 +130,11 @@ class NaiveDiContainer {
             this.resolveSafely(EndGameManager),
             this.resolveSafely(MainMenu),
         ))
+        this.setSingleton(BrowserGameProcess, new BrowserGameProcess(
+            this.resolveSafely(StartGameManager),
+            this.resolveSafely(WebUi),
+            this.resolveSafely(EndGameManager),
+        ))
     }
 
     private setUiSingletons() {
@@ -166,7 +172,7 @@ class NaiveDiContainer {
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(PlayerController),
         ))
-        this.setSingleton(ConsoleUi, new WebUi(
+        this.setSingleton(WebUi, new WebUi(
             this.resolveSafely(TurnManager),
             this.resolveSafely(TurnDecisionManager),
         ))

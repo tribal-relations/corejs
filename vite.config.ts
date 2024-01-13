@@ -1,6 +1,8 @@
-import {defineConfig} from 'vite'
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
+import vue from '@vitejs/plugin-vue'
 import dotenv from 'dotenv'
-import eslint from 'vite-plugin-eslint';
+import { defineConfig } from 'vite'
+import eslint from 'vite-plugin-eslint'
 
 dotenv.config()
 
@@ -13,9 +15,18 @@ if (process.env.APP_ENV === 'local') {
 export default defineConfig({
     plugins: [
         eslint(),
+        vue({
+            template: { transformAssetUrls },
+        }),
+
+        // @quasar/plugin-vite options list:
+        // https://github.com/quasarframework/quasar/blob/dev/vite-plugin/index.d.ts
+        quasar({
+            sassVariables: 'src/quasar-variables.sass',
+        }),
     ],
     build: {
-        minify: minify,
+        minify,
         outDir: 'dist',
         emptyOutDir: false,
         assetsDir: 'assets',
