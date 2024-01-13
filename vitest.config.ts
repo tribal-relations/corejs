@@ -16,7 +16,7 @@ export default defineConfig({
             thresholds: {
                 lines: 80,
                 branches: 80,
-                functions: 65,
+                functions: 75,
                 statements: 80,
             },
             reportsDirectory: './.vitest-coverage-report',
