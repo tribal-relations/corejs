@@ -5,7 +5,7 @@ import CommandName from './enum/CommandName.ts'
 import type Printer from './Printer.ts'
 import type Std from './Std.ts'
 import type TribePrinter from './TribePrinter.ts'
-import type Game from '../../domain/entity/Game.ts'
+import type CurrentGame from '../../app/CurrentGame.ts'
 import type Technology from '../../domain/entity/Technology.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import type Turn from '../../domain/entity/Turn.ts'
@@ -13,27 +13,18 @@ import type ActionName from '../../domain/enum/ActionName.ts'
 import type TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type TribeName from '../../domain/enum/TribeName'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class ConsoleCommandPerformer {
-    _game: Game | undefined
-
     constructor(
         private readonly _std: Std,
         private readonly _tribePrinter: TribePrinter,
         private readonly _printer: Printer,
+        private readonly _currentGame: CurrentGame,
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     public performCommand(command: ConsoleCommand, parameters: string, turn: Turn): void {

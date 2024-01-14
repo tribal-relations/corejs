@@ -3,12 +3,12 @@ import ConsoleCommand from './entity/ConsoleCommand'
 import type PlayerActionGetter from './PlayerActionGetter'
 import type RelationRoundManager from './RelationRoundManager'
 import type Std from './Std'
+import type CurrentGame from '../../app/CurrentGame.ts'
 import type RelationsManager from '../../app/RelationsManager'
 import type TurnDecisionManager from '../../app/TurnDecisionManager'
 import type TurnManager from '../../app/TurnManager'
 import type TurnResult from '../../app/TurnResult'
 import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface'
-import type Game from '../../domain/entity/Game.ts'
 import type Player from '../../domain/entity/Player'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import type Turn from '../../domain/entity/Turn'
@@ -16,12 +16,9 @@ import TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful'
 import InvalidInput from '../../exception/console/InvalidInput'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
 import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
 
 class RoundManager {
-    _game: Game | undefined
-
     constructor(
         private readonly _diceThrower: DiceThrower,
         private readonly _std: Std,
@@ -31,21 +28,13 @@ class RoundManager {
         private readonly _playerActionGetter: PlayerActionGetter,
         private readonly _relationRoundManager: RelationRoundManager,
         private readonly _relationsManager: RelationsManager,
+        private readonly _currentGame: CurrentGame,
+
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
-        this._consoleCommandPerformer.game = game
-        this._playerActionGetter.game = game
-        this._relationRoundManager.game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     get std(): Std {

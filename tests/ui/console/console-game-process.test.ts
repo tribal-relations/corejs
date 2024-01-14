@@ -17,7 +17,7 @@ test('can quit game immediately after adding a player', () => {
     std.sendIn('q')
     gameProcess.start()
 
-    expect(gameProcess.game.isFinished).toBe(true)
+    expect(gameProcess.game.specificGame.isFinished).toBe(true)
 })
 
 test('can have up to 20 players', () => {
@@ -36,7 +36,7 @@ test('can have up to 20 players', () => {
 
     gameProcess.start()
 
-    expect(gameProcess.game.isFinished).toBe(true)
+    expect(gameProcess.game.specificGame.isFinished).toBe(true)
     expect(gameProcess.game.playersLength).toBe(20)
 })
 
@@ -56,6 +56,6 @@ test('cannot have 21 players', () => {
 
     gameProcess.start()
 
-    expect(gameProcess.game.isFinished).toBe(true)
+    expect(gameProcess.game.specificGame.isFinished).toBe(true)
     expect(gameProcess.game.playersLength).toBe(20)
 })

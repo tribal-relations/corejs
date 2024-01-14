@@ -1,32 +1,21 @@
+import type CurrentGame from '../app/CurrentGame.ts'
 import type EndGameManager from '../app/EndGameManager.ts'
 import type StartGameManager from '../app/StartGameManager.ts'
-import type Game from '../domain/entity/Game.ts'
-import GameNotYetCreated from '../exception/GameNotYetCreated'
 import type ConsoleUi from '../ui/console/ConsoleUi.ts'
 import type MainMenu from '../ui/console/MainMenu.ts'
 
 class ConsoleGameProcess {
-    _game: Game | undefined
-
     constructor(
         private readonly _startGameManager: StartGameManager,
         private readonly _playerInterface: ConsoleUi,
         private readonly _endGameManager: EndGameManager,
         private readonly _mainMenu: MainMenu,
+        private readonly _currentGame: CurrentGame,
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
-        this.playerInterface.game = game
-        this.endGameManager.game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     get startGameManager(): StartGameManager {
@@ -46,8 +35,6 @@ class ConsoleGameProcess {
         if (!isStart) {
             return
         }
-        this.game = this.startGameManager.start()
-
         this.playerInterface.startTurns()
 
         this.endGameManager.initiateFinish()

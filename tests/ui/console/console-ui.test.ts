@@ -9,7 +9,6 @@ import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
 function prepareConsoleUi(): ConsoleUi {
     const startGameManager = container.resolveSafely(StartGameManager)
     const consoleUi: ConsoleUi = container.resolveSafely(ConsoleUi)
-    consoleUi.game = startGameManager.start()
     return consoleUi
 }
 
@@ -17,7 +16,6 @@ test('can add players', async () => {
     // const consoleUi = prepareConsoleUi()
     const startGameManager = container.resolveSafely(StartGameManager)
     const consoleUi = container.resolveSafely(ConsoleUi)
-    consoleUi.game = startGameManager.start()
     const std = container.resolveSafely(Std)
 
     std.sendIn('artem')
@@ -73,7 +71,6 @@ test('one round consists of one turn per each player', async () => {
 
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
 
-    consoleUi.game = startGameManager.start()
     std.sendIn('artem')
     std.sendIn('rinat')
     std.sendIn('gena')
@@ -100,7 +97,6 @@ test('relationship bonus adds action points', async () => {
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
     const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
 
-    consoleUi.game = startGameManager.start()
     std.sendIn('artem')
     std.sendIn('rinat')
     std.sendIn('\n')
@@ -147,7 +143,6 @@ test('relations round after regular round', async () => {
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
     const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
 
-    consoleUi.game = startGameManager.start()
     std.sendIn('artem')
     std.sendIn('rinat')
     std.sendIn('gena')

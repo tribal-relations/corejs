@@ -6,7 +6,6 @@ import Std from '../../../src/ui/console/Std'
 test('cannot add players with identical name', async () => {
     const playerController = container.resolveSafely(ConsolePlayerController)
     const startGameManager = container.resolveSafely(StartGameManager)
-    playerController.game = startGameManager.start()
     const std = container.resolveSafely(Std)
 
     std.sendIn('artem')
@@ -23,7 +22,6 @@ test('cannot add players with identical name', async () => {
 test('must have at least one player', async () => {
     const playerController = container.resolveSafely(ConsolePlayerController)
     const startGameManager = container.resolveSafely(StartGameManager)
-    playerController.game = startGameManager.start()
     const std = container.resolveSafely(Std)
 
     std.sendIn('\n')

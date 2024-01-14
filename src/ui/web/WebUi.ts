@@ -1,30 +1,20 @@
-import type Game from '../../domain/entity/Game.ts'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
+import type CurrentGame from '../../app/CurrentGame.ts'
 import type CommonPlayerController from '../common/CommonPlayerController'
 import type RelationRoundManager from '../console/RelationRoundManager'
 import type RoundManager from '../console/RoundManager'
 
 class WebUi {
-    _game: Game | undefined
-
     constructor(
         private readonly _roundManager: RoundManager,
         private readonly _relationRoundManager: RelationRoundManager,
         private readonly _playerController: CommonPlayerController,
+        private readonly _currentGame: CurrentGame,
+
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
-        this._roundManager.game = game
-        this._playerController.game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     public startTurns(names: string[]): void {
