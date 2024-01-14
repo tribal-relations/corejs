@@ -1,8 +1,8 @@
-import type Game from '../domain/entity/Game.ts'
+import type CurrentGame from './CurrentGame.ts'
 import Turn from '../domain/entity/Turn.ts'
 
 class TurnManager {
-    nextTurn(game: Game): Turn {
+    nextTurn(game: CurrentGame): Turn {
         const playerNames = Object.keys(game.players)
         const nextName = playerNames[game.currentTurnNumber % game.playersLength]
         const turn = new Turn(game.players[nextName])

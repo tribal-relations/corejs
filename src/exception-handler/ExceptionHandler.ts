@@ -5,6 +5,7 @@ import NotFoundException from '../exception/not-found/NotFoundException'
 
 class ExceptionHandler {
     handle(error: Error): void {
+        // eslint-disable-next-line
         console.error(error)
 
         if (error instanceof ConsoleException) {

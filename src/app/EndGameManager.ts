@@ -1,20 +1,15 @@
-import type Game from '../domain/entity/Game.ts'
+import type CurrentGame from './CurrentGame.ts'
 import type Player from '../domain/entity/Player.ts'
 import WinningCondition from '../domain/entity/WinningCondition.ts'
-import GameNotYetCreated from '../exception/GameNotYetCreated'
 
 class EndGameManager {
-    _game: Game | undefined
-
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
+    constructor(
+        private readonly _currentGame: CurrentGame,
+    ) {
     }
 
-    set game(game: Game) {
-        this._game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     public initiateFinish(): void {
@@ -22,10 +17,10 @@ class EndGameManager {
     }
 
     private finish(): void {
-        this.game.isFinished = true
-        this.game.endDate = new Date()
-        this.game.winningCondition = this.calculateWinningCondition()
-        this.game.winner = this.calculateWinner()
+        this.game.specificGame.isFinished = true
+        this.game.specificGame.endDate = new Date()
+        this.game.specificGame.winningCondition = this.calculateWinningCondition()
+        this.game.specificGame.winner = this.calculateWinner()
     }
 
     private calculateWinningCondition(): WinningCondition {

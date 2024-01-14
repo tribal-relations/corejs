@@ -1,33 +1,25 @@
 import type PlayerRelationActionGetter from './PlayerRelationActionGetter'
+import type CurrentGame from '../../app/CurrentGame.ts'
 import type RelationsManager from '../../app/RelationsManager'
-import type Game from '../../domain/entity/Game.ts'
 import type Player from '../../domain/entity/Player'
 import type Tribe from '../../domain/entity/Tribe'
 import type RelationName from '../../domain/enum/RelationName'
 import type TribeName from '../../domain/enum/TribeName'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class RelationRoundManager {
-    _game: Game | undefined
-
     constructor(
         private readonly _relationsManager: RelationsManager,
         private readonly _playerRelationActionGetter: PlayerRelationActionGetter,
+        private readonly _currentGame: CurrentGame,
+
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
-    set game(game: Game) {
-        this._game = game
-    }
-
-    public setStarterRelationsFromGame(game: Game) {
+    public setStarterRelationsFromGame(game: CurrentGame) {
         this._relationsManager.setStarterRelations(Object.values(game.players).map((value: Player) => value.tribe.name))
     }
 

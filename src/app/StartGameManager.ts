@@ -1,12 +1,12 @@
-import Game from '../domain/entity/Game.ts'
+import CurrentGame from './CurrentGame.ts'
 
 class StartGameManager {
-    start(): Game {
+    start(): CurrentGame {
         return this.startGame(this.createNewGame(this.generateGameName()))
     }
 
-    private createNewGame(name: string): Game {
-        return new Game(
+    private createNewGame(name: string): CurrentGame {
+        return new CurrentGame(
             Object(),
             0,
             name,
@@ -14,7 +14,7 @@ class StartGameManager {
         )
     }
 
-    private startGame(game: Game): Game {
+    private startGame(game: CurrentGame): CurrentGame {
         game.isStarted = true
 
         return game

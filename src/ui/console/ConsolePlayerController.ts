@@ -1,28 +1,20 @@
 import type Std from './Std.ts'
+import CurrentGame from '../../app/CurrentGame.ts'
 import type TurnManager from '../../app/TurnManager.ts'
-import Game from '../../domain/entity/Game.ts'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
 import type CommonPlayerController from '../common/CommonPlayerController'
 
 class ConsolePlayerController {
-    _game: Game | undefined
-
     constructor(
         private readonly _turnManager: TurnManager,
         private readonly _std: Std,
         private readonly _commonPlayerController: CommonPlayerController,
+        private readonly _currentGame: CurrentGame,
+
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     get std(): Std {
@@ -36,8 +28,8 @@ class ConsolePlayerController {
         const playerNames: string[] = []
         let playerName: string
         for (; true;) {
-            for (let i = 1; i <= Game.maxPlayers; i++) {
-                this.std.out(`Adding player ${i}/${Game.maxPlayers}`)
+            for (let i = 1; i <= CurrentGame.maxPlayers; i++) {
+                this.std.out(`Adding player ${i}/${CurrentGame.maxPlayers}`)
 
                 playerName = this.std.in(`Enter player ${i} name (or return to end adding players)>`) ?? `player ${i}`
                 if (!playerName || playerName === '\n') {

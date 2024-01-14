@@ -2,11 +2,11 @@ import ConsoleActionRepository from './ConsoleActionRepository'
 import type ConsoleCommand from './entity/ConsoleCommand'
 import ConsoleCommandRepository from './repository/ConsoleCommandRepository'
 import type Std from './Std'
+import type CurrentGame from '../../app/CurrentGame'
 import AbstractPlayerAction from '../../domain/entity/action/AbstractPlayerAction'
 import AttackTilePlayerAction from '../../domain/entity/action/AttackTilePlayerAction'
 import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface'
 import ResearchPlayerAction from '../../domain/entity/action/ResearchPlayerAction'
-import type Game from '../../domain/entity/Game'
 import type Player from '../../domain/entity/Player'
 import type Tile from '../../domain/entity/Tile'
 import type Tribe from '../../domain/entity/Tribe'
@@ -18,26 +18,18 @@ import ActionRepository from '../../domain/repository/ActionRepository'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository'
 import CannotGetPlayerDecision from '../../exception/console/CannotGetPlayerDecision'
 import InvalidInput from '../../exception/console/InvalidInput'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
 import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
 
 class PlayerActionGetter {
-    _game: Game | undefined
-
     constructor(
         private readonly _std: Std,
+        private readonly _currentGame: CurrentGame,
+
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     get std(): Std {

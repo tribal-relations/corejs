@@ -1,4 +1,5 @@
 import ActionPerformer from './app/ActionPerformer'
+import CurrentGame from './app/CurrentGame'
 import EndGameManager from './app/EndGameManager'
 import RelationsManager from './app/RelationsManager'
 import StartGameManager from './app/StartGameManager'
@@ -109,8 +110,11 @@ class NaiveDiContainer {
         this.setSingleton(DiceThrower, new DiceThrower())
 
         // // app
+        this.setSingleton(CurrentGame, new CurrentGame())
         this.setSingleton(StartGameManager, new StartGameManager())
-        this.setSingleton(EndGameManager, new EndGameManager())
+        this.setSingleton(EndGameManager, new EndGameManager(
+            this.resolveSafely(CurrentGame),
+        ))
         this.setSingleton(TurnManager, new TurnManager())
         this.setSingleton(RelationsManager, new RelationsManager())
 
@@ -130,11 +134,13 @@ class NaiveDiContainer {
             this.resolveSafely(ConsoleUi),
             this.resolveSafely(EndGameManager),
             this.resolveSafely(MainMenu),
+            this.resolveSafely(CurrentGame),
         ))
         this.setSingleton(BrowserGameProcess, new BrowserGameProcess(
             this.resolveSafely(StartGameManager),
             this.resolveSafely(WebUi),
             this.resolveSafely(EndGameManager),
+            this.resolveSafely(CurrentGame),
         ))
     }
 
@@ -142,22 +148,28 @@ class NaiveDiContainer {
         // // ui
         // // // console
         this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
-        this.setSingleton(PlayerActionGetter, new PlayerActionGetter(this.resolveSafely(Std)))
+        this.setSingleton(PlayerActionGetter, new PlayerActionGetter(
+            this.resolveSafely(Std),
+            this.resolveSafely(CurrentGame),
+        ))
         this.setSingleton(PlayerRelationActionGetter, new PlayerRelationActionGetter(this.resolveSafely(Std)))
         this.setSingleton(CommonPlayerController, new CommonPlayerController())
         this.setSingleton(ConsolePlayerController, new ConsolePlayerController(
             this.resolveSafely(TurnManager),
             this.resolveSafely(Std),
             this.resolveSafely(CommonPlayerController),
+            this.resolveSafely(CurrentGame),
         ))
         this.setSingleton(RelationRoundManager, new RelationRoundManager(
             this.resolveSafely(RelationsManager),
             this.resolveSafely(PlayerRelationActionGetter),
+            this.resolveSafely(CurrentGame),
         ))
         this.setSingleton(ConsoleCommandPerformer, new ConsoleCommandPerformer(
             this.resolveSafely(Std),
             this.resolveSafely(TribePrinter),
             this.resolveSafely(Printer),
+            this.resolveSafely(CurrentGame),
         ))
         this.setSingleton(RoundManager, new RoundManager(
             this.resolveSafely(DiceThrower),
@@ -168,6 +180,7 @@ class NaiveDiContainer {
             this.resolveSafely(PlayerActionGetter),
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(RelationsManager),
+            this.resolveSafely(CurrentGame),
         ))
 
         // // ui-root
@@ -176,11 +189,13 @@ class NaiveDiContainer {
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(ConsolePlayerController),
+            this.resolveSafely(CurrentGame),
         ))
         this.setSingleton(WebUi, new WebUi(
             this.resolveSafely(RoundManager),
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(CommonPlayerController),
+            this.resolveSafely(CurrentGame),
         ))
     }
 

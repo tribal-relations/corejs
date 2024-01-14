@@ -1,23 +1,17 @@
 import type Player from './Player.ts'
 import type Tribe from './Tribe'
-import type Turn from './Turn.ts'
 import type WinningCondition from './WinningCondition.ts'
 import PlayerNotFound from '../../exception/not-found/PlayerNotFound'
 import TribeNotFound from '../../exception/not-found/TribeNotFound'
 import type TribeName from '../enum/TribeName'
 
-class Game {
-    public static readonly maxPlayers = 20
+class SpecificGame {
+    private _players: Record<string, Player> = Object()
 
     constructor(
-        private _players: Record<string, Player>,
-        private _playersLength: number = 0,
         private _name: string,
         private _startDate: Date = new Date(),
         private _endDate: Date | null = null,
-        private _currentTurnNumber: number = 0,
-        private _currentTurn: Turn | null = null,
-        private _currentRoundNumber: number = 1,
         private _isStarted: boolean = false,
         private _isFinished: boolean = false,
         private _winner: Player | null = null,
@@ -31,14 +25,6 @@ class Game {
 
     set players(players: Record<string, Player>) {
         this._players = players
-    }
-
-    get playersLength(): number {
-        return this._playersLength
-    }
-
-    set playersLength(len: number) {
-         this._playersLength = len
     }
 
     get startDate(): Date {
@@ -55,26 +41,6 @@ class Game {
 
     set endDate(endDate: Date) {
         this._endDate = endDate
-    }
-
-    get currentTurnNumber(): number {
-        return this._currentTurnNumber
-    }
-
-    set currentTurnNumber(n: number) {
-        this._currentTurnNumber = n
-    }
-
-    get currentRoundNumber(): number {
-        return this._currentRoundNumber
-    }
-
-    get currentTurn(): Turn | null {
-        return this._currentTurn
-    }
-
-    set currentTurn(t: Turn) {
-        this._currentTurn = t
     }
 
     get name(): string {
@@ -117,37 +83,22 @@ class Game {
         this._winningCondition = winningCondition
     }
 
-    addPlayer(player: Player): void {
-        this.players[player.name] = player
-    }
-
     public getPlayer(playerName: string): Player {
-        // because we store players in an array. maybe map would be better
-        for (const playerInstance: Player of this.players) {
-            if (playerName === playerInstance.name) {
-                return playerInstance
-            }
+        if (playerName in this.players) {
+            return this.players[playerName]
         }
+
         throw new PlayerNotFound(playerName, this.name)
     }
 
     public getTribe(tribeName: TribeName): Tribe {
-        // because we store players in an array. maybe map would be better
-        for (const playerInstance: Player of this.players) {
-            if (tribeName === playerInstance.tribe.name) {
-                return playerInstance.tribe
+        for (const name: string of this.players) {
+            if (tribeName === this.players[name].tribe.name) {
+                return this.players[name].tribe
             }
         }
         throw new TribeNotFound(tribeName)
     }
-
-    nextRound(): void {
-        this._currentRoundNumber++
-    }
-
-    nextHalfRound() {
-        this._currentRoundNumber += 0.5
-    }
 }
 
-export default Game
+export default SpecificGame

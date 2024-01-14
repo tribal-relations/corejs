@@ -2,33 +2,22 @@ import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
 import type ConsolePlayerController from './ConsolePlayerController'
 import type RelationRoundManager from './RelationRoundManager'
 import type RoundManager from './RoundManager.ts'
+import type CurrentGame from '../../app/CurrentGame.ts'
 import type TurnResult from '../../app/TurnResult.ts'
-import type Game from '../../domain/entity/Game.ts'
-import GameNotYetCreated from '../../exception/GameNotYetCreated'
 
 class ConsoleUi {
-    _game: Game | undefined
-
     constructor(
         private readonly _roundManager: RoundManager,
         private readonly _relationRoundManager: RelationRoundManager,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
         private readonly _playerController: ConsolePlayerController,
+        private readonly _currentGame: CurrentGame,
+
     ) {
     }
 
-    get game(): Game {
-        if (this._game === undefined) {
-            throw new GameNotYetCreated()
-        }
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
-        this._roundManager.game = game
-        this._consoleCommandPerformer.game = game
-        this._playerController.game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     public startTurns(): TurnResult {

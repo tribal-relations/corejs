@@ -1,4 +1,4 @@
-import Game from '../../../src/domain/entity/Game.ts'
+import CurrentGame from '../../../src/app/CurrentGame'
 import Player from '../../../src/domain/entity/Player.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
@@ -13,11 +13,11 @@ test('Pottery increases crops yield', () => {
 
     tribe.researchByName(TechnologyName.Pottery)
     const player = new Player(tribe)
-
+    const currentGame = container.resolveSafely(CurrentGame)
+    currentGame.addPlayer(player)
     const roundManager = container.resolveSafely(RoundManager)
 
     SpecificDiceThrower.target = 1
-    roundManager.game = new Game([player], '')
 
     const diceResultWithBonus = SpecificDiceThrower.target + potteryBonus
     roundManager.populationGrowth()
@@ -44,10 +44,11 @@ test('Plough increases crops yield', () => {
     expect(tribe.food).toBe(startFood * calendarMultiplier)
 
     const player = new Player(tribe)
+    const currentGame = container.resolveSafely(CurrentGame)
+    currentGame.addPlayer(player)
     const roundManager = container.resolveSafely(RoundManager)
 
     SpecificDiceThrower.target = 1
-    roundManager.game = new Game([player], '')
 
     const diceResultWithBonus = SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.populationGrowth()
@@ -71,10 +72,11 @@ test('Plough with animal husbandry adds a dice', () => {
     tribe.researchByName(TechnologyName.Plough)
     tribe.researchByName(TechnologyName.AnimalHusbandry)
     const player = new Player(tribe)
+    const currentGame = container.resolveSafely(CurrentGame)
+    currentGame.addPlayer(player)
     const roundManager = container.resolveSafely(RoundManager)
 
     SpecificDiceThrower.target = 1
-    roundManager.game = new Game([player], '')
 
     const diceResultWithBonus = SpecificDiceThrower.target + SpecificDiceThrower.target + ploughBonus + potteryBonus
     roundManager.populationGrowth()

@@ -1,26 +1,19 @@
+import type CurrentGame from '../app/CurrentGame.ts'
 import type EndGameManager from '../app/EndGameManager.ts'
 import type StartGameManager from '../app/StartGameManager.ts'
-import type Game from '../domain/entity/Game.ts'
 import type WebUi from '../ui/web/WebUi.ts'
 
 class BrowserGameProcess {
-    _game: Game = this.startGameManager.start()
-
     constructor(
         private readonly _startGameManager: StartGameManager,
         private readonly _playerInterface: WebUi,
         private readonly _endGameManager: EndGameManager,
+        private readonly _currentGame: CurrentGame,
     ) {
     }
 
-    get game(): Game {
-        return this._game
-    }
-
-    set game(game: Game) {
-        this._game = game
-        this.playerInterface.game = game
-        this.endGameManager.game = game
+    get game(): CurrentGame {
+        return this._currentGame
     }
 
     get startGameManager(): StartGameManager {
