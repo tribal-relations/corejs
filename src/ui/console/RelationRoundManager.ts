@@ -1,5 +1,4 @@
 import type PlayerRelationActionGetter from './PlayerRelationActionGetter'
-import type Std from './Std'
 import type RelationsManager from '../../app/RelationsManager'
 import type Game from '../../domain/entity/Game.ts'
 import type Player from '../../domain/entity/Player'
@@ -12,7 +11,6 @@ class RelationRoundManager {
     _game: Game | undefined
 
     constructor(
-        private readonly _std: Std,
         private readonly _relationsManager: RelationsManager,
         private readonly _playerRelationActionGetter: PlayerRelationActionGetter,
     ) {
@@ -27,10 +25,6 @@ class RelationRoundManager {
 
     set game(game: Game) {
         this._game = game
-    }
-
-    get std(): Std {
-        return this._std
     }
 
     public setStarterRelationsFromGame(game: Game) {

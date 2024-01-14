@@ -22,11 +22,12 @@ import ExceptionHandler from './exception-handler/ExceptionHandler'
 import BrowserGameProcess from './outer/BrowserGameProcess'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
+import CommonPlayerController from './ui/common/CommonPlayerController'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
+import ConsolePlayerController from './ui/console/ConsolePlayerController'
 import ConsoleUi from './ui/console/ConsoleUi'
 import MainMenu from './ui/console/MainMenu'
 import PlayerActionGetter from './ui/console/PlayerActionGetter'
-import PlayerController from './ui/console/PlayerController'
 import PlayerRelationActionGetter from './ui/console/PlayerRelationActionGetter'
 import Printer from './ui/console/Printer'
 import RelationRoundManager from './ui/console/RelationRoundManager'
@@ -143,9 +144,13 @@ class NaiveDiContainer {
         this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
         this.setSingleton(PlayerActionGetter, new PlayerActionGetter(this.resolveSafely(Std)))
         this.setSingleton(PlayerRelationActionGetter, new PlayerRelationActionGetter(this.resolveSafely(Std)))
-        this.setSingleton(PlayerController, new PlayerController(this.resolveSafely(TurnManager), this.resolveSafely(Std)))
-        this.setSingleton(RelationRoundManager, new RelationRoundManager(
+        this.setSingleton(CommonPlayerController, new CommonPlayerController())
+        this.setSingleton(ConsolePlayerController, new ConsolePlayerController(
+            this.resolveSafely(TurnManager),
             this.resolveSafely(Std),
+            this.resolveSafely(CommonPlayerController),
+        ))
+        this.setSingleton(RelationRoundManager, new RelationRoundManager(
             this.resolveSafely(RelationsManager),
             this.resolveSafely(PlayerRelationActionGetter),
         ))
@@ -170,11 +175,12 @@ class NaiveDiContainer {
             this.resolveSafely(RoundManager),
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(ConsoleCommandPerformer),
-            this.resolveSafely(PlayerController),
+            this.resolveSafely(ConsolePlayerController),
         ))
         this.setSingleton(WebUi, new WebUi(
-            this.resolveSafely(TurnManager),
-            this.resolveSafely(TurnDecisionManager),
+            this.resolveSafely(RoundManager),
+            this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(CommonPlayerController),
         ))
     }
 

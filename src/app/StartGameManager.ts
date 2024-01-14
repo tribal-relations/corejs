@@ -7,7 +7,8 @@ class StartGameManager {
 
     private createNewGame(name: string): Game {
         return new Game(
-            [],
+            Object(),
+            0,
             name,
             new Date(),
         )

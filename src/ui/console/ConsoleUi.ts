@@ -1,5 +1,5 @@
 import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
-import type PlayerController from './PlayerController'
+import type ConsolePlayerController from './ConsolePlayerController'
 import type RelationRoundManager from './RelationRoundManager'
 import type RoundManager from './RoundManager.ts'
 import type TurnResult from '../../app/TurnResult.ts'
@@ -13,7 +13,7 @@ class ConsoleUi {
         private readonly _roundManager: RoundManager,
         private readonly _relationRoundManager: RelationRoundManager,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
-        private readonly _playerController: PlayerController,
+        private readonly _playerController: ConsolePlayerController,
     ) {
     }
 
