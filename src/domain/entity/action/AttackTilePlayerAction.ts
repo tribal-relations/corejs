@@ -1,11 +1,11 @@
 import type PlayerActionInterface from './PlayerActionInterface.ts'
 import ActionName from '../../enum/ActionName'
-import ActionRepository from '../../repository/ActionRepository'
+import GameplayActionRepository from '../../repository/GameplayActionRepository'
 import type Tile from '../Tile'
 import type Tribe from '../Tribe'
 
 class AttackTilePlayerAction implements PlayerActionInterface {
-    gameAction = ActionRepository.createFromName(ActionName.AttackTile)
+    gameplayAction = GameplayActionRepository.createFromName(ActionName.AttackTile)
 
     constructor(
         private readonly _actor: Tribe,

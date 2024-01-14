@@ -336,7 +336,8 @@ const config = {
             "closeBracket": 0,
             "alignAttributesVertically": true,
             "ignores": []
-        }]
+        }],
+        "vue/attribute-hyphenation": "off",
     }
 }
 

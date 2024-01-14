@@ -92,7 +92,7 @@ class SpecificGame {
     }
 
     public getTribe(tribeName: TribeName): Tribe {
-        for (const name: string of this.players) {
+        for (const name: string in this.players) {
             if (tribeName === this.players[name].tribe.name) {
                 return this.players[name].tribe
             }

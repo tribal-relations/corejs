@@ -24,6 +24,7 @@ import BrowserGameProcess from './outer/BrowserGameProcess'
 import ConsoleGameProcess from './outer/ConsoleGameProcess'
 import TribalRelationsGame from './outer/TribalRelationsGame'
 import CommonPlayerController from './ui/common/CommonPlayerController'
+import CommonRoundManager from './ui/common/CommonRoundManager'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
 import ConsolePlayerController from './ui/console/ConsolePlayerController'
 import ConsoleUi from './ui/console/ConsoleUi'
@@ -35,6 +36,7 @@ import RelationRoundManager from './ui/console/RelationRoundManager'
 import RoundManager from './ui/console/RoundManager'
 import Std from './ui/console/Std'
 import TribePrinter from './ui/console/TribePrinter'
+import GamePage from './ui/web/logic/GamePage'
 import WebUi from './ui/web/WebUi'
 
 class NaiveDiContainer {
@@ -146,6 +148,9 @@ class NaiveDiContainer {
 
     private setUiSingletons() {
         // // ui
+        // // // common
+        this.setSingleton(CommonRoundManager, new CommonRoundManager(this.resolveSafely(RelationsManager)))
+
         // // // console
         this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
         this.setSingleton(PlayerActionGetter, new PlayerActionGetter(
@@ -181,6 +186,7 @@ class NaiveDiContainer {
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(RelationsManager),
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(CommonRoundManager),
         ))
 
         // // ui-root
@@ -190,6 +196,15 @@ class NaiveDiContainer {
             this.resolveSafely(ConsoleCommandPerformer),
             this.resolveSafely(ConsolePlayerController),
             this.resolveSafely(CurrentGame),
+        ))
+
+        this.setSingleton(GamePage, new GamePage(
+            this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(CommonPlayerController),
+            this.resolveSafely(CurrentGame),
+            this.resolveSafely(TurnManager),
+            this.resolveSafely(RelationsManager),
+            this.resolveSafely(CommonRoundManager),
         ))
         this.setSingleton(WebUi, new WebUi(
             this.resolveSafely(RoundManager),

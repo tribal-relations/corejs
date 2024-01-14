@@ -17,6 +17,7 @@ import type DiceThrower from '../../domain/helper/DiceThrower.ts'
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful'
 import InvalidInput from '../../exception/console/InvalidInput'
 import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
+import type CommonRoundManager from '../common/CommonRoundManager'
 
 class RoundManager {
     constructor(
@@ -29,7 +30,7 @@ class RoundManager {
         private readonly _relationRoundManager: RelationRoundManager,
         private readonly _relationsManager: RelationsManager,
         private readonly _currentGame: CurrentGame,
-
+        private readonly _commonRoundManager: CommonRoundManager,
     ) {
     }
 
@@ -66,10 +67,7 @@ class RoundManager {
     }
 
     private doAllPlayerActions(nextTurn: Turn): TurnResult {
-        const totalActions = Math.max(
-            this._relationsManager.getTribeTotalBonus(nextTurn.player.tribe.name) + 1,
-            1,
-        )
+        const totalActions = this._commonRoundManager.howManyActionsCanTribePerformThisTurn(nextTurn.player.tribe)
 
         let turnResult: TurnResult
         for (let i = 0; i < totalActions; ++i) {

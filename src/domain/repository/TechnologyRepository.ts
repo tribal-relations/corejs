@@ -28,7 +28,7 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
         name: TechnologyName.AdvancedWriting,
         description: 'Culture *2',
         prerequisites: {
-            'Primitive Writing': true,
+            [TechnologyName.PrimitiveWriting]: true,
         },
     },
     [TechnologyName.Fishing]: {
@@ -45,7 +45,7 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
         name: TechnologyName.OrganizedArmy,
         description: 'Combat Readiness *3',
         prerequisites: {
-            'Bronze Weapons': true,
+            [TechnologyName.BronzeWeapons]: true,
         },
     },
     [TechnologyName.MusicalInstruments]: {
@@ -57,14 +57,14 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
         name: TechnologyName.BronzeWeapons,
         description: 'Metal +1 Mercantility +1 Production. Combat Readiness *2',
         prerequisites: {
-            'Stone Working': true,
+            [TechnologyName.StoneWorking]: true,
         },
     },
     [TechnologyName.Idols]: {
         name: TechnologyName.Idols,
         description: 'Stone +2 Culture',
         prerequisites: {
-            'Stone Working': true,
+            [TechnologyName.StoneWorking]: true,
         },
     },
     [TechnologyName.Poetry]: {
@@ -76,7 +76,7 @@ const techs: Record<TechnologyName, { name: TechnologyName, description: string,
         name: TechnologyName.Calendar,
         description: 'Food *2',
         prerequisites: {
-            'Primitive Writing': true,
+            [TechnologyName.PrimitiveWriting]: true,
         },
     },
     [TechnologyName.PrimitiveWriting]: {
@@ -99,6 +99,16 @@ class TechnologyRepository {
 
     public static createFromName(name: TechnologyName): Technology {
         return new Technology(name, techs[name].description, techs[name].prerequisites)
+    }
+
+    public static getAll(): Technology[] {
+        const fullArray = []
+        let temp: Technology
+        for (const techName: TechnologyName in techs) {
+            temp = new Technology(techName, techs[techName].description, techs[techName].prerequisites)
+            fullArray.push(temp)
+        }
+        return fullArray
     }
 
     /**

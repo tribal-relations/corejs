@@ -91,6 +91,12 @@ class Tribe implements CanFight {
         return this._knownTechs
     }
 
+    get notKnownTechs(): TechnologyName[] {
+        return TechnologyRepository.getAll()
+            .filter((tech: Technology) => !(tech.name in this.technologies))
+            .map((tech: Technology) => tech.name)
+    }
+
     get isWinner(): boolean {
         return this._isWinner
     }

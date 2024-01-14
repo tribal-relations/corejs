@@ -25,7 +25,7 @@ test('action constraints must be respected', () => {
     }
 
     expect(throwingFunction).toThrow(
-        `Tribe '${tribe.name}' cannot perform action '${playerAction.gameAction.name}', because it does not satisfy action constraints. (Insufficient ${Currency.Population})`,
+        `Tribe '${tribe.name}' cannot perform action '${playerAction.gameplayAction.name}', because it does not satisfy action constraints. (Insufficient ${Currency.Population})`,
     )
     expect(tribe.tiles.length).toBe(0)
 })
