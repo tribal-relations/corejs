@@ -9,9 +9,9 @@ import type GoTo1stRadius from '../domain/action-performer/GoTo1stRadius.ts'
 import type GoTo2ndRadius from '../domain/action-performer/GoTo2ndRadius.ts'
 import type GoTo3rdRadius from '../domain/action-performer/GoTo3rdRadius.ts'
 import type Research from '../domain/action-performer/Research.ts'
+import type GameplayAction from '../domain/entity/action/GameplayAction'
 import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface'
 import Currency from '../domain/entity/Currency.ts'
-import type GameAction from '../domain/entity/GameAction.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
@@ -38,10 +38,10 @@ class ActionPerformer {
     }
 
     public performAction(playerAction: PlayerActionInterface, turn: Turn): void {
-        this.checkActionConstraints(playerAction.gameAction, turn.player.tribe)
-        const performer = this.getPerformerClass(playerAction.gameAction)
+        this.checkActionConstraints(playerAction.gameplayAction, turn.player.tribe)
+        const performer = this.getPerformerClass(playerAction.gameplayAction)
         if (!performer) {
-            throw new ActionUnsuccessful(playerAction.gameAction.name)
+            throw new ActionUnsuccessful(playerAction.gameplayAction.name)
         }
         performer.perform(playerAction, turn)
     }
@@ -61,28 +61,28 @@ class ActionPerformer {
         }
     }
 
-    private getPerformerClass(action: GameAction): ActionInterface | undefined {
+    private getPerformerClass(action: GameplayAction): ActionInterface | undefined {
         return this._performers[action.name]
     }
 
-    private checkActionConstraints(action: GameAction, tribe: Tribe): void {
-        if (action.constraints.radius < tribe.radius) {
-            const error: Error = new WrongRadius(tribe.name, action.constraints.radius, action.name)
+    private checkActionConstraints(action: GameplayAction, tribe: Tribe): void {
+        if (action.gameAction.constraints.radius < tribe.radius) {
+            const error: Error = new WrongRadius(tribe.name, action.gameAction.constraints.radius, action.name)
             throw error
         }
-        if (action.constraints.culture > tribe.culture) {
+        if (action.gameAction.constraints.culture > tribe.culture) {
             const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Culture)
             throw error
         }
-        if (action.constraints.production > tribe.production) {
+        if (action.gameAction.constraints.production > tribe.production) {
             const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Production)
             throw error
         }
-        if (action.constraints.population > tribe.population) {
+        if (action.gameAction.constraints.population > tribe.population) {
             const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Population)
             throw error
         }
-        if (action.constraints.gold_cost > tribe.gold) {
+        if (action.gameAction.constraints.gold_cost > tribe.gold) {
             const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Gold)
             throw error
         }

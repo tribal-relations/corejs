@@ -1,16 +1,16 @@
+import type GameplayAction from './GameplayAction'
 import type PlayerActionInterface from './PlayerActionInterface'
-import type GameAction from '../GameAction'
 import type Tribe from '../Tribe'
 
 class AbstractPlayerAction implements PlayerActionInterface {
     constructor(
-        private readonly _gameAction: GameAction,
+        private readonly _gameplayAction: GameplayAction,
         private readonly _actor: Tribe,
     ) {
     }
 
-    get gameAction(): GameAction {
-        return this._gameAction
+    get gameplayAction(): GameplayAction {
+        return this._gameplayAction
     }
 
     get actor(): Tribe {

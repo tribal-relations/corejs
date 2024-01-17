@@ -4,7 +4,7 @@ import webReporter from './web-reporter'
 
 export default (folder) => {
     switch (folder) {
-        case 'ui/browser':
+        case 'ui/web':
             return webReporter
         case 'ui/console':
             return consoleReporter

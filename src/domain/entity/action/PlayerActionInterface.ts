@@ -1,8 +1,8 @@
-import type GameAction from '../GameAction'
+import type GameplayAction from './GameplayAction'
 import type Tribe from '../Tribe'
 
 interface PlayerActionInterface {
-    gameAction: GameAction
+    gameplayAction: GameplayAction
     actor: Tribe
 }
 

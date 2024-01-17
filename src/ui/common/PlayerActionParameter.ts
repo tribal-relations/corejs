@@ -1,13 +1,13 @@
-import ValueNotInEnum from '../../../exception/ValueNotInEnum'
+import ValueNotInEnum from '../../exception/ValueNotInEnum'
 
-class PlayerActionCliParameter {
+class PlayerActionParameter {
     constructor(
         private readonly _enum,
-        private readonly _name,
+        private readonly _name: string,
     ) {
     }
 
-    get name() {
+    get name(): string {
         return this._name
     }
 
@@ -26,4 +26,4 @@ class PlayerActionCliParameter {
     }
 }
 
-export default PlayerActionCliParameter
+export default PlayerActionParameter

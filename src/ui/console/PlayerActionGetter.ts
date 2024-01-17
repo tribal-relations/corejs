@@ -14,7 +14,6 @@ import ActionName from '../../domain/enum/ActionName'
 import type ResourceName from '../../domain/enum/ResourceName'
 import type TechnologyName from '../../domain/enum/TechnologyName'
 import type TribeName from '../../domain/enum/TribeName'
-import ActionRepository from '../../domain/repository/ActionRepository'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository'
 import CannotGetPlayerDecision from '../../exception/console/CannotGetPlayerDecision'
 import InvalidInput from '../../exception/console/InvalidInput'
@@ -77,7 +76,7 @@ class PlayerActionGetter {
 
     private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
         const mapEntry = ConsoleActionRepository.decisionToActionDataMap[actionOrCommand]
-        const gameAction = ActionRepository.createFromName(mapEntry.name)
+        const gameAction = mapEntry.gameAction
 
         if (words.length - 1 !== mapEntry.parameters.length) {
             throw new InsufficientCliParameters(mapEntry.parameters.length, words.length - 1)

@@ -3,6 +3,9 @@ import type CommonPlayerController from '../common/CommonPlayerController'
 import type RelationRoundManager from '../console/RelationRoundManager'
 import type RoundManager from '../console/RoundManager'
 
+/**
+ * @deprecated
+ */
 class WebUi {
     constructor(
         private readonly _roundManager: RoundManager,
@@ -15,15 +18,6 @@ class WebUi {
 
     get game(): CurrentGame {
         return this._currentGame
-    }
-
-    public startTurns(names: string[]): void {
-        this.makeFirstOneTimeSetup(names)
-    }
-
-    private makeFirstOneTimeSetup(names: string[]) {
-        this._playerController.createPlayers(names)
-        this._relationRoundManager.setStarterRelationsFromGame(this.game)
     }
 }
 

@@ -1,6 +1,8 @@
+import type ActionName from '../enum/ActionName'
+
 class GameAction {
     constructor(
-        private readonly _name: string,
+        private readonly _name: ActionName,
         private readonly _description: string,
         private readonly _radius: number,
         private readonly _constraints: {
@@ -14,8 +16,12 @@ class GameAction {
     ) {
     }
 
-    get name(): string {
+    get name(): ActionName {
         return this._name
+    }
+
+    get description(): string {
+        return this._description
     }
 
     get constraints(): {
