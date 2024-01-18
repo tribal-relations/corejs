@@ -1,7 +1,7 @@
-import AppException from '../exception/AppException.ts'
-import ConsoleException from '../exception/console/ConsoleException.ts'
-import InternalException from '../exception/internal/InternalException.ts'
-import NotFoundException from '../exception/not-found/NotFoundException.ts'
+import AppException from '../../exception/AppException.ts'
+import ConsoleException from '../../exception/console/ConsoleException.ts'
+import InternalException from '../../exception/internal/InternalException.ts'
+import NotFoundException from '../../exception/not-found/NotFoundException.ts'
 
 class ExceptionHandler {
     handle(error: Error): void {

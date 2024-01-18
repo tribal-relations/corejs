@@ -67,24 +67,19 @@ class ActionPerformer {
 
     private checkActionConstraints(action: GameplayAction, tribe: Tribe): void {
         if (action.gameAction.constraints.radius < tribe.radius) {
-            const error: Error = new WrongRadius(tribe.name, action.gameAction.constraints.radius, action.name)
-            throw error
+            throw new WrongRadius(tribe.name, action.gameAction.constraints.radius, action.name)
         }
         if (action.gameAction.constraints.culture > tribe.culture) {
-            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Culture)
-            throw error
+            throw new ActionUnavailable(tribe.name, action.name, Currency.Culture)
         }
         if (action.gameAction.constraints.production > tribe.production) {
-            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Production)
-            throw error
+            throw new ActionUnavailable(tribe.name, action.name, Currency.Production)
         }
         if (action.gameAction.constraints.population > tribe.population) {
-            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Population)
-            throw error
+            throw new ActionUnavailable(tribe.name, action.name, Currency.Population)
         }
         if (action.gameAction.constraints.gold_cost > tribe.gold) {
-            const error: Error = new ActionUnavailable(tribe.name, action.name, Currency.Gold)
-            throw error
+            throw new ActionUnavailable(tribe.name, action.name, Currency.Gold)
         }
     }
 }

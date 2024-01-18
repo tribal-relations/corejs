@@ -1,5 +1,5 @@
-import ExceptionHandler from './exception-handler/ExceptionHandler.ts'
 import { container } from './NaiveDiContainer.ts'
+import ExceptionHandler from './outer/exception-handler/ExceptionHandler.ts'
 import TribalRelationsGame from './outer/TribalRelationsGame.ts'
 
 let exceptionHandler: ExceptionHandler

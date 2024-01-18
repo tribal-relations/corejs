@@ -19,9 +19,9 @@ import Rome from './domain/entity/Rome.ts'
 import DiceThrower from './domain/helper/DiceThrower.ts'
 import FightManager from './domain/helper/FightManager.ts'
 import NotInContainer from './exception/internal/NotInContainer.ts'
-import ExceptionHandler from './exception-handler/ExceptionHandler.ts'
 import BrowserGameProcess from './outer/BrowserGameProcess.ts'
 import ConsoleGameProcess from './outer/ConsoleGameProcess.ts'
+import ExceptionHandler from './outer/exception-handler/ExceptionHandler.ts'
 import TribalRelationsGame from './outer/TribalRelationsGame.ts'
 import CommonPlayerController from './ui/common/CommonPlayerController.ts'
 import CommonRoundManager from './ui/common/CommonRoundManager.ts'
@@ -55,24 +55,8 @@ class NaiveDiContainer {
         throw new NotInContainer(className.name)
     }
 
-    public resolve(className: Function, throwOnNotFound: boolean = true): object | null {
-        if (className.name in this.singletonToInstanceMap) {
-            return this.singletonToInstanceMap[className.name]
-        }
-
-        if (throwOnNotFound) {
-            throw new NotInContainer(className.name)
-        }
-
-        return null
-    }
-
     public clearInstances(): void {
         this.singletonToInstanceMap = {}
-    }
-
-    public rebuildMap(): void {
-        this.buildMap()
     }
 
     public setMock(className: Function, instance: object): void {
@@ -80,40 +64,53 @@ class NaiveDiContainer {
         this.singletonToInstanceMap[instance.constructor.name] = instance
     }
 
-    private setSingleton(className: Function, instance: object, override: boolean = false): void {
-        if (className.name in this.singletonToInstanceMap && !override) {
-            return
-        }
-        this.singletonToInstanceMap[className.name] = instance
+    public rebuildMap(): void {
+        this.buildMap()
     }
 
-    private buildIndependentSingletons(): void {
-        // src
-        // // exception
-        this.setSingleton(ExceptionHandler, new ExceptionHandler())
+    /**
+     * Dependency tree:
+     * src/*:
+     *     src/outer:
+     *         src/ui:
+     *             src/app:
+     *                 src/exception:
+     *                 src/domain:
+     *                     src/domain/repository:
+     *                         src/domain/enum:
+     */
+    private buildMap(): void {
+        // enums cannot be instantiated
+        // this.buildEnums()
+        // repositories are static classes
+        // this.buildRepositories()
+        this.buildDomain()
+        this.buildApp()
+        this.buildUi()
+        this.buildOuter()
+        this.buildRoot()
+    }
 
-        // // ui
-        this.setSingleton(Std, new Std())
-
-        // // // console
-        this.setSingleton(TribePrinter, new TribePrinter())
-        this.setSingleton(Printer, new Printer())
-
-        // // domain
+    private buildDomain(): void {
+        // // // entity
+        this.setSingleton(Rome, new Rome())
+        // // // helper
+        this.setSingleton(DiceThrower, new DiceThrower())
         // // // action
         this.setSingleton(Research, new Research())
         this.setSingleton(Arm, new Arm())
         this.setSingleton(GoTo3rdRadius, new GoTo3rdRadius())
         this.setSingleton(GoTo2ndRadius, new GoTo2ndRadius())
         this.setSingleton(GoTo1stRadius, new GoTo1stRadius())
+        this.setSingleton(FightManager, new FightManager(this.resolveSafely(Rome)))
+        this.setSingleton(Conquer, new Conquer(this.resolveSafely(FightManager)))
+        this.setSingleton(Cult, new Cult(this.resolveSafely(DiceThrower)))
+        this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
+        this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
+        this.setSingleton(AttackTribe, new AttackTribe(this.resolveSafely(FightManager)))
+    }
 
-        // // // entity
-        this.setSingleton(Rome, new Rome())
-
-        // // // helper
-        this.setSingleton(DiceThrower, new DiceThrower())
-
-        // // app
+    private buildApp(): void {
         this.setSingleton(CurrentGame, new CurrentGame())
         this.setSingleton(StartGameManager, new StartGameManager())
         this.setSingleton(EndGameManager, new EndGameManager(
@@ -122,45 +119,43 @@ class NaiveDiContainer {
         this.setSingleton(TurnManager, new TurnManager())
         this.setSingleton(RelationsManager, new RelationsManager())
 
-        // // outer
-        this.setSingleton(TribalRelationsGame, new TribalRelationsGame())
+        this.setSingleton(ActionPerformer, new ActionPerformer(
+            this.resolveSafely(Arm),
+            this.resolveSafely(Research),
+            this.resolveSafely(Expedition),
+            this.resolveSafely(GoTo3rdRadius),
+            this.resolveSafely(GoTo2ndRadius),
+            this.resolveSafely(GoTo1stRadius),
+            this.resolveSafely(Conquer),
+            this.resolveSafely(Cult),
+            this.resolveSafely(AttackTile),
+            this.resolveSafely(AttackTribe),
+        ))
+        this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
     }
 
-    private buildDependentSingletons(): void {
-        // src
-        this.setDomainSingletons()
-        this.setAppSingletons()
-        this.setUiSingletons()
-
-        // // outer
-        this.setSingleton(ConsoleGameProcess, new ConsoleGameProcess(
-            this.resolveSafely(StartGameManager),
-            this.resolveSafely(ConsoleUi),
-            this.resolveSafely(EndGameManager),
-            this.resolveSafely(MainMenu),
-            this.resolveSafely(CurrentGame),
-        ))
-        this.setSingleton(BrowserGameProcess, new BrowserGameProcess(
-            this.resolveSafely(StartGameManager),
-            this.resolveSafely(WebUi),
-            this.resolveSafely(EndGameManager),
-            this.resolveSafely(CurrentGame),
-        ))
+    private buildUi(): void {
+        this.buildCommonUi()
+        this.buildConsole()
+        this.buildWeb()
     }
 
-    private setUiSingletons() {
-        // // ui
-        // // // common
+    private buildCommonUi(): void {
         this.setSingleton(CommonRoundManager, new CommonRoundManager(this.resolveSafely(RelationsManager)))
+        this.setSingleton(CommonPlayerController, new CommonPlayerController())
+    }
 
-        // // // console
+    private buildConsole(): void {
+        this.setSingleton(Std, new Std())
+        this.setSingleton(TribePrinter, new TribePrinter())
+        this.setSingleton(Printer, new Printer())
+
         this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
         this.setSingleton(PlayerActionGetter, new PlayerActionGetter(
             this.resolveSafely(Std),
             this.resolveSafely(CurrentGame),
         ))
         this.setSingleton(PlayerRelationActionGetter, new PlayerRelationActionGetter(this.resolveSafely(Std)))
-        this.setSingleton(CommonPlayerController, new CommonPlayerController())
         this.setSingleton(ConsolePlayerController, new ConsolePlayerController(
             this.resolveSafely(TurnManager),
             this.resolveSafely(Std),
@@ -190,8 +185,6 @@ class NaiveDiContainer {
             this.resolveSafely(CurrentGame),
             this.resolveSafely(CommonRoundManager),
         ))
-
-        // // ui-root
         this.setSingleton(ConsoleUi, new ConsoleUi(
             this.resolveSafely(RoundManager),
             this.resolveSafely(RelationRoundManager),
@@ -199,7 +192,9 @@ class NaiveDiContainer {
             this.resolveSafely(ConsolePlayerController),
             this.resolveSafely(CurrentGame),
         ))
+    }
 
+    private buildWeb(): void {
         this.setSingleton(GamePage, new GamePage(
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(CommonPlayerController),
@@ -229,37 +224,33 @@ class NaiveDiContainer {
         ))
     }
 
-    private setAppSingletons() {
-        // // app
-        this.setSingleton(ActionPerformer, new ActionPerformer(
-            this.resolveSafely(Arm),
-            this.resolveSafely(Research),
-            this.resolveSafely(Expedition),
-            this.resolveSafely(GoTo3rdRadius),
-            this.resolveSafely(GoTo2ndRadius),
-            this.resolveSafely(GoTo1stRadius),
-            this.resolveSafely(Conquer),
-            this.resolveSafely(Cult),
-            this.resolveSafely(AttackTile),
-            this.resolveSafely(AttackTribe),
+    private buildOuter(): void {
+        this.setSingleton(ExceptionHandler, new ExceptionHandler())
+        this.setSingleton(TribalRelationsGame, new TribalRelationsGame())
+        this.setSingleton(ConsoleGameProcess, new ConsoleGameProcess(
+            this.resolveSafely(StartGameManager),
+            this.resolveSafely(ConsoleUi),
+            this.resolveSafely(EndGameManager),
+            this.resolveSafely(MainMenu),
+            this.resolveSafely(CurrentGame),
         ))
-        this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
+        this.setSingleton(BrowserGameProcess, new BrowserGameProcess(
+            this.resolveSafely(StartGameManager),
+            this.resolveSafely(WebUi),
+            this.resolveSafely(EndGameManager),
+            this.resolveSafely(CurrentGame),
+        ))
     }
 
-    private setDomainSingletons() {
-        // // domain
-        // // // action
-        this.setSingleton(FightManager, new FightManager(this.resolveSafely(Rome)))
-        this.setSingleton(Conquer, new Conquer(this.resolveSafely(FightManager)))
-        this.setSingleton(Cult, new Cult(this.resolveSafely(DiceThrower)))
-        this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
-        this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
-        this.setSingleton(AttackTribe, new AttackTribe(this.resolveSafely(FightManager)))
+    private buildRoot(): void {
+
     }
 
-    private buildMap(): void {
-        this.buildIndependentSingletons()
-        this.buildDependentSingletons()
+    private setSingleton(className: Function, instance: object, override: boolean = false): void {
+        if (className.name in this.singletonToInstanceMap && !override) {
+            return
+        }
+        this.singletonToInstanceMap[className.name] = instance
     }
 }
 
