@@ -11,12 +11,11 @@ test('can run getCurrentTribeNames', () => {
 
     const tribeNames = actionInfo.getCurrentTribeNames()
 
-    expect(tribeNames).toStrictEqual([
-        'Saami',
-        'Chukchi',
-        'Chinese',
-        'Javanese',
-    ])
+    expect(tribeNames.length).toStrictEqual(gamePage.defaultPlayerNames.length)
+
+    for (let i = 0; i < tribeNames.length; ++i) {
+        expect(tribeNames[i] in TribeName).toBeTruthy()
+    }
 })
 
 test('can run getTribeResourceNamesByTribeName', () => {

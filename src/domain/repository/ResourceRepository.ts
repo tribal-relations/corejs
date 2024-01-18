@@ -86,7 +86,7 @@ class ResourceRepository {
 
     public static createFromName(name: ResourceName): Resource {
         return new Resource(
-            String(name),
+            name,
             resources[name].quantity,
             resources[name].food,
             resources[name].mercantility,
@@ -96,7 +96,7 @@ class ResourceRepository {
     }
 
     static getRandomResource(): Resource {
-        const randomName = Rand.enumChoice(ResourceName)
+        const randomName = Rand.chooseOneFromEnum(ResourceName)
 
         return ResourceRepository.createFromName(randomName)
     }
