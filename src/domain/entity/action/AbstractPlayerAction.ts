@@ -1,6 +1,6 @@
-import type GameplayAction from './GameplayAction'
-import type PlayerActionInterface from './PlayerActionInterface'
-import type Tribe from '../Tribe'
+import type GameplayAction from './GameplayAction.ts'
+import type PlayerActionInterface from './PlayerActionInterface.ts'
+import type Tribe from '../Tribe.ts'
 
 class AbstractPlayerAction implements PlayerActionInterface {
     constructor(

@@ -1,4 +1,4 @@
-import type ResourceName from '../enum/ResourceName'
+import type ResourceName from '../enum/ResourceName.ts'
 
 class Resource {
     constructor(

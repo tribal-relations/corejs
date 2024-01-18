@@ -1,10 +1,10 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
-import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction'
+import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Tribe from '../../../src/domain/entity/Tribe.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import ActionName from '../../../src/domain/enum/ActionName.ts'
-import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import GameplayActionRepository from '../../../src/domain/repository/GameplayActionRepository.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
@@ -20,7 +20,7 @@ function sendCult(diceResult: number, populationPopulation: number = 10): Tribe 
 
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
-    const gameAction = ActionRepository.createFromName(ActionName.Cult)
+    const gameAction = GameplayActionRepository.createFromName(ActionName.Cult)
     const playerAction = new AbstractPlayerAction(gameAction, sender)
 
     turnDecisionManager.processTurn(playerAction, turn)

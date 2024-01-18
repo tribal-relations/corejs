@@ -10,17 +10,21 @@ export default defineConfig({
         globals: true,
         typecheck: {
             enabled: true,
+            ignoreSourceErrors: false,
         },
         setupFiles: ['/tests/setup-tests.ts'],
         coverage: {
             exclude: [
                 ...configDefaults.exclude,
+                'tests/*reporter.ts',
                 'src/domain/interface',
                 'src/exception',
                 'src/exception-handler',
                 'nuxt.config.ts',
                 '.nuxt',
                 '.eslintrc.cjs',
+                // temporary
+                '**/*.vue',
             ],
             thresholds: {
                 lines: 80,

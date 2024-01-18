@@ -1,6 +1,6 @@
-import consoleReporter from './console-reporter'
-import coreReporter from './core-reporter'
-import webReporter from './web-reporter'
+import consoleReporter from './console-reporter.ts'
+import coreReporter from './core-reporter.ts'
+import webReporter from './web-reporter.ts'
 
 export default (folder) => {
     switch (folder) {

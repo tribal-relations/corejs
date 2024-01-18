@@ -1,10 +1,10 @@
-import type Std from './Std'
-import type Tribe from '../../domain/entity/Tribe'
-import RelationName from '../../domain/enum/RelationName'
-import type TribeName from '../../domain/enum/TribeName'
-import CannotGetTribeRelationsFromCli from '../../exception/console/CannotGetTribeRelationsFromCli'
-import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
-import RelationNotFound from '../../exception/not-found/RelationNotFound'
+import type Std from './Std.ts'
+import type Tribe from '../../domain/entity/Tribe.ts'
+import RelationName from '../../domain/enum/RelationName.ts'
+import type TribeName from '../../domain/enum/TribeName.ts'
+import CannotGetTribeRelationsFromCli from '../../exception/console/CannotGetTribeRelationsFromCli.ts'
+import InsufficientCliParameters from '../../exception/InsufficientCliParameters.ts'
+import RelationNotFound from '../../exception/not-found/RelationNotFound.ts'
 
 class PlayerRelationActionGetter {
     _cliParameterToRelationNameMap: Record<string, RelationName> = {

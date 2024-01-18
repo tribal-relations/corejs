@@ -338,6 +338,18 @@ const config = {
             "ignores": []
         }],
         "vue/attribute-hyphenation": "off",
+
+        //https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/extensions.md
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "always",
+                "jsx": "always",
+                "ts": "always",
+                "tsx": "always"
+            }
+        ]
     }
 }
 

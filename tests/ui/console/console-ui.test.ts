@@ -1,22 +1,19 @@
-import RelationsManager from '../../../src/app/RelationsManager'
+import RelationsManager from '../../../src/app/RelationsManager.ts'
 import StartGameManager from '../../../src/app/StartGameManager.ts'
-import RelationName from '../../../src/domain/enum/RelationName'
+import RelationName from '../../../src/domain/enum/RelationName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleUi from '../../../src/ui/console/ConsoleUi.ts'
-import Std from '../../../src/ui/console/Std'
-import SpecificDiceThrower from '../../mock/SpecificDiceThrower'
+import Std from '../../../src/ui/console/Std.ts'
+import type MockStd from '../../mock/MockStd.ts'
+import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 function prepareConsoleUi(): ConsoleUi {
-    const startGameManager = container.resolveSafely(StartGameManager)
-    const consoleUi: ConsoleUi = container.resolveSafely(ConsoleUi)
-    return consoleUi
+    return container.resolveSafely(ConsoleUi)
 }
 
 test('can add players', async () => {
-    // const consoleUi = prepareConsoleUi()
-    const startGameManager = container.resolveSafely(StartGameManager)
-    const consoleUi = container.resolveSafely(ConsoleUi)
-    const std = container.resolveSafely(Std)
+    const consoleUi: ConsoleUi = container.resolveSafely(ConsoleUi)
+    const std: MockStd = container.resolveSafely(Std)
 
     std.sendIn('artem')
     std.sendIn('rinat')
@@ -31,10 +28,10 @@ test('can add players', async () => {
 })
 
 test('population growth', async () => {
-    const consoleUi = prepareConsoleUi()
+    const consoleUi: ConsoleUi = prepareConsoleUi()
 
     SpecificDiceThrower.target = 1
-    const std = container.resolveSafely(Std)
+    const std: MockStd = container.resolveSafely(Std)
 
     const defaultPopulation = 2
     const defaultFood = 4 // pasture and forest
@@ -64,10 +61,10 @@ test('population growth', async () => {
 })
 
 test('one round consists of one turn per each player', async () => {
-    const consoleUi = prepareConsoleUi()
+    const consoleUi: ConsoleUi = prepareConsoleUi()
 
     SpecificDiceThrower.target = 1
-    const std = container.resolveSafely(Std)
+    const std: MockStd = container.resolveSafely(Std)
 
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
 
@@ -89,10 +86,10 @@ test('one round consists of one turn per each player', async () => {
 })
 
 test('relationship bonus adds action points', async () => {
-    const consoleUi = prepareConsoleUi()
+    const consoleUi: ConsoleUi = prepareConsoleUi()
 
     SpecificDiceThrower.target = 1
-    const std = container.resolveSafely(Std)
+    const std: MockStd = container.resolveSafely(Std)
 
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
     const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
@@ -136,10 +133,10 @@ test('relationship bonus adds action points', async () => {
 })
 
 test('relations round after regular round', async () => {
-    const consoleUi = prepareConsoleUi()
+    const consoleUi: ConsoleUi = prepareConsoleUi()
 
     SpecificDiceThrower.target = 1
-    const std = container.resolveSafely(Std)
+    const std: MockStd = container.resolveSafely(Std)
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
     const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
 
@@ -186,8 +183,8 @@ test('relations round after regular round', async () => {
 })
 
 test('q to quit game', async () => {
-    const consoleUi = prepareConsoleUi()
-    const std = container.resolveSafely(Std)
+    const consoleUi: ConsoleUi = prepareConsoleUi()
+    const std: MockStd = container.resolveSafely(Std)
 
     std.sendIn('player')
     std.sendIn('\n')
@@ -199,8 +196,8 @@ test('q to quit game', async () => {
 })
 
 test('incorrect action does not kill the app and you continue', async () => {
-    const consoleUi = prepareConsoleUi()
-    const std = container.resolveSafely(Std)
+    const consoleUi: ConsoleUi = prepareConsoleUi()
+    const std: MockStd = container.resolveSafely(Std)
 
     std.sendIn('player')
     std.sendIn('\n')

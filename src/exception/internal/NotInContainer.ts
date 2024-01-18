@@ -1,4 +1,4 @@
-import InternalException from './InternalException'
+import InternalException from './InternalException.ts'
 
 class NotInContainer extends InternalException {
     constructor(className: string) {

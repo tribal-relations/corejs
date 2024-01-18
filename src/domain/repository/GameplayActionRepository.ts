@@ -1,10 +1,10 @@
-import ActionRepository from './ActionRepository'
-import PlayerActionParameter from '../../ui/common/PlayerActionParameter'
-import GameplayAction from '../entity/action/GameplayAction'
+import ActionRepository from './ActionRepository.ts'
+import PlayerActionParameter from '../../ui/common/PlayerActionParameter.ts'
+import GameplayAction from '../entity/action/GameplayAction.ts'
 import ActionName from '../enum/ActionName.ts'
-import ResourceName from '../enum/ResourceName'
-import TechnologyName from '../enum/TechnologyName'
-import TribeName from '../enum/TribeName'
+import ResourceName from '../enum/ResourceName.ts'
+import TechnologyName from '../enum/TechnologyName.ts'
+import TribeName from '../enum/TribeName.ts'
 
 const actions: Record<ActionName, { name: ActionName, parameters: PlayerActionParameter[] }> = {
     [ActionName.Arm]: { name: ActionName.Arm, parameters: [] },

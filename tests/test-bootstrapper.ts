@@ -27,8 +27,8 @@ class TestBootstrapper {
 
     public static addMocks(mocks: object[]) {
         container.clearInstances()
-        for (const index in mocks) {
-            container.setMock(mocks[index].class, mocks[index].instance)
+        for (const mock of mocks) {
+            container.setMock(mock.class, mock.instance)
         }
         container.rebuildMap()
 

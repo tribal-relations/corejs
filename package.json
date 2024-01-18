@@ -5,9 +5,9 @@
   "main": "src/console-app.ts",
   "type": "module",
   "scripts": {
-    "test:coverage-server": "python3 -m http.server -d .vitest-coverage-report",
+    "test:coverage-server": "vitest run --coverage && python3 -m http.server -d .vitest-coverage-report",
     "test:coverage": "vitest run --coverage",
-    "test": "vitest",
+    "test": "vitest --typecheck",
     "fix-code-style": "npx eslint --fix src tests",
     "start-console-app": "npx vite-node src/console-app.ts",
     "start-web-client": "npm run build-nuxt",

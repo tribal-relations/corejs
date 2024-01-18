@@ -1,11 +1,11 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
-import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction'
-import type PlayerActionInterface from '../../../src/domain/entity/action/PlayerActionInterface'
-import type GameAction from '../../../src/domain/entity/GameAction.ts'
+import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction.ts'
+import type GameplayAction from '../../../src/domain/entity/action/GameplayAction.ts'
+import type PlayerActionInterface from '../../../src/domain/entity/action/PlayerActionInterface.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import ActionName from '../../../src/domain/enum/ActionName.ts'
-import ActionRepository from '../../../src/domain/repository/ActionRepository.ts'
+import GameplayActionRepository from '../../../src/domain/repository/GameplayActionRepository.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
@@ -18,7 +18,7 @@ test('arm for amount of production', () => {
 
     const player = new Player(tribe)
     const turn = new Turn(player)
-    const gameAction = ActionRepository.createFromName(ActionName.Arm)
+    const gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -37,7 +37,7 @@ test('arm for amount of production, but not bigger than non-armed population', (
 
     const player = new Player(tribe)
     const turn = new Turn(player)
-    const gameAction = ActionRepository.createFromName(ActionName.Arm)
+    const gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -53,13 +53,13 @@ test('cannot arm more than population', () => {
 
     const player = new Player(tribe)
     const turn = new Turn(player)
-    let gameAction: GameAction
+    let gameAction: GameplayAction
     let playerAction: PlayerActionInterface
     expect(tribe.population).toBe(100)
     expect(tribe.militaryPower).toBe(0)
     expect(tribe.production).toBe(90)
 
-     gameAction = ActionRepository.createFromName(ActionName.Arm)
+     gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
      playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -67,7 +67,7 @@ test('cannot arm more than population', () => {
     expect(tribe.population).toBe(100)
     expect(tribe.militaryPower).toBe(90)
 
-     gameAction = ActionRepository.createFromName(ActionName.Arm)
+     gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
      playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -76,7 +76,7 @@ test('cannot arm more than population', () => {
     expect(tribe.militaryPower).toBe(100)
 
     const throwingFunction = (): void => {
-        const gameAction = ActionRepository.createFromName(ActionName.Arm)
+        const gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
         const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
         turnDecisionManager.processTurn(playerAction, turn)

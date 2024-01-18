@@ -1,4 +1,4 @@
-import NotFoundException from './NotFoundException'
+import NotFoundException from './NotFoundException.ts'
 
 class ActionNotFound extends NotFoundException {
     constructor(actionName: string) {

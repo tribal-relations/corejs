@@ -1,6 +1,6 @@
-import type PlayerActionParameter from '../../../ui/common/PlayerActionParameter'
-import type ActionName from '../../enum/ActionName'
-import type GameAction from '../GameAction'
+import type PlayerActionParameter from '../../../ui/common/PlayerActionParameter.ts'
+import type ActionName from '../../enum/ActionName.ts'
+import type GameAction from '../GameAction.ts'
 
 class GameplayAction {
     constructor(

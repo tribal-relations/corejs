@@ -1,4 +1,4 @@
-import ValueNotInEnum from '../../exception/ValueNotInEnum'
+import ValueNotInEnum from '../../exception/ValueNotInEnum.ts'
 
 class PlayerActionParameter {
     constructor(

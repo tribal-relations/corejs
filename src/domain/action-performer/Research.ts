@@ -1,5 +1,5 @@
 import type ActionInterface from './ActionInterface.ts'
-import type ResearchPlayerAction from '../entity/action/ResearchPlayerAction'
+import type ResearchPlayerAction from '../entity/action/ResearchPlayerAction.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 

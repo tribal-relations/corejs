@@ -1,4 +1,4 @@
-import CurrentGame from '../../../src/app/CurrentGame'
+import CurrentGame from '../../../src/app/CurrentGame.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'

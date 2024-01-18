@@ -1,7 +1,7 @@
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
-import ConsolePlayerController from '../../../src/ui/console/ConsolePlayerController'
-import Std from '../../../src/ui/console/Std'
+import ConsolePlayerController from '../../../src/ui/console/ConsolePlayerController.ts'
+import Std from '../../../src/ui/console/Std.ts'
 
 test('cannot add players with identical name', async () => {
     const playerController = container.resolveSafely(ConsolePlayerController)
