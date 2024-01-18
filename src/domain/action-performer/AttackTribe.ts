@@ -1,8 +1,8 @@
 import type ActionInterface from './ActionInterface.ts'
-import type AttackTribePlayerAction from '../entity/action/AttackTribePlayerAction'
+import type AttackTribePlayerAction from '../entity/action/AttackTribePlayerAction.ts'
 import type Turn from '../entity/Turn.ts'
-import ActionName from '../enum/ActionName'
-import type FightManager from '../helper/FightManager'
+import ActionName from '../enum/ActionName.ts'
+import type FightManager from '../helper/FightManager.ts'
 
 class AttackTribe implements ActionInterface {
     actionName = ActionName.AttackTribe

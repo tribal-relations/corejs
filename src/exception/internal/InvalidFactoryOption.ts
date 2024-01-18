@@ -1,4 +1,4 @@
-import InternalException from './InternalException'
+import InternalException from './InternalException.ts'
 
 class InvalidFactoryOption extends InternalException {
     constructor(one: string, two: string) {

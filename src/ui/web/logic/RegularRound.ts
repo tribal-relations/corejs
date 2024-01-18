@@ -3,24 +3,17 @@ import type RelationsManager from '../../../app/RelationsManager.ts'
 import type TurnManager from '../../../app/TurnManager.ts'
 import TurnResult from '../../../app/TurnResult.ts'
 import type Player from '../../../domain/entity/Player.ts'
+import type Tribe from '../../../domain/entity/Tribe.ts'
 import type Turn from '../../../domain/entity/Turn.ts'
-import type CommonPlayerController from '../../common/CommonPlayerController.ts'
-import type RelationRoundManager from '../../console/RelationRoundManager.ts'
+import type CommonRoundManager from '../../common/CommonRoundManager.ts'
 
-class GamePage {
-    public readonly defaultPlayerNames = [
-        'John',
-        'Jane',
-        'Jack',
-        'Joe',
-    ]
-
+class RegularRound {
     constructor(
-        private readonly _relationRoundManager: RelationRoundManager,
-        private readonly _playerController: CommonPlayerController,
         private readonly _currentGame: CurrentGame,
         private readonly _turnManager: TurnManager,
         private readonly _relationsManager: RelationsManager,
+        private readonly _commonRoundManager: CommonRoundManager,
+
     ) {
     }
 
@@ -28,17 +21,14 @@ class GamePage {
         return this._currentGame
     }
 
-    get relationsManager(): RelationsManager {
-        return this._relationsManager
+    public howManyActionsCanTribePerformThisTurn(tribe: Tribe): number {
+        return this._commonRoundManager.howManyActionsCanTribePerformThisTurn(tribe)
     }
 
-    public onStartClick(playerNames: string[]) {
-        this.validateNames(playerNames)
-
-        this.makeFirstOneTimeSetup(playerNames)
-
+    public onNextTurnClick(): TurnResult {
         const nextTurn = this._turnManager.nextTurn(this.game)
         const turnResult = this.doAllPlayerActions(nextTurn)
+        return turnResult
     }
 
     private doAllPlayerActions(nextTurn: Turn): TurnResult {
@@ -58,15 +48,6 @@ class GamePage {
     private doWhatPlayerSaysSafely(player: Player, nextTurn: Turn): TurnResult {
         return new TurnResult()
     }
-
-    private validateNames(playerNames: string[]): void {
-
-    }
-
-    private makeFirstOneTimeSetup(names: string[]) {
-        this.game.players = this._playerController.createPlayers(names)
-        this._relationRoundManager.setStarterRelationsFromGame(this.game)
-    }
 }
 
-export default GamePage
+export default RegularRound

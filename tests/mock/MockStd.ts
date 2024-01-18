@@ -1,4 +1,4 @@
-import BufferEmpty from '../../src/exception/console/BufferEmpty'
+import BufferEmpty from '../../src/exception/console/BufferEmpty.ts'
 import Std from '../../src/ui/console/Std.ts'
 
 class MockStd extends Std {

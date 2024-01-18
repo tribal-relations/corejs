@@ -1,6 +1,6 @@
 import { container } from '../../../src/NaiveDiContainer.ts'
-import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess'
-import Std from '../../../src/ui/console/Std'
+import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess.ts'
+import Std from '../../../src/ui/console/Std.ts'
 
 test('temp', async () => {
     expect(1).toBe(1)

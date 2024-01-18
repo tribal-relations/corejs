@@ -1,4 +1,4 @@
-import AppException from './AppException'
+import AppException from './AppException.ts'
 
 class ActionUnsuccessful extends AppException {
     constructor(actionName: string, errorMessage: string | null = null) {

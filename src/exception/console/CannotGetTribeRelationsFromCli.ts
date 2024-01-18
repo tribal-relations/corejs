@@ -1,4 +1,4 @@
-import AppException from '../AppException'
+import AppException from '../AppException.ts'
 
 class CannotGetTribeRelationsFromCli extends AppException {
     constructor() {

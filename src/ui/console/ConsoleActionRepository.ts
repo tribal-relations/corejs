@@ -1,6 +1,6 @@
-import type GameplayAction from '../../domain/entity/action/GameplayAction'
+import type GameplayAction from '../../domain/entity/action/GameplayAction.ts'
 import ActionName from '../../domain/enum/ActionName.ts'
-import GameplayActionRepository from '../../domain/repository/GameplayActionRepository'
+import GameplayActionRepository from '../../domain/repository/GameplayActionRepository.ts'
 
 class ConsoleActionRepository {
     static decisionToActionDataMap: Record<string, GameplayAction> = {

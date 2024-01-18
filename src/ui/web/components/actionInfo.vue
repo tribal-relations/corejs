@@ -48,14 +48,14 @@
 
 <script lang="ts">
 
-import GameplayAction from '../../../domain/entity/action/GameplayAction'
-import Turn from '../../../domain/entity/Turn'
-import ActionName from '../../../domain/enum/ActionName'
-import type TribeName from '../../../domain/enum/TribeName'
-import { container } from '../../../NaiveDiContainer'
-import GamePage from '../logic/GamePage'
+import GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
+import Turn from '../../../domain/entity/Turn.ts'
+import ActionName from '../../../domain/enum/ActionName.ts'
+import type TribeName from '../../../domain/enum/TribeName.ts'
+import { container } from '../../../NaiveDiContainer.ts'
+import ActionInfo from '../logic/ActionInfo.ts'
 
-const gamePageConst: GamePage = container.resolveSafely(GamePage)
+const actionInfo: ActionInfo = container.resolveSafely(ActionInfo)
 
 export default {
     props: {
@@ -70,7 +70,7 @@ export default {
                 // options: []
                 // model: ''
             },
-            gamePage: gamePageConst,
+            actionInfo,
         }
     },
     mounted() {
@@ -88,17 +88,17 @@ export default {
         },
         setOptions() {
             if (this.action.parameters.length && this.action.parameters[0].name === 'Tribe Name') {
-                this.parameters['Tribe Name'].options = this.gamePage.getCurrentTribeNames()
+                this.parameters['Tribe Name'].options = this.actionInfo.getCurrentTribeNames()
             }
             if (this.action.name === ActionName.Research) {
-                this.parameters['Technology Name'].options = this.gamePage.getPossibleTechnologiesForTribe(this.currentTurn.player.tribe)
+                this.parameters['Technology Name'].options = this.actionInfo.getPossibleTechnologiesForTribe(this.currentTurn.player.tribe)
             }
         },
         getTribeResourceNames(tribeName: TribeName) {
             if (!tribeName) {
                 return []
             }
-            return this.gamePage.getTribeResourceNamesByTribeName(tribeName)
+            return this.actionInfo.getTribeResourceNamesByTribeName(tribeName)
         },
         onCardClick() {
             this.isActionClicked = true
@@ -111,7 +111,7 @@ export default {
         onConfirmAction() {
             // TODO create PlayerActionInterface with correct parametes
             console.log('action confirmed', this.parameters)
-            // this.gamePage.processTurn(decision, this.currentTurn)
+            // this.actionInfo.processTurn(decision, this.currentTurn)
         },
     },
 }

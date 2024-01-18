@@ -1,6 +1,6 @@
-import RelationName from '../domain/enum/RelationName'
-import type TribeName from '../domain/enum/TribeName'
-import RelationRepository from '../domain/repository/RelationRepository'
+import RelationName from '../domain/enum/RelationName.ts'
+import type TribeName from '../domain/enum/TribeName.ts'
+import RelationRepository from '../domain/repository/RelationRepository.ts'
 
 class RelationsManager {
     // example

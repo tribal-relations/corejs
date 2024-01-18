@@ -1,8 +1,8 @@
 import type PlayerActionInterface from './PlayerActionInterface.ts'
-import ActionName from '../../enum/ActionName'
-import GameplayActionRepository from '../../repository/GameplayActionRepository'
-import type Technology from '../Technology'
-import type Tribe from '../Tribe'
+import ActionName from '../../enum/ActionName.ts'
+import GameplayActionRepository from '../../repository/GameplayActionRepository.ts'
+import type Technology from '../Technology.ts'
+import type Tribe from '../Tribe.ts'
 
 class ResearchPlayerAction implements PlayerActionInterface {
     gameplayAction = GameplayActionRepository.createFromName(ActionName.Research)

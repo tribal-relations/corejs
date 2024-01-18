@@ -1,23 +1,24 @@
-import ConsoleActionRepository from './ConsoleActionRepository'
-import type ConsoleCommand from './entity/ConsoleCommand'
-import ConsoleCommandRepository from './repository/ConsoleCommandRepository'
-import type Std from './Std'
-import type CurrentGame from '../../app/CurrentGame'
-import AbstractPlayerAction from '../../domain/entity/action/AbstractPlayerAction'
-import AttackTilePlayerAction from '../../domain/entity/action/AttackTilePlayerAction'
-import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface'
-import ResearchPlayerAction from '../../domain/entity/action/ResearchPlayerAction'
-import type Player from '../../domain/entity/Player'
-import type Tile from '../../domain/entity/Tile'
-import type Tribe from '../../domain/entity/Tribe'
-import ActionName from '../../domain/enum/ActionName'
-import type ResourceName from '../../domain/enum/ResourceName'
-import type TechnologyName from '../../domain/enum/TechnologyName'
-import type TribeName from '../../domain/enum/TribeName'
-import TechnologyRepository from '../../domain/repository/TechnologyRepository'
-import CannotGetPlayerDecision from '../../exception/console/CannotGetPlayerDecision'
-import InvalidInput from '../../exception/console/InvalidInput'
-import InsufficientCliParameters from '../../exception/InsufficientCliParameters'
+import ConsoleActionRepository from './ConsoleActionRepository.ts'
+import type ConsoleCommand from './entity/ConsoleCommand.ts'
+import ConsoleCommandRepository from './repository/ConsoleCommandRepository.ts'
+import type Std from './Std.ts'
+import type CurrentGame from '../../app/CurrentGame.ts'
+import AbstractPlayerAction from '../../domain/entity/action/AbstractPlayerAction.ts'
+import AttackTilePlayerAction from '../../domain/entity/action/AttackTilePlayerAction.ts'
+import type GameplayAction from '../../domain/entity/action/GameplayAction.ts'
+import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface.ts'
+import ResearchPlayerAction from '../../domain/entity/action/ResearchPlayerAction.ts'
+import type Player from '../../domain/entity/Player.ts'
+import type Tile from '../../domain/entity/Tile.ts'
+import type Tribe from '../../domain/entity/Tribe.ts'
+import ActionName from '../../domain/enum/ActionName.ts'
+import type ResourceName from '../../domain/enum/ResourceName.ts'
+import type TechnologyName from '../../domain/enum/TechnologyName.ts'
+import type TribeName from '../../domain/enum/TribeName.ts'
+import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
+import CannotGetPlayerDecision from '../../exception/console/CannotGetPlayerDecision.ts'
+import InvalidInput from '../../exception/console/InvalidInput.ts'
+import InsufficientCliParameters from '../../exception/InsufficientCliParameters.ts'
 
 class PlayerActionGetter {
     constructor(
@@ -75,38 +76,37 @@ class PlayerActionGetter {
     }
 
     private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
-        const mapEntry = ConsoleActionRepository.decisionToActionDataMap[actionOrCommand]
-        const gameAction = mapEntry.gameAction
+        const gameplayAction: GameplayAction = ConsoleActionRepository.decisionToActionDataMap[actionOrCommand]
 
-        if (words.length - 1 !== mapEntry.parameters.length) {
-            throw new InsufficientCliParameters(mapEntry.parameters.length, words.length - 1)
+        if (words.length - 1 !== gameplayAction.parameters.length) {
+            throw new InsufficientCliParameters(gameplayAction.parameters.length, words.length - 1)
         }
 
-        if (words.length === 1 && mapEntry.parameters.length === 0) { // only command
-            return new AbstractPlayerAction(gameAction, player.tribe)
+        if (words.length === 1 && gameplayAction.parameters.length === 0) { // only command
+            return new AbstractPlayerAction(gameplayAction, player.tribe)
         }
 
-        if (mapEntry.name === ActionName.Alliance) {
-            mapEntry.parameters[0].check(words[1])
+        if (gameplayAction.name === ActionName.Alliance) {
+            gameplayAction.parameters[0].check(words[1])
             // TODO implement after these actions are added
-            return new AbstractPlayerAction(gameAction, player.tribe)
+            return new AbstractPlayerAction(gameplayAction, player.tribe)
         }
 
-        if (mapEntry.name === ActionName.Research) {
-            mapEntry.parameters[0].check(words[1])
+        if (gameplayAction.name === ActionName.Research) {
+            gameplayAction.parameters[0].check(words[1])
             return new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName((words[1] as TechnologyName)))
         }
 
-        if (mapEntry.name === ActionName.AttackTile) {
-            mapEntry.parameters[0].check(words[1])
-            mapEntry.parameters[1].check(words[2])
+        if (gameplayAction.name === ActionName.AttackTile) {
+            gameplayAction.parameters[0].check(words[1])
+            gameplayAction.parameters[1].check(words[2])
             const defender = this.getTribeByTribeName((words[1] as TribeName))
             const tile = this.getTribeTileByResourceName(defender, (words[2] as ResourceName))
 
             return new AttackTilePlayerAction(player.tribe, defender, tile)
         }
 
-        return new AbstractPlayerAction(gameAction, player.tribe)
+        return new AbstractPlayerAction(gameplayAction, player.tribe)
     }
 
     private getTribeByTribeName(tribeName: TribeName): Tribe {

@@ -1,4 +1,4 @@
-import type RelationName from '../enum/RelationName'
+import type RelationName from '../enum/RelationName.ts'
 
 class Relation {
     constructor(

@@ -12,7 +12,7 @@
 
 <script lang="ts">
 
-import type Tile from '../../../domain/entity/Tile'
+import type Tile from '../../../domain/entity/Tile.ts'
 
 export default {
     props: {

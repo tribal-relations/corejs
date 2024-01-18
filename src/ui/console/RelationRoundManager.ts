@@ -1,10 +1,10 @@
-import type PlayerRelationActionGetter from './PlayerRelationActionGetter'
+import type PlayerRelationActionGetter from './PlayerRelationActionGetter.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
-import type RelationsManager from '../../app/RelationsManager'
-import type Player from '../../domain/entity/Player'
-import type Tribe from '../../domain/entity/Tribe'
-import type RelationName from '../../domain/enum/RelationName'
-import type TribeName from '../../domain/enum/TribeName'
+import type RelationsManager from '../../app/RelationsManager.ts'
+import type Player from '../../domain/entity/Player.ts'
+import type Tribe from '../../domain/entity/Tribe.ts'
+import type RelationName from '../../domain/enum/RelationName.ts'
+import type TribeName from '../../domain/enum/TribeName.ts'
 
 class RelationRoundManager {
     constructor(

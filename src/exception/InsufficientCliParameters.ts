@@ -1,4 +1,4 @@
-import AppException from './AppException'
+import AppException from './AppException.ts'
 
 class InsufficientCliParameters extends AppException {
     constructor(expected: number, actual: number) {

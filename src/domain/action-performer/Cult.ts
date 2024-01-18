@@ -1,5 +1,5 @@
 import type ActionInterface from './ActionInterface.ts'
-import type PlayerActionInterface from '../entity/action/PlayerActionInterface'
+import type PlayerActionInterface from '../entity/action/PlayerActionInterface.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 import type DiceThrower from '../helper/DiceThrower.ts'

@@ -1,10 +1,10 @@
-import type GameplayAction from '../domain/entity/action/GameplayAction'
+import type GameplayAction from '../domain/entity/action/GameplayAction.ts'
 import type Player from '../domain/entity/Player.ts'
-import SpecificGame from '../domain/entity/SpecificGame'
-import type Tribe from '../domain/entity/Tribe'
+import SpecificGame from '../domain/entity/SpecificGame.ts'
+import type Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
-import type TribeName from '../domain/enum/TribeName'
-import GameplayActionRepository from '../domain/repository/GameplayActionRepository'
+import type TribeName from '../domain/enum/TribeName.ts'
+import GameplayActionRepository from '../domain/repository/GameplayActionRepository.ts'
 
 class CurrentGame {
     public static readonly maxPlayers = 20

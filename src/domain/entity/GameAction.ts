@@ -1,4 +1,4 @@
-import type ActionName from '../enum/ActionName'
+import type ActionName from '../enum/ActionName.ts'
 
 class GameAction {
     constructor(

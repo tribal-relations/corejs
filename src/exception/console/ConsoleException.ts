@@ -1,4 +1,4 @@
-import AppException from '../AppException'
+import AppException from '../AppException.ts'
 
 class ConsoleException extends AppException {
     constructor(message: string | null = null) {

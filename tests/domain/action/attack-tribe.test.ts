@@ -1,5 +1,5 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
-import AttackTribePlayerAction from '../../../src/domain/entity/action/AttackTribePlayerAction'
+import AttackTribePlayerAction from '../../../src/domain/entity/action/AttackTribePlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'

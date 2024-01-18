@@ -1,9 +1,9 @@
 import type Player from './Player.ts'
-import type Tribe from './Tribe'
+import type Tribe from './Tribe.ts'
 import type WinningCondition from './WinningCondition.ts'
-import PlayerNotFound from '../../exception/not-found/PlayerNotFound'
-import TribeNotFound from '../../exception/not-found/TribeNotFound'
-import type TribeName from '../enum/TribeName'
+import PlayerNotFound from '../../exception/not-found/PlayerNotFound.ts'
+import TribeNotFound from '../../exception/not-found/TribeNotFound.ts'
+import type TribeName from '../enum/TribeName.ts'
 
 class SpecificGame {
     private _players: Record<string, Player> = Object()

@@ -1,4 +1,4 @@
-import ConsoleException from './ConsoleException'
+import ConsoleException from './ConsoleException.ts'
 
 class BufferEmpty extends ConsoleException {
     constructor() {

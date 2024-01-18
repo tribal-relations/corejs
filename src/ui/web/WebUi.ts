@@ -1,7 +1,7 @@
 import type CurrentGame from '../../app/CurrentGame.ts'
-import type CommonPlayerController from '../common/CommonPlayerController'
-import type RelationRoundManager from '../console/RelationRoundManager'
-import type RoundManager from '../console/RoundManager'
+import type CommonPlayerController from '../common/CommonPlayerController.ts'
+import type RelationRoundManager from '../console/RelationRoundManager.ts'
+import type RoundManager from '../console/RoundManager.ts'
 
 /**
  * @deprecated

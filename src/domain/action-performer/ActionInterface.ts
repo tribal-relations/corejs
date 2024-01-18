@@ -1,6 +1,6 @@
-import type PlayerActionInterface from '../entity/action/PlayerActionInterface'
+import type PlayerActionInterface from '../entity/action/PlayerActionInterface.ts'
 import type Turn from '../entity/Turn.ts'
-import type ActionName from '../enum/ActionName'
+import type ActionName from '../enum/ActionName.ts'
 
 interface ActionInterface {
     actionName: ActionName

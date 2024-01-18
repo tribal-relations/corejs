@@ -1,43 +1,45 @@
-import ActionPerformer from './app/ActionPerformer'
-import CurrentGame from './app/CurrentGame'
-import EndGameManager from './app/EndGameManager'
-import RelationsManager from './app/RelationsManager'
-import StartGameManager from './app/StartGameManager'
-import TurnDecisionManager from './app/TurnDecisionManager'
-import TurnManager from './app/TurnManager'
-import Arm from './domain/action-performer/Arm'
-import AttackTile from './domain/action-performer/AttackTile'
-import AttackTribe from './domain/action-performer/AttackTribe'
-import Conquer from './domain/action-performer/Conquer'
-import Cult from './domain/action-performer/Cult'
-import Expedition from './domain/action-performer/Expedition'
-import GoTo1stRadius from './domain/action-performer/GoTo1stRadius'
-import GoTo2ndRadius from './domain/action-performer/GoTo2ndRadius'
-import GoTo3rdRadius from './domain/action-performer/GoTo3rdRadius'
-import Research from './domain/action-performer/Research'
-import Rome from './domain/entity/Rome'
-import DiceThrower from './domain/helper/DiceThrower'
-import FightManager from './domain/helper/FightManager'
-import NotInContainer from './exception/internal/NotInContainer'
-import ExceptionHandler from './exception-handler/ExceptionHandler'
-import BrowserGameProcess from './outer/BrowserGameProcess'
-import ConsoleGameProcess from './outer/ConsoleGameProcess'
-import TribalRelationsGame from './outer/TribalRelationsGame'
-import CommonPlayerController from './ui/common/CommonPlayerController'
-import CommonRoundManager from './ui/common/CommonRoundManager'
-import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer'
-import ConsolePlayerController from './ui/console/ConsolePlayerController'
-import ConsoleUi from './ui/console/ConsoleUi'
-import MainMenu from './ui/console/MainMenu'
-import PlayerActionGetter from './ui/console/PlayerActionGetter'
-import PlayerRelationActionGetter from './ui/console/PlayerRelationActionGetter'
-import Printer from './ui/console/Printer'
-import RelationRoundManager from './ui/console/RelationRoundManager'
-import RoundManager from './ui/console/RoundManager'
-import Std from './ui/console/Std'
-import TribePrinter from './ui/console/TribePrinter'
-import GamePage from './ui/web/logic/GamePage'
-import WebUi from './ui/web/WebUi'
+import ActionPerformer from './app/ActionPerformer.ts'
+import CurrentGame from './app/CurrentGame.ts'
+import EndGameManager from './app/EndGameManager.ts'
+import RelationsManager from './app/RelationsManager.ts'
+import StartGameManager from './app/StartGameManager.ts'
+import TurnDecisionManager from './app/TurnDecisionManager.ts'
+import TurnManager from './app/TurnManager.ts'
+import Arm from './domain/action-performer/Arm.ts'
+import AttackTile from './domain/action-performer/AttackTile.ts'
+import AttackTribe from './domain/action-performer/AttackTribe.ts'
+import Conquer from './domain/action-performer/Conquer.ts'
+import Cult from './domain/action-performer/Cult.ts'
+import Expedition from './domain/action-performer/Expedition.ts'
+import GoTo1stRadius from './domain/action-performer/GoTo1stRadius.ts'
+import GoTo2ndRadius from './domain/action-performer/GoTo2ndRadius.ts'
+import GoTo3rdRadius from './domain/action-performer/GoTo3rdRadius.ts'
+import Research from './domain/action-performer/Research.ts'
+import Rome from './domain/entity/Rome.ts'
+import DiceThrower from './domain/helper/DiceThrower.ts'
+import FightManager from './domain/helper/FightManager.ts'
+import NotInContainer from './exception/internal/NotInContainer.ts'
+import ExceptionHandler from './exception-handler/ExceptionHandler.ts'
+import BrowserGameProcess from './outer/BrowserGameProcess.ts'
+import ConsoleGameProcess from './outer/ConsoleGameProcess.ts'
+import TribalRelationsGame from './outer/TribalRelationsGame.ts'
+import CommonPlayerController from './ui/common/CommonPlayerController.ts'
+import CommonRoundManager from './ui/common/CommonRoundManager.ts'
+import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer.ts'
+import ConsolePlayerController from './ui/console/ConsolePlayerController.ts'
+import ConsoleUi from './ui/console/ConsoleUi.ts'
+import MainMenu from './ui/console/MainMenu.ts'
+import PlayerActionGetter from './ui/console/PlayerActionGetter.ts'
+import PlayerRelationActionGetter from './ui/console/PlayerRelationActionGetter.ts'
+import Printer from './ui/console/Printer.ts'
+import RelationRoundManager from './ui/console/RelationRoundManager.ts'
+import RoundManager from './ui/console/RoundManager.ts'
+import Std from './ui/console/Std.ts'
+import TribePrinter from './ui/console/TribePrinter.ts'
+import ActionInfo from './ui/web/logic/ActionInfo.ts'
+import GamePage from './ui/web/logic/GamePage.ts'
+import RegularRound from './ui/web/logic/RegularRound.ts'
+import WebUi from './ui/web/WebUi.ts'
 
 class NaiveDiContainer {
     public singletonToInstanceMap = {}
@@ -201,6 +203,19 @@ class NaiveDiContainer {
         this.setSingleton(GamePage, new GamePage(
             this.resolveSafely(RelationRoundManager),
             this.resolveSafely(CommonPlayerController),
+            this.resolveSafely(CurrentGame),
+            this.resolveSafely(TurnManager),
+            this.resolveSafely(RelationsManager),
+        ))
+        this.setSingleton(ActionInfo, new ActionInfo(
+            this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(CommonPlayerController),
+            this.resolveSafely(CurrentGame),
+            this.resolveSafely(TurnManager),
+            this.resolveSafely(RelationsManager),
+            this.resolveSafely(CommonRoundManager),
+        ))
+        this.setSingleton(RegularRound, new RegularRound(
             this.resolveSafely(CurrentGame),
             this.resolveSafely(TurnManager),
             this.resolveSafely(RelationsManager),

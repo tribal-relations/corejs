@@ -1,4 +1,4 @@
-import NotFoundException from './NotFoundException'
+import NotFoundException from './NotFoundException.ts'
 
 class PlayerNotFound extends NotFoundException {
     constructor(playerName: string, gameName: string) {

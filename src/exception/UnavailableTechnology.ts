@@ -1,6 +1,6 @@
-import AppException from './AppException'
-import type TechnologyName from '../domain/enum/TechnologyName'
-import type TribeName from '../domain/enum/TribeName'
+import AppException from './AppException.ts'
+import type TechnologyName from '../domain/enum/TechnologyName.ts'
+import type TribeName from '../domain/enum/TribeName.ts'
 
 class UnavailableTechnology extends AppException {
     constructor(tribeName: TribeName, techName: TechnologyName) {

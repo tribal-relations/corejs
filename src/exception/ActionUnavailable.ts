@@ -1,4 +1,4 @@
-import AppException from './AppException'
+import AppException from './AppException.ts'
 
 class ActionUnavailable extends AppException {
     constructor(tribeName: string, actionName: string, constraint: string | null = null) {

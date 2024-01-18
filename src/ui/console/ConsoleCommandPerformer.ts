@@ -1,5 +1,5 @@
-import ConsoleActionRepository from './ConsoleActionRepository'
-import ConsoleCommandRepository from './ConsoleCommandRepository'
+import ConsoleActionRepository from './ConsoleActionRepository.ts'
+import ConsoleCommandRepository from './ConsoleCommandRepository.ts'
 import type ConsoleCommand from './entity/ConsoleCommand.ts'
 import CommandName from './enum/CommandName.ts'
 import type Printer from './Printer.ts'
@@ -11,7 +11,7 @@ import type Tribe from '../../domain/entity/Tribe.ts'
 import type Turn from '../../domain/entity/Turn.ts'
 import type ActionName from '../../domain/enum/ActionName.ts'
 import type TechnologyName from '../../domain/enum/TechnologyName.ts'
-import type TribeName from '../../domain/enum/TribeName'
+import type TribeName from '../../domain/enum/TribeName.ts'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
 
 class ConsoleCommandPerformer {

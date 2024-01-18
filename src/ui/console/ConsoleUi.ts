@@ -1,6 +1,6 @@
 import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
-import type ConsolePlayerController from './ConsolePlayerController'
-import type RelationRoundManager from './RelationRoundManager'
+import type ConsolePlayerController from './ConsolePlayerController.ts'
+import type RelationRoundManager from './RelationRoundManager.ts'
 import type RoundManager from './RoundManager.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
 import type TurnResult from '../../app/TurnResult.ts'
