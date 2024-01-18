@@ -23,7 +23,7 @@ class DiceThrower {
     }
 
     private throwDice(): number {
-        return Rand.randint(1, this.sides)
+        return Rand.randInt(1, this.sides)
     }
 }
 
