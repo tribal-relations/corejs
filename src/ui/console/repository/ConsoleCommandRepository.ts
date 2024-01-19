@@ -2,24 +2,21 @@ import ConsoleCommand from '../entity/ConsoleCommand.ts'
 import CommandName from '../enum/CommandName.ts'
 
 class ConsoleCommandRepository {
-    static decisionToCommandDataMap: Record<string, { name: CommandName, description: string, parameters: string }> = {
-        [CommandName.PrintCurrentPlayerTribe]: { name: CommandName.PrintCurrentPlayerTribe, description: '', parameters: '' },
-        [CommandName.PrintTribe]: { name: CommandName.PrintTribe, description: '', parameters: '<tribe name>' },
-        [CommandName.PrintAllTribes]: { name: CommandName.PrintAllTribes, description: '', parameters: '' },
+    static decisionTextToCommandDataMap: Record<string, { name: CommandName, parameters: string }> = {
+        p: { name: CommandName.PrintCurrentPlayerTribe, parameters: '' },
+        pt: { name: CommandName.PrintAllTribes, parameters: '' },
+        ptt: { name: CommandName.PrintTechnologyTree, parameters: '' },
+        paa: { name: CommandName.PrintAvailableActions, parameters: '' },
+        pac: { name: CommandName.PrintAvailableCommands, parameters: '' },
+        '?': { name: CommandName.PrintAvailableCommands, parameters: '' },
+        help: { name: CommandName.PrintAvailableCommands, parameters: '' },
 
-        [CommandName.PrintTechnologyTree]: { name: CommandName.PrintTechnologyTree, description: '', parameters: '' },
-        [CommandName.PrintTechnologyInfo]: {
-            name: CommandName.PrintTechnologyInfo,
-            description: '',
-            parameters: '<tech name>',
-        },
-
-        [CommandName.PrintAvailableActions]: { name: CommandName.PrintAvailableActions, description: '', parameters: '' },
-        [CommandName.PrintAvailableCommands]: { name: CommandName.PrintAvailableCommands, description: '', parameters: '' },
+        // @deprecated
+        // pti: { name: CommandName.PrintTechnologyInfo, parameters: '<tech name>' },
     }
 
-    static createFromName(name: CommandName, parameters: string = ''): ConsoleCommand {
-        return new ConsoleCommand(String(name), ConsoleCommandRepository.decisionToCommandDataMap[name].description, parameters)
+    static createFromName(name: CommandName): ConsoleCommand {
+        return new ConsoleCommand(name)
     }
 }
 

@@ -5,7 +5,7 @@ import TurnResult from '../../../app/TurnResult.ts'
 import type Player from '../../../domain/entity/Player.ts'
 import type Turn from '../../../domain/entity/Turn.ts'
 import type CommonPlayerController from '../../common/CommonPlayerController.ts'
-import type RelationRoundManager from '../../console/RelationRoundManager.ts'
+import type CommonRelationRoundManager from '../../common/CommonRelationRoundManager.ts'
 
 class GamePage {
     public readonly defaultPlayerNames = [
@@ -16,7 +16,7 @@ class GamePage {
     ]
 
     constructor(
-        private readonly _relationRoundManager: RelationRoundManager,
+        private readonly _commonRelationRoundManager: CommonRelationRoundManager,
         private readonly _playerController: CommonPlayerController,
         private readonly _currentGame: CurrentGame,
         private readonly _turnManager: TurnManager,
@@ -65,7 +65,7 @@ class GamePage {
 
     private makeFirstOneTimeSetup(names: string[]) {
         this.game.players = this._playerController.createPlayers(names)
-        this._relationRoundManager.setStarterRelationsFromGame(this.game)
+        this._commonRelationRoundManager.setStarterRelationsFromGame(this.game)
     }
 }
 

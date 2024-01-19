@@ -2,7 +2,7 @@ import MockStd from './mock/MockStd.ts'
 import type Tribe from '../src/domain/entity/Tribe.ts'
 import { container } from '../src/NaiveDiContainer.ts'
 import TribeFactory from '../src/outer/factory/TribeFactory.ts'
-import Std from '../src/ui/console/Std.ts'
+import Std from '../src/ui/console/io/Std.ts'
 
 class TestBootstrapper {
     public static addFood(tribe: Tribe, amount: number = 1): void {

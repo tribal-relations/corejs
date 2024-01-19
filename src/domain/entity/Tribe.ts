@@ -242,6 +242,32 @@ class Tribe implements CanFight {
     public attachTile(tile: Tile): void {
         this.addTile(tile)
     }
+
+    public getUniqueResourceNames(): ResourceName[] {
+        return this.tiles
+            .map((tile: Tile) => tile.resource.name)
+            .filter((value, index, array) => array.indexOf(value) === index)
+    }
+
+    public arePrerequisitesMetForTechnology(technology: Technology): boolean {
+        for (const prereq in technology.prerequisites) {
+            if (!(prereq in this.technologies)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    /**
+     * Gets techs that can be researched next, so result = allTechs - already - unavailable
+     */
+    public getPossibleTechnologies(): Technology[] {
+        return TechnologyRepository.getAll()
+            .filter((tech: Technology) => !(tech.name in this.technologies))
+            .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
+                this.arePrerequisitesMetForTechnology(tech),
+            )
+    }
 }
 
 export default Tribe

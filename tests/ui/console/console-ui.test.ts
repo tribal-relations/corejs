@@ -3,7 +3,7 @@ import StartGameManager from '../../../src/app/StartGameManager.ts'
 import RelationName from '../../../src/domain/enum/RelationName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleUi from '../../../src/ui/console/ConsoleUi.ts'
-import Std from '../../../src/ui/console/Std.ts'
+import Std from '../../../src/ui/console/io/Std.ts'
 import type MockStd from '../../mock/MockStd.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
@@ -137,7 +137,6 @@ test('relations round after regular round', async () => {
 
     SpecificDiceThrower.target = 1
     const std: MockStd = container.resolveSafely(Std)
-    const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
     const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
 
     std.sendIn('artem')

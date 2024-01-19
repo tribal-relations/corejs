@@ -2,7 +2,7 @@ import type CurrentGame from '../app/CurrentGame.ts'
 import type EndGameManager from '../app/EndGameManager.ts'
 import type StartGameManager from '../app/StartGameManager.ts'
 import type ConsoleUi from '../ui/console/ConsoleUi.ts'
-import type MainMenu from '../ui/console/MainMenu.ts'
+import type MainMenu from '../ui/console/io/MainMenu.ts'
 
 class ConsoleGameProcess {
     constructor(

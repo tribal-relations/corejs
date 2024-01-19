@@ -5,8 +5,8 @@ import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import ConsoleCommandPerformer from '../../../src/ui/console/ConsoleCommandPerformer.ts'
 import CommandName from '../../../src/ui/console/enum/CommandName.ts'
+import Std from '../../../src/ui/console/io/Std.ts'
 import ConsoleCommandRepository from '../../../src/ui/console/repository/ConsoleCommandRepository.ts'
-import Std from '../../../src/ui/console/Std.ts'
 
 test('can output actions', () => {
     const mockStd = container.resolveSafely(Std)

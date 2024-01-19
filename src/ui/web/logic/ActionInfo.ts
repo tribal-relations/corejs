@@ -1,27 +1,16 @@
 import type CurrentGame from '../../../app/CurrentGame.ts'
-import type RelationsManager from '../../../app/RelationsManager.ts'
-import type TurnManager from '../../../app/TurnManager.ts'
-import type Player from '../../../domain/entity/Player.ts'
+import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
 import type Technology from '../../../domain/entity/Technology.ts'
-import type Tile from '../../../domain/entity/Tile.ts'
 import type Tribe from '../../../domain/entity/Tribe.ts'
+import type Turn from '../../../domain/entity/Turn.ts'
+import ActionName from '../../../domain/enum/ActionName.ts'
 import type ResourceName from '../../../domain/enum/ResourceName.ts'
 import type TechnologyName from '../../../domain/enum/TechnologyName.ts'
 import type TribeName from '../../../domain/enum/TribeName.ts'
-import TechnologyRepository from '../../../domain/repository/TechnologyRepository.ts'
-import type CommonPlayerController from '../../common/CommonPlayerController.ts'
-import type CommonRoundManager from '../../common/CommonRoundManager.ts'
-import type RelationRoundManager from '../../console/RelationRoundManager.ts'
 
 class ActionInfo {
     constructor(
-        private readonly _relationRoundManager: RelationRoundManager,
-        private readonly _playerController: CommonPlayerController,
         private readonly _currentGame: CurrentGame,
-        private readonly _turnManager: TurnManager,
-        private readonly _relationsManager: RelationsManager,
-        private readonly _commonRoundManager: CommonRoundManager,
-
     ) {
     }
 
@@ -29,34 +18,39 @@ class ActionInfo {
         return this._currentGame
     }
 
-    public getCurrentTribeNames(): TribeName[] {
-        return Object.values(this._currentGame.players).map((player: Player) => player.tribe.name)
+    public getTribeNamesExceptCurrentTribe(currentTribe: Tribe): TribeName[] {
+        const allTribeNames = this._currentGame.specificGame.tribeNames
+
+        return allTribeNames.filter((tribeName: TribeName) => tribeName !== currentTribe.name)
     }
 
-    public getPossibleTechnologiesForTribe(tribe: Tribe): TechnologyName[] {
-        return TechnologyRepository.getAll()
-            .filter((tech: Technology) => !(tech.name in tribe.technologies))
-            .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
-                this.arePrerequisitesMetForTechnology(tribe, tech),
+    public initializeParameters(action: GameplayAction, currentTurn: Turn): { options: string[], model: string } {
+        const parametersWithOptionsAndModel = {}
+        for (const param of action.parameters) {
+            parametersWithOptionsAndModel[param.name] = {
+                options: [],
+                model: '',
+            }
+        }
+
+        if (action.parameters.length && action.parameters[0].name === 'Tribe Name') {
+            parametersWithOptionsAndModel['Tribe Name'].options = this.getTribeNamesExceptCurrentTribe(currentTurn.player.tribe)
+        }
+        if (action.name === ActionName.Research) {
+            parametersWithOptionsAndModel['Technology Name'].options = this.getPossibleTechnologyNamesForTribe(
+                currentTurn.player.tribe,
             )
-            .map((tech: Technology) => tech.name)
+        }
+
+        return parametersWithOptionsAndModel
+    }
+
+    public getPossibleTechnologyNamesForTribe(tribe: Tribe): TechnologyName[] {
+        return tribe.getPossibleTechnologies().map((tech: Technology) => tech.name)
     }
 
     public getTribeResourceNamesByTribeName(tribeName: TribeName): ResourceName[] {
-        return this._currentGame.getTribe(tribeName).tiles
-            .map((tile: Tile) => tile.resource.name)
-            .filter((value, index, array) => array.indexOf(value) === index)
-    }
-
-    private arePrerequisitesMetForTechnology(tribe: Tribe, technology: Technology): boolean {
-        // TODO move somewhere else
-
-        for (const prereq in technology.prerequisites) {
-            if (!(prereq in tribe.technologies)) {
-                return false
-            }
-        }
-        return true
+        return this._currentGame.getTribe(tribeName).getUniqueResourceNames()
     }
 }
 

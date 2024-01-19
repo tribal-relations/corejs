@@ -1,8 +1,16 @@
 import type Std from './Std.ts'
+import type GameRules from '../../common/GameRules'
 
 class MainMenu {
+    private readonly _menu = [
+        's) Start new game',
+        'r) Print rules',
+        'q) Quit',
+    ]
+
     constructor(
         private readonly _std: Std,
+        private readonly _gameRules: GameRules,
     ) {
     }
 
@@ -32,21 +40,15 @@ class MainMenu {
         const menu =
             ' ~~~ TRIBAL RELATIONS ~~~\n' +
             '       [MAIN MENU]    \n' +
-            's) Start new game\n' +
-            'r) Print rules\n' +
-            'q) Quit\n'
+            this._menu.join('\n')
 
         this._std.out(menu)
     }
 
     private printRules(): void {
-        const rules =
-            '       [RULES]    \n' +
-            'You play as a tribe. To win, you must conquer the city in the center of the map.\n' +
-            'Other tribes will attempt to do the same.\n' +
-            'You can ally with them or oppose them.\n' +
-            'Choose wisely!\n\n' +
-            'The game will block any impossible action. Try and see if you can learn the rules by playing!'
+        const rules = '       [RULES]    \n' +
+            this._gameRules.rules.join('\n') +
+            '\n'
 
         this._std.out(rules)
     }

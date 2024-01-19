@@ -26,6 +26,15 @@ class RelationsManager {
         this._relations = relations
     }
 
+    public setAllRelationsForTribe(agent: TribeName, relations: Record<TribeName, RelationName>) {
+        if (agent in this._relations) {
+            this._relations[agent] = relations
+        } else {
+            this._relations[agent] = Object()
+            this._relations[agent] = relations
+        }
+    }
+
     public setRelations(agent: TribeName, recipient: TribeName, relation: RelationName) {
         if (agent in this._relations) {
             this._relations[agent][recipient] = relation

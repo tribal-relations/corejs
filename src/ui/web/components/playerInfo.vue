@@ -1,8 +1,8 @@
 <template>
     <span>
         <q-card
+            :class="isCurrentTurn ? `bg-primary` : 'bg-grey-5'"
             bordered
-            :class="isCurrentTurn?`bg-primary`:'bg-grey-5'"
         >
             <q-card-section>
                 <div class="text-h6">
@@ -46,18 +46,14 @@
 
 <script lang="ts">
 import TilesInfo from './tilesInfo.vue'
-import Player from '../../../domain/entity/Player'
+import Player from '../../../domain/entity/Player.ts'
 
 export default {
     components: { TilesInfo },
     props: {
-        player: Player,
+        player: { type: Player, required: true },
         isCurrentTurn: { type: Boolean, default: () => false },
     },
-    data() {
-        return {}
-    },
-    methods: {},
 }
 
 </script>

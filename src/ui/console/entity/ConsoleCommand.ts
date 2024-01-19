@@ -1,12 +1,14 @@
+import type CommandName from '../enum/CommandName.ts'
+
 class ConsoleCommand {
     constructor(
-        private readonly _name: string,
-        private readonly _description: string,
-        private readonly _parameters: string,
+        private readonly _name: CommandName,
+        private readonly _description: string = '',
+        private readonly _parameters: string = '',
     ) {
     }
 
-    get name(): string {
+    get name(): CommandName {
         return this._name
     }
 

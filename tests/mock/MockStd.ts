@@ -1,5 +1,5 @@
 import BufferEmpty from '../../src/exception/console/BufferEmpty.ts'
-import Std from '../../src/ui/console/Std.ts'
+import Std from '../../src/ui/console/io/Std.ts'
 
 class MockStd extends Std {
     private _isSilent: boolean = true

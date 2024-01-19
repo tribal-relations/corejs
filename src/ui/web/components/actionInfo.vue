@@ -50,7 +50,6 @@
 
 import GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
 import Turn from '../../../domain/entity/Turn.ts'
-import ActionName from '../../../domain/enum/ActionName.ts'
 import type TribeName from '../../../domain/enum/TribeName.ts'
 import { container } from '../../../NaiveDiContainer.ts'
 import ActionInfo from '../logic/ActionInfo.ts'
@@ -74,26 +73,9 @@ export default {
         }
     },
     mounted() {
-        this.setParameters()
-        this.setOptions()
+        this.parameters = this.actionInfo.initializeParameters(this.action, this.currentTurn)
     },
     methods: {
-        setParameters() {
-            for (const paramIndex in this.action.parameters) {
-                this.parameters[this.action.parameters[paramIndex].name] = {
-                    options: [],
-                    model: '',
-                }
-            }
-        },
-        setOptions() {
-            if (this.action.parameters.length && this.action.parameters[0].name === 'Tribe Name') {
-                this.parameters['Tribe Name'].options = this.actionInfo.getCurrentTribeNames()
-            }
-            if (this.action.name === ActionName.Research) {
-                this.parameters['Technology Name'].options = this.actionInfo.getPossibleTechnologiesForTribe(this.currentTurn.player.tribe)
-            }
-        },
         getTribeResourceNames(tribeName: TribeName) {
             if (!tribeName) {
                 return []

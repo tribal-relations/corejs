@@ -7,6 +7,7 @@ import type TribeName from '../enum/TribeName.ts'
 
 class SpecificGame {
     private _players: Record<string, Player> = Object()
+    private _tribeNames: TribeName[] = []
 
     constructor(
         private _name: string,
@@ -25,6 +26,11 @@ class SpecificGame {
 
     set players(players: Record<string, Player>) {
         this._players = players
+        this._tribeNames = Object.values(players).map((player: Player) => player.tribe.name)
+    }
+
+    get tribeNames(): TribeName[] {
+        return this._tribeNames
     }
 
     get startDate(): Date {

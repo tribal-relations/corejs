@@ -3,7 +3,7 @@ import Player from '../../../src/domain/entity/Player.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
-import RoundManager from '../../../src/ui/console/RoundManager.ts'
+import CommonRoundManager from '../../../src/ui/common/CommonRoundManager.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 test('Pottery increases crops yield', () => {
@@ -15,7 +15,7 @@ test('Pottery increases crops yield', () => {
     const player = new Player(tribe)
     const currentGame = container.resolveSafely(CurrentGame)
     currentGame.addPlayer(player)
-    const roundManager = container.resolveSafely(RoundManager)
+    const roundManager: CommonRoundManager = container.resolveSafely(CommonRoundManager)
 
     SpecificDiceThrower.target = 1
 
@@ -46,7 +46,7 @@ test('Plough increases crops yield', () => {
     const player = new Player(tribe)
     const currentGame = container.resolveSafely(CurrentGame)
     currentGame.addPlayer(player)
-    const roundManager = container.resolveSafely(RoundManager)
+    const roundManager: CommonRoundManager = container.resolveSafely(CommonRoundManager)
 
     SpecificDiceThrower.target = 1
 
@@ -74,7 +74,7 @@ test('Plough with animal husbandry adds a dice', () => {
     const player = new Player(tribe)
     const currentGame = container.resolveSafely(CurrentGame)
     currentGame.addPlayer(player)
-    const roundManager = container.resolveSafely(RoundManager)
+    const roundManager: CommonRoundManager = container.resolveSafely(CommonRoundManager)
 
     SpecificDiceThrower.target = 1
 

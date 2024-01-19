@@ -3,7 +3,7 @@ import MockStd from './mock/MockStd.ts'
 import SpecificDiceThrower from './mock/SpecificDiceThrower.ts'
 import TestBootstrapper from './test-bootstrapper.ts'
 import DiceThrower from '../src/domain/helper/DiceThrower.ts'
-import Std from '../src/ui/console/Std.ts'
+import Std from '../src/ui/console/io/Std.ts'
 
 beforeEach(() => {
     TestBootstrapper.addMocks([

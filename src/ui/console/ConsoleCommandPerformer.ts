@@ -1,10 +1,10 @@
-import ConsoleActionRepository from './ConsoleActionRepository.ts'
-import ConsoleCommandRepository from './ConsoleCommandRepository.ts'
 import type ConsoleCommand from './entity/ConsoleCommand.ts'
 import CommandName from './enum/CommandName.ts'
-import type Printer from './Printer.ts'
-import type Std from './Std.ts'
-import type TribePrinter from './TribePrinter.ts'
+import type Printer from './io/Printer.ts'
+import type Std from './io/Std.ts'
+import type TribePrinter from './io/TribePrinter.ts'
+import ConsoleActionRepository from './repository/ConsoleActionRepository.ts'
+import ConsoleCommandRepository from './repository/ConsoleCommandRepository.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
 import type Technology from '../../domain/entity/Technology.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
@@ -37,9 +37,9 @@ class ConsoleCommandPerformer {
         let actionName: string
         let actionParameters: string
 
-        for (const key in ConsoleCommandRepository.decisionToCommandDataMap) {
-            actionName = ConsoleCommandRepository.decisionToCommandDataMap[key].name
-            actionParameters = ConsoleCommandRepository.decisionToCommandDataMap[key].parameters
+        for (const key in ConsoleCommandRepository.decisionTextToCommandDataMap) {
+            actionName = ConsoleCommandRepository.decisionTextToCommandDataMap[key].name
+            actionParameters = ConsoleCommandRepository.decisionTextToCommandDataMap[key].parameters
 
             line = `\t${key}\t-\t${actionName}\t${actionParameters}`
             this._std.out(line)
