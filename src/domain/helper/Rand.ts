@@ -18,7 +18,7 @@ class Rand {
 
         for (let i = 0; i < length;) {
             value = Rand.chooseOneFromEnum(collection)
-            if (!(value in values)) {
+            if (!values.includes(value)) {
                 values.push((value))
                 ++i
             }

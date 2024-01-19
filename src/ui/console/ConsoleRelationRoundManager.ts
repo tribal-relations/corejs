@@ -35,8 +35,8 @@ class ConsoleRelationRoundManager {
     }
 
     private getRelationsTowardsOtherTribes(tribe: Tribe): Array<{ 'tribeName': TribeName, 'relationName': RelationName }> {
-        const otherTribes = this._commonRelationRoundManager.getOtherTribes(tribe)
-        return this._playerRelationActionGetter.getRelationsTowardsOtherTribes(tribe, otherTribes)
+        const otherTribesNames = this._commonRelationRoundManager.getOtherTribesNames(tribe)
+        return this._playerRelationActionGetter.getRelationsTowardsOtherTribes(tribe, otherTribesNames)
     }
 }
 
