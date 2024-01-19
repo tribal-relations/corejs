@@ -29,15 +29,16 @@ class ConsolePlayerRelationActionIo {
         return this._std
     }
 
-    public getRelationsTowardsOtherTribes(tribe: Tribe, otherTribes: Tribe[]): Array<{ 'tribeName': TribeName, 'relationName': RelationName }> {
+    public getRelationsTowardsOtherTribes(tribe: Tribe, otherTribesNames: TribeName[]): Array<{ 'tribeName': TribeName, 'relationName': RelationName }> {
         let rawDecision: string
-        const otherTribesNames = otherTribes.map((value: Tribe) => value.name).join(', ')
-        const defaultRelations = otherTribes.map((_value: Tribe) => 'e').join(' ')
+        const otherTribesNamesCommaSeparated = otherTribesNames.join(', ')
+        const defaultRelations = otherTribesNames.map((_value: TribeName) => 'e').join(' ')
 
         for (; ;) {
             try {
-                rawDecision = this.std.in(`${tribe.name} Relations towards ${otherTribesNames} respectively >`) ?? defaultRelations
-                return this.getRelationsFromRawDecision(rawDecision, otherTribes)
+                rawDecision = this.std.in(`${tribe.name} Relations towards ${otherTribesNamesCommaSeparated} respectively >`) ?? defaultRelations
+
+                return this.getRelationsFromRawDecision(rawDecision, otherTribesNames)
             } catch (error) {
                 if (error instanceof CannotGetTribeRelationsFromCli) {
                     this.std.out(error.message)
@@ -48,20 +49,20 @@ class ConsolePlayerRelationActionIo {
         }
     }
 
-    private getRelationsFromRawDecision(rawDecision: string, otherTribes: Tribe[]): Array<{ 'tribeName': TribeName, 'relationName': RelationName }> {
+    private getRelationsFromRawDecision(rawDecision: string, otherTribesNames: TribeName[]): Array<{ 'tribeName': TribeName, 'relationName': RelationName }> {
         const words = rawDecision.split(' ')
         const relations = []
 
         if (rawDecision === 'q') { // sorry for hardcode
             return []
         }
-        if (words.length !== otherTribes.length) {
-            throw new InsufficientCliParameters(otherTribes.length, words.length)
+        if (words.length !== otherTribesNames.length) {
+            throw new InsufficientCliParameters(otherTribesNames.length, words.length)
         }
 
-        for (let i = 0; i < otherTribes.length; ++i) {
+        for (let i = 0; i < otherTribesNames.length; ++i) {
             const relation = this.getRelationFromWord(words[i])
-            relations.push({ tribeName: otherTribes[i].name, relationName: relation })
+            relations.push({ tribeName: otherTribesNames[i], relationName: relation })
         }
         return relations
     }

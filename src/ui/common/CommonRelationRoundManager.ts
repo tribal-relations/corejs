@@ -35,6 +35,11 @@ class CommonRelationRoundManager {
             .filter((value: Player) => value.tribe.name !== tribe.name)
             .map((value: Player) => value.tribe)
     }
+
+    public getOtherTribesNames(tribe: Tribe): TribeName[] {
+        return this.getOtherTribes(tribe)
+            .map((value: Tribe) => value.name)
+    }
 }
 
 export default CommonRelationRoundManager
