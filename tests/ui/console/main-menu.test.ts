@@ -1,12 +1,10 @@
 import { container } from '../../../src/NaiveDiContainer.ts'
-import MainMenu from '../../../src/ui/console/MainMenu.ts'
-import Std from '../../../src/ui/console/Std.ts'
+import MainMenu from '../../../src/ui/console/io/MainMenu.ts'
+import Std from '../../../src/ui/console/io/Std.ts'
 
 test('main menu', async () => {
-    // container.setMock(Std, new MockStd())
-
     const mockStd = container.resolveSafely(Std)
-    const mainMenu = new MainMenu(mockStd)
+    const mainMenu = container.resolveSafely(MainMenu)
 
     mainMenu.start()
 
@@ -15,6 +13,6 @@ test('main menu', async () => {
         '       [MAIN MENU]    \n' +
         's) Start new game\n' +
         'r) Print rules\n' +
-        'q) Quit\n'
+        'q) Quit'
     expect(mockStd.getFullOutputAsString().includes(hardcoded)).toBe(true)
 })

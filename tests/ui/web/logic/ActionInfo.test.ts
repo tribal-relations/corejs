@@ -9,7 +9,7 @@ test('can run getCurrentTribeNames', () => {
     const actionInfo: ActionInfo = container.resolveSafely(ActionInfo)
     gamePage.onStartClick(gamePage.defaultPlayerNames)
 
-    const tribeNames = actionInfo.getCurrentTribeNames()
+    const tribeNames = gamePage.game.specificGame.tribeNames
 
     expect(tribeNames.length).toStrictEqual(gamePage.defaultPlayerNames.length)
 
@@ -38,7 +38,7 @@ test('can run getPossibleTechnologiesForTribe', () => {
     const actionInfo: ActionInfo = container.resolveSafely(ActionInfo)
     const tribe = new Tribe(TribeName.Achaeans)
 
-    const defaultPossibleTechs = actionInfo.getPossibleTechnologiesForTribe(tribe)
+    const defaultPossibleTechs = actionInfo.getPossibleTechnologyNamesForTribe(tribe)
 
     expect(defaultPossibleTechs).toStrictEqual([
         'Pottery',

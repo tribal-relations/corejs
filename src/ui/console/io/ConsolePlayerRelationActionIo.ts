@@ -1,12 +1,12 @@
 import type Std from './Std.ts'
-import type Tribe from '../../domain/entity/Tribe.ts'
-import RelationName from '../../domain/enum/RelationName.ts'
-import type TribeName from '../../domain/enum/TribeName.ts'
-import CannotGetTribeRelationsFromCli from '../../exception/console/CannotGetTribeRelationsFromCli.ts'
-import InsufficientCliParameters from '../../exception/InsufficientCliParameters.ts'
-import RelationNotFound from '../../exception/not-found/RelationNotFound.ts'
+import type Tribe from '../../../domain/entity/Tribe.ts'
+import RelationName from '../../../domain/enum/RelationName.ts'
+import type TribeName from '../../../domain/enum/TribeName.ts'
+import CannotGetTribeRelationsFromCli from '../../../exception/console/CannotGetTribeRelationsFromCli.ts'
+import InsufficientCliParameters from '../../../exception/InsufficientCliParameters.ts'
+import RelationNotFound from '../../../exception/not-found/RelationNotFound.ts'
 
-class PlayerRelationActionGetter {
+class ConsolePlayerRelationActionIo {
     _cliParameterToRelationNameMap: Record<string, RelationName> = {
         c: RelationName.Cannibals,
         ba: RelationName.Barbarians,
@@ -74,4 +74,4 @@ class PlayerRelationActionGetter {
     }
 }
 
-export default PlayerRelationActionGetter
+export default ConsolePlayerRelationActionIo

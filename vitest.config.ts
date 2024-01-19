@@ -19,7 +19,7 @@ export default defineConfig({
                 'tests/*reporter.ts',
                 'src/domain/interface',
                 'src/exception',
-                'src/exception-handler',
+                'src/outer/exception-handler',
                 'nuxt.config.ts',
                 '.nuxt',
                 '.eslintrc.cjs',

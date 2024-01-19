@@ -1,26 +1,26 @@
-import ConsoleActionRepository from './ConsoleActionRepository.ts'
-import type ConsoleCommand from './entity/ConsoleCommand.ts'
-import ConsoleCommandRepository from './repository/ConsoleCommandRepository.ts'
 import type Std from './Std.ts'
-import type CurrentGame from '../../app/CurrentGame.ts'
-import AbstractPlayerAction from '../../domain/entity/action/AbstractPlayerAction.ts'
-import AttackTilePlayerAction from '../../domain/entity/action/AttackTilePlayerAction.ts'
-import type GameplayAction from '../../domain/entity/action/GameplayAction.ts'
-import type PlayerActionInterface from '../../domain/entity/action/PlayerActionInterface.ts'
-import ResearchPlayerAction from '../../domain/entity/action/ResearchPlayerAction.ts'
-import type Player from '../../domain/entity/Player.ts'
-import type Tile from '../../domain/entity/Tile.ts'
-import type Tribe from '../../domain/entity/Tribe.ts'
-import ActionName from '../../domain/enum/ActionName.ts'
-import type ResourceName from '../../domain/enum/ResourceName.ts'
-import type TechnologyName from '../../domain/enum/TechnologyName.ts'
-import type TribeName from '../../domain/enum/TribeName.ts'
-import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
-import CannotGetPlayerDecision from '../../exception/console/CannotGetPlayerDecision.ts'
-import InvalidInput from '../../exception/console/InvalidInput.ts'
-import InsufficientCliParameters from '../../exception/InsufficientCliParameters.ts'
+import type CurrentGame from '../../../app/CurrentGame.ts'
+import AbstractPlayerAction from '../../../domain/entity/action/AbstractPlayerAction.ts'
+import AttackTilePlayerAction from '../../../domain/entity/action/AttackTilePlayerAction.ts'
+import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
+import type PlayerActionInterface from '../../../domain/entity/action/PlayerActionInterface.ts'
+import ResearchPlayerAction from '../../../domain/entity/action/ResearchPlayerAction.ts'
+import type Player from '../../../domain/entity/Player.ts'
+import type Tile from '../../../domain/entity/Tile.ts'
+import type Tribe from '../../../domain/entity/Tribe.ts'
+import ActionName from '../../../domain/enum/ActionName.ts'
+import type ResourceName from '../../../domain/enum/ResourceName.ts'
+import type TechnologyName from '../../../domain/enum/TechnologyName.ts'
+import type TribeName from '../../../domain/enum/TribeName.ts'
+import TechnologyRepository from '../../../domain/repository/TechnologyRepository.ts'
+import CannotGetPlayerDecision from '../../../exception/console/CannotGetPlayerDecision.ts'
+import InvalidInput from '../../../exception/console/InvalidInput.ts'
+import InsufficientCliParameters from '../../../exception/InsufficientCliParameters.ts'
+import type ConsoleCommand from '../entity/ConsoleCommand.ts'
+import ConsoleActionRepository from '../repository/ConsoleActionRepository.ts'
+import ConsoleCommandRepository from '../repository/ConsoleCommandRepository.ts'
 
-class PlayerActionGetter {
+class ConsolePlayerActionIo {
     constructor(
         private readonly _std: Std,
         private readonly _currentGame: CurrentGame,
@@ -44,7 +44,6 @@ class PlayerActionGetter {
         for (; ;) {
             try {
                 rawDecision = this._std.in(`${player.tribe.name} Decision >`) ?? 'q'
-                // next line prob
                 decision = this.getDecision(rawDecision, player)
                 parameters = this.getParameter(rawDecision)
 
@@ -68,8 +67,9 @@ class PlayerActionGetter {
             return this.getPlayerActionFromRawDecision(player, actionOrCommand, words)
         }
 
-        if (actionOrCommand in ConsoleCommandRepository.decisionToCommandDataMap) {
-            return ConsoleCommandRepository.createFromName(ConsoleCommandRepository.decisionToCommandDataMap[actionOrCommand].name)
+        if (actionOrCommand in ConsoleCommandRepository.decisionTextToCommandDataMap) {
+            const commandName = ConsoleCommandRepository.decisionTextToCommandDataMap[actionOrCommand].name
+            return ConsoleCommandRepository.createFromName(commandName)
         }
 
         throw new InvalidInput()
@@ -127,4 +127,4 @@ class PlayerActionGetter {
     }
 }
 
-export default PlayerActionGetter
+export default ConsolePlayerActionIo

@@ -1,16 +1,16 @@
 import type ConsoleCommandPerformer from './ConsoleCommandPerformer.ts'
-import type ConsolePlayerController from './ConsolePlayerController.ts'
-import type RelationRoundManager from './RelationRoundManager.ts'
-import type RoundManager from './RoundManager.ts'
+import type ConsoleRelationRoundManager from './ConsoleRelationRoundManager.ts'
+import type ConsoleRoundManager from './ConsoleRoundManager.ts'
+import type ConsolePlayerIo from './io/ConsolePlayerIo.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
 import type TurnResult from '../../app/TurnResult.ts'
 
 class ConsoleUi {
     constructor(
-        private readonly _roundManager: RoundManager,
-        private readonly _relationRoundManager: RelationRoundManager,
+        private readonly _roundManager: ConsoleRoundManager,
+        private readonly _relationRoundManager: ConsoleRelationRoundManager,
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
-        private readonly _playerController: ConsolePlayerController,
+        private readonly _playerController: ConsolePlayerIo,
         private readonly _currentGame: CurrentGame,
 
     ) {

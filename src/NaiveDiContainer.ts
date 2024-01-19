@@ -19,27 +19,27 @@ import Rome from './domain/entity/Rome.ts'
 import DiceThrower from './domain/helper/DiceThrower.ts'
 import FightManager from './domain/helper/FightManager.ts'
 import NotInContainer from './exception/internal/NotInContainer.ts'
-import BrowserGameProcess from './outer/BrowserGameProcess.ts'
 import ConsoleGameProcess from './outer/ConsoleGameProcess.ts'
 import ExceptionHandler from './outer/exception-handler/ExceptionHandler.ts'
 import TribalRelationsGame from './outer/TribalRelationsGame.ts'
 import CommonPlayerController from './ui/common/CommonPlayerController.ts'
+import CommonRelationRoundManager from './ui/common/CommonRelationRoundManager.ts'
 import CommonRoundManager from './ui/common/CommonRoundManager.ts'
+import GameRules from './ui/common/GameRules.ts'
 import ConsoleCommandPerformer from './ui/console/ConsoleCommandPerformer.ts'
-import ConsolePlayerController from './ui/console/ConsolePlayerController.ts'
+import ConsoleRelationRoundManager from './ui/console/ConsoleRelationRoundManager.ts'
+import ConsoleRoundManager from './ui/console/ConsoleRoundManager.ts'
 import ConsoleUi from './ui/console/ConsoleUi.ts'
-import MainMenu from './ui/console/MainMenu.ts'
-import PlayerActionGetter from './ui/console/PlayerActionGetter.ts'
-import PlayerRelationActionGetter from './ui/console/PlayerRelationActionGetter.ts'
-import Printer from './ui/console/Printer.ts'
-import RelationRoundManager from './ui/console/RelationRoundManager.ts'
-import RoundManager from './ui/console/RoundManager.ts'
-import Std from './ui/console/Std.ts'
-import TribePrinter from './ui/console/TribePrinter.ts'
+import ConsolePlayerActionIo from './ui/console/io/ConsolePlayerActionIo.ts'
+import ConsolePlayerIo from './ui/console/io/ConsolePlayerIo.ts'
+import ConsolePlayerRelationActionIo from './ui/console/io/ConsolePlayerRelationActionIo.ts'
+import MainMenu from './ui/console/io/MainMenu.ts'
+import Printer from './ui/console/io/Printer.ts'
+import Std from './ui/console/io/Std.ts'
+import TribePrinter from './ui/console/io/TribePrinter.ts'
 import ActionInfo from './ui/web/logic/ActionInfo.ts'
 import GamePage from './ui/web/logic/GamePage.ts'
 import RegularRound from './ui/web/logic/RegularRound.ts'
-import WebUi from './ui/web/WebUi.ts'
 
 class NaiveDiContainer {
     public singletonToInstanceMap = {}
@@ -141,8 +141,17 @@ class NaiveDiContainer {
     }
 
     private buildCommonUi(): void {
-        this.setSingleton(CommonRoundManager, new CommonRoundManager(this.resolveSafely(RelationsManager)))
+        this.setSingleton(CommonRoundManager, new CommonRoundManager(
+            this.resolveSafely(RelationsManager),
+            this.resolveSafely(DiceThrower),
+            this.resolveSafely(CurrentGame),
+        ))
         this.setSingleton(CommonPlayerController, new CommonPlayerController())
+        this.setSingleton(GameRules, new GameRules())
+        this.setSingleton(CommonRelationRoundManager, new CommonRelationRoundManager(
+            this.resolveSafely(RelationsManager),
+            this.resolveSafely(CurrentGame),
+        ))
     }
 
     private buildConsole(): void {
@@ -150,22 +159,25 @@ class NaiveDiContainer {
         this.setSingleton(TribePrinter, new TribePrinter())
         this.setSingleton(Printer, new Printer())
 
-        this.setSingleton(MainMenu, new MainMenu(this.resolveSafely(Std)))
-        this.setSingleton(PlayerActionGetter, new PlayerActionGetter(
+        this.setSingleton(MainMenu, new MainMenu(
+            this.resolveSafely(Std),
+            this.resolveSafely(GameRules),
+        ))
+        this.setSingleton(ConsolePlayerActionIo, new ConsolePlayerActionIo(
             this.resolveSafely(Std),
             this.resolveSafely(CurrentGame),
         ))
-        this.setSingleton(PlayerRelationActionGetter, new PlayerRelationActionGetter(this.resolveSafely(Std)))
-        this.setSingleton(ConsolePlayerController, new ConsolePlayerController(
-            this.resolveSafely(TurnManager),
+        this.setSingleton(ConsolePlayerRelationActionIo, new ConsolePlayerRelationActionIo(this.resolveSafely(Std)))
+        this.setSingleton(ConsolePlayerIo, new ConsolePlayerIo(
             this.resolveSafely(Std),
             this.resolveSafely(CommonPlayerController),
             this.resolveSafely(CurrentGame),
         ))
-        this.setSingleton(RelationRoundManager, new RelationRoundManager(
+        this.setSingleton(ConsoleRelationRoundManager, new ConsoleRelationRoundManager(
             this.resolveSafely(RelationsManager),
-            this.resolveSafely(PlayerRelationActionGetter),
+            this.resolveSafely(ConsolePlayerRelationActionIo),
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(CommonRelationRoundManager),
         ))
         this.setSingleton(ConsoleCommandPerformer, new ConsoleCommandPerformer(
             this.resolveSafely(Std),
@@ -173,54 +185,43 @@ class NaiveDiContainer {
             this.resolveSafely(Printer),
             this.resolveSafely(CurrentGame),
         ))
-        this.setSingleton(RoundManager, new RoundManager(
+        this.setSingleton(ConsoleRoundManager, new ConsoleRoundManager(
             this.resolveSafely(DiceThrower),
             this.resolveSafely(Std),
             this.resolveSafely(TurnManager),
             this.resolveSafely(TurnDecisionManager),
             this.resolveSafely(ConsoleCommandPerformer),
-            this.resolveSafely(PlayerActionGetter),
-            this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(ConsolePlayerActionIo),
+            this.resolveSafely(ConsoleRelationRoundManager),
             this.resolveSafely(RelationsManager),
             this.resolveSafely(CurrentGame),
             this.resolveSafely(CommonRoundManager),
         ))
         this.setSingleton(ConsoleUi, new ConsoleUi(
-            this.resolveSafely(RoundManager),
-            this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(ConsoleRoundManager),
+            this.resolveSafely(ConsoleRelationRoundManager),
             this.resolveSafely(ConsoleCommandPerformer),
-            this.resolveSafely(ConsolePlayerController),
+            this.resolveSafely(ConsolePlayerIo),
             this.resolveSafely(CurrentGame),
         ))
     }
 
     private buildWeb(): void {
         this.setSingleton(GamePage, new GamePage(
-            this.resolveSafely(RelationRoundManager),
+            this.resolveSafely(ConsoleRelationRoundManager),
             this.resolveSafely(CommonPlayerController),
             this.resolveSafely(CurrentGame),
             this.resolveSafely(TurnManager),
             this.resolveSafely(RelationsManager),
         ))
         this.setSingleton(ActionInfo, new ActionInfo(
-            this.resolveSafely(RelationRoundManager),
-            this.resolveSafely(CommonPlayerController),
             this.resolveSafely(CurrentGame),
-            this.resolveSafely(TurnManager),
-            this.resolveSafely(RelationsManager),
-            this.resolveSafely(CommonRoundManager),
         ))
         this.setSingleton(RegularRound, new RegularRound(
             this.resolveSafely(CurrentGame),
             this.resolveSafely(TurnManager),
             this.resolveSafely(RelationsManager),
             this.resolveSafely(CommonRoundManager),
-        ))
-        this.setSingleton(WebUi, new WebUi(
-            this.resolveSafely(RoundManager),
-            this.resolveSafely(RelationRoundManager),
-            this.resolveSafely(CommonPlayerController),
-            this.resolveSafely(CurrentGame),
         ))
     }
 
@@ -232,12 +233,6 @@ class NaiveDiContainer {
             this.resolveSafely(ConsoleUi),
             this.resolveSafely(EndGameManager),
             this.resolveSafely(MainMenu),
-            this.resolveSafely(CurrentGame),
-        ))
-        this.setSingleton(BrowserGameProcess, new BrowserGameProcess(
-            this.resolveSafely(StartGameManager),
-            this.resolveSafely(WebUi),
-            this.resolveSafely(EndGameManager),
             this.resolveSafely(CurrentGame),
         ))
     }

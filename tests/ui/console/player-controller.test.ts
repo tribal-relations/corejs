@@ -1,11 +1,11 @@
-import StartGameManager from '../../../src/app/StartGameManager.ts'
+import CurrentGame from '../../../src/app/CurrentGame.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
-import ConsolePlayerController from '../../../src/ui/console/ConsolePlayerController.ts'
-import Std from '../../../src/ui/console/Std.ts'
+import ConsolePlayerIo from '../../../src/ui/console/io/ConsolePlayerIo.ts'
+import Std from '../../../src/ui/console/io/Std.ts'
 
 test('cannot add players with identical name', async () => {
-    const playerController = container.resolveSafely(ConsolePlayerController)
-    const startGameManager = container.resolveSafely(StartGameManager)
+    const playerController = container.resolveSafely(ConsolePlayerIo)
+    const currentGame: CurrentGame = container.resolveSafely(CurrentGame)
     const std = container.resolveSafely(Std)
 
     std.sendIn('artem')
@@ -16,13 +16,13 @@ test('cannot add players with identical name', async () => {
 
     playerController.updatePlayers()
 
-    expect(playerController.game.playersLength).toBe(3)
+    expect(currentGame.playersLength).toBe(3)
 })
 
 test('must have at least one player', async () => {
-    const playerController = container.resolveSafely(ConsolePlayerController)
-    const startGameManager = container.resolveSafely(StartGameManager)
+    const playerController = container.resolveSafely(ConsolePlayerIo)
     const std = container.resolveSafely(Std)
+    const currentGame: CurrentGame = container.resolveSafely(CurrentGame)
 
     std.sendIn('\n')
     std.sendIn('\n')
@@ -32,5 +32,5 @@ test('must have at least one player', async () => {
 
     playerController.updatePlayers()
 
-    expect(playerController.game.playersLength).toBe(1)
+    expect(currentGame.playersLength).toBe(1)
 })

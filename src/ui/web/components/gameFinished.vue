@@ -23,15 +23,8 @@ export default {
     props: {
         game: { type: CurrentGame, required: true },
     },
-    data() {
-        return {
-        }
-    },
-    methods: {
-    },
 }
 
 </script>
 <style scoped>
-
 </style>
