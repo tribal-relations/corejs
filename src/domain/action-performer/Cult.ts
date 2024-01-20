@@ -1,12 +1,12 @@
 import type ActionInterface from './ActionInterface.ts'
 import type PlayerActionInterface from '../entity/action/PlayerActionInterface.ts'
+import Bonus from '../entity/Bonus.ts'
+import Currency from '../entity/Currency.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
+import BonusName from '../enum/BonusName.ts'
 import type DiceThrower from '../helper/DiceThrower.ts'
 
-/**
- * @deprecated
- */
 class Cult implements ActionInterface {
     actionName = ActionName.Cult
 
@@ -16,41 +16,39 @@ class Cult implements ActionInterface {
     }
 
     public perform(playerAction: PlayerActionInterface, turn: Turn): void {
-        // TODO impl https://github.com/tribal-relations/client/issues/115
-
         const diceResult = this._diceThrower.d6()
         this.performByDiceResult(turn, diceResult)
     }
 
     private performByDiceResult(turn: Turn, diceResult: number): void {
+        let bonus = 0
         if (diceResult === 1) {
-            // turn.player.tribe.takeLosses(-5)
+            turn.player.tribe.takeLosses(5)
             return
         }
         if (diceResult === 2) {
             return
         }
         if (diceResult === 3) {
-            // turn.player.tribe.culture += 2
-
-            return
+            bonus = 2
         }
         if (diceResult === 4) {
-            // turn.player.tribe.culture += 3
-
-            return
+            bonus = 3
         }
         if (diceResult === 5) {
-            // turn.player.tribe.culture += 4
-
-            return
+            bonus = 4
         }
         if (diceResult === 6) {
-            // turn.player.tribe.culture += 6
-
-            return
+            bonus = 6
         }
-        throw new Error('Unexpected dice result.')
+        turn.player.tribe.addBonus(
+            new Bonus(
+                turn.player.tribe,
+                BonusName.CultureFromForeignCaravan,
+                bonus,
+                Currency.Culture,
+            ),
+        )
     }
 }
 
