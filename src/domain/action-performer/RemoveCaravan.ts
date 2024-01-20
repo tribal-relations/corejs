@@ -1,17 +1,27 @@
 import type ActionInterface from './ActionInterface.ts'
-import type PlayerActionInterface from '../entity/action/PlayerActionInterface.ts'
+import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
+import type RemoveCaravanPlayerAction from '../entity/action/RemoveCaravanPlayerAction.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
+import type CaravansStore from '../store/CaravansStore.ts'
 
 class RemoveCaravan implements ActionInterface {
     actionName = ActionName.RemoveCaravan
 
-    // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-    constructor() {
+    constructor(
+        private readonly _caravansManager: CaravansStore,
+    ) {
     }
 
-    public perform(_playerAction: PlayerActionInterface, _turn: Turn): void {
-        // TODO impl https://github.com/tribal-relations/client/issues/91
+    public perform(playerAction: RemoveCaravanPlayerAction, _turn: Turn): void {
+        if (playerAction.actor.name === playerAction.recipient.name) {
+            throw new ActionUnsuccessful('Cannot remove caravan from self.')
+        }
+
+        this._caravansManager.removeCaravan(
+            playerAction.actor.name,
+            playerAction.recipient.name,
+        )
     }
 }
 
