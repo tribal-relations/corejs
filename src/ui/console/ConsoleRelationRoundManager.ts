@@ -1,14 +1,14 @@
 import type ConsolePlayerRelationActionIo from './io/ConsolePlayerRelationActionIo.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
-import type RelationsManager from '../../app/RelationsManager.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import type RelationName from '../../domain/enum/RelationName.ts'
 import type TribeName from '../../domain/enum/TribeName.ts'
+import type RelationsStore from '../../domain/store/RelationsStore.ts'
 import type CommonRelationRoundManager from '../common/CommonRelationRoundManager.ts'
 
 class ConsoleRelationRoundManager {
     constructor(
-        private readonly _relationsManager: RelationsManager,
+        private readonly _relationsManager: RelationsStore,
         private readonly _playerRelationActionGetter: ConsolePlayerRelationActionIo,
         private readonly _currentGame: CurrentGame,
         private readonly _commonRelationRoundManager: CommonRelationRoundManager,

@@ -1,9 +1,9 @@
 import type CurrentGame from '../../../app/CurrentGame.ts'
-import type RelationsManager from '../../../app/RelationsManager.ts'
 import type TurnManager from '../../../app/TurnManager.ts'
 import TurnResult from '../../../app/TurnResult.ts'
 import type Player from '../../../domain/entity/Player.ts'
 import type Turn from '../../../domain/entity/Turn.ts'
+import type RelationsStore from '../../../domain/store/RelationsStore.ts'
 import type CommonPlayerController from '../../common/CommonPlayerController.ts'
 import type CommonRelationRoundManager from '../../common/CommonRelationRoundManager.ts'
 
@@ -20,7 +20,7 @@ class GamePage {
         private readonly _playerController: CommonPlayerController,
         private readonly _currentGame: CurrentGame,
         private readonly _turnManager: TurnManager,
-        private readonly _relationsManager: RelationsManager,
+        private readonly _relationsManager: RelationsStore,
     ) {
     }
 
@@ -28,7 +28,7 @@ class GamePage {
         return this._currentGame
     }
 
-    get relationsManager(): RelationsManager {
+    get relationsManager(): RelationsStore {
         return this._relationsManager
     }
 

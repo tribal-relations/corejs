@@ -1,8 +1,8 @@
-import RelationName from '../domain/enum/RelationName.ts'
-import type TribeName from '../domain/enum/TribeName.ts'
-import RelationRepository from '../domain/repository/RelationRepository.ts'
+import RelationName from '../enum/RelationName.ts'
+import type TribeName from '../enum/TribeName.ts'
+import RelationRepository from '../repository/RelationRepository.ts'
 
-class RelationsManager {
+class RelationsStore {
     // example
     // relation: Cannibals
     // agent: East
@@ -15,7 +15,6 @@ class RelationsManager {
     // game situation: West player chooses Respectables card toward East player
     // game meaning: West thinks that East are Respectables
     // data structure: {"East": {"West": "Cannibals"}, "West": {"East": "Respectables"}}
-    // Record<TribeName, Record<TribeName, RelationName>>
     private _relations: Record<TribeName, Record<TribeName, RelationName>>
 
     get relations(): Record<TribeName, Record<TribeName, RelationName>> {
@@ -66,6 +65,10 @@ class RelationsManager {
         return reactions
     }
 
+    public howXReactsToY(xName: TribeName, yName: TribeName): RelationName {
+        return this.howOthersReactToThisTribe(yName)[xName]
+    }
+
     public setStarterRelations(names: TribeName[]) {
         this._relations = Object()
 
@@ -98,4 +101,4 @@ class RelationsManager {
     }
 }
 
-export default RelationsManager
+export default RelationsStore

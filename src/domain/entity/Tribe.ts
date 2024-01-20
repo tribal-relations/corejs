@@ -1,3 +1,5 @@
+import type Bonus from './Bonus.ts'
+import Currency from './Currency.ts'
 import type Technology from './Technology.ts'
 import Tile from './Tile.ts'
 import AlreadyKnownTechnology from '../../exception/AlreadyKnownTechnology.ts'
@@ -5,6 +7,7 @@ import MaximalMilitaryPower from '../../exception/MaximalMilitaryPower.ts'
 import TribeResourceNotFound from '../../exception/not-found/TribeResourceNotFound.ts'
 import TribeTileNotFound from '../../exception/not-found/TribeTileNotFound.ts'
 import UnavailableTechnology from '../../exception/UnavailableTechnology.ts'
+import type BonusName from '../enum/BonusName.ts'
 import type ResourceName from '../enum/ResourceName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type TribeName from '../enum/TribeName.ts'
@@ -24,12 +27,13 @@ class Tribe implements CanFight {
     constructor(
         private readonly _name: TribeName,
         private readonly _points: number = 0,
-        private readonly _gold: number = Tribe.defaultGold,
+        private _gold: number = Tribe.defaultGold,
         private _population: number = Tribe.defaultPopulation,
         private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
         private readonly _knownTechs: Record<TechnologyName, boolean> = Object(),
         private readonly _tiles: Tile[] = Tile.createStarterTiles(),
+        private readonly _bonuses: Record<BonusName, Bonus> = Object(),
     ) {
     }
 
@@ -69,7 +73,7 @@ class Tribe implements CanFight {
             multiplier *= 2
         }
 
-        return this._militaryPower * multiplier
+        return this._militaryPower * multiplier + this.getCurrencyBonus(Currency.MilitaryPower)
     }
 
     get civilizedness(): number {
@@ -103,6 +107,44 @@ class Tribe implements CanFight {
 
     set isWinner(_isWinner: boolean) {
         this._isWinner = _isWinner
+    }
+
+    get tiles(): Tile[] {
+        return this._tiles
+    }
+
+    get culture(): number {
+        let accumulator = 0
+        for (let i = 0; i < this._tiles.length; i++) {
+            accumulator += this._tiles[i].resource.culture
+        }
+
+        return accumulator + this.getCurrencyBonus(Currency.Culture)
+    }
+
+    get production(): number {
+        let accumulator = 0
+        for (let i = 0; i < this._tiles.length; i++) {
+            accumulator += this._tiles[i].resource.production
+        }
+        return accumulator + this.getCurrencyBonus(Currency.Production)
+    }
+
+    get mercantility(): number {
+        let accumulator = 0
+        for (let i = 0; i < this._tiles.length; i++) {
+            accumulator += this._tiles[i].resource.mercantility
+        }
+        return accumulator + this.getCurrencyBonus(Currency.Mercantility)
+    }
+
+    getCurrencyBonus(currency: Currency): number {
+        return Object.values(this._bonuses)
+            .filter((bonus: Bonus) => bonus.currency === currency)
+            .reduce(
+                (accumulatedBonus, currentBonus) => accumulatedBonus + currentBonus.amount,
+                0,
+            )
     }
 
     hasTech(name: TechnologyName): boolean {
@@ -160,6 +202,10 @@ class Tribe implements CanFight {
         return upperBound
     }
 
+    public addGold(quantity: number): void {
+        this._gold += quantity
+    }
+
     public goToNextRadius(): void {
         this._radius--
     }
@@ -183,34 +229,6 @@ class Tribe implements CanFight {
                 throw new UnavailableTechnology(tribe.name, tech.name)
             }
         }
-    }
-
-    get tiles(): Tile[] {
-        return this._tiles
-    }
-
-    get culture(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.culture
-        }
-        return accumulator
-    }
-
-    get production(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.production
-        }
-        return accumulator
-    }
-
-    get mercantility(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.mercantility
-        }
-        return accumulator
     }
 
     /**
@@ -267,6 +285,14 @@ class Tribe implements CanFight {
             .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
                 this.arePrerequisitesMetForTechnology(tech),
             )
+    }
+
+    public addBonus(bonus: Bonus): void {
+        this._bonuses[bonus.name] = bonus
+    }
+
+    public hasBonus(bonus: Bonus): boolean {
+        return (bonus.name in this._bonuses)
     }
 }
 

@@ -1,13 +1,13 @@
 import type CurrentGame from '../../app/CurrentGame.ts'
-import type RelationsManager from '../../app/RelationsManager.ts'
 import type Player from '../../domain/entity/Player.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import type RelationName from '../../domain/enum/RelationName.ts'
 import type TribeName from '../../domain/enum/TribeName.ts'
+import type RelationsStore from '../../domain/store/RelationsStore.ts'
 
 class CommonRelationRoundManager {
     constructor(
-        private readonly _relationsManager: RelationsManager,
+        private readonly _relationsManager: RelationsStore,
         private readonly _currentGame: CurrentGame,
     ) {
     }

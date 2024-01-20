@@ -65,7 +65,7 @@ test('cannot research already known technology', () => {
         expect(tribe.technologies).toStrictEqual({ Pottery: true })
     }
 
-    expect(throwingFunction).toThrow(`${tribe.name} cannot research ${techName}, because it is already known`)
+    expect(throwingFunction).toThrow(`Tribe '${tribe.name}' cannot research ${techName}, because it is already known.`)
 })
 
 test('cannot research undefined technology', () => {

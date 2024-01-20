@@ -4,7 +4,6 @@ import ConsoleCommand from './entity/ConsoleCommand.ts'
 import type ConsolePlayerActionIo from './io/ConsolePlayerActionIo.ts'
 import type Std from './io/Std.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
-import type RelationsManager from '../../app/RelationsManager.ts'
 import type TurnDecisionManager from '../../app/TurnDecisionManager.ts'
 import type TurnManager from '../../app/TurnManager.ts'
 import type TurnResult from '../../app/TurnResult.ts'
@@ -12,6 +11,7 @@ import type PlayerActionInterface from '../../domain/entity/action/PlayerActionI
 import type Player from '../../domain/entity/Player.ts'
 import type Turn from '../../domain/entity/Turn.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
+import type RelationsStore from '../../domain/store/RelationsStore.ts'
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
 import InvalidInput from '../../exception/console/InvalidInput.ts'
 import InsufficientCliParameters from '../../exception/InsufficientCliParameters.ts'
@@ -26,7 +26,7 @@ class ConsoleRoundManager {
         private readonly _consoleCommandPerformer: ConsoleCommandPerformer,
         private readonly _playerActionGetter: ConsolePlayerActionIo,
         private readonly _relationRoundManager: ConsoleRelationRoundManager,
-        private readonly _relationsManager: RelationsManager,
+        private readonly _relationsManager: RelationsStore,
         private readonly _currentGame: CurrentGame,
         private readonly _commonRoundManager: CommonRoundManager,
     ) {
@@ -38,9 +38,13 @@ class ConsoleRoundManager {
         for (let round = 1; true; ++round) {
             this._std.out(`\t\t\tRound ${round}`)
 
+            this._commonRoundManager.beforeRound()
+
             for (let i = 0; i < this._currentGame.playersLength; ++i, ++globalTurnNumber) {
                 this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
+
                 const nextTurn = this._turnManager.nextTurn(this._currentGame)
+                this._turnManager.tribeProfitBeforeActions(nextTurn.player.tribe)
                 turnResult = this.doAllPlayerActions(nextTurn)
 
                 if (turnResult.isLast) {

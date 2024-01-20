@@ -2,6 +2,8 @@ import type Std from './Std.ts'
 import type CurrentGame from '../../../app/CurrentGame.ts'
 import AbstractPlayerAction from '../../../domain/entity/action/AbstractPlayerAction.ts'
 import AttackTilePlayerAction from '../../../domain/entity/action/AttackTilePlayerAction.ts'
+import AttackTribePlayerAction from '../../../domain/entity/action/AttackTribePlayerAction.ts'
+import CaravanPlayerAction from '../../../domain/entity/action/CaravanPlayerAction.ts'
 import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
 import type PlayerActionInterface from '../../../domain/entity/action/PlayerActionInterface.ts'
 import ResearchPlayerAction from '../../../domain/entity/action/ResearchPlayerAction.ts'
@@ -106,7 +108,20 @@ class ConsolePlayerActionIo {
             return new AttackTilePlayerAction(player.tribe, defender, tile)
         }
 
-        return new AbstractPlayerAction(gameplayAction, player.tribe)
+        if (gameplayAction.name === ActionName.AttackTribe) {
+            gameplayAction.parameters[0].check(words[1])
+            const defender = this.getTribeByTribeName((words[1] as TribeName))
+
+            return new AttackTribePlayerAction(player.tribe, defender)
+        }
+
+        if (gameplayAction.name === ActionName.Caravan) {
+            gameplayAction.parameters[0].check(words[1])
+            const recipient = this.getTribeByTribeName((words[1] as TribeName))
+            return new CaravanPlayerAction(player.tribe, recipient)
+        }
+
+        throw new InsufficientCliParameters(gameplayAction.parameters.length, words.length - 1)
     }
 
     private getTribeByTribeName(tribeName: TribeName): Tribe {

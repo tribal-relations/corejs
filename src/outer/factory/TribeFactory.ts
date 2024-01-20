@@ -1,6 +1,8 @@
 import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'
+import TribeName from '../../domain/enum/TribeName.ts'
+import Rand from '../../domain/helper/Rand.ts'
 import InvalidFactoryOption from '../../exception/internal/InvalidFactoryOption.ts'
 
 class TribeFactory {
@@ -27,10 +29,31 @@ class TribeFactory {
         }
     }
 
+    public static createStarterTribe(name: string): Tribe {
+        const gold = 0
+        const points = 0
+        const techs = {}
+        const population = Tribe.defaultPopulation
+        const militaryPower = Tribe.defaultMilitaryPower
+        const civilizedness = Tribe.defaultCivilizedness
+        const tiles = Tile.createStarterTiles()
+
+        return TribeFactory.create({
+            name,
+            gold,
+            points,
+            techs,
+            population,
+            tiles,
+            civilizedness,
+            militaryPower,
+        })
+    }
+
     public static createStarterTribeWithOptions(options: Record<string, any> = {}): Tribe {
         TribeFactory.checkOptions(options)
 
-        const name = options.name ?? ''
+        const name = options.name ?? Rand.chooseOneFromEnum(TribeName)
         const gold = options.gold ?? 0
         const points = options.points ?? 0
         const techs = options.technoligies ?? {}
