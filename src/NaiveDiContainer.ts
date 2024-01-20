@@ -5,15 +5,23 @@ import RelationsManager from './app/RelationsManager.ts'
 import StartGameManager from './app/StartGameManager.ts'
 import TurnDecisionManager from './app/TurnDecisionManager.ts'
 import TurnManager from './app/TurnManager.ts'
+import Alliance from './domain/action-performer/Alliance'
 import Arm from './domain/action-performer/Arm.ts'
 import AttackTile from './domain/action-performer/AttackTile.ts'
 import AttackTribe from './domain/action-performer/AttackTribe.ts'
+import Caravan from './domain/action-performer/Caravan'
 import Conquer from './domain/action-performer/Conquer.ts'
 import Cult from './domain/action-performer/Cult.ts'
 import Expedition from './domain/action-performer/Expedition.ts'
 import GoTo1stRadius from './domain/action-performer/GoTo1stRadius.ts'
 import GoTo2ndRadius from './domain/action-performer/GoTo2ndRadius.ts'
 import GoTo3rdRadius from './domain/action-performer/GoTo3rdRadius.ts'
+import Hire from './domain/action-performer/Hire'
+import HireOneRound from './domain/action-performer/HireOneRound'
+import PillageCaravan from './domain/action-performer/PillageCaravan'
+import Pray from './domain/action-performer/Pray'
+import Quit from './domain/action-performer/Quit'
+import RemoveCaravan from './domain/action-performer/RemoveCaravan'
 import Research from './domain/action-performer/Research.ts'
 import Rome from './domain/entity/Rome.ts'
 import DiceThrower from './domain/helper/DiceThrower.ts'
@@ -108,6 +116,15 @@ class NaiveDiContainer {
         this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
         this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
         this.setSingleton(AttackTribe, new AttackTribe(this.resolveSafely(FightManager)))
+
+        this.setSingleton(Pray, new Pray())
+        this.setSingleton(Alliance, new Alliance())
+        this.setSingleton(Caravan, new Caravan())
+        this.setSingleton(RemoveCaravan, new RemoveCaravan())
+        this.setSingleton(PillageCaravan, new PillageCaravan())
+        this.setSingleton(Hire, new Hire())
+        this.setSingleton(HireOneRound, new HireOneRound())
+        this.setSingleton(Quit, new Quit())
     }
 
     private buildApp(): void {
@@ -130,6 +147,15 @@ class NaiveDiContainer {
             this.resolveSafely(Cult),
             this.resolveSafely(AttackTile),
             this.resolveSafely(AttackTribe),
+
+            this.resolveSafely(Pray),
+            this.resolveSafely(Alliance),
+            this.resolveSafely(Caravan),
+            this.resolveSafely(RemoveCaravan),
+            this.resolveSafely(PillageCaravan),
+            this.resolveSafely(Hire),
+            this.resolveSafely(HireOneRound),
+            this.resolveSafely(Quit),
         ))
         this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
     }
