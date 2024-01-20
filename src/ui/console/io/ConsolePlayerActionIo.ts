@@ -8,6 +8,7 @@ import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts
 import HireOneRoundPlayerAction from '../../../domain/entity/action/HireOneRoundPlayerAction.ts'
 import HirePlayerAction from '../../../domain/entity/action/HirePlayerAction.ts'
 import type PlayerActionInterface from '../../../domain/entity/action/PlayerActionInterface.ts'
+import RemoveCaravanPlayerAction from '../../../domain/entity/action/RemoveCaravanPlayerAction.ts'
 import ResearchPlayerAction from '../../../domain/entity/action/ResearchPlayerAction.ts'
 import type Player from '../../../domain/entity/Player.ts'
 import type Tile from '../../../domain/entity/Tile.ts'
@@ -120,6 +121,12 @@ class ConsolePlayerActionIo {
             gameplayAction.parameters[0].check(words[1])
             const recipient = this.getTribeByTribeName((words[1] as TribeName))
             return new CaravanPlayerAction(player.tribe, recipient)
+        }
+
+        if (gameplayAction.name === ActionName.RemoveCaravan) {
+            gameplayAction.parameters[0].check(words[1])
+            const recipient = this.getTribeByTribeName((words[1] as TribeName))
+            return new RemoveCaravanPlayerAction(player.tribe, recipient)
         }
 
         if (gameplayAction.name === ActionName.Hire || gameplayAction.name === ActionName.HireOneRound) {

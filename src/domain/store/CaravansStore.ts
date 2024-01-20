@@ -1,4 +1,5 @@
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
+import CaravanNotFound from '../../exception/not-found/CaravanNotFound.ts'
 import Bonus from '../entity/Bonus.ts'
 import Currency from '../entity/Currency.ts'
 import type Tribe from '../entity/Tribe.ts'
@@ -112,6 +113,18 @@ class CaravansStore {
             1,
             Currency.Culture,
         ))
+    }
+
+    public removeCaravan(actorName: TribeName, recipientName: TribeName) {
+        if (!(actorName in this._caravans)) {
+            throw new CaravanNotFound(actorName)
+        }
+        if (actorName in this._caravans && !(recipientName in this._caravans[actorName])) {
+            throw new CaravanNotFound(actorName, recipientName)
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete this._caravans[actorName][recipientName]
     }
 
     public keepCaravansProfits(actor: Tribe): void {

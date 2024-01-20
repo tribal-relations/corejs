@@ -128,7 +128,9 @@ class NaiveDiContainer {
             this.resolveSafely(RelationsStore),
             this.resolveSafely(CaravansStore),
         ))
-        this.setSingleton(RemoveCaravan, new RemoveCaravan())
+        this.setSingleton(RemoveCaravan, new RemoveCaravan(
+            this.resolveSafely(CaravansStore),
+        ))
         this.setSingleton(PillageCaravan, new PillageCaravan())
         this.setSingleton(Hire, new Hire())
         this.setSingleton(HireOneRound, new HireOneRound())
