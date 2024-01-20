@@ -11,6 +11,8 @@ class TurnDecisionManager {
     }
 
     public processTurn(action: PlayerActionInterface, nextTurn: Turn): TurnResult {
+        nextTurn.player.tribe.discardTemporaryBonuses()
+
         this.performAction(action, nextTurn)
 
         if (action.gameplayAction.name === ActionName.Conquer) {

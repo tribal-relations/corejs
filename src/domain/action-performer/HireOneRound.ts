@@ -1,5 +1,6 @@
 import type ActionInterface from './ActionInterface.ts'
-import type PlayerActionInterface from '../entity/action/PlayerActionInterface.ts'
+import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
+import type HireOneRoundPlayerAction from '../entity/action/HireOneRoundPlayerAction.ts'
 import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 
@@ -10,8 +11,21 @@ class HireOneRound implements ActionInterface {
     constructor() {
     }
 
-    public perform(_playerAction: PlayerActionInterface, _turn: Turn): void {
-        // TODO impl https://github.com/tribal-relations/client/issues/117
+    public perform(playerAction: HireOneRoundPlayerAction, _turn: Turn): void {
+        if (playerAction.price > playerAction.buyer.gold) {
+            throw new ActionUnsuccessful(
+                ActionName.Hire,
+                `Buyer ${playerAction.buyer.name} does not have enough gold.`,
+            )
+        }
+        if (playerAction.troops > playerAction.seller.militaryPower) {
+            throw new ActionUnsuccessful(
+                ActionName.Hire,
+                `Seller ${playerAction.seller.name} does not have enough troops.`,
+            )
+        }
+        playerAction.buyer.buyTroopsForOneRound(playerAction.troops, playerAction.price)
+        playerAction.seller.sellTroopsForOneRound(playerAction.troops, playerAction.price)
     }
 }
 

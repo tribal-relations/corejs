@@ -44,6 +44,7 @@ class ConsoleRoundManager {
                 this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
 
                 const nextTurn = this._turnManager.nextTurn(this._currentGame)
+
                 this._turnManager.tribeProfitBeforeActions(nextTurn.player.tribe)
                 turnResult = this.doAllPlayerActions(nextTurn)
 
@@ -72,7 +73,7 @@ class ConsoleRoundManager {
     }
 
     public finalizeRound(): void {
-        // TODO determine relations between tribes here | how to do it independent from ui?
+        // this._commonRoundManager.discardTemporaryBonuses()
         this._commonRoundManager.populationGrowth()
         this._relationRoundManager.determineRelations()
         this._currentGame.nextHalfRound()

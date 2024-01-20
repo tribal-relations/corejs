@@ -1,4 +1,4 @@
-import type Bonus from './Bonus.ts'
+import Bonus from './Bonus.ts'
 import Currency from './Currency.ts'
 import type Technology from './Technology.ts'
 import Tile from './Tile.ts'
@@ -9,7 +9,7 @@ import TribeResourceNotFound from '../../exception/not-found/TribeResourceNotFou
 import TribeTileNotFound from '../../exception/not-found/TribeTileNotFound.ts'
 import UnavailableTechnology from '../../exception/UnavailableTechnology.ts'
 import ActionName from '../enum/ActionName.ts'
-import type BonusName from '../enum/BonusName.ts'
+import BonusName from '../enum/BonusName.ts'
 import type ResourceName from '../enum/ResourceName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type TribeName from '../enum/TribeName.ts'
@@ -36,6 +36,7 @@ class Tribe implements CanFight {
         private readonly _knownTechs: Record<TechnologyName, boolean> = Object(),
         private readonly _tiles: Tile[] = Tile.createStarterTiles(),
         private readonly _bonuses: Record<BonusName, Bonus> = Object(),
+        private _bonusesForOneRound: Record<BonusName, Bonus> = Object(),
     ) {
     }
 
@@ -91,6 +92,36 @@ class Tribe implements CanFight {
             throw new ActionUnsuccessful(ActionName.Hire, `Seller ${this.name} does not have enough troops.`)
         }
         this._militaryPower -= amount
+        this._gold += price
+    }
+
+    public buyTroopsForOneRound(amount: number, price: number): void {
+        if (price > this._gold) {
+            throw new ActionUnsuccessful(ActionName.Hire, `Buyer ${this.name} does not have enough gold.`)
+        }
+        this.addBonusForOneRound(
+            new Bonus(
+                this,
+                BonusName.HiredMilitaryPowerForOneRound,
+                amount,
+                Currency.MilitaryPower,
+            ),
+        )
+        this._gold -= price
+    }
+
+    public sellTroopsForOneRound(amount: number, price: number): void {
+        if (amount > this._militaryPower) {
+            throw new ActionUnsuccessful(ActionName.Hire, `Seller ${this.name} does not have enough troops.`)
+        }
+        this.addBonusForOneRound(
+            new Bonus(
+                this,
+                BonusName.GivenAwayMilitaryPowerForOneRound,
+                -amount,
+                Currency.MilitaryPower,
+            ),
+        )
         this._gold += price
     }
 
@@ -156,16 +187,24 @@ class Tribe implements CanFight {
         return accumulator + this.getCurrencyBonus(Currency.Mercantility)
     }
 
-    getCurrencyBonus(currency: Currency): number {
-        return Object.values(this._bonuses)
+    public getCurrencyBonus(currency: Currency): number {
+        const eternalBonus = Object.values(this._bonuses)
             .filter((bonus: Bonus) => bonus.currency === currency)
             .reduce(
                 (accumulatedBonus, currentBonus) => accumulatedBonus + currentBonus.amount,
                 0,
             )
+        const temporaryBonus = Object.values(this._bonusesForOneRound)
+            .filter((bonus: Bonus) => bonus.currency === currency)
+            .reduce(
+                (accumulatedBonus, currentBonus) => accumulatedBonus + currentBonus.amount,
+                0,
+            )
+
+        return eternalBonus + temporaryBonus
     }
 
-    hasTech(name: TechnologyName): boolean {
+    public hasTech(name: TechnologyName): boolean {
         return (String(name) in this._knownTechs)
     }
 
@@ -303,6 +342,14 @@ class Tribe implements CanFight {
             .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
                 this.arePrerequisitesMetForTechnology(tech),
             )
+    }
+
+    public addBonusForOneRound(bonus: Bonus): void {
+        this._bonusesForOneRound[bonus.name] = bonus
+    }
+
+    public discardTemporaryBonuses(): void {
+        this._bonusesForOneRound = Object()
     }
 
     public addBonus(bonus: Bonus): void {
