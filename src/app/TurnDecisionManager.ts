@@ -11,12 +11,13 @@ class TurnDecisionManager {
     }
 
     public processTurn(action: PlayerActionInterface, nextTurn: Turn): TurnResult {
-        if (action.gameplayAction.name === ActionName.Quit) {
-            return new TurnResult(true, true, true)
-        }
         this.performAction(action, nextTurn)
 
         if (action.gameplayAction.name === ActionName.Conquer) {
+            return new TurnResult(true, true, true)
+        }
+
+        if (action.gameplayAction.name === ActionName.Quit) {
             return new TurnResult(true, true, true)
         }
 
