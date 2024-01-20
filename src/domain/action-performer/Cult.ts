@@ -44,7 +44,7 @@ class Cult implements ActionInterface {
         turn.player.tribe.addBonus(
             new Bonus(
                 turn.player.tribe,
-                BonusName.CultureFromForeignCaravan,
+                BonusName.CultureFromCultExpansion,
                 bonus,
                 Currency.Culture,
             ),

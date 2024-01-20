@@ -1,7 +1,7 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction.ts'
 import type GameplayAction from '../../../src/domain/entity/action/GameplayAction'
-import HirePlayerAction from '../../../src/domain/entity/action/HirePlayerAction.ts'
+import HireOneRoundPlayerAction from '../../../src/domain/entity/action/HireOneRoundPlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
@@ -33,7 +33,7 @@ test('can hire', () => {
     const player = new Player(buyer)
     const turn = new Turn(player)
 
-    const playerAction = new HirePlayerAction(
+    const playerAction = new HireOneRoundPlayerAction(
         buyer,
         seller,
         5,
@@ -47,17 +47,17 @@ test('can hire', () => {
     expect(seller.gold).toStrictEqual(10 + 6)
 })
 
-test('can hire, power bonus does not expire after', () => {
+test('can hire, power bonus expires after', () => {
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const seller = createSeller()
     const buyer = createBuyer()
 
     const firstPlayer = new Player(buyer)
-    const secondPlayer = new Player(buyer)
+    const secondPlayer = new Player(seller)
 
     const turn = new Turn(firstPlayer)
 
-    const playerAction = new HirePlayerAction(
+    const playerAction = new HireOneRoundPlayerAction(
         buyer,
         seller,
         5,
@@ -66,11 +66,14 @@ test('can hire, power bonus does not expire after', () => {
     const gameplayAction: GameplayAction = ConsoleActionRepository.decisionToActionDataMap.e
 
     turnDecisionManager.processTurn(playerAction, turn)
-    turnDecisionManager.processTurn(new AbstractPlayerAction(gameplayAction, seller), new Turn(secondPlayer))
-    turnDecisionManager.processTurn(new AbstractPlayerAction(gameplayAction, seller), new Turn(firstPlayer))
-
     expect(buyer.militaryPower).toStrictEqual(10 + 5)
     expect(seller.militaryPower).toStrictEqual(10 - 5)
+    turnDecisionManager.processTurn(new AbstractPlayerAction(gameplayAction, seller), new Turn(secondPlayer))
+    turnDecisionManager.processTurn(new AbstractPlayerAction(gameplayAction, buyer), new Turn(firstPlayer))
+    turnDecisionManager.processTurn(new AbstractPlayerAction(gameplayAction, seller), new Turn(secondPlayer))
+
+    expect(buyer.militaryPower).toStrictEqual(defaultMilitaryPower)
+    expect(seller.militaryPower).toStrictEqual(defaultMilitaryPower)
     expect(buyer.gold).toStrictEqual(10 - 6)
     expect(seller.gold).toStrictEqual(10 + 6)
 })
@@ -83,7 +86,7 @@ test('cannot hire if buyer does not have not enough gold', () => {
     const player = new Player(buyer)
     const turn = new Turn(player)
 
-    const playerAction = new HirePlayerAction(
+    const playerAction = new HireOneRoundPlayerAction(
         buyer,
         seller,
         5,
@@ -109,7 +112,7 @@ test('cannot hire if seller does not have enough troops', () => {
     const player = new Player(buyer)
     const turn = new Turn(player)
 
-    const playerAction = new HirePlayerAction(
+    const playerAction = new HireOneRoundPlayerAction(
         buyer,
         seller,
         5,

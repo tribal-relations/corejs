@@ -25,6 +25,12 @@ class CommonRoundManager {
 
     }
 
+    public discardTemporaryBonuses(): void {
+        for (const playerName in this._currentGame.players) {
+            this._currentGame.players[playerName].tribe.discardTemporaryBonuses()
+        }
+    }
+
     public populationGrowth(): void {
         const diceResult = this._diceThrower.d6()
         let diceBonus: number = 0
