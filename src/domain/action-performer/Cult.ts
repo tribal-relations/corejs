@@ -16,6 +16,8 @@ class Cult implements ActionInterface {
     }
 
     public perform(playerAction: PlayerActionInterface, turn: Turn): void {
+        // TODO impl https://github.com/tribal-relations/client/issues/115
+
         const diceResult = this._diceThrower.d6()
         this.performByDiceResult(turn, diceResult)
     }

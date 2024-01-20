@@ -1,13 +1,21 @@
 import type ActionInterface from '../domain/action-performer/ActionInterface.ts'
+import type Alliance from '../domain/action-performer/Alliance.ts'
 import type Arm from '../domain/action-performer/Arm.ts'
 import type AttackTile from '../domain/action-performer/AttackTile.ts'
 import type AttackTribe from '../domain/action-performer/AttackTribe.ts'
+import type Caravan from '../domain/action-performer/Caravan.ts'
 import type Conquer from '../domain/action-performer/Conquer.ts'
 import type Cult from '../domain/action-performer/Cult.ts'
 import type Expedition from '../domain/action-performer/Expedition.ts'
 import type GoTo1stRadius from '../domain/action-performer/GoTo1stRadius.ts'
 import type GoTo2ndRadius from '../domain/action-performer/GoTo2ndRadius.ts'
 import type GoTo3rdRadius from '../domain/action-performer/GoTo3rdRadius.ts'
+import type Hire from '../domain/action-performer/Hire.ts'
+import type HireOneRound from '../domain/action-performer/HireOneRound.ts'
+import type PillageCaravan from '../domain/action-performer/PillageCaravan.ts'
+import type Pray from '../domain/action-performer/Pray.ts'
+import type Quit from '../domain/action-performer/Quit.ts'
+import type RemoveCaravan from '../domain/action-performer/RemoveCaravan.ts'
 import type Research from '../domain/action-performer/Research.ts'
 import type GameplayAction from '../domain/entity/action/GameplayAction.ts'
 import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface.ts'
@@ -33,6 +41,14 @@ class ActionPerformer {
         private readonly _cult: Cult,
         private readonly _attackTile: AttackTile,
         private readonly _attackTribe: AttackTribe,
+        private readonly _pray: Pray,
+        private readonly _alliance: Alliance,
+        private readonly _caravan: Caravan,
+        private readonly _removeCaravan: RemoveCaravan,
+        private readonly _pillageCaravan: PillageCaravan,
+        private readonly _hire: Hire,
+        private readonly _hireOneRound: HireOneRound,
+        private readonly _quit: Quit,
     ) {
         this.buildPerformersMap()
     }
@@ -55,9 +71,17 @@ class ActionPerformer {
             [ActionName.GoTo2ndRadius]: this._goTo2ndRadius,
             [ActionName.GoTo1stRadius]: this._goTo1stRadius,
             [ActionName.Conquer]: this._conquer,
-            [ActionName.Cult]: this._cult,
             [ActionName.AttackTile]: this._attackTile,
             [ActionName.AttackTribe]: this._attackTribe,
+            [ActionName.Cult]: this._cult,
+            [ActionName.Pray]: this._pray,
+            [ActionName.Alliance]: this._alliance,
+            [ActionName.Caravan]: this._caravan,
+            [ActionName.RemoveCaravan]: this._removeCaravan,
+            [ActionName.Pillage]: this._pillageCaravan,
+            [ActionName.Hire]: this._hire,
+            [ActionName.HireOneRound]: this._hireOneRound,
+            [ActionName.Quit]: this._quit,
         }
     }
 
