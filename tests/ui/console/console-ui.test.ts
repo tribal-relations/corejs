@@ -1,6 +1,6 @@
-import RelationsManager from '../../../src/app/RelationsManager.ts'
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import RelationName from '../../../src/domain/enum/RelationName.ts'
+import RelationsStore from '../../../src/domain/store/RelationsStore.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleUi from '../../../src/ui/console/ConsoleUi.ts'
 import Std from '../../../src/ui/console/io/Std.ts'
@@ -92,7 +92,7 @@ test('relationship bonus adds action points', async () => {
     const std: MockStd = container.resolveSafely(Std)
 
     const startGameManager: StartGameManager = container.resolveSafely(StartGameManager)
-    const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
+    const relationsManager: RelationsStore = container.resolveSafely(RelationsStore)
 
     std.sendIn('artem')
     std.sendIn('rinat')
@@ -137,7 +137,7 @@ test('relations round after regular round', async () => {
 
     SpecificDiceThrower.target = 1
     const std: MockStd = container.resolveSafely(Std)
-    const relationsManager: RelationsManager = container.resolveSafely(RelationsManager)
+    const relationsManager: RelationsStore = container.resolveSafely(RelationsStore)
 
     std.sendIn('artem')
     std.sendIn('rinat')

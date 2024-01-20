@@ -1,12 +1,12 @@
 import type CurrentGame from '../../app/CurrentGame.ts'
-import type RelationsManager from '../../app/RelationsManager.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
+import type RelationsStore from '../../domain/store/RelationsStore.ts'
 
 class CommonRoundManager {
     constructor(
-        private readonly _relationsManager: RelationsManager,
+        private readonly _relationsManager: RelationsStore,
         private readonly _diceThrower: DiceThrower,
         private readonly _currentGame: CurrentGame,
     ) {
@@ -19,6 +19,10 @@ class CommonRoundManager {
         )
 
         return totalActions
+    }
+
+    public beforeRound(): void {
+
     }
 
     public populationGrowth(): void {

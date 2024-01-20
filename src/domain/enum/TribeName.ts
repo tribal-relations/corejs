@@ -1,44 +1,49 @@
 enum TribeName {
-    // North = 'North',
-    // Northeast = 'Northeast',
-    // East = 'East',
-    // Southeast = 'Southeast',
-    // South = 'South',
-    // Southwest = 'Southwest',
-    // West = 'West',
-    // Northwest = 'Northwest',
-
-    Saami = 'Saami',
-    Chukchi = 'Chukchi',
-    Chinese = 'Chinese',
-    Javanese = 'Javanese',
-    Zulu = 'Zulu',
-    Latins = 'Latins',
-    Lakota = 'Lakota',
-    Aleut = 'Aleut',
-    Eskimo = 'Eskimo',
-    Inuit = 'Inuit',
-
-    Copts = 'Copts',
-    Goths = 'Goths',
-    Britons = 'Britons',
-    Celts = 'Celts',
-    Gauls = 'Gauls',
-    Krivichs = 'Krivichs',
-    Dorians = 'Dorians',
-    Ionians = 'Ionians',
-    Spartans = 'Spartans',
-
     Achaeans = 'Achaeans',
     Aeolians = 'Aeolians',
-    Thessalians = 'Thessalians',
+    Anatolians = 'Anatolians',
     Attics = 'Attics',
+    Aleut = 'Aleut',
+
+    Britons = 'Britons',
+
+    Chukchi = 'Chukchi',
+    Chinese = 'Chinese',
     Corinthians = 'Corinthians',
     Cretans = 'Cretans',
+    Copts = 'Copts',
+    Celts = 'Celts',
+
+    Dorians = 'Dorians',
+
+    Eskimo = 'Eskimo',
+
+    Goths = 'Goths',
+    Gauls = 'Gauls',
+
+    Hittites = 'Hittites',
+
+    Inuit = 'Inuit',
+    Ionians = 'Ionians',
+
+    Javanese = 'Javanese',
+
+    Krivichs = 'Krivichs',
+
+    Latins = 'Latins',
+    Lakota = 'Lakota',
+
     Macedonians = 'Macedonians',
-    Anatolians = 'Anatolians',
+
     Phrygians = 'Phrygians',
+
+    Saami = 'Saami',
+    Spartans = 'Spartans',
+
+    Thessalians = 'Thessalians',
     Thracians = 'Thracians',
+
+    Zulu = 'Zulu',
 }
 
 export default TribeName

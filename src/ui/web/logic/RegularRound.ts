@@ -1,17 +1,17 @@
 import type CurrentGame from '../../../app/CurrentGame.ts'
-import type RelationsManager from '../../../app/RelationsManager.ts'
 import type TurnManager from '../../../app/TurnManager.ts'
 import TurnResult from '../../../app/TurnResult.ts'
 import type Player from '../../../domain/entity/Player.ts'
 import type Tribe from '../../../domain/entity/Tribe.ts'
 import type Turn from '../../../domain/entity/Turn.ts'
+import type RelationsStore from '../../../domain/store/RelationsStore.ts'
 import type CommonRoundManager from '../../common/CommonRoundManager.ts'
 
 class RegularRound {
     constructor(
         private readonly _currentGame: CurrentGame,
         private readonly _turnManager: TurnManager,
-        private readonly _relationsManager: RelationsManager,
+        private readonly _relationsManager: RelationsStore,
         private readonly _commonRoundManager: CommonRoundManager,
 
     ) {
