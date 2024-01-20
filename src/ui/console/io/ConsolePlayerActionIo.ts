@@ -5,6 +5,7 @@ import AttackTilePlayerAction from '../../../domain/entity/action/AttackTilePlay
 import AttackTribePlayerAction from '../../../domain/entity/action/AttackTribePlayerAction.ts'
 import CaravanPlayerAction from '../../../domain/entity/action/CaravanPlayerAction.ts'
 import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
+import HirePlayerAction from '../../../domain/entity/action/HirePlayerAction.ts'
 import type PlayerActionInterface from '../../../domain/entity/action/PlayerActionInterface.ts'
 import ResearchPlayerAction from '../../../domain/entity/action/ResearchPlayerAction.ts'
 import type Player from '../../../domain/entity/Player.ts'
@@ -119,6 +120,20 @@ class ConsolePlayerActionIo {
             gameplayAction.parameters[0].check(words[1])
             const recipient = this.getTribeByTribeName((words[1] as TribeName))
             return new CaravanPlayerAction(player.tribe, recipient)
+        }
+
+        if (gameplayAction.name === ActionName.Hire) {
+            gameplayAction.parameters[0].check(words[1])
+            gameplayAction.parameters[1].check(words[2])
+            gameplayAction.parameters[2].check(words[3])
+
+            const seller = this.getTribeByTribeName((words[1] as TribeName))
+            return new HirePlayerAction(
+                player.tribe,
+                seller,
+                parseInt(words[2]),
+                parseInt(words[3]),
+            )
         }
 
         throw new InsufficientCliParameters(gameplayAction.parameters.length, words.length - 1)

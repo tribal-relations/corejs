@@ -2,11 +2,13 @@ import type Bonus from './Bonus.ts'
 import Currency from './Currency.ts'
 import type Technology from './Technology.ts'
 import Tile from './Tile.ts'
+import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
 import AlreadyKnownTechnology from '../../exception/AlreadyKnownTechnology.ts'
 import MaximalMilitaryPower from '../../exception/MaximalMilitaryPower.ts'
 import TribeResourceNotFound from '../../exception/not-found/TribeResourceNotFound.ts'
 import TribeTileNotFound from '../../exception/not-found/TribeTileNotFound.ts'
 import UnavailableTechnology from '../../exception/UnavailableTechnology.ts'
+import ActionName from '../enum/ActionName.ts'
 import type BonusName from '../enum/BonusName.ts'
 import type ResourceName from '../enum/ResourceName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
@@ -74,6 +76,22 @@ class Tribe implements CanFight {
         }
 
         return this._militaryPower * multiplier + this.getCurrencyBonus(Currency.MilitaryPower)
+    }
+
+    public buyTroops(amount: number, price: number): void {
+        if (price > this._gold) {
+            throw new ActionUnsuccessful(ActionName.Hire, `Buyer ${this.name} does not have enough gold.`)
+        }
+        this._militaryPower += amount
+        this._gold -= price
+    }
+
+    public sellTroops(amount: number, price: number): void {
+        if (amount > this._militaryPower) {
+            throw new ActionUnsuccessful(ActionName.Hire, `Seller ${this.name} does not have enough troops.`)
+        }
+        this._militaryPower -= amount
+        this._gold += price
     }
 
     get civilizedness(): number {

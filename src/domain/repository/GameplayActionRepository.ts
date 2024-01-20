@@ -14,14 +14,22 @@ const actions: Record<ActionName, { name: ActionName, parameters: PlayerActionPa
     },
     [ActionName.AttackTile]: {
         name: ActionName.AttackTile,
-        parameters: [new PlayerActionParameter(TribeName, 'Tribe Name'), new PlayerActionParameter(ResourceName, 'Tile Resource Name')],
+        parameters: [
+            new PlayerActionParameter(TribeName, 'Tribe Name'),
+            new PlayerActionParameter(ResourceName, 'Tile Resource Name'),
+        ],
     },
     [ActionName.AttackTribe]: {
         name: ActionName.AttackTribe,
         parameters: [new PlayerActionParameter(TribeName, 'Tribe Name')],
     },
 
-    [ActionName.Caravan]: { name: ActionName.Caravan, parameters: [new PlayerActionParameter(TribeName, 'Tribe Name')] },
+    [ActionName.Caravan]: {
+        name: ActionName.Caravan,
+        parameters: [
+            new PlayerActionParameter(TribeName, 'Tribe Name'),
+        ],
+    },
     [ActionName.Expedition]: { name: ActionName.Expedition, parameters: [] },
 
     [ActionName.GoTo3rdRadius]: { name: ActionName.GoTo3rdRadius, parameters: [] },
@@ -30,15 +38,28 @@ const actions: Record<ActionName, { name: ActionName, parameters: PlayerActionPa
 
     [ActionName.Hire]: {
         name: ActionName.Hire,
-        parameters: [new PlayerActionParameter(TribeName, 'Tribe Name'), new PlayerActionParameter(Number, 'Number of troops to hire'), new PlayerActionParameter(Number, 'Amount of gold to pay')],
+        parameters: [
+            new PlayerActionParameter(TribeName, 'Tribe Name'),
+            new PlayerActionParameter(Number, 'Number of troops to hire'),
+            new PlayerActionParameter(Number, 'Amount of gold to pay'),
+        ],
     },
     [ActionName.HireOneRound]: {
         name: ActionName.HireOneRound,
-        parameters: [new PlayerActionParameter(TribeName, 'Tribe Name'), new PlayerActionParameter(Number, 'Number of troops to hire'), new PlayerActionParameter(Number, 'Amount of gold to pay')],
+        parameters: [
+            new PlayerActionParameter(TribeName, 'Tribe Name'),
+            new PlayerActionParameter(Number, 'Number of troops to hire'),
+            new PlayerActionParameter(Number, 'Amount of gold to pay'),
+        ],
     },
 
     [ActionName.Pray]: { name: ActionName.Pray, parameters: [] },
-    [ActionName.Pillage]: { name: ActionName.Pillage, parameters: [new PlayerActionParameter(TribeName, 'Tribe Name')] },
+    [ActionName.Pillage]: {
+        name: ActionName.Pillage,
+        parameters: [
+            new PlayerActionParameter(TribeName, 'Tribe Name'),
+        ],
+    },
 
     [ActionName.Quit]: { name: ActionName.Quit, parameters: [] },
     [ActionName.Research]: {

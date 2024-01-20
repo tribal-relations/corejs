@@ -23,10 +23,10 @@ src/*:
     src/outer:
         src/ui:
             src/app:
-                src/exception:
                 src/domain:
                     src/domain/repository:
                         src/domain/enum:
+                        src/exception:
 ```
 
 `src/domain/enum` contains hardcoded game object names, enums don't depend on anything  
