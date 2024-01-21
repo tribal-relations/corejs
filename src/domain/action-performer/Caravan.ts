@@ -5,6 +5,7 @@ import type Turn from '../entity/Turn.ts'
 import ActionName from '../enum/ActionName.ts'
 import type DiceThrower from '../helper/DiceThrower.ts'
 import RelationRepository from '../repository/RelationRepository.ts'
+import type AlliancesStore from '../store/AlliancesStore.ts'
 import type CaravansStore from '../store/CaravansStore.ts'
 import type RelationsStore from '../store/RelationsStore.ts'
 
@@ -15,7 +16,7 @@ class Caravan implements ActionInterface {
         private readonly _diceThrower: DiceThrower,
         private readonly _relationsManager: RelationsStore,
         private readonly _caravansManager: CaravansStore,
-
+        private readonly _alliancesStore: AlliancesStore,
     ) {
     }
 
@@ -31,18 +32,28 @@ class Caravan implements ActionInterface {
             throw new ActionUnsuccessful('Cannot send caravan to self.')
         }
         const goldBonus = this.getGoldBonus(playerAction)
+
         this._caravansManager.saveCaravan(
             playerAction.actor,
             playerAction.recipient,
             goldBonus,
         )
+
+        if (this._alliancesStore.doesXHaveAllianceWithY(
+            playerAction.actor.name,
+            playerAction.recipient.name,
+        )) {
+            playerAction.actor.addGold(goldBonus)
+        }
     }
 
+    /**
+     * get bonus that is written as base caravan profit. it never includes alliance bonus
+     */
     public getGoldBonus(playerAction: CaravanPlayerAction): number {
         const diceResult = this._diceThrower.d6()
         const mercantility = playerAction.actor.mercantility
         const howRecipientReactsToSender = this._relationsManager.howXReactsToY(playerAction.recipient.name, playerAction.actor.name)
-
         const recipientBonus = RelationRepository.createFromName(howRecipientReactsToSender).recipientBonus
 
         return diceResult * mercantility + recipientBonus

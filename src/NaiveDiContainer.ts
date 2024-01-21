@@ -25,6 +25,7 @@ import Research from './domain/action-performer/Research.ts'
 import Rome from './domain/entity/Rome.ts'
 import DiceThrower from './domain/helper/DiceThrower.ts'
 import FightManager from './domain/helper/FightManager.ts'
+import AlliancesStore from './domain/store/AlliancesStore.ts'
 import CaravansStore from './domain/store/CaravansStore.ts'
 import RelationsStore from './domain/store/RelationsStore.ts'
 import NotInContainer from './exception/internal/NotInContainer.ts'
@@ -102,8 +103,12 @@ class NaiveDiContainer {
 
     private buildDomain(): void {
         // // // store
-        this.setSingleton(CaravansStore, new CaravansStore())
+        this.setSingleton(AlliancesStore, new AlliancesStore())
+        this.setSingleton(CaravansStore, new CaravansStore(
+            this.resolveSafely(AlliancesStore),
+        ))
         this.setSingleton(RelationsStore, new RelationsStore())
+
         // // // entity
         this.setSingleton(Rome, new Rome())
         // // // helper
@@ -119,22 +124,29 @@ class NaiveDiContainer {
         this.setSingleton(Cult, new Cult(this.resolveSafely(DiceThrower)))
         this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
         this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
-        this.setSingleton(AttackTribe, new AttackTribe(this.resolveSafely(FightManager)))
+        this.setSingleton(AttackTribe, new AttackTribe(
+            this.resolveSafely(FightManager),
+            this.resolveSafely(AlliancesStore),
+        ))
 
         this.setSingleton(Pray, new Pray(
             this.resolveSafely(DiceThrower),
         ))
-        this.setSingleton(Alliance, new Alliance())
+        this.setSingleton(Alliance, new Alliance(
+            this.resolveSafely(AlliancesStore),
+        ))
         this.setSingleton(Caravan, new Caravan(
             this.resolveSafely(DiceThrower),
             this.resolveSafely(RelationsStore),
             this.resolveSafely(CaravansStore),
+            this.resolveSafely(AlliancesStore),
         ))
         this.setSingleton(RemoveCaravan, new RemoveCaravan(
             this.resolveSafely(CaravansStore),
         ))
         this.setSingleton(PillageCaravan, new PillageCaravan(
             this.resolveSafely(CaravansStore),
+            this.resolveSafely(AlliancesStore),
         ))
         this.setSingleton(Hire, new Hire())
         this.setSingleton(HireOneRound, new HireOneRound())

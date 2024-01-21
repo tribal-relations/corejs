@@ -37,40 +37,40 @@ function makePrayAction(diceResult: number, population: number = 20): Tribe {
     return sender
 }
 
-test('can send cult with result 1', () => {
+test('can pray with result 1', () => {
     const sender = makePrayAction(1)
 
     expect(sender.population).toBe(startingPopulation - 10)
 })
 
-test('cannot send cult with population less than 10', () => {
+test('cannot pray with population less than 10', () => {
     const throwingFunction = () => {
         const sender = makePrayAction(1, 4)
     }
     expect(throwingFunction).toThrow(`Tribe '${TribeName.Achaeans}' cannot perform action '${ActionName.Pray}', because it does not satisfy action constraints. (Insufficient Population)`)
 })
 
-test('can send cult with result 2', () => {
+test('can pray with result 2', () => {
     const sender = makePrayAction(2)
 
     expect(sender.population).toBe(startingPopulation - 5)
     expect(sender.militaryPower).toBe(Tribe.defaultMilitaryPower)
 })
 
-test('can send cult with result 3', () => {
+test('can pray with result 3', () => {
     const sender = makePrayAction(3)
 
     expect(sender.population).toBe(startingPopulation)
 })
 
-test('can send cult with result 4', () => {
+test('can pray with result 4', () => {
     const sender = makePrayAction(4)
 
     expect(sender.population).toBe(startingPopulation)
     expect(sender.militaryPower).toBeGreaterThan(Tribe.defaultMilitaryPower)
 })
 
-test('can send cult with result 5', () => {
+test('can pray with result 5', () => {
     const sender = makePrayAction(5)
 
     expect(sender.population).toBe(startingPopulation)
@@ -79,7 +79,8 @@ test('can send cult with result 5', () => {
     expect(sender.getCurrencyBonus(Currency.TurnAction)).toBe(1)
 })
 
-test('can send cult with result 6', () => {
+test('can pray with result 6', () => {
+    // TODO fix blinking test
     const sender = makePrayAction(6)
 
     expect(sender.population).toBe(startingPopulation)

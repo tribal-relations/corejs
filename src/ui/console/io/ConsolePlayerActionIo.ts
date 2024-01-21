@@ -1,6 +1,7 @@
 import type Std from './Std.ts'
 import type CurrentGame from '../../../app/CurrentGame.ts'
 import AbstractPlayerAction from '../../../domain/entity/action/AbstractPlayerAction.ts'
+import AlliancePlayerAction from '../../../domain/entity/action/AlliancePlayerAction.ts'
 import AttackTilePlayerAction from '../../../domain/entity/action/AttackTilePlayerAction.ts'
 import AttackTribePlayerAction from '../../../domain/entity/action/AttackTribePlayerAction.ts'
 import CaravanPlayerAction from '../../../domain/entity/action/CaravanPlayerAction.ts'
@@ -93,8 +94,9 @@ class ConsolePlayerActionIo {
 
         if (gameplayAction.name === ActionName.Alliance) {
             gameplayAction.parameters[0].check(words[1])
-            // TODO implement after these actions are added
-            return new AbstractPlayerAction(gameplayAction, player.tribe)
+            const recipient = this.getTribeByTribeName((words[1] as TribeName))
+
+            return new AlliancePlayerAction(player.tribe, recipient)
         }
 
         if (gameplayAction.name === ActionName.Research) {
