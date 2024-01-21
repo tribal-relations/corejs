@@ -1,3 +1,4 @@
+import type AlliancesStore from './AlliancesStore'
 import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
 import CaravanNotFound from '../../exception/not-found/CaravanNotFound.ts'
 import Bonus from '../entity/Bonus.ts'
@@ -18,6 +19,11 @@ class CaravansStore {
     // game meaning: East send wares to West to get money
     // data structure: {"East": {"West": 10}, "West": {"East": 12}}
     private _caravans: Record<TribeName, Record<TribeName, number>> = Object()
+
+    constructor(
+        private readonly _alliancesStore: AlliancesStore,
+    ) {
+    }
 
     get caravans(): Record<TribeName, Record<TribeName, number>> {
         return this._caravans
@@ -90,11 +96,19 @@ class CaravansStore {
     }
 
     public getTotalProfit(agent: TribeName): number {
-        return Object.values(this.getGoldByDestination(agent))
-            .reduce(
-                (partialSum, currentDestinationProfit) => partialSum + currentDestinationProfit,
-                0,
-            )
+        const tribeToGold = this.getGoldByDestination(agent)
+        let totalProfit = 0
+        for (const tribeName: TribeName in tribeToGold) {
+            if (this._alliancesStore.doesXHaveAllianceWithY(
+                agent,
+                tribeName,
+            )) {
+                totalProfit += this._alliancesStore.allianceCaravanMultiplier * tribeToGold[tribeName]
+            } else {
+                totalProfit += tribeToGold[tribeName]
+            }
+        }
+        return totalProfit
     }
 
     public getTotalMercantilityBonus(agent: TribeName): number {
