@@ -57,7 +57,8 @@ const actions: Record<ActionName, { name: ActionName, parameters: PlayerActionPa
     [ActionName.Pillage]: {
         name: ActionName.Pillage,
         parameters: [
-            new PlayerActionParameter(TribeName, 'Tribe Name'),
+            new PlayerActionParameter(TribeName, 'Sender tribe Name'),
+            new PlayerActionParameter(TribeName, 'Recipient tribe Name'),
         ],
     },
 

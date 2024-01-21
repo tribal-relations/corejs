@@ -70,8 +70,23 @@ class CaravansStore {
         return reactions
     }
 
+    public getCaravanPrice(senderName: TribeName, recipientName: TribeName): number {
+        if (senderName in this._caravans) {
+            if (recipientName in this._caravans[senderName]) {
+                return this.caravans[senderName][recipientName]
+            }
+        }
+
+        return 0
+    }
+
     public whatXGetsFromY(xName: TribeName, yName: TribeName): number {
-        return this.whatProfitOthersGetFromMe(yName)[xName]
+        const tribeToProfit = this.whatProfitOthersGetFromMe(yName)
+        if (xName in tribeToProfit) {
+            return tribeToProfit[xName]
+        }
+
+        return 0
     }
 
     public getTotalProfit(agent: TribeName): number {
