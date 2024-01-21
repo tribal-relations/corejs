@@ -7,6 +7,7 @@ enum Currency {
     Mercantility = 'Mercantility',
     MilitaryPower = 'Military Power',
     Population = 'Population',
+    TurnAction = 'Turn action',
 }
 
 export default Currency

@@ -336,7 +336,7 @@ class Tribe implements CanFight {
     /**
      * Gets techs that can be researched next, so result = allTechs - already - unavailable
      */
-    public getPossibleTechnologies(): Technology[] {
+    public getTechnologiesAvailableForResearch(): Technology[] {
         return TechnologyRepository.getAll()
             .filter((tech: Technology) => !(tech.name in this.technologies))
             .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
