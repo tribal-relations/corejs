@@ -121,7 +121,9 @@ class NaiveDiContainer {
         this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
         this.setSingleton(AttackTribe, new AttackTribe(this.resolveSafely(FightManager)))
 
-        this.setSingleton(Pray, new Pray())
+        this.setSingleton(Pray, new Pray(
+            this.resolveSafely(DiceThrower),
+        ))
         this.setSingleton(Alliance, new Alliance())
         this.setSingleton(Caravan, new Caravan(
             this.resolveSafely(DiceThrower),

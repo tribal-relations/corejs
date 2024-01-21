@@ -46,7 +46,7 @@ class ActionInfo {
     }
 
     public getPossibleTechnologyNamesForTribe(tribe: Tribe): TechnologyName[] {
-        return tribe.getPossibleTechnologies().map((tech: Technology) => tech.name)
+        return tribe.getTechnologiesAvailableForResearch().map((tech: Technology) => tech.name)
     }
 
     public getTribeResourceNamesByTribeName(tribeName: TribeName): ResourceName[] {

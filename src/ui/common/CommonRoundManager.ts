@@ -1,4 +1,5 @@
 import type CurrentGame from '../../app/CurrentGame.ts'
+import Currency from '../../domain/entity/Currency.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
@@ -18,7 +19,9 @@ class CommonRoundManager {
             1,
         )
 
-        return totalActions
+        const bonusActions = tribe.getCurrencyBonus(Currency.TurnAction)
+
+        return totalActions + bonusActions
     }
 
     public beforeRound(): void {
