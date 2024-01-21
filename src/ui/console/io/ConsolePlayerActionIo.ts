@@ -7,6 +7,7 @@ import CaravanPlayerAction from '../../../domain/entity/action/CaravanPlayerActi
 import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
 import HireOneRoundPlayerAction from '../../../domain/entity/action/HireOneRoundPlayerAction.ts'
 import HirePlayerAction from '../../../domain/entity/action/HirePlayerAction.ts'
+import PillageCaravanPlayerAction from '../../../domain/entity/action/PillageCaravanPlayerAction.ts'
 import type PlayerActionInterface from '../../../domain/entity/action/PlayerActionInterface.ts'
 import RemoveCaravanPlayerAction from '../../../domain/entity/action/RemoveCaravanPlayerAction.ts'
 import ResearchPlayerAction from '../../../domain/entity/action/ResearchPlayerAction.ts'
@@ -127,6 +128,14 @@ class ConsolePlayerActionIo {
             gameplayAction.parameters[0].check(words[1])
             const recipient = this.getTribeByTribeName((words[1] as TribeName))
             return new RemoveCaravanPlayerAction(player.tribe, recipient)
+        }
+
+        if (gameplayAction.name === ActionName.Pillage) {
+            gameplayAction.parameters[0].check(words[1])
+            gameplayAction.parameters[1].check(words[2])
+            const sender = this.getTribeByTribeName((words[1] as TribeName))
+            const recipient = this.getTribeByTribeName((words[2] as TribeName))
+            return new PillageCaravanPlayerAction(player.tribe, sender, recipient)
         }
 
         if (gameplayAction.name === ActionName.Hire || gameplayAction.name === ActionName.HireOneRound) {

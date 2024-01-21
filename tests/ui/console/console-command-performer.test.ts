@@ -33,7 +33,7 @@ test('can output actions', () => {
         '\th\t-\tHire warriors <Tribe Name> <Number of troops to hire> <Amount of gold to pay>\n' +
         '\th1\t-\tHire warriors for 1 round <Tribe Name> <Number of troops to hire> <Amount of gold to pay>\n' +
         '\tpray\t-\tPray the guardian God \n' +
-        '\tpil\t-\tPillage a caravan <Tribe Name>\n' +
+        '\tpil\t-\tPillage a caravan <Sender tribe Name> <Recipient tribe Name>\n' +
         '\tq\t-\tQuit \n' +
         '\tr\t-\tResearch <Technology Name>\n' +
         '\trmca\t-\tRemove a caravan <Tribe Name>\n' +
