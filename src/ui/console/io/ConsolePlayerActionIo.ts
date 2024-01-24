@@ -23,6 +23,7 @@ import TechnologyRepository from '../../../domain/repository/TechnologyRepositor
 import CannotGetPlayerDecision from '../../../exception/console/CannotGetPlayerDecision.ts'
 import InvalidInput from '../../../exception/console/InvalidInput.ts'
 import InsufficientCliParameters from '../../../exception/InsufficientCliParameters.ts'
+import ValueNotInEnum from '../../../exception/ValueNotInEnum.ts'
 import type ConsoleCommand from '../entity/ConsoleCommand.ts'
 import ConsoleActionRepository from '../repository/ConsoleActionRepository.ts'
 import ConsoleCommandRepository from '../repository/ConsoleCommandRepository.ts'
@@ -57,6 +58,8 @@ class ConsolePlayerActionIo {
             } catch (error) {
                 if (error instanceof CannotGetPlayerDecision) {
                     this.std.out(error.message)
+                } else if (error instanceof ValueNotInEnum) {
+                    this.std.out(error.message)
                 } else {
                     throw error
                 }
@@ -84,6 +87,16 @@ class ConsolePlayerActionIo {
     private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
         const gameplayAction: GameplayAction = ConsoleActionRepository.decisionToActionDataMap[actionOrCommand]
 
+        if (gameplayAction.name === ActionName.Research) {
+            // we have one parameter, but it's multiword
+            // that's why we need to join it here
+            const technologyName = words.slice(1).join(' ')
+
+            gameplayAction.parameters[0].check(technologyName)
+
+            return new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName((technologyName as TechnologyName)))
+        }
+
         if (words.length - 1 !== gameplayAction.parameters.length) {
             throw new InsufficientCliParameters(gameplayAction.parameters.length, words.length - 1)
         }
@@ -97,11 +110,6 @@ class ConsolePlayerActionIo {
             const recipient = this.getTribeByTribeName((words[1] as TribeName))
 
             return new AlliancePlayerAction(player.tribe, recipient)
-        }
-
-        if (gameplayAction.name === ActionName.Research) {
-            gameplayAction.parameters[0].check(words[1])
-            return new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName((words[1] as TechnologyName)))
         }
 
         if (gameplayAction.name === ActionName.AttackTile) {
