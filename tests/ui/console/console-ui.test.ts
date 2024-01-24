@@ -1,5 +1,6 @@
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import RelationName from '../../../src/domain/enum/RelationName.ts'
+import TechnologyName from '../../../src/domain/enum/TechnologyName'
 import RelationsStore from '../../../src/domain/store/RelationsStore.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleUi from '../../../src/ui/console/ConsoleUi.ts'
@@ -207,4 +208,22 @@ test('incorrect action does not kill the app and you continue', async () => {
 
     expect(consoleUi.game.currentRoundNumber).toBe(2) // because first round finished
     expect(consoleUi.game.currentTurnNumber).toBe(2) // because we quit after the counter increments (when generation Turn instance for the next player)
+})
+
+test('can research technology with multi word name', () => {
+    const consoleUi: ConsoleUi = prepareConsoleUi()
+
+    SpecificDiceThrower.target = 1
+    const std: MockStd = container.resolveSafely(Std)
+    std.sendIn('artem')
+    std.sendIn('rinat')
+    std.sendIn('\n')
+    std.sendIn('r Animal Husbandry')
+
+    consoleUi.startTurns()
+
+    expect(consoleUi.game.playersLength).toBe(2)
+    expect(Object.values(consoleUi.game.players.artem.tribe.technologies).length).toBe(1)
+    expect(Object.values(consoleUi.game.players.rinat.tribe.technologies).length).toBe(0)
+    expect(consoleUi.game.players.artem.tribe.technologies).toStrictEqual({ [TechnologyName.AnimalHusbandry]: true })
 })
