@@ -3,7 +3,7 @@ enum RelationName {
     Barbarians = 'Barbarians',
     Rogues = 'Rogues',
     Bourgeois = 'Bourgeois',
-    KnowItAlls = 'KnowItAlls',
+    KnowItAlls = 'Know-It-Alls',
     Equals = 'Equals',
     Respectables = 'Respectables',
     Mates = 'Mates',
