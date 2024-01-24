@@ -5,14 +5,19 @@ import type Std from './io/Std.ts'
 import type TribePrinter from './io/TribePrinter.ts'
 import ConsoleActionRepository from './repository/ConsoleActionRepository.ts'
 import ConsoleCommandRepository from './repository/ConsoleCommandRepository.ts'
+import ConsolePlayerRelationActionRepository from './repository/ConsolePlayerRelationActionRepository.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
+import type Relation from '../../domain/entity/Relation'
 import type Technology from '../../domain/entity/Technology.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import type Turn from '../../domain/entity/Turn.ts'
 import type ActionName from '../../domain/enum/ActionName.ts'
 import type TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type TribeName from '../../domain/enum/TribeName.ts'
+import RelationRepository from '../../domain/repository/RelationRepository.ts'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
+import type CaravansStore from '../../domain/store/CaravansStore.ts'
+import type RelationsStore from '../../domain/store/RelationsStore.ts'
 
 class ConsoleCommandPerformer {
     constructor(
@@ -20,6 +25,9 @@ class ConsoleCommandPerformer {
         private readonly _tribePrinter: TribePrinter,
         private readonly _printer: Printer,
         private readonly _currentGame: CurrentGame,
+        private readonly _relationsStore: RelationsStore,
+        private readonly _caravansStore: CaravansStore,
+
     ) {
     }
 
@@ -33,32 +41,28 @@ class ConsoleCommandPerformer {
 
     public outputAvailableCommands(): void {
         this._std.out('Available commands:')
-        let line: string
-        let actionName: string
-        let actionParameters: string
 
-        for (const key in ConsoleCommandRepository.decisionTextToCommandDataMap) {
-            actionName = ConsoleCommandRepository.decisionTextToCommandDataMap[key].name
-            actionParameters = ConsoleCommandRepository.decisionTextToCommandDataMap[key].parameters
-
-            line = `\t${key}\t-\t${actionName}\t${actionParameters}`
-            this._std.out(line)
-        }
+        this._std.outTable(ConsoleCommandRepository.decisionTextToCommandDataMap)
     }
 
     public outputAvailableActions(): void {
         this._std.out('Available actions:')
-        let line: string
         let actionName: ActionName
         let actionParameters: string
 
+        const actions = {}
         for (const key in ConsoleActionRepository.decisionToActionDataMap) {
             actionName = ConsoleActionRepository.decisionToActionDataMap[key].name
-            actionParameters = ConsoleActionRepository.decisionToActionDataMap[key].parameters.map(val => `<${val.name}>`).join(' ')
+            actionParameters = ConsoleActionRepository.decisionToActionDataMap[key].parameters
+                .map(val => `<${val.name}>`).join(' ')
 
-            line = `\t${key}\t-\t${actionName} ${actionParameters}`
-            this._std.out(line)
+            actions[key] = {
+                name: actionName,
+                parameters: actionParameters,
+            }
         }
+
+        this._std.outTable(actions)
     }
 
     private executeCommand(commandName: string, turn: Turn, parameter: string | null = null): void {
@@ -67,6 +71,16 @@ class ConsoleCommandPerformer {
         }
         if (commandName === CommandName.PrintCurrentPlayerTribe) {
             this.printTribeByName(turn.player.tribe.name)
+        }
+
+        if (commandName === CommandName.PrintRelations) {
+            this.printRelations()
+        }
+        if (commandName === CommandName.PrintRelationsBonuses) {
+            this.printRelationsBonuses()
+        }
+        if (commandName === CommandName.PrintCaravans) {
+            this.printCaravans()
         }
 
         if (commandName === CommandName.PrintAllTribes) {
@@ -87,18 +101,30 @@ class ConsoleCommandPerformer {
     }
 
     private printAllTribes(): void {
+        const fullStructure = {}
+        let tribe
         for (const playerName in this.game.players) {
-            this.printTribe(this.game.players[playerName].tribe)
+            tribe = this.game.players[playerName].tribe
+            fullStructure[tribe.name] = this._tribePrinter.getStructure(tribe)
         }
+        this._std.outTable(fullStructure)
     }
 
     private printTribeByName(tribeName: string): void {
         const tribe = this.getTribeByName(tribeName)
-        this.printTribe(tribe)
+        this.printTribeFull(tribe)
     }
 
-    private printTribe(tribe: Tribe): void {
-        this._std.out(this._tribePrinter.getString(tribe))
+    private printRelations(): void {
+        this._std.outTable(this._relationsStore.relations)
+    }
+
+    private printCaravans(): void {
+        this._std.outTable(this._caravansStore.caravans)
+    }
+
+    private printTribeFull(tribe: Tribe): void {
+        this._std.out(this._tribePrinter.getStringFull(tribe))
     }
 
     private getTribeByName(tribeName: string): Tribe {
@@ -124,6 +150,20 @@ class ConsoleCommandPerformer {
 
     private printTechnology(tech: Technology): void {
         this._std.out(this._printer.getCleanYaml(tech, ': no'))
+    }
+
+    private printRelationsBonuses() {
+        const cliParameterToRelationNameMap = ConsolePlayerRelationActionRepository.cliParameterToRelationNameMap
+        const table = {}
+        let relation: Relation
+        for (const key in cliParameterToRelationNameMap) {
+            relation = RelationRepository.createFromName(cliParameterToRelationNameMap[key])
+            table[relation.name] = {
+                'Agent bonus': relation.agentBonus,
+                'Recipient bonus': relation.recipientBonus,
+            }
+        }
+        this._std.outTable(table)
     }
 }
 

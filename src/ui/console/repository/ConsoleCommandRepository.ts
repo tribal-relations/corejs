@@ -6,6 +6,9 @@ class ConsoleCommandRepository {
         p: { name: CommandName.PrintCurrentPlayerTribe, parameters: '' },
         pt: { name: CommandName.PrintAllTribes, parameters: '' },
         ptt: { name: CommandName.PrintTechnologyTree, parameters: '' },
+        pr: { name: CommandName.PrintRelations, parameters: '' },
+        pc: { name: CommandName.PrintCaravans, parameters: '' },
+
         paa: { name: CommandName.PrintAvailableActions, parameters: '' },
         pac: { name: CommandName.PrintAvailableCommands, parameters: '' },
         '?': { name: CommandName.PrintAvailableCommands, parameters: '' },

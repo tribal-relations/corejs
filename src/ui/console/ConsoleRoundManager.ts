@@ -34,12 +34,13 @@ class ConsoleRoundManager {
         let turnResult: TurnResult
         let globalTurnNumber = 1
         for (let round = 1; true; ++round) {
-            this._std.out(`\t\t\tRound ${round}`)
+            this._std.outHeading(`[ROUND ${round}]`)
+            this._std.outHeading('[ACTIONS PHASE]')
 
             this._commonRoundManager.beforeRound()
 
             for (let i = 0; i < this._currentGame.playersLength; ++i, ++globalTurnNumber) {
-                this._std.out(`\t\t\tTurn ${globalTurnNumber}`)
+                this._std.outSpacer(`Turn ${globalTurnNumber}`)
 
                 const nextTurn = this._turnManager.nextTurn(this._currentGame)
 
@@ -52,7 +53,7 @@ class ConsoleRoundManager {
                 }
                 this._std.outEmptyLine()
             }
-            this._std.out('\t\t\tRound finished. Population growth phase.')
+            this._std.outSpacer('Round finished.')
 
             this._currentGame.nextHalfRound()
             this.finalizeRound()
@@ -64,6 +65,7 @@ class ConsoleRoundManager {
 
         let turnResult: TurnResult
         for (let i = 0; i < totalActions; ++i) {
+            this._std.out(`action ${i + 1}/${totalActions} `)
             turnResult = this.doWhatPlayerSaysSafely(nextTurn.player, nextTurn)
         }
 
@@ -72,6 +74,7 @@ class ConsoleRoundManager {
 
     public finalizeRound(): void {
         // this._commonRoundManager.discardTemporaryBonuses()
+        this.outputPopulationGrowthRules()
         this._commonRoundManager.populationGrowth()
         this._relationRoundManager.determineRelations()
         this._currentGame.nextHalfRound()
@@ -101,6 +104,14 @@ class ConsoleRoundManager {
                 }
             }
         }
+    }
+
+    private outputPopulationGrowthRules(): void {
+        this._std.outHeading('[POPULATION GROWTH PHASE]')
+        this._std.out('One player casts a dice, its result is called fertility.')
+        this._std.out('Each player can have its own bonuses to fertility from technologies.')
+        this._std.out('Population surplus is then calculated based on fertility.')
+        this._std.out('Population surplus is total tribe food multiplied by fertility or ten times current population, whichever is smaller.')
     }
 }
 

@@ -48,6 +48,14 @@ class Tribe implements CanFight {
         return this._radius
     }
 
+    get bonuses(): Record<BonusName, Bonus> {
+        return this._bonuses
+    }
+
+    get bonusesForOneRound(): Record<BonusName, Bonus> {
+        return this._bonusesForOneRound
+    }
+
     get name(): TribeName {
         return this._name
     }
@@ -66,6 +74,7 @@ class Tribe implements CanFight {
 
     get militaryPower(): number {
         let multiplier = 1
+        // TODO implement as bonus https://github.com/tribal-relations/client/issues/139
         if (this.hasTech(TechnologyName.Archery)) {
             multiplier *= 2
         }
@@ -321,7 +330,22 @@ class Tribe implements CanFight {
     public getUniqueResourceNames(): ResourceName[] {
         return this.tiles
             .map((tile: Tile) => tile.resource.name)
-            .filter((value, index, array) => array.indexOf(value) === index)
+            .filter((value: ResourceName, index, array: ResourceName[]) => array.indexOf(value) === index)
+    }
+
+    public getUniqueTiles(): Tile[] {
+        const uniqueTiles = []
+        const usedNames = new Set<ResourceName>()
+        let tile: Tile
+        for (let i = 0; i < this.tiles.length; ++i) {
+            tile = this.tiles[i]
+            if (!usedNames.has(tile.resource.name)) {
+                uniqueTiles.push(tile)
+                usedNames.add(tile.resource.name)
+            }
+        }
+
+        return uniqueTiles
     }
 
     public arePrerequisitesMetForTechnology(technology: Technology): boolean {

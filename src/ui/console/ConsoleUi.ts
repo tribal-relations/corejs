@@ -29,9 +29,9 @@ class ConsoleUi {
     private makeFirstOneTimeSetup() {
         this._playerController.updatePlayers()
         this._relationRoundManager.setStarterRelationsFromGame(this.game)
-        this._playerController.outputPlayersWithTribes()
         this._consoleCommandPerformer.outputAvailableCommands()
         this._consoleCommandPerformer.outputAvailableActions()
+        this._playerController.outputPlayersWithTribes()
     }
 }
 

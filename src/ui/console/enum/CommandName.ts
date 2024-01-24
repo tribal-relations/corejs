@@ -6,6 +6,9 @@ enum CommandName {
      PrintTechnologyInfo = 'Print technology info',
      PrintAvailableActions = 'Print available actions',
      PrintAvailableCommands = 'Print available commands',
+     PrintRelations = 'Print relations',
+     PrintRelationsBonuses = 'Print relations bonuses',
+     PrintCaravans = 'Print caravans',
 }
 
 export default CommandName

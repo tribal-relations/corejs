@@ -231,12 +231,15 @@ class NaiveDiContainer {
             this.resolveSafely(ConsolePlayerRelationActionIo),
             this.resolveSafely(CurrentGame),
             this.resolveSafely(CommonRelationRoundManager),
+            this.resolveSafely(Std),
         ))
         this.setSingleton(ConsoleCommandPerformer, new ConsoleCommandPerformer(
             this.resolveSafely(Std),
             this.resolveSafely(TribePrinter),
             this.resolveSafely(Printer),
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(RelationsStore),
+            this.resolveSafely(CaravansStore),
         ))
         this.setSingleton(ConsoleRoundManager, new ConsoleRoundManager(
             this.resolveSafely(DiceThrower),
