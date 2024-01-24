@@ -4,7 +4,7 @@ import RelationName from '../../../domain/enum/RelationName.ts'
 import type TribeName from '../../../domain/enum/TribeName.ts'
 import CannotGetTribeRelationsFromCli from '../../../exception/console/CannotGetTribeRelationsFromCli.ts'
 import InsufficientCliParameters from '../../../exception/InsufficientCliParameters.ts'
-import RelationNotFound from '../../../exception/not-found/RelationNotFound.ts'
+import RelationCliShorthandNotFound from '../../../exception/not-found/RelationCliShorthandNotFound.ts'
 
 class ConsolePlayerRelationActionIo {
     _cliParameterToRelationNameMap: Record<string, RelationName> = {
@@ -42,6 +42,8 @@ class ConsolePlayerRelationActionIo {
             } catch (error) {
                 if (error instanceof CannotGetTribeRelationsFromCli) {
                     this.std.out(error.message)
+                } else if (error instanceof RelationCliShorthandNotFound) {
+                    this.std.out(error.message)
                 } else {
                     throw error
                 }
@@ -71,7 +73,7 @@ class ConsolePlayerRelationActionIo {
         if (word in this._cliParameterToRelationNameMap) {
             return this._cliParameterToRelationNameMap[word]
         }
-        throw new RelationNotFound(word)
+        throw new RelationCliShorthandNotFound(word)
     }
 }
 

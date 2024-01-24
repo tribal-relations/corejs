@@ -2,10 +2,6 @@ import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess.ts'
 import Std from '../../../src/ui/console/io/Std.ts'
 
-test('temp', async () => {
-    expect(1).toBe(1)
-})
-
 test('can quit game immediately after adding a player', () => {
     const gameProcess = container.resolveSafely(ConsoleGameProcess)
 
@@ -21,7 +17,6 @@ test('can quit game immediately after adding a player', () => {
 })
 
 test('can have up to 20 players', () => {
-    return
     const longString = 'abcdefghijklmnopqrst'
     const names = longString.split('')
 
@@ -41,7 +36,6 @@ test('can have up to 20 players', () => {
 })
 
 test('cannot have 21 players', () => {
-    return
     const longString = 'abcdefghijklmnopqrstu'
     const names = longString.split('')
 
