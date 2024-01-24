@@ -20,10 +20,9 @@ import type ResourceName from '../../../domain/enum/ResourceName.ts'
 import type TechnologyName from '../../../domain/enum/TechnologyName.ts'
 import type TribeName from '../../../domain/enum/TribeName.ts'
 import TechnologyRepository from '../../../domain/repository/TechnologyRepository.ts'
-import CannotGetPlayerDecision from '../../../exception/console/CannotGetPlayerDecision.ts'
+import BubblingError from '../../../exception/BubblingError.ts'
 import InvalidInput from '../../../exception/console/InvalidInput.ts'
 import InsufficientCliParameters from '../../../exception/InsufficientCliParameters.ts'
-import ValueNotInEnum from '../../../exception/ValueNotInEnum.ts'
 import type ConsoleCommand from '../entity/ConsoleCommand.ts'
 import ConsoleActionRepository from '../repository/ConsoleActionRepository.ts'
 import ConsoleCommandRepository from '../repository/ConsoleCommandRepository.ts'
@@ -56,12 +55,10 @@ class ConsolePlayerActionIo {
 
                 break
             } catch (error) {
-                if (error instanceof CannotGetPlayerDecision) {
-                    this.std.out(error.message)
-                } else if (error instanceof ValueNotInEnum) {
-                    this.std.out(error.message)
-                } else {
+                if (error instanceof BubblingError) {
                     throw error
+                } else {
+                    this.std.out(error.message)
                 }
             }
         }
