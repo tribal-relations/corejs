@@ -35,7 +35,8 @@ test('dont crash after input exception', () => {
 
     // round ended, new round
     std.sendIn('drf') // typo in action shorthand
-    std.sendIn('a') // still artem turn
+    std.sendIn('r Pottery') // still artem turn, already known technology
+    std.sendIn('r Fishing') // still artem turn, now ok technology
     std.sendIn('atr Acans') // rinat turn , typo in tribe name
     std.sendIn('atr Achaeans') // still rinat turn
     // relations
@@ -44,6 +45,12 @@ test('dont crash after input exception', () => {
     // round ended, new round
     std.sendIn('atile Britons Pastur') // typo in resource name
     std.sendIn('atile Britons Pasture') // still artem turn
+    std.sendIn('a') // rinat turn
+    // relations
+    std.sendIn('e')
+    std.sendIn('e')
+    // round ended, new round
+    std.sendIn('r Idols') // artem turn, unavailable technology
 
     consoleRoundManager.startRounds()
 })

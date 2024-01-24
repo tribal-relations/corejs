@@ -41,7 +41,7 @@ test('cannot research blocked technology', () => {
         expect(turnResult.isLast).toBe(false)
         expect(tribe.technologies).toStrictEqual({})
     }
-    expect(throwingFunction).toThrow(`${tribe.name} cannot research ${techName}, because not all prerequisites are met`)
+    expect(throwingFunction).toThrow('You entered unavailable technology. Consult technology tree.')
 })
 
 test('cannot research already known technology', () => {
@@ -65,7 +65,7 @@ test('cannot research already known technology', () => {
         expect(tribe.technologies).toStrictEqual({ Pottery: true })
     }
 
-    expect(throwingFunction).toThrow(`Tribe '${tribe.name}' cannot research ${techName}, because it is already known.`)
+    expect(throwingFunction).toThrow('You entered already known technology.')
 })
 
 test('cannot research undefined technology', () => {

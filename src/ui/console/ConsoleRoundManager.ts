@@ -12,9 +12,7 @@ import type Player from '../../domain/entity/Player.ts'
 import type Turn from '../../domain/entity/Turn.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
 import type RelationsStore from '../../domain/store/RelationsStore.ts'
-import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
-import InvalidInput from '../../exception/console/InvalidInput.ts'
-import InsufficientCliParameters from '../../exception/InsufficientCliParameters.ts'
+import BubblingError from '../../exception/BubblingError.ts'
 import type CommonRoundManager from '../common/CommonRoundManager.ts'
 
 class ConsoleRoundManager {
@@ -96,14 +94,10 @@ class ConsoleRoundManager {
                 nextTurn.parameters = parameters
                 return this._turnDecisionManager.processTurn(decision, nextTurn)
             } catch (error) {
-                if (
-                    error instanceof ActionUnsuccessful ||
-                    error instanceof InvalidInput ||
-                    error instanceof InsufficientCliParameters
-                ) {
-                    this._std.out(error.message)
-                } else {
+                if (error instanceof BubblingError) {
                     throw error
+                } else {
+                    this._std.out(error.message)
                 }
             }
         }
