@@ -1,3 +1,5 @@
+import { Console } from 'node:console'
+import { Transform } from 'node:stream'
 import BufferEmpty from '../../src/exception/console/BufferEmpty.ts'
 import Std from '../../src/ui/console/io/Std.ts'
 
@@ -6,6 +8,14 @@ class MockStd extends Std {
     private readonly _inputBuffer: string[] = []
     private readonly _outputBuffer: string[] = []
     private _inputBufferIndex: number = 0
+    private readonly _transform
+    private readonly _logger
+
+    constructor() {
+        super()
+        this._transform = new Transform({ transform(chunk, enc, cb) { cb(null, chunk) } })
+        this._logger = new Console({ stdout: this._transform })
+    }
 
     public silent(): void {
         this._isSilent = true
@@ -15,7 +25,7 @@ class MockStd extends Std {
         this._isSilent = false
     }
 
-    out(...data: any[]): void {
+    public out(...data: any[]): void {
         this._outputBuffer.push(data.join('\n'))
         if (this._isSilent) {
             return
@@ -24,15 +34,29 @@ class MockStd extends Std {
         console.log(...data)
     }
 
+    public outTable(data: object | any[]): void {
+        this._outputBuffer.push(this.getTableAsString(data))
+        if (this._isSilent) {
+            return
+        }
+        // eslint-disable-next-line
+        console.table(data)
+    }
+
+    private getTableAsString(data): string {
+        this._logger.table(data)
+        return (this._transform.read() || '').toString()
+    }
+
     public getFullOutputAsString(): string {
         return this._outputBuffer.join('\n')
     }
 
-    in(_prompt: string = '', _defaultValue: string | null = null): string | null {
+    public in(_prompt: string = '', _defaultValue: string | null = null): string | null {
         return this.readFromBufferIfTest()
     }
 
-    readFromBufferIfTest(): string {
+    public readFromBufferIfTest(): string {
         if (this._inputBufferIndex === this._inputBuffer.length) { // if we read next-after-last, send quit action
             return 'q'
         }
@@ -42,7 +66,7 @@ class MockStd extends Std {
         return this._inputBuffer[this._inputBufferIndex++]
     }
 
-    sendIn(input: string): void {
+    public sendIn(input: string): void {
         this._inputBuffer.push(input)
     }
 }

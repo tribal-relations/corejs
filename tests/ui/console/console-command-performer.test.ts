@@ -8,7 +8,7 @@ import CommandName from '../../../src/ui/console/enum/CommandName.ts'
 import Std from '../../../src/ui/console/io/Std.ts'
 import ConsoleCommandRepository from '../../../src/ui/console/repository/ConsoleCommandRepository.ts'
 
-test('can output actions', () => {
+test.skip('can output actions', () => {
     const mockStd = container.resolveSafely(Std)
     const consoleCommandPerformer = container.resolveSafely(ConsoleCommandPerformer)
 

@@ -2,11 +2,11 @@ import type Std from './Std.ts'
 import type GameRules from '../../common/GameRules'
 
 class MainMenu {
-    private readonly _menu = [
-        's) Start new game',
-        'r) Print rules',
-        'q) Quit',
-    ]
+    private readonly _menu = {
+        s: 'Start new game',
+        r: 'Print rules',
+        q: 'Quit',
+    }
 
     constructor(
         private readonly _std: Std,
@@ -37,20 +37,15 @@ class MainMenu {
     }
 
     private printMenu(): void {
-        const menu =
-            ' ~~~ TRIBAL RELATIONS ~~~\n' +
-            '       [MAIN MENU]    \n' +
-            this._menu.join('\n')
+        this._std.outHeading('~~~ TRIBAL RELATIONS ~~~')
+        this._std.outHeading('[MAIN MENU]')
 
-        this._std.out(menu)
+        this._std.outTable(this._menu)
     }
 
     private printRules(): void {
-        const rules = '       [RULES]    \n' +
-            this._gameRules.rules.join('\n') +
-            '\n'
-
-        this._std.out(rules)
+        this._std.outHeading('[RULES]')
+        this._std.outTable(this._gameRules.rules)
     }
 }
 

@@ -1,4 +1,6 @@
 import type ConsolePlayerRelationActionIo from './io/ConsolePlayerRelationActionIo.ts'
+import type Std from './io/Std'
+import ConsolePlayerRelationActionRepository from './repository/ConsolePlayerRelationActionRepository.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import type RelationName from '../../domain/enum/RelationName.ts'
@@ -12,6 +14,8 @@ class ConsoleRelationRoundManager {
         private readonly _playerRelationActionGetter: ConsolePlayerRelationActionIo,
         private readonly _currentGame: CurrentGame,
         private readonly _commonRelationRoundManager: CommonRelationRoundManager,
+        private readonly _std: Std,
+
     ) {
     }
 
@@ -24,6 +28,12 @@ class ConsoleRelationRoundManager {
     }
 
     public determineRelations(): void {
+        this._std.outHeading('[RELATIONS PHASE]')
+        this._std.out('Each tribe must specify its reaction to other tribes.')
+        this._std.out('Use relation shorthands to specify relation.')
+        this._std.out('Separate relation shorthands with space.')
+        this._std.outTable(ConsolePlayerRelationActionRepository.cliParameterToRelationNameMap)
+
         let tribe: Tribe
         for (const playerName in this.game.players) {
             tribe = this.game.players[playerName].tribe
