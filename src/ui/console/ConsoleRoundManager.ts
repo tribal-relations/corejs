@@ -48,7 +48,6 @@ class ConsoleRoundManager {
                 turnResult = this.doAllPlayerActions(nextTurn)
 
                 if (turnResult.isLast) {
-                    this._std.out('last turn')
                     return turnResult
                 }
                 this._std.outEmptyLine()

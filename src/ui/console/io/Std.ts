@@ -13,7 +13,7 @@ class Std {
         console.log(...data)
     }
 
-    public outHeading(data): void {
+    public outHeading(...data): void {
         this.outL(Std.spacer, ...data)
     }
 

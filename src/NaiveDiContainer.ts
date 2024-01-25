@@ -290,6 +290,7 @@ class NaiveDiContainer {
             this.resolveSafely(EndGameManager),
             this.resolveSafely(MainMenu),
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(Std),
         ))
     }
 

@@ -2,17 +2,19 @@ import ConsoleCommand from '../entity/ConsoleCommand.ts'
 import CommandName from '../enum/CommandName.ts'
 
 class ConsoleCommandRepository {
-    static decisionTextToCommandDataMap: Record<string, { name: CommandName, parameters: string }> = {
-        p: { name: CommandName.PrintCurrentPlayerTribe, parameters: '' },
-        pt: { name: CommandName.PrintAllTribes, parameters: '' },
-        ptt: { name: CommandName.PrintTechnologyTree, parameters: '' },
-        pr: { name: CommandName.PrintRelations, parameters: '' },
-        pc: { name: CommandName.PrintCaravans, parameters: '' },
+    static decisionTextToCommandDataMap: Record<string, { name: CommandName /* parameters: string */ }> = {
+        p: { name: CommandName.PrintCurrentPlayerTribe },
+        pt: { name: CommandName.PrintAllTribes },
+        ptt: { name: CommandName.PrintTechnologyTree },
+        pr: { name: CommandName.PrintRelations },
+        prb: { name: CommandName.PrintRelationsBonuses },
 
-        paa: { name: CommandName.PrintAvailableActions, parameters: '' },
-        pac: { name: CommandName.PrintAvailableCommands, parameters: '' },
-        '?': { name: CommandName.PrintAvailableCommands, parameters: '' },
-        help: { name: CommandName.PrintAvailableCommands, parameters: '' },
+        pc: { name: CommandName.PrintCaravans },
+
+        paa: { name: CommandName.PrintAvailableActions },
+        pac: { name: CommandName.PrintAvailableCommands },
+        '?': { name: CommandName.PrintAvailableCommands },
+        help: { name: CommandName.PrintAvailableCommands },
 
         // @deprecated
         // pti: { name: CommandName.PrintTechnologyInfo, parameters: '<tech name>' },
