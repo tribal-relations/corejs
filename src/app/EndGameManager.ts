@@ -1,6 +1,7 @@
 import type CurrentGame from './CurrentGame.ts'
 import type Player from '../domain/entity/Player.ts'
-import WinningCondition from '../domain/entity/WinningCondition.ts'
+import WinningConditionName from '../domain/enum/WinningConditionName.ts'
+import WinningConditionRepository from '../domain/repository/WinningConditionRepository.ts'
 
 class EndGameManager {
     constructor(
@@ -23,15 +24,21 @@ class EndGameManager {
         this.game.specificGame.winner = this.calculateWinner()
     }
 
-    private calculateWinningCondition(): WinningCondition {
-        // TODO: implement
-        return WinningCondition.createFromName(WinningCondition.winningConditionMilitaryName)
+    private calculateWinningCondition(): WinningConditionRepository {
+        return WinningConditionRepository.createFromName(WinningConditionName.Points)
     }
 
     private calculateWinner(): Player {
-        // TODO: implement
-        const firstKey = Object.keys(this.game.players)[0]
-        return this.game.players[firstKey]
+        let maxPoints = 0
+        let winner: Player
+        for (const playerName in this.game.players) {
+            if (this.game.players[playerName].tribe.points > maxPoints) {
+                winner = this.game.players[playerName]
+                maxPoints = this.game.players[playerName].tribe.points
+            }
+        }
+
+        return winner
     }
 }
 

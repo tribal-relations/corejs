@@ -40,7 +40,7 @@ class Tribe implements CanFight {
     ) {
     }
 
-    static discoverNewTile(): Tile {
+    private discoverNewTile(): Tile {
         return new Tile(ResourceRepository.getRandomResource())
     }
 
@@ -65,7 +65,16 @@ class Tribe implements CanFight {
     }
 
     get points(): number {
-        return this._points
+        let points = 0
+        points += this.food
+        points += this.production
+        points += this.militaryPower
+        points += this.culture
+        points += this.mercantility
+        points += this.civilizedness
+        points += Object.values(this.technologies).length
+
+        return points
     }
 
     get population(): number {
@@ -218,7 +227,7 @@ class Tribe implements CanFight {
     }
 
     public makeTerritorialDiscovery(): void {
-        const newTile = Tribe.discoverNewTile()
+        const newTile = this.discoverNewTile()
         this.addTile(newTile)
     }
 
