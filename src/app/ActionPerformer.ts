@@ -19,18 +19,16 @@ import type RemoveCaravan from '../domain/action-performer/RemoveCaravan.ts'
 import type Research from '../domain/action-performer/Research.ts'
 import type GameplayAction from '../domain/entity/action/GameplayAction.ts'
 import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface.ts'
-import Currency from '../domain/entity/Currency.ts'
-import type Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
-import ActionUnavailable from '../exception/ActionUnavailable.ts'
+import type ActionValidator from '../domain/validation/ActionValidator.ts'
 import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
-import WrongRadius from '../exception/WrongRadius.ts'
 
 class ActionPerformer {
     _performers: Record<string, ActionInterface> = {}
 
     constructor(
+        private readonly _actionValidator: ActionValidator,
         private readonly _arm: Arm,
         private readonly _research: Research,
         private readonly _expedition: Expedition,
@@ -54,7 +52,7 @@ class ActionPerformer {
     }
 
     public performAction(playerAction: PlayerActionInterface, turn: Turn): void {
-        this.checkActionConstraints(playerAction.gameplayAction, turn.player.tribe)
+        this._actionValidator.validate(playerAction, turn.player.tribe)
         const performer = this.getPerformerClass(playerAction.gameplayAction)
         if (!performer) {
             throw new ActionUnsuccessful(playerAction.gameplayAction.name)
@@ -87,24 +85,6 @@ class ActionPerformer {
 
     private getPerformerClass(action: GameplayAction): ActionInterface | undefined {
         return this._performers[action.name]
-    }
-
-    private checkActionConstraints(action: GameplayAction, tribe: Tribe): void {
-        if (action.gameAction.constraints.radius < tribe.radius) {
-            throw new WrongRadius(tribe.name, action.gameAction.constraints.radius, action.name)
-        }
-        if (action.gameAction.constraints.culture > tribe.culture) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Culture)
-        }
-        if (action.gameAction.constraints.production > tribe.production) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Production)
-        }
-        if (action.gameAction.constraints.population > tribe.population) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Population)
-        }
-        if (action.gameAction.constraints.gold_cost > tribe.gold) {
-            throw new ActionUnavailable(tribe.name, action.name, Currency.Gold)
-        }
     }
 }
 

@@ -28,6 +28,8 @@ import FightManager from './domain/helper/FightManager.ts'
 import AlliancesStore from './domain/store/AlliancesStore.ts'
 import CaravansStore from './domain/store/CaravansStore.ts'
 import RelationsStore from './domain/store/RelationsStore.ts'
+import ActionValidator from './domain/validation/ActionValidator.ts'
+import CaravanValidator from './domain/validation/CaravanValidator.ts'
 import NotInContainer from './exception/internal/NotInContainer.ts'
 import ConsoleGameProcess from './outer/ConsoleGameProcess.ts'
 import ExceptionHandler from './outer/exception-handler/ExceptionHandler.ts'
@@ -151,6 +153,12 @@ class NaiveDiContainer {
         this.setSingleton(Hire, new Hire())
         this.setSingleton(HireOneRound, new HireOneRound())
         this.setSingleton(Quit, new Quit())
+
+        // // // validation
+        this.setSingleton(CaravanValidator, new CaravanValidator())
+        this.setSingleton(ActionValidator, new ActionValidator(
+            this.resolveSafely(CaravanValidator),
+        ))
     }
 
     private buildApp(): void {
@@ -164,6 +172,8 @@ class NaiveDiContainer {
         ))
 
         this.setSingleton(ActionPerformer, new ActionPerformer(
+            this.resolveSafely(ActionValidator),
+
             this.resolveSafely(Arm),
             this.resolveSafely(Research),
             this.resolveSafely(Expedition),
