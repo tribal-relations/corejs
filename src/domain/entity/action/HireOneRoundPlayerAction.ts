@@ -4,7 +4,7 @@ import GameplayActionRepository from '../../repository/GameplayActionRepository.
 import type Tribe from '../Tribe.ts'
 
 class HireOneRoundPlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.createFromName(ActionName.HireOneRound)
+    gameplayAction = GameplayActionRepository.get(ActionName.HireOneRound)
 
     constructor(
         private readonly _buyer: Tribe,

@@ -25,7 +25,7 @@ class EndGameManager {
     }
 
     private calculateWinningCondition(): WinningConditionRepository {
-        return WinningConditionRepository.createFromName(WinningConditionName.Points)
+        return WinningConditionRepository.get(WinningConditionName.Points)
     }
 
     private calculateWinner(): Player {

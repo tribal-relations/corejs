@@ -18,7 +18,7 @@ test('arm for amount of production', () => {
 
     const player = new Player(tribe)
     const turn = new Turn(player)
-    const gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
+    const gameAction = GameplayActionRepository.get(ActionName.Arm)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -37,7 +37,7 @@ test('arm for amount of production, but not bigger than non-armed population', (
 
     const player = new Player(tribe)
     const turn = new Turn(player)
-    const gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
+    const gameAction = GameplayActionRepository.get(ActionName.Arm)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -59,7 +59,7 @@ test('cannot arm more than population', () => {
     expect(tribe.militaryPower).toBe(0)
     expect(tribe.production).toBe(90)
 
-     gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
+     gameAction = GameplayActionRepository.get(ActionName.Arm)
      playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -67,7 +67,7 @@ test('cannot arm more than population', () => {
     expect(tribe.population).toBe(100)
     expect(tribe.militaryPower).toBe(90)
 
-     gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
+     gameAction = GameplayActionRepository.get(ActionName.Arm)
      playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -76,7 +76,7 @@ test('cannot arm more than population', () => {
     expect(tribe.militaryPower).toBe(100)
 
     const throwingFunction = (): void => {
-        const gameAction = GameplayActionRepository.createFromName(ActionName.Arm)
+        const gameAction = GameplayActionRepository.get(ActionName.Arm)
         const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
         turnDecisionManager.processTurn(playerAction, turn)

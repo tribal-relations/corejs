@@ -91,7 +91,7 @@ class ConsolePlayerActionIo {
 
             gameplayAction.parameters[0].check(technologyName)
 
-            return new ResearchPlayerAction(player.tribe, TechnologyRepository.createFromName((technologyName as TechnologyName)))
+            return new ResearchPlayerAction(player.tribe, TechnologyRepository.get((technologyName as TechnologyName)))
         }
 
         if (words.length - 1 !== gameplayAction.parameters.length) {

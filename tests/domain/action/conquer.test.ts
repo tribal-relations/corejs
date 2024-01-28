@@ -38,7 +38,7 @@ test('can conquer', () => {
 
     expect(tribe.militaryPower).toBeGreaterThan(rome.militaryPower)
 
-    const gameAction = GameplayActionRepository.createFromName(ActionName.Conquer)
+    const gameAction = GameplayActionRepository.get(ActionName.Conquer)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)

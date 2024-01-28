@@ -145,7 +145,7 @@ class ConsoleCommandPerformer {
     }
 
     private getTechnologyByName(techName: string): Technology {
-        return TechnologyRepository.createFromName(techName as TechnologyName)
+        return TechnologyRepository.get(techName as TechnologyName)
     }
 
     private printTechnology(tech: Technology): void {
@@ -157,7 +157,7 @@ class ConsoleCommandPerformer {
         const table = {}
         let relation: Relation
         for (const key in cliParameterToRelationNameMap) {
-            relation = RelationRepository.createFromName(cliParameterToRelationNameMap[key])
+            relation = RelationRepository.get(cliParameterToRelationNameMap[key])
             table[relation.name] = {
                 'Agent bonus': relation.agentBonus,
                 'Recipient bonus': relation.recipientBonus,

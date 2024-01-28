@@ -4,7 +4,7 @@ import GameplayActionRepository from '../../repository/GameplayActionRepository.
 import type Tribe from '../Tribe.ts'
 
 class AlliancePlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.createFromName(ActionName.Alliance)
+    gameplayAction = GameplayActionRepository.get(ActionName.Alliance)
 
     constructor(
         private readonly _actor: Tribe,

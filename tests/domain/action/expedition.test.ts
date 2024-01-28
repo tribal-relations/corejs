@@ -18,7 +18,7 @@ function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe):
 
     expect(tribe.tiles.length).toBe(2)
 
-    const gameAction = GameplayActionRepository.createFromName(ActionName.Expedition)
+    const gameAction = GameplayActionRepository.get(ActionName.Expedition)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)

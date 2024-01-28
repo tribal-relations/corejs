@@ -4,7 +4,7 @@ import GameplayActionRepository from '../../repository/GameplayActionRepository.
 import type Tribe from '../Tribe.ts'
 
 class RemoveCaravanPlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.createFromName(ActionName.RemoveCaravan)
+    gameplayAction = GameplayActionRepository.get(ActionName.RemoveCaravan)
 
     constructor(
         private readonly _actor: Tribe,

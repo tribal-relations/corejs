@@ -163,7 +163,7 @@ class Tribe implements CanFight {
     }
 
     get notKnownTechs(): TechnologyName[] {
-        return TechnologyRepository.getAll()
+        return Object.values(TechnologyRepository.getAll())
             .filter((tech: Technology) => !(tech.name in this.technologies))
             .map((tech: Technology) => tech.name)
     }
@@ -286,7 +286,7 @@ class Tribe implements CanFight {
     }
 
     public researchByName(techName: TechnologyName): void {
-        this.research(TechnologyRepository.createFromName(techName))
+        this.research(TechnologyRepository.get(techName))
     }
 
     public research(tech: Technology): void {
@@ -370,7 +370,7 @@ class Tribe implements CanFight {
      * Gets techs that can be researched next, so result = allTechs - already - unavailable
      */
     public getTechnologiesAvailableForResearch(): Technology[] {
-        return TechnologyRepository.getAll()
+        return Object.values(TechnologyRepository.getAll())
             .filter((tech: Technology) => !(tech.name in this.technologies))
             .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
                 this.arePrerequisitesMetForTechnology(tech),

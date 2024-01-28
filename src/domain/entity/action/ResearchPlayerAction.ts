@@ -5,7 +5,7 @@ import type Technology from '../Technology.ts'
 import type Tribe from '../Tribe.ts'
 
 class ResearchPlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.createFromName(ActionName.Research)
+    gameplayAction = GameplayActionRepository.get(ActionName.Research)
 
     constructor(
         private readonly _actor: Tribe,

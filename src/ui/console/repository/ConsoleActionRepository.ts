@@ -4,31 +4,31 @@ import GameplayActionRepository from '../../../domain/repository/GameplayActionR
 
 class ConsoleActionRepository {
     static decisionToActionDataMap: Record<string, GameplayAction> = {
-        a: GameplayActionRepository.createFromName(ActionName.Arm),
-        al: GameplayActionRepository.createFromName(ActionName.Alliance),
-        atile: GameplayActionRepository.createFromName(ActionName.AttackTile),
-        atr: GameplayActionRepository.createFromName(ActionName.AttackTribe),
+        a: GameplayActionRepository.get(ActionName.Arm),
+        al: GameplayActionRepository.get(ActionName.Alliance),
+        atile: GameplayActionRepository.get(ActionName.AttackTile),
+        atr: GameplayActionRepository.get(ActionName.AttackTribe),
 
-        c: GameplayActionRepository.createFromName(ActionName.Caravan),
-        e: GameplayActionRepository.createFromName(ActionName.Expedition),
+        c: GameplayActionRepository.get(ActionName.Caravan),
+        e: GameplayActionRepository.get(ActionName.Expedition),
 
-        g3: GameplayActionRepository.createFromName(ActionName.GoTo3rdRadius),
-        g2: GameplayActionRepository.createFromName(ActionName.GoTo2ndRadius),
-        g1: GameplayActionRepository.createFromName(ActionName.GoTo1stRadius),
+        g3: GameplayActionRepository.get(ActionName.GoTo3rdRadius),
+        g2: GameplayActionRepository.get(ActionName.GoTo2ndRadius),
+        g1: GameplayActionRepository.get(ActionName.GoTo1stRadius),
 
-        h: GameplayActionRepository.createFromName(ActionName.Hire),
-        h1: GameplayActionRepository.createFromName(ActionName.HireOneRound),
+        h: GameplayActionRepository.get(ActionName.Hire),
+        h1: GameplayActionRepository.get(ActionName.HireOneRound),
 
-        pray: GameplayActionRepository.createFromName(ActionName.Pray),
-        pil: GameplayActionRepository.createFromName(ActionName.Pillage),
+        pray: GameplayActionRepository.get(ActionName.Pray),
+        pil: GameplayActionRepository.get(ActionName.Pillage),
 
-        q: GameplayActionRepository.createFromName(ActionName.Quit),
-        r: GameplayActionRepository.createFromName(ActionName.Research),
+        q: GameplayActionRepository.get(ActionName.Quit),
+        r: GameplayActionRepository.get(ActionName.Research),
 
-        rmca: GameplayActionRepository.createFromName(ActionName.RemoveCaravan),
+        rmca: GameplayActionRepository.get(ActionName.RemoveCaravan),
 
-        co: GameplayActionRepository.createFromName(ActionName.Conquer),
-        cu: GameplayActionRepository.createFromName(ActionName.Cult),
+        co: GameplayActionRepository.get(ActionName.Conquer),
+        cu: GameplayActionRepository.get(ActionName.Cult),
     }
 }
 

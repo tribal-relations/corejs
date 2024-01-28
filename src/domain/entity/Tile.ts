@@ -11,7 +11,7 @@ class Tile {
     }
 
     public static createFromResourceName(name: ResourceName): Tile {
-        return new Tile(ResourceRepository.createFromName(name))
+        return new Tile(ResourceRepository.get(name))
     }
 
     public static createStarterTiles(): Tile[] {

@@ -17,7 +17,7 @@ test('action constraints must be respected', () => {
     expect(tribe.tiles.length).toBe(0)
 
     expect(tribe.population).toStrictEqual(0)
-    const gameAction = GameplayActionRepository.createFromName(ActionName.Expedition)
+    const gameAction = GameplayActionRepository.get(ActionName.Expedition)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     const throwingFunction = (): void => {
