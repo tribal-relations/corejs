@@ -3,9 +3,7 @@ import GameAction from '../entity/GameAction.ts'
 import ActionName from '../enum/ActionName.ts'
 
 class ActionRepository {
-    static actionsCount = 17
-
-    private static readonly _actionsRawData: Record<ActionName, {
+    private static readonly _rawData: Record<ActionName, {
         name_ru: string
         name: string
         radius: number
@@ -235,53 +233,53 @@ class ActionRepository {
         },
     }
 
-    private static readonly _actionInstances = {
-        [ActionName.Arm]: ActionRepository.createInstanceFromName(ActionName.Arm),
-        [ActionName.Alliance]: ActionRepository.createInstanceFromName(ActionName.Alliance),
-        [ActionName.AttackTile]: ActionRepository.createInstanceFromName(ActionName.AttackTile),
-        [ActionName.AttackTribe]: ActionRepository.createInstanceFromName(ActionName.AttackTribe),
-        [ActionName.Caravan]: ActionRepository.createInstanceFromName(ActionName.Caravan),
-        [ActionName.Conquer]: ActionRepository.createInstanceFromName(ActionName.Conquer),
-        [ActionName.Cult]: ActionRepository.createInstanceFromName(ActionName.Cult),
-        [ActionName.Expedition]: ActionRepository.createInstanceFromName(ActionName.Expedition),
+    private static readonly _instances = {
+        [ActionName.Arm]: ActionRepository.create(ActionName.Arm),
+        [ActionName.Alliance]: ActionRepository.create(ActionName.Alliance),
+        [ActionName.AttackTile]: ActionRepository.create(ActionName.AttackTile),
+        [ActionName.AttackTribe]: ActionRepository.create(ActionName.AttackTribe),
+        [ActionName.Caravan]: ActionRepository.create(ActionName.Caravan),
+        [ActionName.Conquer]: ActionRepository.create(ActionName.Conquer),
+        [ActionName.Cult]: ActionRepository.create(ActionName.Cult),
+        [ActionName.Expedition]: ActionRepository.create(ActionName.Expedition),
 
-        [ActionName.GoTo3rdRadius]: ActionRepository.createInstanceFromName(ActionName.GoTo3rdRadius),
-        [ActionName.GoTo2ndRadius]: ActionRepository.createInstanceFromName(ActionName.GoTo2ndRadius),
-        [ActionName.GoTo1stRadius]: ActionRepository.createInstanceFromName(ActionName.GoTo1stRadius),
-        [ActionName.Hire]: ActionRepository.createInstanceFromName(ActionName.Hire),
-        [ActionName.HireOneRound]: ActionRepository.createInstanceFromName(ActionName.HireOneRound),
-        [ActionName.Pray]: ActionRepository.createInstanceFromName(ActionName.Pray),
-        [ActionName.Pillage]: ActionRepository.createInstanceFromName(ActionName.Pillage),
-        [ActionName.RemoveCaravan]: ActionRepository.createInstanceFromName(ActionName.RemoveCaravan),
-        [ActionName.Research]: ActionRepository.createInstanceFromName(ActionName.Research),
-        [ActionName.Quit]: ActionRepository.createInstanceFromName(ActionName.Quit),
+        [ActionName.GoTo3rdRadius]: ActionRepository.create(ActionName.GoTo3rdRadius),
+        [ActionName.GoTo2ndRadius]: ActionRepository.create(ActionName.GoTo2ndRadius),
+        [ActionName.GoTo1stRadius]: ActionRepository.create(ActionName.GoTo1stRadius),
+        [ActionName.Hire]: ActionRepository.create(ActionName.Hire),
+        [ActionName.HireOneRound]: ActionRepository.create(ActionName.HireOneRound),
+        [ActionName.Pray]: ActionRepository.create(ActionName.Pray),
+        [ActionName.Pillage]: ActionRepository.create(ActionName.Pillage),
+        [ActionName.RemoveCaravan]: ActionRepository.create(ActionName.RemoveCaravan),
+        [ActionName.Research]: ActionRepository.create(ActionName.Research),
+        [ActionName.Quit]: ActionRepository.create(ActionName.Quit),
     }
 
     public static get(name: ActionName): GameAction {
-        if (name in ActionRepository._actionInstances) {
-            return ActionRepository._actionInstances[name]
+        if (name in ActionRepository._instances) {
+            return ActionRepository._instances[name]
         }
         throw new ActionNotFound(name)
     }
 
-    private static createInstanceFromName(name: ActionName): GameAction {
+    private static create(name: ActionName): GameAction {
         return new GameAction(
             name,
-            ActionRepository._actionsRawData[name].description,
-            ActionRepository._actionsRawData[name].radius,
+            ActionRepository._rawData[name].description,
+            ActionRepository._rawData[name].radius,
             {
-                radius: ActionRepository._actionsRawData[name].radius,
-                culture: ActionRepository._actionsRawData[name].culture,
-                population: ActionRepository._actionsRawData[name].population,
-                production: ActionRepository._actionsRawData[name].production,
-                action_cost: ActionRepository._actionsRawData[name].action_cost,
-                gold_cost: ActionRepository._actionsRawData[name].gold_cost,
+                radius: ActionRepository._rawData[name].radius,
+                culture: ActionRepository._rawData[name].culture,
+                population: ActionRepository._rawData[name].population,
+                production: ActionRepository._rawData[name].production,
+                action_cost: ActionRepository._rawData[name].action_cost,
+                gold_cost: ActionRepository._rawData[name].gold_cost,
             },
         )
     }
 
     public static getAll(): Record<ActionName, GameAction> {
-        return ActionRepository._actionInstances
+        return ActionRepository._instances
     }
 }
 
