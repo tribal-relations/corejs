@@ -8,7 +8,7 @@ import TechnologyName from '../enum/TechnologyName.ts'
 import TribeName from '../enum/TribeName.ts'
 
 class GameplayActionRepository {
-    private static readonly _actionsRawData: Record<ActionName, { name: ActionName, parameters: PlayerActionParameter[] }> = {
+    private static readonly _rawData: Record<ActionName, { name: ActionName, parameters: PlayerActionParameter[] }> = {
         [ActionName.Arm]: { name: ActionName.Arm, parameters: [] },
         [ActionName.Alliance]: {
             name: ActionName.Alliance,
@@ -79,43 +79,43 @@ class GameplayActionRepository {
         [ActionName.Cult]: { name: ActionName.Cult, parameters: [] },
     }
 
-    private static readonly _gameplayActionInstances = {
-        [ActionName.Arm]: GameplayActionRepository.createInstanceFromName(ActionName.Arm),
-        [ActionName.Alliance]: GameplayActionRepository.createInstanceFromName(ActionName.Alliance),
-        [ActionName.AttackTile]: GameplayActionRepository.createInstanceFromName(ActionName.AttackTile),
-        [ActionName.AttackTribe]: GameplayActionRepository.createInstanceFromName(ActionName.AttackTribe),
-        [ActionName.Caravan]: GameplayActionRepository.createInstanceFromName(ActionName.Caravan),
-        [ActionName.Conquer]: GameplayActionRepository.createInstanceFromName(ActionName.Conquer),
-        [ActionName.Cult]: GameplayActionRepository.createInstanceFromName(ActionName.Cult),
-        [ActionName.Expedition]: GameplayActionRepository.createInstanceFromName(ActionName.Expedition),
+    private static readonly _instances = {
+        [ActionName.Arm]: GameplayActionRepository.create(ActionName.Arm),
+        [ActionName.Alliance]: GameplayActionRepository.create(ActionName.Alliance),
+        [ActionName.AttackTile]: GameplayActionRepository.create(ActionName.AttackTile),
+        [ActionName.AttackTribe]: GameplayActionRepository.create(ActionName.AttackTribe),
+        [ActionName.Caravan]: GameplayActionRepository.create(ActionName.Caravan),
+        [ActionName.Conquer]: GameplayActionRepository.create(ActionName.Conquer),
+        [ActionName.Cult]: GameplayActionRepository.create(ActionName.Cult),
+        [ActionName.Expedition]: GameplayActionRepository.create(ActionName.Expedition),
 
-        [ActionName.GoTo3rdRadius]: GameplayActionRepository.createInstanceFromName(ActionName.GoTo3rdRadius),
-        [ActionName.GoTo2ndRadius]: GameplayActionRepository.createInstanceFromName(ActionName.GoTo2ndRadius),
-        [ActionName.GoTo1stRadius]: GameplayActionRepository.createInstanceFromName(ActionName.GoTo1stRadius),
-        [ActionName.Hire]: GameplayActionRepository.createInstanceFromName(ActionName.Hire),
-        [ActionName.HireOneRound]: GameplayActionRepository.createInstanceFromName(ActionName.HireOneRound),
-        [ActionName.Pray]: GameplayActionRepository.createInstanceFromName(ActionName.Pray),
-        [ActionName.Pillage]: GameplayActionRepository.createInstanceFromName(ActionName.Pillage),
-        [ActionName.RemoveCaravan]: GameplayActionRepository.createInstanceFromName(ActionName.RemoveCaravan),
-        [ActionName.Research]: GameplayActionRepository.createInstanceFromName(ActionName.Research),
-        [ActionName.Quit]: GameplayActionRepository.createInstanceFromName(ActionName.Quit),
+        [ActionName.GoTo3rdRadius]: GameplayActionRepository.create(ActionName.GoTo3rdRadius),
+        [ActionName.GoTo2ndRadius]: GameplayActionRepository.create(ActionName.GoTo2ndRadius),
+        [ActionName.GoTo1stRadius]: GameplayActionRepository.create(ActionName.GoTo1stRadius),
+        [ActionName.Hire]: GameplayActionRepository.create(ActionName.Hire),
+        [ActionName.HireOneRound]: GameplayActionRepository.create(ActionName.HireOneRound),
+        [ActionName.Pray]: GameplayActionRepository.create(ActionName.Pray),
+        [ActionName.Pillage]: GameplayActionRepository.create(ActionName.Pillage),
+        [ActionName.RemoveCaravan]: GameplayActionRepository.create(ActionName.RemoveCaravan),
+        [ActionName.Research]: GameplayActionRepository.create(ActionName.Research),
+        [ActionName.Quit]: GameplayActionRepository.create(ActionName.Quit),
     }
 
     public static get(name: ActionName): GameplayAction {
-        if (name in GameplayActionRepository._gameplayActionInstances) {
-            return GameplayActionRepository._gameplayActionInstances[name]
+        if (name in GameplayActionRepository._instances) {
+            return GameplayActionRepository._instances[name]
         }
         throw new ActionNotFound(name)
     }
 
     public static getAll(): Record<ActionName, GameplayAction> {
-        return GameplayActionRepository._gameplayActionInstances
+        return GameplayActionRepository._instances
     }
 
-    private static createInstanceFromName(name: ActionName): GameplayAction {
+    private static create(name: ActionName): GameplayAction {
         return new GameplayAction(
             ActionRepository.get(name),
-            GameplayActionRepository._actionsRawData[name].parameters,
+            GameplayActionRepository._rawData[name].parameters,
         )
     }
 }

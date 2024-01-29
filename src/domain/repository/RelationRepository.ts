@@ -3,9 +3,7 @@ import Relation from '../entity/Relation.ts'
 import RelationName from '../enum/RelationName.ts'
 
 class RelationRepository {
-    static relationsCount = 10
-
-    private static readonly _relationsRawData: Record<RelationName, { name: RelationName, agent_bonus: number, recipient_bonus: number }> = {
+    private static readonly _rawData: Record<RelationName, { name: RelationName, agent_bonus: number, recipient_bonus: number }> = {
         [RelationName.Equals]: {
             name: RelationName.Equals,
             agent_bonus: 0,
@@ -58,31 +56,31 @@ class RelationRepository {
         },
     }
 
-    private static readonly _relationInstances = {
-        [RelationName.Equals]: RelationRepository.createInstanceFromName(RelationName.Equals),
-        [RelationName.Respectables]: RelationRepository.createInstanceFromName(RelationName.Respectables),
-        [RelationName.Proteges]: RelationRepository.createInstanceFromName(RelationName.Proteges),
-        [RelationName.KnowItAlls]: RelationRepository.createInstanceFromName(RelationName.KnowItAlls),
-        [RelationName.Barbarians]: RelationRepository.createInstanceFromName(RelationName.Barbarians),
-        [RelationName.Rogues]: RelationRepository.createInstanceFromName(RelationName.Rogues),
-        [RelationName.Bourgeois]: RelationRepository.createInstanceFromName(RelationName.Bourgeois),
-        [RelationName.Mates]: RelationRepository.createInstanceFromName(RelationName.Mates),
-        [RelationName.Idols]: RelationRepository.createInstanceFromName(RelationName.Idols),
-        [RelationName.Cannibals]: RelationRepository.createInstanceFromName(RelationName.Cannibals),
+    private static readonly _instances = {
+        [RelationName.Equals]: RelationRepository.create(RelationName.Equals),
+        [RelationName.Respectables]: RelationRepository.create(RelationName.Respectables),
+        [RelationName.Proteges]: RelationRepository.create(RelationName.Proteges),
+        [RelationName.KnowItAlls]: RelationRepository.create(RelationName.KnowItAlls),
+        [RelationName.Barbarians]: RelationRepository.create(RelationName.Barbarians),
+        [RelationName.Rogues]: RelationRepository.create(RelationName.Rogues),
+        [RelationName.Bourgeois]: RelationRepository.create(RelationName.Bourgeois),
+        [RelationName.Mates]: RelationRepository.create(RelationName.Mates),
+        [RelationName.Idols]: RelationRepository.create(RelationName.Idols),
+        [RelationName.Cannibals]: RelationRepository.create(RelationName.Cannibals),
     }
 
     public static get(name: RelationName): Relation {
-        if (name in RelationRepository._relationInstances) {
-            return RelationRepository._relationInstances[name]
+        if (name in RelationRepository._instances) {
+            return RelationRepository._instances[name]
         }
         throw new NotFoundException('Relation', name)
     }
 
-    private static createInstanceFromName(name: RelationName): Relation {
+    private static create(name: RelationName): Relation {
         return new Relation(
             name,
-            RelationRepository._relationsRawData[name].agent_bonus,
-            RelationRepository._relationsRawData[name].recipient_bonus,
+            RelationRepository._rawData[name].agent_bonus,
+            RelationRepository._rawData[name].recipient_bonus,
         )
     }
 }
