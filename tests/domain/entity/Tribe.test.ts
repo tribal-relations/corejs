@@ -4,18 +4,18 @@ import ResourceRepository from '../../../src/domain/repository/ResourceRepositor
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('can get unique tiles', () => {
-    const forest = new Tile(ResourceRepository.createFromName(ResourceName.Forest))
-    const pasture = new Tile(ResourceRepository.createFromName(ResourceName.Pasture))
-    const fruit = new Tile(ResourceRepository.createFromName(ResourceName.Fruit))
-    const desert = new Tile(ResourceRepository.createFromName(ResourceName.Desert))
+    const forest = new Tile(ResourceRepository.get(ResourceName.Forest))
+    const pasture = new Tile(ResourceRepository.get(ResourceName.Pasture))
+    const fruit = new Tile(ResourceRepository.get(ResourceName.Fruit))
+    const desert = new Tile(ResourceRepository.get(ResourceName.Desert))
 
     const tiles = [
         forest,
-        new Tile(ResourceRepository.createFromName(ResourceName.Forest)),
+        new Tile(ResourceRepository.get(ResourceName.Forest)),
 
         pasture,
-        new Tile(ResourceRepository.createFromName(ResourceName.Pasture)),
-        new Tile(ResourceRepository.createFromName(ResourceName.Pasture)),
+        new Tile(ResourceRepository.get(ResourceName.Pasture)),
+        new Tile(ResourceRepository.get(ResourceName.Pasture)),
 
         fruit,
 
@@ -32,18 +32,18 @@ test('can get unique tiles', () => {
 })
 
 test('can get unique resource names', () => {
-    const forest = new Tile(ResourceRepository.createFromName(ResourceName.Forest))
-    const pasture = new Tile(ResourceRepository.createFromName(ResourceName.Pasture))
-    const fruit = new Tile(ResourceRepository.createFromName(ResourceName.Fruit))
-    const desert = new Tile(ResourceRepository.createFromName(ResourceName.Desert))
+    const forest = new Tile(ResourceRepository.get(ResourceName.Forest))
+    const pasture = new Tile(ResourceRepository.get(ResourceName.Pasture))
+    const fruit = new Tile(ResourceRepository.get(ResourceName.Fruit))
+    const desert = new Tile(ResourceRepository.get(ResourceName.Desert))
 
     const tiles = [
         forest,
-        new Tile(ResourceRepository.createFromName(ResourceName.Forest)),
+        new Tile(ResourceRepository.get(ResourceName.Forest)),
 
         pasture,
-        new Tile(ResourceRepository.createFromName(ResourceName.Pasture)),
-        new Tile(ResourceRepository.createFromName(ResourceName.Pasture)),
+        new Tile(ResourceRepository.get(ResourceName.Pasture)),
+        new Tile(ResourceRepository.get(ResourceName.Pasture)),
 
         fruit,
 

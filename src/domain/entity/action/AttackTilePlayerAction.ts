@@ -5,7 +5,7 @@ import type Tile from '../Tile.ts'
 import type Tribe from '../Tribe.ts'
 
 class AttackTilePlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.createFromName(ActionName.AttackTile)
+    gameplayAction = GameplayActionRepository.get(ActionName.AttackTile)
 
     constructor(
         private readonly _actor: Tribe,

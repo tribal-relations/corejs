@@ -4,7 +4,7 @@ import GameplayActionRepository from '../../repository/GameplayActionRepository.
 import type Tribe from '../Tribe.ts'
 
 class PillageCaravanPlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.createFromName(ActionName.Pillage)
+    gameplayAction = GameplayActionRepository.get(ActionName.Pillage)
 
     constructor(
         private readonly _actor: Tribe,

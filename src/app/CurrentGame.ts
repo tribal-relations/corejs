@@ -20,7 +20,7 @@ class CurrentGame {
 
     get possibleActions(): GameplayAction[] {
         // TODO synchronize with cli version
-        return GameplayActionRepository.getAll()
+        return Object.values(GameplayActionRepository.getAll())
     }
 
     get specificGame(): SpecificGame {

@@ -54,7 +54,7 @@ class Caravan implements ActionInterface {
         const diceResult = this._diceThrower.d6()
         const mercantility = playerAction.actor.mercantility
         const howRecipientReactsToSender = this._relationsManager.howXReactsToY(playerAction.recipient.name, playerAction.actor.name)
-        const recipientBonus = RelationRepository.createFromName(howRecipientReactsToSender).recipientBonus
+        const recipientBonus = RelationRepository.get(howRecipientReactsToSender).recipientBonus
 
         return diceResult * mercantility + recipientBonus
     }

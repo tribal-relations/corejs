@@ -90,13 +90,13 @@ class RelationsStore {
 
     private getTribeBonusAsAgent(agent: TribeName): number {
         return Object.values(this.howThisTribeReactsToOthers(agent))
-            .map((value: RelationName) => RelationRepository.createFromName(value).agentBonus)
+            .map((value: RelationName) => RelationRepository.get(value).agentBonus)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
     }
 
     private getTribeBonusAsRecipient(agent: TribeName): number {
         return Object.values(this.howOthersReactToThisTribe(agent))
-            .map((value: RelationName) => RelationRepository.createFromName(value).recipientBonus)
+            .map((value: RelationName) => RelationRepository.get(value).recipientBonus)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
     }
 }
