@@ -1,5 +1,6 @@
 import type Std from './Std.ts'
 import type CurrentGame from '../../../app/CurrentGame.ts'
+import type TribeManager from '../../../app/TribeManager.ts'
 import AbstractPlayerAction from '../../../domain/entity/action/AbstractPlayerAction.ts'
 import AlliancePlayerAction from '../../../domain/entity/action/AlliancePlayerAction.ts'
 import AttackTilePlayerAction from '../../../domain/entity/action/AttackTilePlayerAction.ts'
@@ -31,6 +32,8 @@ class ConsolePlayerActionIo {
     constructor(
         private readonly _std: Std,
         private readonly _currentGame: CurrentGame,
+        private readonly _tribeManager: TribeManager,
+
     ) {
     }
 
@@ -113,6 +116,7 @@ class ConsolePlayerActionIo {
             gameplayAction.parameters[0].check(words[1])
             gameplayAction.parameters[1].check(words[2])
             const defender = this.getTribeByTribeName((words[1] as TribeName))
+            // TODO https://github.com/tribal-relations/client/issues/133 move this to common
             const tile = this.getTribeTileByResourceName(defender, (words[2] as ResourceName))
 
             return new AttackTilePlayerAction(player.tribe, defender, tile)
@@ -177,7 +181,7 @@ class ConsolePlayerActionIo {
     }
 
     private getTribeTileByResourceName(tribe: Tribe, resourceName: ResourceName): Tile {
-        return tribe.getFirstTileWithResource(resourceName)
+        return this._tribeManager.getFirstTileWithResource(tribe, resourceName)
     }
 
     private getParameter(rawDecision: string): string {

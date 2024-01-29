@@ -1,4 +1,5 @@
 import type CurrentGame from '../../../app/CurrentGame.ts'
+import type TribeManager from '../../../app/TribeManager.ts'
 import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
 import type Technology from '../../../domain/entity/Technology.ts'
 import type Tribe from '../../../domain/entity/Tribe.ts'
@@ -11,6 +12,7 @@ import type TribeName from '../../../domain/enum/TribeName.ts'
 class ActionInfo {
     constructor(
         private readonly _currentGame: CurrentGame,
+        private readonly _tribeManager: TribeManager,
     ) {
     }
 
@@ -46,11 +48,15 @@ class ActionInfo {
     }
 
     public getPossibleTechnologyNamesForTribe(tribe: Tribe): TechnologyName[] {
-        return tribe.getTechnologiesAvailableForResearch().map((tech: Technology) => tech.name)
+        const availableTechnologies = this._tribeManager.getTechnologiesAvailableForResearch(tribe)
+
+        return availableTechnologies.map((tech: Technology) => tech.name)
     }
 
     public getTribeResourceNamesByTribeName(tribeName: TribeName): ResourceName[] {
-        return this._currentGame.getTribe(tribeName).getUniqueResourceNames()
+        return this._tribeManager.getUniqueResourceNames(
+            this._currentGame.getTribe(tribeName),
+        )
     }
 }
 

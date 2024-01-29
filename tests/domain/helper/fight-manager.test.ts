@@ -1,12 +1,14 @@
+import TribeManager from '../../../src/app/TribeManager.ts'
 import FightManager from '../../../src/domain/helper/FightManager.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('tribe with greater combat readiness wins', () => {
     const fightManager = container.resolveSafely(FightManager)
+    const tribeManager = container.resolveSafely(TribeManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
-    attacker.arm()
+    tribeManager.arm(attacker)
     const defender = TribeFactory.createStarterTribeWithOptions()
 
     let attackerWon = false
@@ -17,9 +19,10 @@ test('tribe with greater combat readiness wins', () => {
 
 test('defender does not suffer losses in case of failure when fighting over tile', () => {
     const fightManager = container.resolveSafely(FightManager)
+    const tribeManager = container.resolveSafely(TribeManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
-    attacker.arm()
+    tribeManager.arm(attacker)
     const defender = TribeFactory.createStarterTribeWithOptions()
     expect(attacker.population).toBe(2)
     expect(defender.population).toBe(2)
@@ -33,9 +36,10 @@ test('defender does not suffer losses in case of failure when fighting over tile
 
 test('defender suffers losses when weaker', () => {
     const fightManager = container.resolveSafely(FightManager)
+    const tribeManager = container.resolveSafely(TribeManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
-    attacker.arm()
+    tribeManager.arm(attacker)
     const defender = TribeFactory.createStarterTribeWithOptions()
     expect(attacker.population).toBe(2)
     expect(defender.population).toBe(2)
@@ -65,14 +69,16 @@ test('tribes with equal combat readiness do not win', () => {
 
 test('attacker takes losses if he is weaker', () => {
     const fightManager = container.resolveSafely(FightManager)
+    const tribeManager = container.resolveSafely(TribeManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
-    attacker.arm()
+    tribeManager.arm(attacker)
     expect(attacker.militaryPower).toBe(2)
 
     const defender = TribeFactory.createStarterTribeWithOptions()
-    defender.growPopulation(10)
-    defender.arm()
+    tribeManager.growPopulation(defender, 10)
+    tribeManager.arm(defender)
+
     expect(attacker.population).toBe(2)
     expect(defender.population).toBe(2 + 20)
     expect(defender.militaryPower).toBe(3)
@@ -88,15 +94,18 @@ test('attacker takes losses if he is weaker', () => {
 
 test('attacker takes big losses but cannot lose whole army', () => {
     const fightManager = container.resolveSafely(FightManager)
+    const tribeManager = container.resolveSafely(TribeManager)
 
     const attacker = TribeFactory.createStarterTribeWithOptions()
-    attacker.arm()
+    tribeManager.arm(attacker)
     expect(attacker.militaryPower).toBe(2)
 
     const defender = TribeFactory.createStarterTribeWithOptions()
-    defender.growPopulation(10)
-    defender.arm()
-    defender.arm()
+    tribeManager.growPopulation(defender, 10)
+
+    tribeManager.arm(defender)
+    tribeManager.arm(defender)
+
     expect(attacker.population).toBe(2)
     expect(defender.population).toBe(2 + 20)
     expect(defender.militaryPower).toBe(5)

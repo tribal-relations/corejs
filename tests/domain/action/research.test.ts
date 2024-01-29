@@ -1,3 +1,4 @@
+import TribeManager from '../../../src/app/TribeManager.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import ResearchPlayerAction from '../../../src/domain/entity/action/ResearchPlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
@@ -46,6 +47,7 @@ test('cannot research blocked technology', () => {
 
 test('cannot research already known technology', () => {
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
+    const tribeManager = container.resolveSafely(TribeManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
     expect(tribe.technologies).toStrictEqual({})
@@ -53,8 +55,7 @@ test('cannot research already known technology', () => {
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    const techName = 'Pottery'
-    tribe.researchByName(TechnologyName.Pottery)
+    tribeManager.researchByName(tribe, TechnologyName.Pottery)
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
 
     const throwingFunction = (): void => {

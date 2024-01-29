@@ -1,4 +1,5 @@
 import type CurrentGame from '../../app/CurrentGame.ts'
+import type TribeManager from '../../app/TribeManager.ts'
 import Currency from '../../domain/entity/Currency.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import TechnologyName from '../../domain/enum/TechnologyName.ts'
@@ -10,6 +11,7 @@ class CommonRoundManager {
         private readonly _relationsManager: RelationsStore,
         private readonly _diceThrower: DiceThrower,
         private readonly _currentGame: CurrentGame,
+        private readonly _tribeManager: TribeManager,
     ) {
     }
 
@@ -40,7 +42,10 @@ class CommonRoundManager {
 
         for (const playerName in this._currentGame.players) {
             diceBonus = this.getPopulationGrowthDiceBonus(this._currentGame.players[playerName].tribe)
-            this._currentGame.players[playerName].tribe.growPopulation((diceResult + diceBonus))
+            this._tribeManager.growPopulation(
+                this._currentGame.players[playerName].tribe,
+                diceResult + diceBonus,
+            )
         }
     }
 

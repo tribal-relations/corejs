@@ -1,9 +1,11 @@
+import TribeManager from '../../app/TribeManager.ts'
 import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'
 import TribeName from '../../domain/enum/TribeName.ts'
 import Rand from '../../domain/helper/Rand.ts'
 import InvalidFactoryOption from '../../exception/internal/InvalidFactoryOption.ts'
+import { container } from '../../NaiveDiContainer.ts'
 
 class TribeFactory {
     public static createEmpty(options: Record<string, any> = {}): Tribe {
@@ -36,7 +38,6 @@ class TribeFactory {
         const population = Tribe.defaultPopulation
         const militaryPower = Tribe.defaultMilitaryPower
         const civilizedness = Tribe.defaultCivilizedness
-        const tiles = Tile.createStarterTiles()
 
         return TribeFactory.create({
             name,
@@ -44,13 +45,13 @@ class TribeFactory {
             points,
             techs,
             population,
-            tiles,
             civilizedness,
             militaryPower,
         })
     }
 
     public static createStarterTribeWithOptions(options: Record<string, any> = {}): Tribe {
+        const tribeManager: TribeManager = container.resolveSafely(TribeManager)
         TribeFactory.checkOptions(options)
 
         const name = options.name ?? Rand.chooseOneFromEnum(TribeName)
@@ -60,7 +61,6 @@ class TribeFactory {
         const population = options.population ?? Tribe.defaultPopulation
         const militaryPower = options.militaryPower ?? Tribe.defaultMilitaryPower
         const civilizedness = options.civilizedness ?? Tribe.defaultCivilizedness
-        const tiles = options.tiles ?? Tile.createStarterTiles()
 
         const createdTribe = TribeFactory.create({
             name,
@@ -68,26 +68,34 @@ class TribeFactory {
             points,
             techs,
             population,
-            tiles,
             civilizedness,
             militaryPower,
         })
+        const resourceNames = options.resourceNames ?? [ResourceName.Pasture, ResourceName.Forest]
+        let tile
+        for (let i = 0; i < resourceNames.length; ++i) {
+            tile = new Tile(
+                createdTribe,
+                resourceNames[i],
+            )
+            tribeManager.addTile(createdTribe, tile)
+        }
         this.addPoints(options, createdTribe)
 
         return createdTribe
     }
 
     public static addFood(tribe: Tribe, amount: number = 1): void {
-        const tile = Tile.createFromResourceName(ResourceName.Forest)
+        const tile = Tile.createFromResourceName(ResourceName.Forest, tribe)
         for (let i = 0; i < amount; ++i) {
-            tribe.addTile(tile)
+            tribe.tiles.push(tile)
         }
     }
 
     public static addCulture(tribe: Tribe, amount: number = 1): void {
-        const tile = Tile.createFromResourceName(ResourceName.Lake)
+        const tile = Tile.createFromResourceName(ResourceName.Lake, tribe)
         for (let i = 0; i < amount; ++i) {
-            tribe.addTile(tile)
+            tribe.tiles.push(tile)
         }
     }
 
@@ -95,9 +103,9 @@ class TribeFactory {
         if (amount % 2 !== 0) {
             throw new Error('There are only tiles with production 2.')
         }
-        const tile = Tile.createFromResourceName(ResourceName.Metal)
+        const tile = Tile.createFromResourceName(ResourceName.Metal, tribe)
         for (let i = 0; i < amount / 2; ++i) {
-            tribe.addTile(tile)
+            tribe.tiles.push(tile)
         }
     }
 
@@ -105,9 +113,9 @@ class TribeFactory {
         if (amount % 2 !== 0) {
             throw new Error('There are only tiles with mercantility 2.')
         }
-        const tile = Tile.createFromResourceName(ResourceName.Fruit)
+        const tile = Tile.createFromResourceName(ResourceName.Fruit, tribe)
         for (let i = 0; i < amount / 2; ++i) {
-            tribe.addTile(tile)
+            tribe.tiles.push(tile)
         }
     }
 
@@ -125,16 +133,16 @@ class TribeFactory {
     }
 
     private static checkOptions(options: Record<string, any> = {}): void {
-        if (options.production && options.tiles) {
+        if (options.production && options.resourceNames) {
             throw new InvalidFactoryOption('production', 'tiles')
         }
-        if (options.food && options.tiles) {
+        if (options.food && options.resourceNames) {
             throw new InvalidFactoryOption('food', 'tiles')
         }
-        if (options.culture && options.tiles) {
+        if (options.culture && options.resourceNames) {
             throw new InvalidFactoryOption('culture', 'tiles')
         }
-        if (options.mercantility && options.tiles) {
+        if (options.mercantility && options.resourceNames) {
             throw new InvalidFactoryOption('mercantility', 'tiles')
         }
     }

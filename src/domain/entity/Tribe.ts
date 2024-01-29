@@ -1,30 +1,19 @@
-import Bonus from './Bonus.ts'
+import type Bonus from './Bonus.ts'
+import type BonusInterface from './BonusInterface.ts'
 import Currency from './Currency.ts'
 import type Technology from './Technology.ts'
 import Tile from './Tile.ts'
-import ActionUnsuccessful from '../../exception/ActionUnsuccessful.ts'
-import AlreadyKnownTechnology from '../../exception/AlreadyKnownTechnology.ts'
-import MaximalMilitaryPower from '../../exception/MaximalMilitaryPower.ts'
-import TribeResourceNotFound from '../../exception/not-found/TribeResourceNotFound.ts'
-import TribeTileNotFound from '../../exception/not-found/TribeTileNotFound.ts'
-import UnavailableTechnology from '../../exception/UnavailableTechnology.ts'
-import ActionName from '../enum/ActionName.ts'
-import BonusName from '../enum/BonusName.ts'
-import type ResourceName from '../enum/ResourceName.ts'
+import type TileBonus from './TileBonus.ts'
+import type BonusName from '../enum/BonusName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type TribeName from '../enum/TribeName.ts'
-import type CanFight from '../interface/CanFight.ts'
-import ResourceRepository from '../repository/ResourceRepository.ts'
 import TechnologyRepository from '../repository/TechnologyRepository.ts'
 
-class Tribe implements CanFight {
+class Tribe {
     static readonly defaultPopulation = 2
     static readonly defaultMilitaryPower = 1
     static readonly defaultCivilizedness = 1
     static readonly defaultGold = 10
-
-    private _radius = 4
-    private _isWinner = false
 
     constructor(
         private readonly _name: TribeName,
@@ -33,23 +22,27 @@ class Tribe implements CanFight {
         private _population: number = Tribe.defaultPopulation,
         private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
-        private readonly _knownTechs: Record<TechnologyName, boolean> = Object(),
-        private readonly _tiles: Tile[] = Tile.createStarterTiles(),
-        private readonly _bonuses: Record<BonusName, Bonus> = Object(),
+        private readonly _technologies: Record<TechnologyName, boolean> = Object(),
+        private readonly _tiles: Tile[],
+        private readonly _bonuses: Record<BonusName, BonusInterface> = Object(),
+        private readonly _tileBonuses: Record<BonusName, TileBonus> = Object(),
         private _bonusesForOneRound: Record<BonusName, Bonus> = Object(),
+        private _radius: number = 4,
+        private _isWinner: boolean = false,
     ) {
-    }
-
-    private discoverNewTile(): Tile {
-        return new Tile(ResourceRepository.getRandomResource())
+        this._tiles = Tile.createStarterTiles(this)
     }
 
     get radius(): number {
         return this._radius
     }
 
-    get bonuses(): Record<BonusName, Bonus> {
+    get bonuses(): Record<BonusName, BonusInterface> {
         return this._bonuses
+    }
+
+    get tileBonuses(): Record<BonusName, TileBonus> {
+        return this._tileBonuses
     }
 
     get bonusesForOneRound(): Record<BonusName, Bonus> {
@@ -62,6 +55,10 @@ class Tribe implements CanFight {
 
     get gold(): number {
         return this._gold
+    }
+
+    set gold(amount: number) {
+        this._gold = amount
     }
 
     get points(): number {
@@ -81,6 +78,10 @@ class Tribe implements CanFight {
         return this._population
     }
 
+    set population(amount: number) {
+         this._population = amount
+    }
+
     get militaryPower(): number {
         let multiplier = 1
         // TODO implement as bonus https://github.com/tribal-relations/client/issues/139
@@ -97,50 +98,8 @@ class Tribe implements CanFight {
         return this._militaryPower * multiplier + this.getCurrencyBonus(Currency.MilitaryPower)
     }
 
-    public buyTroops(amount: number, price: number): void {
-        if (price > this._gold) {
-            throw new ActionUnsuccessful(ActionName.Hire, `Buyer ${this.name} does not have enough gold.`)
-        }
-        this._militaryPower += amount
-        this._gold -= price
-    }
-
-    public sellTroops(amount: number, price: number): void {
-        if (amount > this._militaryPower) {
-            throw new ActionUnsuccessful(ActionName.Hire, `Seller ${this.name} does not have enough troops.`)
-        }
-        this._militaryPower -= amount
-        this._gold += price
-    }
-
-    public buyTroopsForOneRound(amount: number, price: number): void {
-        if (price > this._gold) {
-            throw new ActionUnsuccessful(ActionName.Hire, `Buyer ${this.name} does not have enough gold.`)
-        }
-        this.addBonusForOneRound(
-            new Bonus(
-                this,
-                BonusName.HiredMilitaryPowerForOneRound,
-                amount,
-                Currency.MilitaryPower,
-            ),
-        )
-        this._gold -= price
-    }
-
-    public sellTroopsForOneRound(amount: number, price: number): void {
-        if (amount > this._militaryPower) {
-            throw new ActionUnsuccessful(ActionName.Hire, `Seller ${this.name} does not have enough troops.`)
-        }
-        this.addBonusForOneRound(
-            new Bonus(
-                this,
-                BonusName.GivenAwayMilitaryPowerForOneRound,
-                -amount,
-                Currency.MilitaryPower,
-            ),
-        )
-        this._gold += price
+    set militaryPower(amount: number) {
+        this._militaryPower = amount
     }
 
     get civilizedness(): number {
@@ -150,7 +109,7 @@ class Tribe implements CanFight {
     get food(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.food
+            accumulator += this._tiles[i].food
         }
         if (this.hasTech(TechnologyName.Calendar)) {
             return accumulator * 2
@@ -159,7 +118,7 @@ class Tribe implements CanFight {
     }
 
     get technologies(): Record<TechnologyName, boolean> {
-        return this._knownTechs
+        return this._technologies
     }
 
     get notKnownTechs(): TechnologyName[] {
@@ -183,7 +142,7 @@ class Tribe implements CanFight {
     get culture(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.culture
+            accumulator += this._tiles[i].culture
         }
 
         return accumulator + this.getCurrencyBonus(Currency.Culture)
@@ -192,7 +151,7 @@ class Tribe implements CanFight {
     get production(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.production
+            accumulator += this._tiles[i].production
         }
         return accumulator + this.getCurrencyBonus(Currency.Production)
     }
@@ -200,7 +159,7 @@ class Tribe implements CanFight {
     get mercantility(): number {
         let accumulator = 0
         for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].resource.mercantility
+            accumulator += this._tiles[i].mercantility
         }
         return accumulator + this.getCurrencyBonus(Currency.Mercantility)
     }
@@ -223,58 +182,7 @@ class Tribe implements CanFight {
     }
 
     public hasTech(name: TechnologyName): boolean {
-        return (String(name) in this._knownTechs)
-    }
-
-    public makeTerritorialDiscovery(): void {
-        const newTile = this.discoverNewTile()
-        this.addTile(newTile)
-    }
-
-    public growPopulation(fertility: number): void {
-        const amount = this.getPopulationSurplus(fertility)
-        this._population += amount
-    }
-
-    public takeLosses(amount: number): void {
-        this.shrink(amount)
-        if (amount < this._militaryPower) {
-            this._militaryPower -= amount
-        } else {
-            this._militaryPower = 1
-        }
-    }
-
-    private shrink(amount: number): void {
-        this._population -= amount
-        if (this._population < 1) {
-            this._population = 1
-        }
-    }
-
-    public arm(): void {
-        if (this.population === this.militaryPower) {
-            throw new MaximalMilitaryPower(this.militaryPower, this.population)
-        }
-
-        const amount = Math.min(
-            this.population - this.militaryPower,
-            this.production,
-        )
-
-        this._militaryPower += amount
-    }
-
-    private getPopulationSurplus(fertility: number): number {
-        const food = this.food
-        const cropsYield = food * fertility
-        const upperBound = this.population * 10
-
-        if (cropsYield < upperBound) {
-            return cropsYield
-        }
-
-        return upperBound
+        return (String(name) in this._technologies)
     }
 
     public addGold(quantity: number): void {
@@ -285,98 +193,6 @@ class Tribe implements CanFight {
         this._radius--
     }
 
-    public researchByName(techName: TechnologyName): void {
-        this.research(TechnologyRepository.get(techName))
-    }
-
-    public research(tech: Technology): void {
-        this.checkTechnologyIsNotBlocked(this, tech)
-        this._knownTechs[String(tech.name)] = true
-    }
-
-    private checkTechnologyIsNotBlocked(tribe: Tribe, tech: Technology): void {
-        if (tech.name in tribe.technologies) {
-            throw new AlreadyKnownTechnology(tribe.name, tech.name)
-        }
-        let prerequisiteName: string
-        for (prerequisiteName in tech.prerequisites) {
-            if (!(prerequisiteName in tribe.technologies)) {
-                throw new UnavailableTechnology(tribe.name, tech.name)
-            }
-        }
-    }
-
-    /**
-     * TODO this must be private
-     */
-    public addTile(newTile: Tile): void {
-        this._tiles.push(newTile)
-    }
-
-    public getFirstTileWithResource(resourceName: ResourceName): Tile {
-        for (const tileInstance: Tile of this.tiles) {
-            if (resourceName === tileInstance.resource.name) {
-                return tileInstance
-            }
-        }
-        throw new TribeResourceNotFound(this.name, resourceName)
-    }
-
-    public detachTile(tile: Tile): void {
-        const index = this.tiles.indexOf(tile)
-        if (index === -1) {
-            throw new TribeTileNotFound(this.name, tile.resource.name)
-        }
-        if (index > -1) {
-            this.tiles.splice(index, 1)
-        }
-    }
-
-    public attachTile(tile: Tile): void {
-        this.addTile(tile)
-    }
-
-    public getUniqueResourceNames(): ResourceName[] {
-        return this.tiles
-            .map((tile: Tile) => tile.resource.name)
-            .filter((value: ResourceName, index, array: ResourceName[]) => array.indexOf(value) === index)
-    }
-
-    public getUniqueTiles(): Tile[] {
-        const uniqueTiles = []
-        const usedNames = new Set<ResourceName>()
-        let tile: Tile
-        for (let i = 0; i < this.tiles.length; ++i) {
-            tile = this.tiles[i]
-            if (!usedNames.has(tile.resource.name)) {
-                uniqueTiles.push(tile)
-                usedNames.add(tile.resource.name)
-            }
-        }
-
-        return uniqueTiles
-    }
-
-    public arePrerequisitesMetForTechnology(technology: Technology): boolean {
-        for (const prereq in technology.prerequisites) {
-            if (!(prereq in this.technologies)) {
-                return false
-            }
-        }
-        return true
-    }
-
-    /**
-     * Gets techs that can be researched next, so result = allTechs - already - unavailable
-     */
-    public getTechnologiesAvailableForResearch(): Technology[] {
-        return Object.values(TechnologyRepository.getAll())
-            .filter((tech: Technology) => !(tech.name in this.technologies))
-            .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
-                this.arePrerequisitesMetForTechnology(tech),
-            )
-    }
-
     public addBonusForOneRound(bonus: Bonus): void {
         this._bonusesForOneRound[bonus.name] = bonus
     }
@@ -385,12 +201,16 @@ class Tribe implements CanFight {
         this._bonusesForOneRound = Object()
     }
 
-    public addBonus(bonus: Bonus): void {
+    public addBonus(bonus: BonusInterface): void {
         this._bonuses[bonus.name] = bonus
     }
 
-    public hasBonus(bonus: Bonus): boolean {
+    public hasBonus(bonus: BonusInterface): boolean {
         return (bonus.name in this._bonuses)
+    }
+
+    addTileBonus(tileBonus: TileBonus) {
+        this._tileBonuses[tileBonus.name] = tileBonus
     }
 }
 

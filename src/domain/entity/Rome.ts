@@ -1,19 +1,17 @@
 import type Tile from './Tile.ts'
-import type CanFight from '../interface/CanFight.ts'
 
-class Rome implements CanFight {
+class Rome {
     static defaultPopulation = 100
     static defaultMilitaryPower = 50
     static defaultCivilizedness = 50
 
     private readonly _radius = 0
-    private _isWinner = false
 
     private readonly _gold: number = 0
     private readonly _points: number = 0
-    private readonly _militaryPower = 50
+    private _militaryPower = 50
     private readonly _civilizedness = 50
-    private readonly _population = 100
+    private _population = 100
     private readonly _knownTechs: Record<string, boolean> = {}
     private readonly _food: number = 0
     private readonly _mercantility: number = 0
@@ -37,16 +35,16 @@ class Rome implements CanFight {
         return this._knownTechs
     }
 
-    get isWinner(): boolean {
-        return this._isWinner
-    }
-
-    set isWinner(_isWinner: boolean) {
-        this._isWinner = _isWinner
-    }
-
     get population(): number {
         return this._population
+    }
+
+    set population(amount: number) {
+        this._population = amount
+    }
+
+    set militaryPower(amount: number) {
+        this._militaryPower = amount
     }
 
     get militaryPower(): number {
@@ -83,9 +81,6 @@ class Rome implements CanFight {
 
     get mercantility(): number {
         return this._mercantility
-    }
-
-    public takeLosses(_amount: number): void {
     }
 }
 
