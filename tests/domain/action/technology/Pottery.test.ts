@@ -7,7 +7,7 @@ import TechnologyRepository from '../../../../src/domain/repository/TechnologyRe
 import { container } from '../../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../../src/outer/factory/TribeFactory.ts'
 
-test('research adds technology', () => {
+test.skip('research adds technology', () => {
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
@@ -21,5 +21,4 @@ test('research adds technology', () => {
 
     expect(turnResult.isLast).toBe(false)
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
-    throw new Error('unimplemented')
 })

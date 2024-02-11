@@ -1,4 +1,5 @@
 import TribeManager from '../../../src/app/TribeManager.ts'
+import TribeName from '../../../src/domain/enum/TribeName.ts'
 import FightManager from '../../../src/domain/helper/FightManager.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
@@ -96,11 +97,11 @@ test('attacker takes big losses but cannot lose whole army', () => {
     const fightManager = container.resolveSafely(FightManager)
     const tribeManager = container.resolveSafely(TribeManager)
 
-    const attacker = TribeFactory.createStarterTribeWithOptions()
+    const attacker = TribeFactory.createStarterTribe(TribeName.Achaeans)
     tribeManager.arm(attacker)
     expect(attacker.militaryPower).toBe(2)
 
-    const defender = TribeFactory.createStarterTribeWithOptions()
+    const defender = TribeFactory.createStarterTribe(TribeName.Britons)
     tribeManager.growPopulation(defender, 10)
 
     tribeManager.arm(defender)

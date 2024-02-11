@@ -23,7 +23,7 @@ class Tribe {
         private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
         private readonly _technologies: Record<TechnologyName, boolean> = Object(),
-        private readonly _tiles: Tile[],
+        private readonly _tiles: Tile[] = [],
         private readonly _bonuses: Record<BonusName, BonusInterface> = Object(),
         private readonly _tileBonuses: Record<BonusName, TileBonus> = Object(),
         private _bonusesForOneRound: Record<BonusName, Bonus> = Object(),

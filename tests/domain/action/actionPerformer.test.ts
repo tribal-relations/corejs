@@ -1,9 +1,9 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction.ts'
-import Currency from '../../../src/domain/entity/Currency.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import ActionName from '../../../src/domain/enum/ActionName.ts'
+import TribeName from '../../../src/domain/enum/TribeName.ts'
 import GameplayActionRepository from '../../../src/domain/repository/GameplayActionRepository.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
@@ -11,13 +11,13 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 test('action constraints must be respected', () => {
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
-    const tribe = TribeFactory.createEmpty()
+    const tribe = TribeFactory.createStarterTribe(TribeName.Achaeans)
     const player = new Player(tribe)
     const turn = new Turn(player)
-    expect(tribe.tiles.length).toBe(0)
+    expect(tribe.tiles.length).toBe(2)
 
-    expect(tribe.population).toStrictEqual(0)
-    const gameAction = GameplayActionRepository.get(ActionName.Expedition)
+    expect(tribe.population).toStrictEqual(2)
+    const gameAction = GameplayActionRepository.get(ActionName.Conquer)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     const throwingFunction = (): void => {
@@ -25,7 +25,7 @@ test('action constraints must be respected', () => {
     }
 
     expect(throwingFunction).toThrow(
-        `Tribe '${tribe.name}' cannot perform action '${playerAction.gameplayAction.name}', because it does not satisfy action constraints. (Insufficient ${Currency.Population})`,
+        `Tribe '${tribe.name}' has not yet reached radius 1 necessary to perform action '${playerAction.gameplayAction.name}'`,
     )
-    expect(tribe.tiles.length).toBe(0)
+    expect(tribe.isWinner).toBe(false)
 })
