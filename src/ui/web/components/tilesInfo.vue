@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="(tile, index) in tiles" :key="index">
-            {{ tile.resource.name }}:
+            {{ tile.resourceName }}:
             {{ getFoodString(tile) }}
             {{ getProductionString(tile) }}
             {{ getCultureString(tile) }}
@@ -24,26 +24,26 @@ export default {
     },
     methods: {
         getFoodString(tile: Tile): string {
-            if (tile.resource.food) {
-                return `${tile.resource.food}🍏`
+            if (tile.food) {
+                return `${tile.food}🍏`
             }
             return ''
         },
         getProductionString(tile: Tile): string {
-            if (tile.resource.production) {
-                return `${tile.resource.production}🛠`
+            if (tile.production) {
+                return `${tile.production}🛠`
             }
             return ''
         },
         getCultureString(tile: Tile): string {
-            if (tile.resource.culture) {
-                return `${tile.resource.culture}🎵`
+            if (tile.culture) {
+                return `${tile.culture}🎵`
             }
             return ''
         },
         getMercantilityString(tile: Tile): string {
-            if (tile.resource.mercantility) {
-                return `${tile.resource.mercantility}💰`
+            if (tile.mercantility) {
+                return `${tile.mercantility}💰`
             }
             return ''
         },

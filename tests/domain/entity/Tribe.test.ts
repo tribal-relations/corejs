@@ -1,59 +1,53 @@
-import Tile from '../../../src/domain/entity/Tile.ts'
+import TribeManager from '../../../src/app/TribeManager.ts'
+import type Tile from '../../../src/domain/entity/Tile.ts'
 import ResourceName from '../../../src/domain/enum/ResourceName.ts'
-import ResourceRepository from '../../../src/domain/repository/ResourceRepository.ts'
+import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
 test('can get unique tiles', () => {
-    const forest = new Tile(ResourceRepository.get(ResourceName.Forest))
-    const pasture = new Tile(ResourceRepository.get(ResourceName.Pasture))
-    const fruit = new Tile(ResourceRepository.get(ResourceName.Fruit))
-    const desert = new Tile(ResourceRepository.get(ResourceName.Desert))
+    const tribeManager = container.resolveSafely(TribeManager)
+    const resourceNames = [
+        ResourceName.Forest,
+        ResourceName.Forest,
 
-    const tiles = [
-        forest,
-        new Tile(ResourceRepository.get(ResourceName.Forest)),
+        ResourceName.Pasture,
+        ResourceName.Pasture,
+        ResourceName.Pasture,
 
-        pasture,
-        new Tile(ResourceRepository.get(ResourceName.Pasture)),
-        new Tile(ResourceRepository.get(ResourceName.Pasture)),
+        ResourceName.Fruit,
 
-        fruit,
-
-        desert,
+        ResourceName.Desert,
     ]
+
     const tribe = TribeFactory.createStarterTribeWithOptions({
-        tiles,
+        resourceNames,
     })
 
-    const uniqueTiles = tribe.getUniqueTiles()
+    const uniqueTiles = tribeManager.getUniqueTiles(tribe)
     expect(tribe.tiles.length).toBe(7)
     expect(uniqueTiles.length).toBe(4)
-    expect(uniqueTiles).toStrictEqual([forest, pasture, fruit, desert])
+    expect(uniqueTiles.map((val: Tile) => val.resourceName))
+        .toStrictEqual([ResourceName.Forest, ResourceName.Pasture, ResourceName.Fruit, ResourceName.Desert])
 })
 
 test('can get unique resource names', () => {
-    const forest = new Tile(ResourceRepository.get(ResourceName.Forest))
-    const pasture = new Tile(ResourceRepository.get(ResourceName.Pasture))
-    const fruit = new Tile(ResourceRepository.get(ResourceName.Fruit))
-    const desert = new Tile(ResourceRepository.get(ResourceName.Desert))
+    const resourceNames = [
+        ResourceName.Forest,
+        ResourceName.Forest,
 
-    const tiles = [
-        forest,
-        new Tile(ResourceRepository.get(ResourceName.Forest)),
+        ResourceName.Pasture,
+        ResourceName.Pasture,
+        ResourceName.Pasture,
 
-        pasture,
-        new Tile(ResourceRepository.get(ResourceName.Pasture)),
-        new Tile(ResourceRepository.get(ResourceName.Pasture)),
+        ResourceName.Fruit,
 
-        fruit,
-
-        desert,
+        ResourceName.Desert,
     ]
     const tribe = TribeFactory.createStarterTribeWithOptions({
-        tiles,
+        resourceNames,
     })
 
-    const uniqueResourceNames = tribe.getUniqueResourceNames()
+    const uniqueResourceNames = this._tribeManager.getUniqueResourceNames(tribe)
     expect(tribe.tiles.length).toBe(7)
     expect(uniqueResourceNames.length).toBe(4)
     expect(uniqueResourceNames).toStrictEqual([

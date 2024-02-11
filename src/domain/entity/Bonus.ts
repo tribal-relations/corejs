@@ -1,8 +1,9 @@
+import type BonusInterface from './BonusInterface.ts'
 import type Currency from './Currency.ts'
 import type Tribe from './Tribe.ts'
 import type BonusName from '../enum/BonusName.ts'
 
-class Bonus {
+class Bonus implements BonusInterface {
     constructor(
         private readonly _recipient: Tribe,
         private readonly _name: BonusName,

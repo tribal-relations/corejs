@@ -1,4 +1,5 @@
 import CurrentGame from '../../../src/app/CurrentGame.ts'
+import TribeManager from '../../../src/app/TribeManager.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
@@ -7,11 +8,13 @@ import CommonRoundManager from '../../../src/ui/common/CommonRoundManager.ts'
 import SpecificDiceThrower from '../../mock/SpecificDiceThrower.ts'
 
 test('Pottery increases crops yield', () => {
+    const tribeManager = container.resolveSafely(TribeManager)
     const startFood = 4
     const potteryBonus = 2
     const tribe = TribeFactory.createStarterTribeWithOptions({ population: 10 })
 
-    tribe.researchByName(TechnologyName.Pottery)
+    tribeManager.researchByName(tribe, TechnologyName.Pottery)
+
     const player = new Player(tribe)
     const currentGame = container.resolveSafely(CurrentGame)
     currentGame.addPlayer(player)
@@ -27,6 +30,8 @@ test('Pottery increases crops yield', () => {
 })
 
 test('Plough increases crops yield', () => {
+    const tribeManager = container.resolveSafely(TribeManager)
+
     const startFood = 4
     const calendarMultiplier = 2
     const ploughBonus = 2
@@ -37,10 +42,10 @@ test('Plough increases crops yield', () => {
 
     expect(tribe.food).toBe(startFood)
 
-    tribe.researchByName(TechnologyName.Pottery)
-    tribe.researchByName(TechnologyName.PrimitiveWriting)
-    tribe.researchByName(TechnologyName.Calendar)
-    tribe.researchByName(TechnologyName.Plough)
+    tribeManager.researchByName(tribe, TechnologyName.Pottery)
+    tribeManager.researchByName(tribe, TechnologyName.PrimitiveWriting)
+    tribeManager.researchByName(tribe, TechnologyName.Calendar)
+    tribeManager.researchByName(tribe, TechnologyName.Plough)
     expect(tribe.food).toBe(startFood * calendarMultiplier)
 
     const player = new Player(tribe)
@@ -60,17 +65,19 @@ test('Plough increases crops yield', () => {
 })
 
 test('Plough with animal husbandry adds a dice', () => {
+    const tribeManager = container.resolveSafely(TribeManager)
+
     const startFood = 4
     const calendarMultiplier = 2
     const ploughBonus = 2
     const potteryBonus = 2
     const tribe = TribeFactory.createStarterTribeWithOptions({ population: 10 })
 
-    tribe.researchByName(TechnologyName.Pottery)
-    tribe.researchByName(TechnologyName.PrimitiveWriting)
-    tribe.researchByName(TechnologyName.Calendar)
-    tribe.researchByName(TechnologyName.Plough)
-    tribe.researchByName(TechnologyName.AnimalHusbandry)
+    tribeManager.researchByName(tribe, TechnologyName.Pottery)
+    tribeManager.researchByName(tribe, TechnologyName.PrimitiveWriting)
+    tribeManager.researchByName(tribe, TechnologyName.Calendar)
+    tribeManager.researchByName(tribe, TechnologyName.Plough)
+    tribeManager.researchByName(tribe, TechnologyName.AnimalHusbandry)
     const player = new Player(tribe)
     const currentGame = container.resolveSafely(CurrentGame)
     currentGame.addPlayer(player)

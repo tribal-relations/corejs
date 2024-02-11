@@ -1,27 +1,28 @@
+import Alliance from './app/action-performer/Alliance.ts'
+import Arm from './app/action-performer/Arm.ts'
+import AttackTile from './app/action-performer/AttackTile.ts'
+import AttackTribe from './app/action-performer/AttackTribe.ts'
+import Caravan from './app/action-performer/Caravan.ts'
+import Conquer from './app/action-performer/Conquer.ts'
+import Cult from './app/action-performer/Cult.ts'
+import Expedition from './app/action-performer/Expedition.ts'
+import GoTo1stRadius from './app/action-performer/GoTo1stRadius.ts'
+import GoTo2ndRadius from './app/action-performer/GoTo2ndRadius.ts'
+import GoTo3rdRadius from './app/action-performer/GoTo3rdRadius.ts'
+import Hire from './app/action-performer/Hire.ts'
+import HireOneRound from './app/action-performer/HireOneRound.ts'
+import PillageCaravan from './app/action-performer/PillageCaravan.ts'
+import Pray from './app/action-performer/Pray.ts'
+import Quit from './app/action-performer/Quit.ts'
+import RemoveCaravan from './app/action-performer/RemoveCaravan.ts'
+import Research from './app/action-performer/Research.ts'
 import ActionPerformer from './app/ActionPerformer.ts'
 import CurrentGame from './app/CurrentGame.ts'
 import EndGameManager from './app/EndGameManager.ts'
 import StartGameManager from './app/StartGameManager.ts'
+import TribeManager from './app/TribeManager.ts'
 import TurnDecisionManager from './app/TurnDecisionManager.ts'
 import TurnManager from './app/TurnManager.ts'
-import Alliance from './domain/action-performer/Alliance.ts'
-import Arm from './domain/action-performer/Arm.ts'
-import AttackTile from './domain/action-performer/AttackTile.ts'
-import AttackTribe from './domain/action-performer/AttackTribe.ts'
-import Caravan from './domain/action-performer/Caravan.ts'
-import Conquer from './domain/action-performer/Conquer.ts'
-import Cult from './domain/action-performer/Cult.ts'
-import Expedition from './domain/action-performer/Expedition.ts'
-import GoTo1stRadius from './domain/action-performer/GoTo1stRadius.ts'
-import GoTo2ndRadius from './domain/action-performer/GoTo2ndRadius.ts'
-import GoTo3rdRadius from './domain/action-performer/GoTo3rdRadius.ts'
-import Hire from './domain/action-performer/Hire.ts'
-import HireOneRound from './domain/action-performer/HireOneRound.ts'
-import PillageCaravan from './domain/action-performer/PillageCaravan.ts'
-import Pray from './domain/action-performer/Pray.ts'
-import Quit from './domain/action-performer/Quit.ts'
-import RemoveCaravan from './domain/action-performer/RemoveCaravan.ts'
-import Research from './domain/action-performer/Research.ts'
 import Rome from './domain/entity/Rome.ts'
 import DiceThrower from './domain/helper/DiceThrower.ts'
 import FightManager from './domain/helper/FightManager.ts'
@@ -115,44 +116,6 @@ class NaiveDiContainer {
         this.setSingleton(Rome, new Rome())
         // // // helper
         this.setSingleton(DiceThrower, new DiceThrower())
-        // // // action
-        this.setSingleton(Research, new Research())
-        this.setSingleton(Arm, new Arm())
-        this.setSingleton(GoTo3rdRadius, new GoTo3rdRadius())
-        this.setSingleton(GoTo2ndRadius, new GoTo2ndRadius())
-        this.setSingleton(GoTo1stRadius, new GoTo1stRadius())
-        this.setSingleton(FightManager, new FightManager(this.resolveSafely(Rome)))
-        this.setSingleton(Conquer, new Conquer(this.resolveSafely(FightManager)))
-        this.setSingleton(Cult, new Cult(this.resolveSafely(DiceThrower)))
-        this.setSingleton(Expedition, new Expedition(this.resolveSafely(DiceThrower)))
-        this.setSingleton(AttackTile, new AttackTile(this.resolveSafely(FightManager)))
-        this.setSingleton(AttackTribe, new AttackTribe(
-            this.resolveSafely(FightManager),
-            this.resolveSafely(AlliancesStore),
-        ))
-
-        this.setSingleton(Pray, new Pray(
-            this.resolveSafely(DiceThrower),
-        ))
-        this.setSingleton(Alliance, new Alliance(
-            this.resolveSafely(AlliancesStore),
-        ))
-        this.setSingleton(Caravan, new Caravan(
-            this.resolveSafely(DiceThrower),
-            this.resolveSafely(RelationsStore),
-            this.resolveSafely(CaravansStore),
-            this.resolveSafely(AlliancesStore),
-        ))
-        this.setSingleton(RemoveCaravan, new RemoveCaravan(
-            this.resolveSafely(CaravansStore),
-        ))
-        this.setSingleton(PillageCaravan, new PillageCaravan(
-            this.resolveSafely(CaravansStore),
-            this.resolveSafely(AlliancesStore),
-        ))
-        this.setSingleton(Hire, new Hire())
-        this.setSingleton(HireOneRound, new HireOneRound())
-        this.setSingleton(Quit, new Quit())
 
         // // // validation
         this.setSingleton(CaravanValidator, new CaravanValidator())
@@ -162,6 +125,8 @@ class NaiveDiContainer {
     }
 
     private buildApp(): void {
+        this.setSingleton(TribeManager, new TribeManager())
+        this.buildActionPerformers()
         this.setSingleton(CurrentGame, new CurrentGame())
         this.setSingleton(StartGameManager, new StartGameManager())
         this.setSingleton(EndGameManager, new EndGameManager(
@@ -208,6 +173,8 @@ class NaiveDiContainer {
             this.resolveSafely(RelationsStore),
             this.resolveSafely(DiceThrower),
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(TribeManager),
+
         ))
         this.setSingleton(CommonPlayerController, new CommonPlayerController())
         this.setSingleton(GameRules, new GameRules())
@@ -219,7 +186,9 @@ class NaiveDiContainer {
 
     private buildConsole(): void {
         this.setSingleton(Std, new Std())
-        this.setSingleton(TribePrinter, new TribePrinter())
+        this.setSingleton(TribePrinter, new TribePrinter(
+            this.resolveSafely(TribeManager),
+        ))
         this.setSingleton(Printer, new Printer())
 
         this.setSingleton(MainMenu, new MainMenu(
@@ -229,6 +198,7 @@ class NaiveDiContainer {
         this.setSingleton(ConsolePlayerActionIo, new ConsolePlayerActionIo(
             this.resolveSafely(Std),
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(TribeManager),
         ))
         this.setSingleton(ConsolePlayerRelationActionIo, new ConsolePlayerRelationActionIo(this.resolveSafely(Std)))
         this.setSingleton(ConsolePlayerIo, new ConsolePlayerIo(
@@ -282,6 +252,7 @@ class NaiveDiContainer {
         ))
         this.setSingleton(ActionInfo, new ActionInfo(
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(TribeManager),
         ))
         this.setSingleton(RegularRound, new RegularRound(
             this.resolveSafely(CurrentGame),
@@ -313,6 +284,69 @@ class NaiveDiContainer {
             return
         }
         this.singletonToInstanceMap[className.name] = instance
+    }
+
+    private buildActionPerformers() {
+        // // // action-performer
+        this.setSingleton(Research, new Research(
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(Arm, new Arm(
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(GoTo3rdRadius, new GoTo3rdRadius())
+        this.setSingleton(GoTo2ndRadius, new GoTo2ndRadius())
+        this.setSingleton(GoTo1stRadius, new GoTo1stRadius())
+        this.setSingleton(FightManager, new FightManager(
+            this.resolveSafely(Rome),
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(Conquer, new Conquer(this.resolveSafely(FightManager)))
+        this.setSingleton(Cult, new Cult(
+            this.resolveSafely(DiceThrower),
+            this.resolveSafely(TribeManager),
+
+        ))
+        this.setSingleton(Expedition, new Expedition(
+            this.resolveSafely(DiceThrower),
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(AttackTile, new AttackTile(
+            this.resolveSafely(FightManager),
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(AttackTribe, new AttackTribe(
+            this.resolveSafely(FightManager),
+            this.resolveSafely(AlliancesStore),
+        ))
+
+        this.setSingleton(Pray, new Pray(
+            this.resolveSafely(DiceThrower),
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(Alliance, new Alliance(
+            this.resolveSafely(AlliancesStore),
+        ))
+        this.setSingleton(Caravan, new Caravan(
+            this.resolveSafely(DiceThrower),
+            this.resolveSafely(RelationsStore),
+            this.resolveSafely(CaravansStore),
+            this.resolveSafely(AlliancesStore),
+        ))
+        this.setSingleton(RemoveCaravan, new RemoveCaravan(
+            this.resolveSafely(CaravansStore),
+        ))
+        this.setSingleton(PillageCaravan, new PillageCaravan(
+            this.resolveSafely(CaravansStore),
+            this.resolveSafely(AlliancesStore),
+        ))
+        this.setSingleton(Hire, new Hire(
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(HireOneRound, new HireOneRound(
+            this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(Quit, new Quit())
     }
 }
 

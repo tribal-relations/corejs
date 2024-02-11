@@ -1,3 +1,4 @@
+import TribeManager from '../../../src/app/TribeManager.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import AbstractPlayerAction from '../../../src/domain/entity/action/AbstractPlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
@@ -11,6 +12,8 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 import TestBootstrapper from '../../test-bootstrapper.ts'
 
 test('can conquer', () => {
+    const tribeManager = container.resolveSafely(TribeManager)
+
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const starterFood = 4
 
@@ -27,11 +30,11 @@ test('can conquer', () => {
     tribe.goToNextRadius()
 
     TestBootstrapper.addProduction(tribe, 1000)
-    tribe.growPopulation(500)
-    tribe.growPopulation(500)
-    tribe.growPopulation(500)
-    tribe.growPopulation(500)
-    tribe.arm()
+    tribeManager.growPopulation(tribe, 500)
+    tribeManager.growPopulation(tribe, 500)
+    tribeManager.growPopulation(tribe, 500)
+    tribeManager.growPopulation(tribe, 500)
+    tribeManager.arm(tribe)
 
     const rome = container.resolveSafely(Rome)
     expect(rome.militaryPower).toStrictEqual(Rome.defaultMilitaryPower)

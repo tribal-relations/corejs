@@ -1,3 +1,4 @@
+import type PlayerActionInterface from './action/PlayerActionInterface'
 import type Player from './Player.ts'
 
 class Turn {
@@ -7,6 +8,7 @@ class Turn {
         private readonly _player: Player,
         private readonly _isLast: boolean = false,
         private readonly _isFinished: boolean = false,
+        private _action: PlayerActionInterface | null = null,
     ) {
     }
 
@@ -20,6 +22,14 @@ class Turn {
 
     get isFinished(): boolean {
         return this._isFinished
+    }
+
+    get action(): PlayerActionInterface | null {
+        return this._action
+    }
+
+    set action(action: PlayerActionInterface) {
+        this._action = action
     }
 }
 

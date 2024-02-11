@@ -1,7 +1,6 @@
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import AttackTilePlayerAction from '../../../src/domain/entity/action/AttackTilePlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
-import Tile from '../../../src/domain/entity/Tile.ts'
 import type Tribe from '../../../src/domain/entity/Tribe.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import ResourceName from '../../../src/domain/enum/ResourceName.ts'
@@ -11,10 +10,6 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 function createStrongAttacker() {
     const attacker = TribeFactory.createStarterTribeWithOptions({
         militaryPower: 10,
-        tiles: [
-            Tile.createFromResourceName(ResourceName.Pasture),
-            Tile.createFromResourceName(ResourceName.Forest),
-        ],
     })
     expect(attacker.militaryPower).toStrictEqual(10)
     expect(attacker.tiles.length).toStrictEqual(2)
@@ -24,10 +19,6 @@ function createStrongAttacker() {
 function createWeakDefender() {
     const defender = TribeFactory.createStarterTribeWithOptions({
         militaryPower: 5,
-        tiles: [
-            Tile.createFromResourceName(ResourceName.Pasture),
-            Tile.createFromResourceName(ResourceName.Forest),
-        ],
     })
     expect(defender.militaryPower).toStrictEqual(5)
     expect(defender.tiles.length).toStrictEqual(2)
@@ -44,11 +35,11 @@ function assertTribePoints(turnResult, attacker: Tribe, defender: Tribe) {
     expect(attacker.tiles.length).toStrictEqual(3)
     expect(defender.tiles.length).toStrictEqual(1)
 
-    expect(attacker.tiles[0].resource.name === ResourceName.Pasture).toStrictEqual(true)
-    expect(attacker.tiles[1].resource.name === ResourceName.Forest).toStrictEqual(true)
-    expect(attacker.tiles[2].resource.name === ResourceName.Forest).toStrictEqual(true)
+    expect(attacker.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
+    expect(attacker.tiles[1].resourceName === ResourceName.Forest).toStrictEqual(true)
+    expect(attacker.tiles[2].resourceName === ResourceName.Forest).toStrictEqual(true)
 
-    expect(defender.tiles[0].resource.name === ResourceName.Pasture).toStrictEqual(true)
+    expect(defender.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
 }
 
 test('can attack a tile', () => {
@@ -88,9 +79,9 @@ test('attacker takes losses if attacker is weaker', () => {
     expect(attacker.tiles.length).toStrictEqual(2)
     expect(defender.tiles.length).toStrictEqual(2)
 
-    expect(attacker.tiles[0].resource.name === ResourceName.Pasture).toStrictEqual(true)
-    expect(attacker.tiles[1].resource.name === ResourceName.Forest).toStrictEqual(true)
+    expect(attacker.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
+    expect(attacker.tiles[1].resourceName === ResourceName.Forest).toStrictEqual(true)
 
-    expect(defender.tiles[0].resource.name === ResourceName.Pasture).toStrictEqual(true)
-    expect(defender.tiles[1].resource.name === ResourceName.Forest).toStrictEqual(true)
+    expect(defender.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
+    expect(defender.tiles[1].resourceName === ResourceName.Forest).toStrictEqual(true)
 })
