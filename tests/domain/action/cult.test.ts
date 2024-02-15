@@ -26,7 +26,7 @@ function sendCult(diceResult: number, population: number = 10): Tribe {
 
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
-    const gameAction = GameplayActionRepository.get(ActionName.Cult)
+    const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Cult)
     const playerAction = new AbstractPlayerAction(gameAction, sender)
 
     turnDecisionManager.processTurn(playerAction, turn)

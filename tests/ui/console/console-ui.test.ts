@@ -1,6 +1,6 @@
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import RelationName from '../../../src/domain/enum/RelationName.ts'
-import TechnologyName from '../../../src/domain/enum/TechnologyName'
+import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import RelationsStore from '../../../src/domain/store/RelationsStore.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleUi from '../../../src/ui/console/ConsoleUi.ts'

@@ -17,7 +17,7 @@ test('action constraints must be respected', () => {
     expect(tribe.tiles.length).toBe(2)
 
     expect(tribe.population).toStrictEqual(2)
-    const gameAction = GameplayActionRepository.get(ActionName.Conquer)
+    const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Conquer)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     const throwingFunction = (): void => {
@@ -25,7 +25,7 @@ test('action constraints must be respected', () => {
     }
 
     expect(throwingFunction).toThrow(
-        `Tribe '${tribe.name}' has not yet reached radius 1 necessary to perform action '${playerAction.gameplayAction.name}'`,
+        `Tribe '${tribe.name}' has not yet reached radius 1 necessary to perform action '${playerAction.gameplayActionName}'`,
     )
     expect(tribe.isWinner).toBe(false)
 })

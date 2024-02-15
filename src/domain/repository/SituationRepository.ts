@@ -1,8 +1,8 @@
-import NotFoundException from '../../exception/not-found/NotFoundException.ts'
+import BaseRepository from './BaseRepository.ts'
 import Situation from '../entity/Situation.ts'
 import SituationName from '../enum/SituationName.ts'
 
-class SituationRepository {
+class SituationRepository extends BaseRepository<Situation> {
     static situationsCount = 10
     private static readonly _situations: Record<SituationName, { name: SituationName, description: string, quantity: number }> = {
         Columbus: {
@@ -57,7 +57,7 @@ class SituationRepository {
         },
     }
 
-    private static readonly _instances: Record<SituationName, Situation> = {
+    protected readonly instances: Record<SituationName, Situation> = {
         [SituationName.Columbus]: SituationRepository.create(SituationName.Columbus),
         [SituationName.Vulnerability]: SituationRepository.create(SituationName.Vulnerability),
         [SituationName.Nothing]: SituationRepository.create(SituationName.Nothing),
@@ -68,13 +68,6 @@ class SituationRepository {
         [SituationName.DivineShield]: SituationRepository.create(SituationName.DivineShield),
         [SituationName.ForestFire]: SituationRepository.create(SituationName.ForestFire),
         [SituationName.Pacifism]: SituationRepository.create(SituationName.Pacifism),
-    }
-
-    public static get(name: SituationName): Situation {
-        if (name in SituationRepository._instances) {
-            return SituationRepository._instances[name]
-        }
-        throw new NotFoundException('Situation', name)
     }
 
     public static create(name: SituationName): Situation {

@@ -1,6 +1,8 @@
+import type EntityInterface from './EntityInterface.ts'
 import type ActionName from '../enum/ActionName.ts'
 
-class GameAction {
+class GameAction implements EntityInterface {
+    Name: ActionName
     constructor(
         private readonly _name: ActionName,
         private readonly _description: string,

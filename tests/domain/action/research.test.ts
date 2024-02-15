@@ -17,7 +17,7 @@ test('research adds technology', () => {
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.get(TechnologyName.Pottery))
+    const playerAction = new ResearchPlayerAction(player.tribe, container.resolveSafely(TechnologyRepository).get(TechnologyName.Pottery))
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     expect(turnResult.isLast).toBe(false)
@@ -36,7 +36,7 @@ test('cannot research blocked technology', () => {
     const techName = 'Advanced Writing'
 
     const throwingFunction = (): void => {
-        const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.get(TechnologyName.AdvancedWriting))
+        const playerAction = new ResearchPlayerAction(player.tribe, container.resolveSafely(TechnologyRepository).get(TechnologyName.AdvancedWriting))
         const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
         expect(turnResult.isLast).toBe(false)
@@ -59,7 +59,7 @@ test('cannot research already known technology', () => {
     expect(tribe.technologies).toStrictEqual({ Pottery: true })
 
     const throwingFunction = (): void => {
-        const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.get(TechnologyName.Pottery))
+        const playerAction = new ResearchPlayerAction(player.tribe, container.resolveSafely(TechnologyRepository).get(TechnologyName.Pottery))
         const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
         expect(turnResult.isLast).toBe(false)

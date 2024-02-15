@@ -6,7 +6,8 @@
             <div>
                 {{
                     actionsTaken
-                }}/{{ regularRound.howManyActionsCanTribePerformThisTurn(regularRound.game.currentTurn.player.tribe) }} actions
+                }}/{{ regularRound.howManyActionsCanTribePerformThisTurn(regularRound.game.currentTurn.player.tribe) }}
+                actions
                 taken
             </div>
 
@@ -33,7 +34,7 @@
         <hr>
         <div class="q-pa-md row items-start q-gutter-md">
             <span
-                v-for="action in regularRound.game.possibleActions"
+                v-for="action in getPossibleActions()"
                 :key="action.name"
             >
                 <actionInfo :action="action" :currentTurn="regularRound.game.currentTurn" />
@@ -46,18 +47,19 @@
 
 import ActionInfo from './actionInfo.vue'
 import PlayerInfo from './playerInfo.vue'
+import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
+import GameplayActionRepository from '../../../domain/repository/GameplayActionRepository.ts'
 import { container } from '../../../NaiveDiContainer.ts'
 import RegularRound from '../logic/RegularRound.ts'
 
 const regularRound: RegularRound = container.resolveSafely(RegularRound)
+const gameplayActionRepository: GameplayActionRepository = container.resolveSafely(GameplayActionRepository)
 
 export default {
     components: {
         PlayerInfo, ActionInfo,
     },
-    props: {
-
-    },
+    props: {},
     data() {
         return {
             actionsTaken: 0,
@@ -83,6 +85,10 @@ export default {
                     this.actionsTaken = 0
                 }
             }
+        },
+        getPossibleActions(): GameplayAction[] {
+            // TODO synchronize with cli version
+            return Object.values(gameplayActionRepository.getAll())
         },
     },
 }

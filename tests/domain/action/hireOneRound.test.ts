@@ -4,9 +4,10 @@ import type GameplayAction from '../../../src/domain/entity/action/GameplayActio
 import HireOneRoundPlayerAction from '../../../src/domain/entity/action/HireOneRoundPlayerAction.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
+import ActionName from '../../../src/domain/enum/ActionName.ts'
+import GameplayActionRepository from '../../../src/domain/repository/GameplayActionRepository.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
-import ConsoleActionRepository from '../../../src/ui/console/repository/ConsoleActionRepository.ts'
 
 const defaultMilitaryPower = 10
 const defaultGold = 10
@@ -49,6 +50,8 @@ test('can hire', () => {
 
 test('can hire, power bonus expires after', () => {
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
+    const gameplayActionRepository = container.resolveSafely(GameplayActionRepository)
+
     const seller = createSeller()
     const buyer = createBuyer()
 
@@ -63,7 +66,7 @@ test('can hire, power bonus expires after', () => {
         5,
         6,
     )
-    const gameplayAction: GameplayAction = ConsoleActionRepository.decisionToActionDataMap.e
+    const gameplayAction: GameplayAction = gameplayActionRepository.get(ActionName.Expedition)
 
     turnDecisionManager.processTurn(playerAction, turn)
     expect(buyer.militaryPower).toStrictEqual(10 + 5)

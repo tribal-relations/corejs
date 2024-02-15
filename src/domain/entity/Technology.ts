@@ -1,6 +1,8 @@
+import type EntityInterface from './EntityInterface.ts'
 import type TechnologyName from '../enum/TechnologyName.ts'
 
-class Technology {
+class Technology implements EntityInterface {
+    Name: TechnologyName
     constructor(
         private readonly _name: TechnologyName,
         private readonly _description: string,

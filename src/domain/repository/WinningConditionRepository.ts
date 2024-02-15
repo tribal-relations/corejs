@@ -1,8 +1,8 @@
-import NotFoundException from '../../exception/not-found/NotFoundException.ts'
+import BaseRepository from './BaseRepository.ts'
 import WinningCondition from '../entity/WinningCondition.ts'
 import WinningConditionName from '../enum/WinningConditionName.ts'
 
-class WinningConditionRepository {
+class WinningConditionRepository extends BaseRepository<WinningCondition> {
     private static readonly nameToTextMap: Record<WinningConditionName, string> = {
         [WinningConditionName.Military]: 'Your tribe has successfully conquered a state. You have succeeded in building a powerful army that is afraid of no one.',
         [WinningConditionName.Culture]: 'Your tribe has successfully been idolized by a state. It will be remembered not as barbaric, but as heroic.',
@@ -10,18 +10,11 @@ class WinningConditionRepository {
         [WinningConditionName.Points]: 'Although nobody conquered rome, your tribe has come closest.',
     }
 
-    private static readonly _instances: Record<WinningConditionName, WinningCondition> = {
+    protected readonly instances: Record<WinningConditionName, WinningCondition> = {
         [WinningConditionName.Military]: WinningConditionRepository.createInstanceFromName(WinningConditionName.Military),
         [WinningConditionName.Culture]: WinningConditionRepository.createInstanceFromName(WinningConditionName.Culture),
         [WinningConditionName.Economy]: WinningConditionRepository.createInstanceFromName(WinningConditionName.Economy),
         [WinningConditionName.Points]: WinningConditionRepository.createInstanceFromName(WinningConditionName.Points),
-    }
-
-    public static get(name: WinningConditionName): WinningCondition {
-        if (name in WinningConditionRepository._instances) {
-            return WinningConditionRepository._instances[name]
-        }
-        throw new NotFoundException('WinningCondition', name)
     }
 
     private static createInstanceFromName(name: WinningConditionName): WinningCondition {

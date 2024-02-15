@@ -1,6 +1,8 @@
+import type EntityInterface from './EntityInterface.ts'
 import type RelationName from '../enum/RelationName.ts'
 
-class Relation {
+class Relation implements EntityInterface {
+    Name: RelationName
     constructor(
         private readonly _name: RelationName,
         private readonly _agentBonus: number,

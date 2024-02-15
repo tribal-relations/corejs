@@ -22,6 +22,7 @@ to run tests:
 src/*:
     src/outer:
         src/ui:
+          src/storage:
             src/app:
                 src/domain:
                     src/domain/repository:

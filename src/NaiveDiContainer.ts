@@ -26,6 +26,13 @@ import TurnManager from './app/TurnManager.ts'
 import Rome from './domain/entity/Rome.ts'
 import DiceThrower from './domain/helper/DiceThrower.ts'
 import FightManager from './domain/helper/FightManager.ts'
+import ActionRepository from './domain/repository/ActionRepository.ts'
+import GameplayActionRepository from './domain/repository/GameplayActionRepository.ts'
+import RelationRepository from './domain/repository/RelationRepository.ts'
+import ResourceRepository from './domain/repository/ResourceRepository.ts'
+import SituationRepository from './domain/repository/SituationRepository.ts'
+import TechnologyRepository from './domain/repository/TechnologyRepository.ts'
+import WinningConditionRepository from './domain/repository/WinningConditionRepository.ts'
 import AlliancesStore from './domain/store/AlliancesStore.ts'
 import CaravansStore from './domain/store/CaravansStore.ts'
 import RelationsStore from './domain/store/RelationsStore.ts'
@@ -50,6 +57,7 @@ import MainMenu from './ui/console/io/MainMenu.ts'
 import Printer from './ui/console/io/Printer.ts'
 import Std from './ui/console/io/Std.ts'
 import TribePrinter from './ui/console/io/TribePrinter.ts'
+import ConsoleActionRepository from './ui/console/repository/ConsoleActionRepository.ts'
 import ActionInfo from './ui/web/logic/ActionInfo.ts'
 import GamePage from './ui/web/logic/GamePage.ts'
 import RegularRound from './ui/web/logic/RegularRound.ts'
@@ -86,19 +94,21 @@ class NaiveDiContainer {
      * src/*:
      *     src/outer:
      *         src/ui:
+     *           src/storage:
      *             src/app:
-     *                 src/exception:
      *                 src/domain:
      *                     src/domain/repository:
      *                         src/domain/enum:
+     *                         src/exception:
      */
     private buildMap(): void {
         // enums cannot be instantiated
         // this.buildEnums()
-        // repositories are static classes
-        // this.buildRepositories()
+        // repositories are before domain because domain uses interfaces, but here I actually need to pass params
+        this.buildRepositories()
         this.buildDomain()
         this.buildApp()
+
         this.buildUi()
         this.buildOuter()
         this.buildRoot()
@@ -110,7 +120,10 @@ class NaiveDiContainer {
         this.setSingleton(CaravansStore, new CaravansStore(
             this.resolveSafely(AlliancesStore),
         ))
-        this.setSingleton(RelationsStore, new RelationsStore())
+        this.setSingleton(RelationsStore, new RelationsStore(
+            this.resolveSafely(RelationRepository),
+
+        ))
 
         // // // entity
         this.setSingleton(Rome, new Rome())
@@ -120,17 +133,22 @@ class NaiveDiContainer {
         // // // validation
         this.setSingleton(CaravanValidator, new CaravanValidator())
         this.setSingleton(ActionValidator, new ActionValidator(
+            this.resolveSafely(GameplayActionRepository),
             this.resolveSafely(CaravanValidator),
         ))
     }
 
     private buildApp(): void {
-        this.setSingleton(TribeManager, new TribeManager())
+        this.setSingleton(TribeManager, new TribeManager(
+            this.resolveSafely(TechnologyRepository),
+            this.resolveSafely(ResourceRepository),
+        ))
         this.buildActionPerformers()
         this.setSingleton(CurrentGame, new CurrentGame())
         this.setSingleton(StartGameManager, new StartGameManager())
         this.setSingleton(EndGameManager, new EndGameManager(
             this.resolveSafely(CurrentGame),
+            this.resolveSafely(WinningConditionRepository),
         ))
         this.setSingleton(TurnManager, new TurnManager(
             this.resolveSafely(CaravansStore),
@@ -162,6 +180,21 @@ class NaiveDiContainer {
         this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
     }
 
+    private buildRepositories(): void {
+        this.setSingleton(ActionRepository, new ActionRepository())
+        this.setSingleton(GameplayActionRepository, new GameplayActionRepository(
+            this.resolveSafely(ActionRepository),
+        ))
+        this.setSingleton(RelationRepository, new RelationRepository())
+        this.setSingleton(ResourceRepository, new ResourceRepository())
+        this.setSingleton(SituationRepository, new SituationRepository())
+        this.setSingleton(TechnologyRepository, new TechnologyRepository())
+        this.setSingleton(WinningConditionRepository, new WinningConditionRepository())
+        this.setSingleton(ConsoleActionRepository, new ConsoleActionRepository(
+            this.resolveSafely(GameplayActionRepository),
+        ))
+    }
+
     private buildUi(): void {
         this.buildCommonUi()
         this.buildConsole()
@@ -176,7 +209,9 @@ class NaiveDiContainer {
             this.resolveSafely(TribeManager),
 
         ))
-        this.setSingleton(CommonPlayerController, new CommonPlayerController())
+        this.setSingleton(CommonPlayerController, new CommonPlayerController(
+            this.resolveSafely(TribeManager),
+        ))
         this.setSingleton(GameRules, new GameRules())
         this.setSingleton(CommonRelationRoundManager, new CommonRelationRoundManager(
             this.resolveSafely(RelationsStore),
@@ -199,6 +234,8 @@ class NaiveDiContainer {
             this.resolveSafely(Std),
             this.resolveSafely(CurrentGame),
             this.resolveSafely(TribeManager),
+            this.resolveSafely(ConsoleActionRepository),
+            this.resolveSafely(TechnologyRepository),
         ))
         this.setSingleton(ConsolePlayerRelationActionIo, new ConsolePlayerRelationActionIo(this.resolveSafely(Std)))
         this.setSingleton(ConsolePlayerIo, new ConsolePlayerIo(
@@ -220,6 +257,11 @@ class NaiveDiContainer {
             this.resolveSafely(CurrentGame),
             this.resolveSafely(RelationsStore),
             this.resolveSafely(CaravansStore),
+            this.resolveSafely(ConsoleActionRepository),
+
+            this.resolveSafely(TechnologyRepository),
+            this.resolveSafely(RelationRepository),
+
         ))
         this.setSingleton(ConsoleRoundManager, new ConsoleRoundManager(
             this.resolveSafely(DiceThrower),
@@ -332,6 +374,7 @@ class NaiveDiContainer {
             this.resolveSafely(RelationsStore),
             this.resolveSafely(CaravansStore),
             this.resolveSafely(AlliancesStore),
+            this.resolveSafely(RelationRepository),
         ))
         this.setSingleton(RemoveCaravan, new RemoveCaravan(
             this.resolveSafely(CaravansStore),

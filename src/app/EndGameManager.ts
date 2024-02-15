@@ -1,11 +1,13 @@
 import type CurrentGame from './CurrentGame.ts'
 import type Player from '../domain/entity/Player.ts'
+import type WinningCondition from '../domain/entity/WinningCondition.ts'
 import WinningConditionName from '../domain/enum/WinningConditionName.ts'
-import WinningConditionRepository from '../domain/repository/WinningConditionRepository.ts'
+import type WinningConditionRepository from '../domain/repository/WinningConditionRepository.ts'
 
 class EndGameManager {
     constructor(
         private readonly _currentGame: CurrentGame,
+        private readonly _winningConditionRepository: WinningConditionRepository,
     ) {
     }
 
@@ -24,8 +26,8 @@ class EndGameManager {
         this.game.specificGame.winner = this.calculateWinner()
     }
 
-    private calculateWinningCondition(): WinningConditionRepository {
-        return WinningConditionRepository.get(WinningConditionName.Points)
+    private calculateWinningCondition(): WinningCondition {
+        return this._winningConditionRepository.get(WinningConditionName.Points)
     }
 
     private calculateWinner(): Player {

@@ -1,13 +1,11 @@
 import type Bonus from './Bonus.ts'
 import type BonusInterface from './BonusInterface.ts'
 import Currency from './Currency.ts'
-import type Technology from './Technology.ts'
-import Tile from './Tile.ts'
+import type Tile from './Tile.ts'
 import type TileBonus from './TileBonus.ts'
 import type BonusName from '../enum/BonusName.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type TribeName from '../enum/TribeName.ts'
-import TechnologyRepository from '../repository/TechnologyRepository.ts'
 
 class Tribe {
     static readonly defaultPopulation = 2
@@ -23,14 +21,13 @@ class Tribe {
         private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
         private readonly _technologies: Record<TechnologyName, boolean> = Object(),
-        private readonly _tiles: Tile[] = [],
+        private _tiles: Tile[] = [],
         private readonly _bonuses: Record<BonusName, BonusInterface> = Object(),
         private readonly _tileBonuses: Record<BonusName, TileBonus> = Object(),
         private _bonusesForOneRound: Record<BonusName, Bonus> = Object(),
         private _radius: number = 4,
         private _isWinner: boolean = false,
     ) {
-        this._tiles = Tile.createStarterTiles(this)
     }
 
     get radius(): number {
@@ -79,7 +76,7 @@ class Tribe {
     }
 
     set population(amount: number) {
-         this._population = amount
+        this._population = amount
     }
 
     get militaryPower(): number {
@@ -121,12 +118,6 @@ class Tribe {
         return this._technologies
     }
 
-    get notKnownTechs(): TechnologyName[] {
-        return Object.values(TechnologyRepository.getAll())
-            .filter((tech: Technology) => !(tech.name in this.technologies))
-            .map((tech: Technology) => tech.name)
-    }
-
     get isWinner(): boolean {
         return this._isWinner
     }
@@ -137,6 +128,13 @@ class Tribe {
 
     get tiles(): Tile[] {
         return this._tiles
+    }
+
+    /**
+     * I need to manually watch out not to overuse this method
+     */
+    set tiles(tiles: Tile[]) {
+        this._tiles = tiles
     }
 
     get culture(): number {

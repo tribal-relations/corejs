@@ -1,8 +1,13 @@
 import RelationName from '../enum/RelationName.ts'
 import type TribeName from '../enum/TribeName.ts'
-import RelationRepository from '../repository/RelationRepository.ts'
+import type RelationRepository from '../repository/RelationRepository.ts'
 
 class RelationsStore {
+    constructor(
+        private readonly _relationRepository: RelationRepository,
+    ) {
+    }
+
     // example
     // relation: Cannibals
     // agent: East
@@ -90,13 +95,13 @@ class RelationsStore {
 
     private getTribeBonusAsAgent(agent: TribeName): number {
         return Object.values(this.howThisTribeReactsToOthers(agent))
-            .map((value: RelationName) => RelationRepository.get(value).agentBonus)
+            .map((value: RelationName) => this._relationRepository.get(value).agentBonus)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
     }
 
     private getTribeBonusAsRecipient(agent: TribeName): number {
         return Object.values(this.howOthersReactToThisTribe(agent))
-            .map((value: RelationName) => RelationRepository.get(value).recipientBonus)
+            .map((value: RelationName) => this._relationRepository.get(value).recipientBonus)
             .reduce((accumulator: number, currentValue: number) => accumulator + currentValue, 0)
     }
 }

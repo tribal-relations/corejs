@@ -25,7 +25,7 @@ test('arm for amount of production', () => {
     game.playersLength = 1
     game.players = { pl: player }
     const turn = new Turn(player)
-    const gameAction = GameplayActionRepository.get(ActionName.Arm)
+    const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Arm)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
     commonRoundManager.populationGrowth()
     commonRoundManager.populationGrowth()
@@ -52,10 +52,10 @@ test.skip('arm for amount of production, but not bigger than non-armed populatio
     game.playersLength = 1
     game.players = { pl: player }
     const turn = new Turn(player)
-    const gameAction = GameplayActionRepository.get(ActionName.Arm)
+    const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Arm)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
     const expedition = new AbstractPlayerAction(
-        GameplayActionRepository.get(ActionName.Expedition),
+        container.resolveSafely(GameplayActionRepository).get(ActionName.Expedition),
         player.tribe,
     )
     turnDecisionManager.processTurn(expedition, turn)
@@ -79,7 +79,7 @@ test('cannot arm more than population', () => {
     expect(tribe.militaryPower).toBe(0)
     expect(tribe.production).toBeGreaterThan(90)
 
-    gameAction = GameplayActionRepository.get(ActionName.Arm)
+    gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Arm)
     playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -87,7 +87,7 @@ test('cannot arm more than population', () => {
     expect(tribe.population).toBe(100)
     expect(tribe.militaryPower).toBeGreaterThan(90)
 
-    gameAction = GameplayActionRepository.get(ActionName.Arm)
+    gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Arm)
     playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
     turnDecisionManager.processTurn(playerAction, turn)
@@ -96,7 +96,7 @@ test('cannot arm more than population', () => {
     expect(tribe.militaryPower).toBe(100)
 
     const throwingFunction = (): void => {
-        const gameAction = GameplayActionRepository.get(ActionName.Arm)
+        const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Arm)
         const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
 
         turnDecisionManager.processTurn(playerAction, turn)

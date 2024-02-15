@@ -1,9 +1,9 @@
-import NotFoundException from '../../exception/not-found/NotFoundException.ts'
+import BaseRepository from './BaseRepository.ts'
 import Resource from '../entity/Resource.ts'
 import ResourceName from '../enum/ResourceName.ts'
 import Rand from '../helper/Rand.ts'
 
-class ResourceRepository {
+class ResourceRepository extends BaseRepository<Resource> {
     private static readonly _resources: Record<string, {
         quantity: number
         food: number
@@ -83,7 +83,7 @@ class ResourceRepository {
         },
     }
 
-    private static readonly _instances: Record<ResourceName, Resource> = {
+    protected readonly instances: Record<ResourceName, Resource> = {
         [ResourceName.Metal]: ResourceRepository.create(ResourceName.Metal),
         [ResourceName.Fruit]: ResourceRepository.create(ResourceName.Fruit),
         [ResourceName.Lake]: ResourceRepository.create(ResourceName.Lake),
@@ -96,17 +96,10 @@ class ResourceRepository {
         [ResourceName.Desert]: ResourceRepository.create(ResourceName.Desert),
     }
 
-    public static get(name: ResourceName): Resource {
-        if (name in ResourceRepository._instances) {
-            return ResourceRepository._instances[name]
-        }
-        throw new NotFoundException('Resource', name)
-    }
-
-    public static getRandomResource(): Resource {
+    public getRandomResource(): Resource {
         const randomName = Rand.chooseOneFromEnum(ResourceName)
 
-        return ResourceRepository.get(randomName)
+        return this.get(randomName)
     }
 
     private static create(name: ResourceName): Resource {

@@ -1,6 +1,8 @@
+import type EntityInterface from './EntityInterface'
 import type ResourceName from '../enum/ResourceName.ts'
 
-class Resource {
+class Resource implements EntityInterface {
+    Name: ResourceName
     constructor(
         private readonly _name: ResourceName,
         private readonly _quantity: number,

@@ -16,7 +16,7 @@ test.skip('culture is doubled', () => {
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    const playerAction = new ResearchPlayerAction(player.tribe, TechnologyRepository.get(TechnologyName.AdvancedWriting))
+    const playerAction = new ResearchPlayerAction(player.tribe, container.resolveSafely(TechnologyRepository).get(TechnologyName.AdvancedWriting))
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     expect(turnResult.isLast).toBe(false)

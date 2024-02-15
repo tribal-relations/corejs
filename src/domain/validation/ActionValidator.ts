@@ -7,12 +7,15 @@ import type PlayerActionInterface from '../entity/action/PlayerActionInterface.t
 import Currency from '../entity/Currency.ts'
 import type Tribe from '../entity/Tribe.ts'
 import ActionName from '../enum/ActionName.ts'
+import type GameplayActionRepository from '../repository/GameplayActionRepository.ts'
 
 class ActionValidator {
      // _actionNameToValidatorMap: { ActionName: ActionValidatorInterface } = Object()
      _actionNameToValidatorMap: Record<ActionName, ActionValidatorInterface> = Object()
 
     constructor(
+        private readonly _gameplayActionRepository: GameplayActionRepository,
+
         // private readonly _armValidator: ArmValidator,
         // private readonly _researchValidator: ResearchValidator,
         // private readonly _expeditionValidator: ExpeditionValidator,
@@ -37,7 +40,10 @@ class ActionValidator {
     }
 
     public validate(action: PlayerActionInterface, tribe: Tribe): void {
-        this.checkActionConstraints(action.gameplayAction, tribe)
+        this.checkActionConstraints(
+            this._gameplayActionRepository.get(action.gameplayActionName),
+            tribe,
+        )
         const actionSpecificValidator = this.getValidatorForAction(action, tribe)
         if (actionSpecificValidator) {
             actionSpecificValidator.validate(action)
@@ -63,8 +69,8 @@ class ActionValidator {
     }
 
     private getValidatorForAction(action: PlayerActionInterface, _tribe: Tribe): ActionValidatorInterface {
-        if (action.gameplayAction.name in this._actionNameToValidatorMap) {
-            return this._actionNameToValidatorMap[action.gameplayAction.name]
+        if (action.gameplayActionName in this._actionNameToValidatorMap) {
+            return this._actionNameToValidatorMap[action.gameplayActionName]
         }
     }
 

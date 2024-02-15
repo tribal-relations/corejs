@@ -30,7 +30,7 @@ function makePrayAction(diceResult: number, population: number = 20): Tribe {
     startingTilesLength = sender.tiles.length
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
-    const gameAction = GameplayActionRepository.get(ActionName.Pray)
+    const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Pray)
     const playerAction = new AbstractPlayerAction(gameAction, sender)
 
     turnDecisionManager.processTurn(playerAction, turn)

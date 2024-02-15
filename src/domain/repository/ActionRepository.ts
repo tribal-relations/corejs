@@ -1,8 +1,8 @@
-import ActionNotFound from '../../exception/not-found/ActionNotFound.ts'
+import BaseRepository from './BaseRepository.ts'
 import GameAction from '../entity/GameAction.ts'
 import ActionName from '../enum/ActionName.ts'
 
-class ActionRepository {
+class ActionRepository extends BaseRepository<GameAction> {
     private static readonly _rawData: Record<ActionName, {
         name_ru: string
         name: string
@@ -233,7 +233,7 @@ class ActionRepository {
         },
     }
 
-    private static readonly _instances = {
+    protected readonly instances = {
         [ActionName.Arm]: ActionRepository.create(ActionName.Arm),
         [ActionName.Alliance]: ActionRepository.create(ActionName.Alliance),
         [ActionName.AttackTile]: ActionRepository.create(ActionName.AttackTile),
@@ -255,13 +255,6 @@ class ActionRepository {
         [ActionName.Quit]: ActionRepository.create(ActionName.Quit),
     }
 
-    public static get(name: ActionName): GameAction {
-        if (name in ActionRepository._instances) {
-            return ActionRepository._instances[name]
-        }
-        throw new ActionNotFound(name)
-    }
-
     private static create(name: ActionName): GameAction {
         return new GameAction(
             name,
@@ -276,10 +269,6 @@ class ActionRepository {
                 gold_cost: ActionRepository._rawData[name].gold_cost,
             },
         )
-    }
-
-    public static getAll(): Record<ActionName, GameAction> {
-        return ActionRepository._instances
     }
 }
 

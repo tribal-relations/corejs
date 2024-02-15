@@ -1,8 +1,8 @@
-import type GameplayAction from './GameplayAction.ts'
+import type ActionName from '../../enum/ActionName.ts'
 import type Tribe from '../Tribe.ts'
 
 interface PlayerActionInterface {
-    gameplayAction: GameplayAction
+    gameplayActionName: ActionName
     actor: Tribe
 }
 

@@ -1,10 +1,8 @@
-import type GameplayAction from '../domain/entity/action/GameplayAction.ts'
 import type Player from '../domain/entity/Player.ts'
 import SpecificGame from '../domain/entity/SpecificGame.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import type TribeName from '../domain/enum/TribeName.ts'
-import GameplayActionRepository from '../domain/repository/GameplayActionRepository.ts'
 
 class CurrentGame {
     public static readonly maxPlayers = 20
@@ -16,11 +14,6 @@ class CurrentGame {
 
     constructor() {
         this._specificGame = new SpecificGame((new Date()).toString())
-    }
-
-    get possibleActions(): GameplayAction[] {
-        // TODO synchronize with cli version
-        return Object.values(GameplayActionRepository.getAll())
     }
 
     get specificGame(): SpecificGame {
