@@ -1,13 +1,18 @@
 import TribeManager from '../../app/TribeManager.ts'
+import type Resource from '../../domain/entity/Resource'
 import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'
 import TribeName from '../../domain/enum/TribeName.ts'
 import Rand from '../../domain/helper/Rand.ts'
+import ResourceRepository from '../../domain/repository/ResourceRepository.ts'
 import InvalidFactoryOption from '../../exception/internal/InvalidFactoryOption.ts'
 import { container } from '../../NaiveDiContainer.ts'
 
 class TribeFactory {
+    /**
+     * @deprecated
+     */
     public static createEmpty(options: Record<string, any> = {}): Tribe {
         TribeFactory.checkOptions(options)
         const createdTribe = TribeFactory.create(options)
@@ -31,7 +36,7 @@ class TribeFactory {
         }
     }
 
-    public static createStarterTribe(name: string): Tribe {
+    public static createStarterTribe(name: string = TribeName.Achaeans): Tribe {
         const gold = 0
         const points = 0
         const techs = {}
@@ -71,14 +76,23 @@ class TribeFactory {
             civilizedness,
             militaryPower,
         })
-        const resourceNames = options.resourceNames ?? [ResourceName.Pasture, ResourceName.Forest]
-        let tile
-        for (let i = 0; i < resourceNames.length; ++i) {
-            tile = new Tile(
-                createdTribe,
-                resourceNames[i],
-            )
-            tribeManager.addTile(createdTribe, tile)
+        if (options.resourceNames) {
+            const tiles = createdTribe.tiles
+
+            tribeManager.detachTile(createdTribe, tiles[0])
+            tribeManager.detachTile(createdTribe, tiles[0])// it is reactive , thats why not 1
+
+            const resourceNames = options.resourceNames ?? [ResourceName.Pasture, ResourceName.Forest]
+            let tile
+            let resource: Resource
+            for (let i = 0; i < resourceNames.length; ++i) {
+                resource = ResourceRepository.get(resourceNames[i])
+                tile = new Tile(
+                    createdTribe,
+                    resource,
+                )
+                tribeManager.addTile(createdTribe, tile)
+            }
         }
         this.addPoints(options, createdTribe)
 
@@ -127,9 +141,8 @@ class TribeFactory {
         const population = options.population ?? 0
         const militaryPower = options.militaryPower ?? 0
         const civilizedness = options.civilizedness ?? 0
-        const tiles = options.tiles ?? []
 
-        return new Tribe(name, points, gold, population, militaryPower, civilizedness, techs, tiles)
+        return new Tribe(name, points, gold, population, militaryPower, civilizedness, techs)
     }
 
     private static checkOptions(options: Record<string, any> = {}): void {

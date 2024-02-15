@@ -17,7 +17,7 @@ function sendCult(diceResult: number, population: number = 10): Tribe {
 
     SpecificDiceThrower.target = diceResult
 
-    const sender = TribeFactory.createEmpty({
+    const sender = TribeFactory.createStarterTribeWithOptions({
         name: TribeName.Achaeans,
         culture: startingCulture,
         population,

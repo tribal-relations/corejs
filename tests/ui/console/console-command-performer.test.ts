@@ -14,7 +14,7 @@ test.skip('can output actions', () => {
 
     const command = ConsoleCommandRepository.createFromName(CommandName.PrintAvailableActions)
 
-    const tribe = TribeFactory.createEmpty()
+    const tribe = TribeFactory.createStarterTribe()
     const player = new Player(tribe)
     const turn = new Turn(player)
 
@@ -49,7 +49,7 @@ test('can output tech tree', () => {
     const consoleCommandPerformer = container.resolveSafely(ConsoleCommandPerformer)
     const command = ConsoleCommandRepository.createFromName(CommandName.PrintTechnologyTree)
 
-    const tribe = TribeFactory.createEmpty()
+    const tribe = TribeFactory.createStarterTribe()
     const player = new Player(tribe)
     const turn = new Turn(player)
 
@@ -79,7 +79,7 @@ test('can get tech info', () => {
     const consoleCommandPerformer = container.resolveSafely(ConsoleCommandPerformer)
     const command = ConsoleCommandRepository.createFromName(CommandName.PrintTechnologyInfo)
 
-    const tribe = TribeFactory.createEmpty()
+    const tribe = TribeFactory.createStarterTribe()
     const player = new Player(tribe)
     const turn = new Turn(player)
 

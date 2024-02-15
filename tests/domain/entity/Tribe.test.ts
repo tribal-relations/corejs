@@ -31,6 +31,8 @@ test('can get unique tiles', () => {
 })
 
 test('can get unique resource names', () => {
+    const tribeManager = container.resolveSafely(TribeManager)
+
     const resourceNames = [
         ResourceName.Forest,
         ResourceName.Forest,
@@ -47,7 +49,7 @@ test('can get unique resource names', () => {
         resourceNames,
     })
 
-    const uniqueResourceNames = this._tribeManager.getUniqueResourceNames(tribe)
+    const uniqueResourceNames = tribeManager.getUniqueResourceNames(tribe)
     expect(tribe.tiles.length).toBe(7)
     expect(uniqueResourceNames.length).toBe(4)
     expect(uniqueResourceNames).toStrictEqual([

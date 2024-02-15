@@ -55,7 +55,7 @@ class Tile {
             .filter((bonus: TileBonus) => bonus.currency === currency)
             .filter((bonus: TileBonus) => bonus.resourceName === resourceName || bonus.resourceName === null)
             .reduce(
-                (accumulatedBonus, currentBonus) => currentBonus.isMultiplication
+                (accumulatedBonus: number, currentBonus) => currentBonus.isMultiplication
                     ? (accumulatedBonus * currentBonus.amount)
                     : (accumulatedBonus + currentBonus.amount),
                 0,
