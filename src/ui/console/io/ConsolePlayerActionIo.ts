@@ -20,7 +20,7 @@ import ActionName from '../../../domain/enum/ActionName.ts'
 import type ResourceName from '../../../domain/enum/ResourceName.ts'
 import type TechnologyName from '../../../domain/enum/TechnologyName.ts'
 import type TribeName from '../../../domain/enum/TribeName.ts'
-import TechnologyRepository from '../../../domain/repository/TechnologyRepository.ts'
+import type TechnologyRepository from '../../../domain/repository/TechnologyRepository.ts'
 import BubblingError from '../../../exception/BubblingError.ts'
 import InvalidInput from '../../../exception/console/InvalidInput.ts'
 import InsufficientCliParameters from '../../../exception/InsufficientCliParameters.ts'
@@ -33,7 +33,8 @@ class ConsolePlayerActionIo {
         private readonly _std: Std,
         private readonly _currentGame: CurrentGame,
         private readonly _tribeManager: TribeManager,
-
+        private readonly _consoleActionRepository: ConsoleActionRepository,
+        private readonly _technologyRepository: TechnologyRepository,
     ) {
     }
 
@@ -72,7 +73,7 @@ class ConsolePlayerActionIo {
         const words = rawDecision.split(' ')
         const actionOrCommand = words[0].toLowerCase()
 
-        if (actionOrCommand in ConsoleActionRepository.decisionToActionDataMap) {
+        if (actionOrCommand in ConsoleActionRepository.decisionToActionNameMap) {
             return this.getPlayerActionFromRawDecision(player, actionOrCommand, words)
         }
 
@@ -85,7 +86,7 @@ class ConsolePlayerActionIo {
     }
 
     private getPlayerActionFromRawDecision(player: Player, actionOrCommand: string, words: string[]): PlayerActionInterface {
-        const gameplayAction: GameplayAction = ConsoleActionRepository.decisionToActionDataMap[actionOrCommand]
+        const gameplayAction: GameplayAction = this._consoleActionRepository.getGameplayAction(actionOrCommand)
 
         if (gameplayAction.name === ActionName.Research) {
             // we have one parameter, but it's multiword
@@ -94,7 +95,7 @@ class ConsolePlayerActionIo {
 
             gameplayAction.parameters[0].check(technologyName)
 
-            return new ResearchPlayerAction(player.tribe, TechnologyRepository.get((technologyName as TechnologyName)))
+            return new ResearchPlayerAction(player.tribe, this._technologyRepository.get((technologyName as TechnologyName)))
         }
 
         if (words.length - 1 !== gameplayAction.parameters.length) {

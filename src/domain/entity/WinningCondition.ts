@@ -1,6 +1,8 @@
+import type EntityInterface from './EntityInterface.ts'
 import type WinningConditionName from '../enum/WinningConditionName.ts'
 
-class WinningCondition {
+class WinningCondition implements EntityInterface {
+    Name: WinningConditionName
     constructor(
         private readonly _name: WinningConditionName,
         private readonly _text: string,

@@ -15,11 +15,11 @@ class TurnDecisionManager {
 
         this.performAction(action, nextTurn)
 
-        if (action.gameplayAction.name === ActionName.Conquer) {
+        if (action.gameplayActionName === ActionName.Conquer) {
             return new TurnResult(true, true, true)
         }
 
-        if (action.gameplayAction.name === ActionName.Quit) {
+        if (action.gameplayActionName === ActionName.Quit) {
             return new TurnResult(true, true, true)
         }
 

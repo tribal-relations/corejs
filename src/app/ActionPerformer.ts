@@ -17,7 +17,6 @@ import type Pray from './action-performer/Pray.ts'
 import type Quit from './action-performer/Quit.ts'
 import type RemoveCaravan from './action-performer/RemoveCaravan.ts'
 import type Research from './action-performer/Research.ts'
-import type GameplayAction from '../domain/entity/action/GameplayAction.ts'
 import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
@@ -53,9 +52,9 @@ class ActionPerformer {
 
     public performAction(playerAction: PlayerActionInterface, turn: Turn): void {
         this._actionValidator.validate(playerAction, turn.player.tribe)
-        const performer = this.getPerformerClass(playerAction.gameplayAction)
+        const performer = this.getPerformerClass(playerAction.gameplayActionName)
         if (!performer) {
-            throw new ActionUnsuccessful(playerAction.gameplayAction.name)
+            throw new ActionUnsuccessful(playerAction.gameplayActionName)
         }
         performer.perform(playerAction, turn)
     }
@@ -83,8 +82,8 @@ class ActionPerformer {
         }
     }
 
-    private getPerformerClass(action: GameplayAction): ActionInterface | undefined {
-        return this._performers[action.name]
+    private getPerformerClass(actionName: ActionName): ActionInterface | undefined {
+        return this._performers[actionName]
     }
 }
 

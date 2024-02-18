@@ -1,8 +1,8 @@
-import NotFoundException from '../../exception/not-found/NotFoundException.ts'
+import BaseRepository from './BaseRepository.ts'
 import Relation from '../entity/Relation.ts'
 import RelationName from '../enum/RelationName.ts'
 
-class RelationRepository {
+class RelationRepository extends BaseRepository<Relation> {
     private static readonly _rawData: Record<RelationName, { name: RelationName, agent_bonus: number, recipient_bonus: number }> = {
         [RelationName.Equals]: {
             name: RelationName.Equals,
@@ -56,7 +56,7 @@ class RelationRepository {
         },
     }
 
-    private static readonly _instances = {
+    protected readonly instances = {
         [RelationName.Equals]: RelationRepository.create(RelationName.Equals),
         [RelationName.Respectables]: RelationRepository.create(RelationName.Respectables),
         [RelationName.Proteges]: RelationRepository.create(RelationName.Proteges),
@@ -67,13 +67,6 @@ class RelationRepository {
         [RelationName.Mates]: RelationRepository.create(RelationName.Mates),
         [RelationName.Idols]: RelationRepository.create(RelationName.Idols),
         [RelationName.Cannibals]: RelationRepository.create(RelationName.Cannibals),
-    }
-
-    public static get(name: RelationName): Relation {
-        if (name in RelationRepository._instances) {
-            return RelationRepository._instances[name]
-        }
-        throw new NotFoundException('Relation', name)
     }
 
     private static create(name: RelationName): Relation {

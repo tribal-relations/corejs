@@ -1,11 +1,9 @@
 import type PlayerActionInterface from './PlayerActionInterface.ts'
 import ActionName from '../../enum/ActionName.ts'
-import GameplayActionRepository from '../../repository/GameplayActionRepository.ts'
 import type Tribe from '../Tribe.ts'
 
 class RemoveCaravanPlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.get(ActionName.RemoveCaravan)
-
+    gameplayActionName = ActionName.RemoveCaravan
     constructor(
         private readonly _actor: Tribe,
         private readonly _recipient: Tribe,

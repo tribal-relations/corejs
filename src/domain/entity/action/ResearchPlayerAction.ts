@@ -1,11 +1,10 @@
 import type PlayerActionInterface from './PlayerActionInterface.ts'
 import ActionName from '../../enum/ActionName.ts'
-import GameplayActionRepository from '../../repository/GameplayActionRepository.ts'
 import type Technology from '../Technology.ts'
 import type Tribe from '../Tribe.ts'
 
 class ResearchPlayerAction implements PlayerActionInterface {
-    gameplayAction = GameplayActionRepository.get(ActionName.Research)
+    gameplayActionName = ActionName.Research
 
     constructor(
         private readonly _actor: Tribe,

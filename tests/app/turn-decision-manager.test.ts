@@ -14,7 +14,7 @@ test('q to quit game', () => {
     const player = new Player(tribe)
 
     const turn = new Turn(player)
-    const gameAction = GameplayActionRepository.get(ActionName.Quit)
+    const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Quit)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 

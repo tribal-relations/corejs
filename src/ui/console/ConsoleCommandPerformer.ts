@@ -14,7 +14,7 @@ import type Turn from '../../domain/entity/Turn.ts'
 import type ActionName from '../../domain/enum/ActionName.ts'
 import type TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type TribeName from '../../domain/enum/TribeName.ts'
-import RelationRepository from '../../domain/repository/RelationRepository.ts'
+import type RelationRepository from '../../domain/repository/RelationRepository.ts'
 import TechnologyRepository from '../../domain/repository/TechnologyRepository.ts'
 import type CaravansStore from '../../domain/store/CaravansStore.ts'
 import type RelationsStore from '../../domain/store/RelationsStore.ts'
@@ -27,6 +27,10 @@ class ConsoleCommandPerformer {
         private readonly _currentGame: CurrentGame,
         private readonly _relationsStore: RelationsStore,
         private readonly _caravansStore: CaravansStore,
+        private readonly _consoleActionRepository: ConsoleActionRepository,
+
+        private readonly _technologyRepository: TechnologyRepository,
+        private readonly _relationRepository: RelationRepository,
 
     ) {
     }
@@ -51,9 +55,10 @@ class ConsoleCommandPerformer {
         let actionParameters: string
 
         const actions = {}
-        for (const key in ConsoleActionRepository.decisionToActionDataMap) {
-            actionName = ConsoleActionRepository.decisionToActionDataMap[key].name
-            actionParameters = ConsoleActionRepository.decisionToActionDataMap[key].parameters
+
+        for (const key in ConsoleActionRepository.decisionToActionNameMap) {
+            actionName = ConsoleActionRepository.decisionToActionNameMap[key]
+            actionParameters = this._consoleActionRepository.getGameplayAction(key).parameters
                 .map(val => `<${val.name}>`).join(' ')
 
             actions[key] = {
@@ -145,7 +150,7 @@ class ConsoleCommandPerformer {
     }
 
     private getTechnologyByName(techName: string): Technology {
-        return TechnologyRepository.get(techName as TechnologyName)
+        return this._technologyRepository.get(techName as TechnologyName)
     }
 
     private printTechnology(tech: Technology): void {
@@ -157,7 +162,7 @@ class ConsoleCommandPerformer {
         const table = {}
         let relation: Relation
         for (const key in cliParameterToRelationNameMap) {
-            relation = RelationRepository.get(cliParameterToRelationNameMap[key])
+            relation = this._relationRepository.get(cliParameterToRelationNameMap[key])
             table[relation.name] = {
                 'Agent bonus': relation.agentBonus,
                 'Recipient bonus': relation.recipientBonus,

@@ -1,8 +1,8 @@
-import NotFoundException from '../../exception/not-found/NotFoundException.ts'
+import BaseRepository from './BaseRepository.ts'
 import Technology from '../entity/Technology.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 
-class TechnologyRepository {
+class TechnologyRepository extends BaseRepository<Technology> {
     public static readonly technologyTree = TechnologyRepository.buildTechnologyTree()
 
     private static readonly _techs: Record<TechnologyName, { name: TechnologyName, description: string, prerequisites: Record<string, boolean> }> = {
@@ -97,7 +97,7 @@ class TechnologyRepository {
         },
     }
 
-    private static readonly _instances: Record<TechnologyName, Technology> = {
+    protected readonly instances: Record<TechnologyName, Technology> = {
         [TechnologyName.Pottery]: TechnologyRepository.create(TechnologyName.Pottery),
         [TechnologyName.AnimalHusbandry]: TechnologyRepository.create(TechnologyName.AnimalHusbandry),
         [TechnologyName.Hunting]: TechnologyRepository.create(TechnologyName.Hunting),
@@ -115,13 +115,6 @@ class TechnologyRepository {
         [TechnologyName.StoneWorking]: TechnologyRepository.create(TechnologyName.StoneWorking),
     }
 
-    public static get(name: TechnologyName): Technology {
-        if (name in TechnologyRepository._instances) {
-            return TechnologyRepository._instances[name]
-        }
-        throw new NotFoundException('Technology', name)
-    }
-
     private static create(name: TechnologyName): Technology {
         return new Technology(
             name,
@@ -130,8 +123,8 @@ class TechnologyRepository {
         )
     }
 
-    public static getAll(): Record<TechnologyName, Technology> {
-        return TechnologyRepository._instances
+    public getAll(): Record<TechnologyName, Technology> {
+        return super.getAll()
     }
 
     /**

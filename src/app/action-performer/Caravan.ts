@@ -3,7 +3,7 @@ import type CaravanPlayerAction from '../../domain/entity/action/CaravanPlayerAc
 import type Turn from '../../domain/entity/Turn.ts'
 import ActionName from '../../domain/enum/ActionName.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
-import RelationRepository from '../../domain/repository/RelationRepository.ts'
+import type RelationRepository from '../../domain/repository/RelationRepository.ts'
 import type AlliancesStore from '../../domain/store/AlliancesStore.ts'
 import type CaravansStore from '../../domain/store/CaravansStore.ts'
 import type RelationsStore from '../../domain/store/RelationsStore.ts'
@@ -17,6 +17,8 @@ class Caravan implements ActionInterface {
         private readonly _relationsManager: RelationsStore,
         private readonly _caravansManager: CaravansStore,
         private readonly _alliancesStore: AlliancesStore,
+        private readonly _relationRepository: RelationRepository,
+
     ) {
     }
 
@@ -54,7 +56,7 @@ class Caravan implements ActionInterface {
         const diceResult = this._diceThrower.d6()
         const mercantility = playerAction.actor.mercantility
         const howRecipientReactsToSender = this._relationsManager.howXReactsToY(playerAction.recipient.name, playerAction.actor.name)
-        const recipientBonus = RelationRepository.get(howRecipientReactsToSender).recipientBonus
+        const recipientBonus = this._relationRepository.get(howRecipientReactsToSender).recipientBonus
 
         return diceResult * mercantility + recipientBonus
     }

@@ -2,8 +2,7 @@ import Currency from './Currency.ts'
 import type Resource from './Resource.ts'
 import type TileBonus from './TileBonus.ts'
 import type Tribe from './Tribe.ts'
-import ResourceName from '../enum/ResourceName.ts'
-import ResourceRepository from '../repository/ResourceRepository.ts'
+import type ResourceName from '../enum/ResourceName.ts'
 
 /**
  * connection between tribe and resource
@@ -13,17 +12,6 @@ class Tile {
         private readonly _tribe: Tribe,
         private readonly _resource: Resource,
     ) {
-    }
-
-    public static createFromResourceName(name: ResourceName, tribe: Tribe): Tile {
-        return new Tile(tribe, ResourceRepository.get(name))
-    }
-
-    public static createStarterTiles(tribe: Tribe): Tile[] {
-        return [
-            Tile.createFromResourceName(ResourceName.Pasture, tribe),
-            Tile.createFromResourceName(ResourceName.Forest, tribe),
-        ]
     }
 
     get tribe(): Tribe {

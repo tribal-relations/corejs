@@ -1,3 +1,4 @@
+import TileFactory from './TileFactory.ts'
 import TribeManager from '../../app/TribeManager.ts'
 import type Resource from '../../domain/entity/Resource'
 import Tile from '../../domain/entity/Tile.ts'
@@ -10,32 +11,6 @@ import InvalidFactoryOption from '../../exception/internal/InvalidFactoryOption.
 import { container } from '../../NaiveDiContainer.ts'
 
 class TribeFactory {
-    /**
-     * @deprecated
-     */
-    public static createEmpty(options: Record<string, any> = {}): Tribe {
-        TribeFactory.checkOptions(options)
-        const createdTribe = TribeFactory.create(options)
-        this.addPoints(options, createdTribe)
-        return createdTribe
-    }
-
-    private static addPoints(options: Record<string, any>, createdTribe: Tribe): void {
-        // TODO right now we cannot add X production without adding Y food, because tiles always contain more than one currency
-        if (options.food) {
-            TribeFactory.addFood(createdTribe, options.food)
-        }
-        if (options.production) {
-            TribeFactory.addProduction(createdTribe, options.production)
-        }
-        if (options.culture) {
-            TribeFactory.addCulture(createdTribe, options.culture)
-        }
-        if (options.mercantility) {
-            TribeFactory.addMercantility(createdTribe, options.mercantility)
-        }
-    }
-
     public static createStarterTribe(name: string = TribeName.Achaeans): Tribe {
         const gold = 0
         const points = 0
@@ -44,7 +19,7 @@ class TribeFactory {
         const militaryPower = Tribe.defaultMilitaryPower
         const civilizedness = Tribe.defaultCivilizedness
 
-        return TribeFactory.create({
+        const tribe = TribeFactory.create({
             name,
             gold,
             points,
@@ -53,6 +28,9 @@ class TribeFactory {
             civilizedness,
             militaryPower,
         })
+        const tribeManager: TribeManager = container.resolveSafely(TribeManager)
+        tribeManager.createStarterTribe(tribe)
+        return tribe
     }
 
     public static createStarterTribeWithOptions(options: Record<string, any> = {}): Tribe {
@@ -79,20 +57,23 @@ class TribeFactory {
         if (options.resourceNames) {
             const tiles = createdTribe.tiles
 
-            tribeManager.detachTile(createdTribe, tiles[0])
-            tribeManager.detachTile(createdTribe, tiles[0])// it is reactive , thats why not 1
+            // tribeManager.detachTile(createdTribe, tiles[0])
+            // tribeManager.detachTile(createdTribe, tiles[0])// it is reactive , thats why not 1
 
             const resourceNames = options.resourceNames ?? [ResourceName.Pasture, ResourceName.Forest]
             let tile
             let resource: Resource
             for (let i = 0; i < resourceNames.length; ++i) {
-                resource = ResourceRepository.get(resourceNames[i])
+                resource = container.resolveSafely(ResourceRepository).get(resourceNames[i])
                 tile = new Tile(
                     createdTribe,
                     resource,
                 )
                 tribeManager.addTile(createdTribe, tile)
             }
+        } else {
+            const tribeManager: TribeManager = container.resolveSafely(TribeManager)
+            tribeManager.createStarterTribe(createdTribe)
         }
         this.addPoints(options, createdTribe)
 
@@ -100,14 +81,14 @@ class TribeFactory {
     }
 
     public static addFood(tribe: Tribe, amount: number = 1): void {
-        const tile = Tile.createFromResourceName(ResourceName.Forest, tribe)
+        const tile = TileFactory.createFromResourceName(ResourceName.Forest, tribe)
         for (let i = 0; i < amount; ++i) {
             tribe.tiles.push(tile)
         }
     }
 
     public static addCulture(tribe: Tribe, amount: number = 1): void {
-        const tile = Tile.createFromResourceName(ResourceName.Lake, tribe)
+        const tile = TileFactory.createFromResourceName(ResourceName.Lake, tribe)
         for (let i = 0; i < amount; ++i) {
             tribe.tiles.push(tile)
         }
@@ -117,7 +98,7 @@ class TribeFactory {
         if (amount % 2 !== 0) {
             throw new Error('There are only tiles with production 2.')
         }
-        const tile = Tile.createFromResourceName(ResourceName.Metal, tribe)
+        const tile = TileFactory.createFromResourceName(ResourceName.Metal, tribe)
         for (let i = 0; i < amount / 2; ++i) {
             tribe.tiles.push(tile)
         }
@@ -127,9 +108,25 @@ class TribeFactory {
         if (amount % 2 !== 0) {
             throw new Error('There are only tiles with mercantility 2.')
         }
-        const tile = Tile.createFromResourceName(ResourceName.Fruit, tribe)
+        const tile = TileFactory.createFromResourceName(ResourceName.Fruit, tribe)
         for (let i = 0; i < amount / 2; ++i) {
             tribe.tiles.push(tile)
+        }
+    }
+
+    private static addPoints(options: Record<string, any>, createdTribe: Tribe): void {
+        // TODO right now we cannot add X production without adding Y food, because tiles always contain more than one currency
+        if (options.food) {
+            TribeFactory.addFood(createdTribe, options.food)
+        }
+        if (options.production) {
+            TribeFactory.addProduction(createdTribe, options.production)
+        }
+        if (options.culture) {
+            TribeFactory.addCulture(createdTribe, options.culture)
+        }
+        if (options.mercantility) {
+            TribeFactory.addMercantility(createdTribe, options.mercantility)
         }
     }
 

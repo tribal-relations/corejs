@@ -1,34 +1,50 @@
 import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
 import ActionName from '../../../domain/enum/ActionName.ts'
-import GameplayActionRepository from '../../../domain/repository/GameplayActionRepository.ts'
+import type GameplayActionRepository from '../../../domain/repository/GameplayActionRepository.ts'
+import InvalidInput from '../../../exception/console/InvalidInput.ts'
 
 class ConsoleActionRepository {
-    static decisionToActionDataMap: Record<string, GameplayAction> = {
-        a: GameplayActionRepository.get(ActionName.Arm),
-        al: GameplayActionRepository.get(ActionName.Alliance),
-        atile: GameplayActionRepository.get(ActionName.AttackTile),
-        atr: GameplayActionRepository.get(ActionName.AttackTribe),
+    public static decisionToActionNameMap: Record<string, ActionName> = {
+        a: (ActionName.Arm),
+        al: (ActionName.Alliance),
+        atile: (ActionName.AttackTile),
+        atr: (ActionName.AttackTribe),
 
-        c: GameplayActionRepository.get(ActionName.Caravan),
-        e: GameplayActionRepository.get(ActionName.Expedition),
+        c: (ActionName.Caravan),
+        e: (ActionName.Expedition),
 
-        g3: GameplayActionRepository.get(ActionName.GoTo3rdRadius),
-        g2: GameplayActionRepository.get(ActionName.GoTo2ndRadius),
-        g1: GameplayActionRepository.get(ActionName.GoTo1stRadius),
+        g3: (ActionName.GoTo3rdRadius),
+        g2: (ActionName.GoTo2ndRadius),
+        g1: (ActionName.GoTo1stRadius),
 
-        h: GameplayActionRepository.get(ActionName.Hire),
-        h1: GameplayActionRepository.get(ActionName.HireOneRound),
+        h: (ActionName.Hire),
+        h1: (ActionName.HireOneRound),
 
-        pray: GameplayActionRepository.get(ActionName.Pray),
-        pil: GameplayActionRepository.get(ActionName.Pillage),
+        pray: (ActionName.Pray),
+        pil: (ActionName.Pillage),
 
-        q: GameplayActionRepository.get(ActionName.Quit),
-        r: GameplayActionRepository.get(ActionName.Research),
+        q: (ActionName.Quit),
+        r: (ActionName.Research),
 
-        rmca: GameplayActionRepository.get(ActionName.RemoveCaravan),
+        rmca: (ActionName.RemoveCaravan),
 
-        co: GameplayActionRepository.get(ActionName.Conquer),
-        cu: GameplayActionRepository.get(ActionName.Cult),
+        co: (ActionName.Conquer),
+        cu: (ActionName.Cult),
+    }
+
+    public constructor(
+        private readonly _gameplayActionRepository: GameplayActionRepository,
+    ) {
+
+    }
+
+    public getGameplayAction(cliParam: string): GameplayAction {
+        if (cliParam in ConsoleActionRepository.decisionToActionNameMap) {
+            return this._gameplayActionRepository.get(
+                ConsoleActionRepository.decisionToActionNameMap[cliParam],
+            )
+        }
+        throw new InvalidInput(`command ${cliParam} is unknown`)
     }
 }
 

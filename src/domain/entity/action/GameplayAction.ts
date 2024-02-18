@@ -1,8 +1,10 @@
 import type PlayerActionParameter from '../../../ui/common/PlayerActionParameter.ts'
 import type ActionName from '../../enum/ActionName.ts'
+import type EntityInterface from '../EntityInterface.ts'
 import type GameAction from '../GameAction.ts'
 
-class GameplayAction {
+class GameplayAction implements EntityInterface {
+    Name: ActionName
     constructor(
         private readonly _gameAction: GameAction,
         private readonly _parameters: PlayerActionParameter[],

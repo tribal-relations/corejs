@@ -6,10 +6,10 @@ import Tile from '../domain/entity/Tile.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
 import ActionName from '../domain/enum/ActionName.ts'
 import BonusName from '../domain/enum/BonusName.ts'
-import type ResourceName from '../domain/enum/ResourceName.ts'
+import ResourceName from '../domain/enum/ResourceName.ts'
 import type TechnologyName from '../domain/enum/TechnologyName'
-import ResourceRepository from '../domain/repository/ResourceRepository.ts'
-import TechnologyRepository from '../domain/repository/TechnologyRepository.ts'
+import type ResourceRepository from '../domain/repository/ResourceRepository.ts'
+import type TechnologyRepository from '../domain/repository/TechnologyRepository.ts'
 import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
 import AlreadyKnownTechnology from '../exception/AlreadyKnownTechnology.ts'
 import MaximalMilitaryPower from '../exception/MaximalMilitaryPower.ts'
@@ -18,6 +18,12 @@ import TribeTileNotFound from '../exception/not-found/TribeTileNotFound.ts'
 import UnavailableTechnology from '../exception/UnavailableTechnology.ts'
 
 class TribeManager {
+    public constructor(
+        private readonly _technologyRepository: TechnologyRepository,
+        private readonly _resourceRepository: ResourceRepository,
+    ) {
+    }
+
     public getUniqueTiles(tribe: Tribe): Tile[] {
         const uniqueTiles = []
         const usedNames = new Set<ResourceName>()
@@ -109,14 +115,14 @@ class TribeManager {
     }
 
     public researchByName(tribe: Tribe, techName: TechnologyName): void {
-        this.research(tribe, TechnologyRepository.get(techName))
+        this.research(tribe, this._technologyRepository.get(techName))
     }
 
     /**
      * Gets techs that can be researched next, so result = allTechs - already - unavailable
      */
     public getTechnologiesAvailableForResearch(tribe: Tribe): Technology[] {
-        return Object.values(TechnologyRepository.getAll())
+        return Object.values(this._technologyRepository.getAll())
             .filter((tech: Technology) => !(tech.name in tribe.technologies))
             .filter((tech: Technology) => Object.values(tech.prerequisites).length === 0 ||
                 this.arePrerequisitesMetForTechnology(tribe, tech),
@@ -201,7 +207,16 @@ class TribeManager {
     }
 
     private discoverNewTile(tribe: Tribe): Tile {
-        return new Tile(tribe, ResourceRepository.getRandomResource())
+        return new Tile(tribe, this._resourceRepository.getRandomResource())
+    }
+
+    public createStarterTribe(tribe: Tribe): Tribe {
+        const starterTiles = [
+            new Tile(tribe, this._resourceRepository.get(ResourceName.Pasture)),
+            new Tile(tribe, this._resourceRepository.get(ResourceName.Forest)),
+        ]
+        tribe.tiles = starterTiles
+        return tribe
     }
 }
 
