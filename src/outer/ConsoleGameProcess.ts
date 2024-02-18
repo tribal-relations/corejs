@@ -1,9 +1,11 @@
 import type CurrentGame from '../app/CurrentGame.ts'
 import type EndGameManager from '../app/EndGameManager.ts'
 import type StartGameManager from '../app/StartGameManager.ts'
+import type Player from '../domain/entity/Player.ts'
 import type ConsoleUi from '../ui/console/ConsoleUi.ts'
 import type MainMenu from '../ui/console/io/MainMenu.ts'
 import type Std from '../ui/console/io/Std.ts'
+import type TribePrinter from '../ui/console/io/TribePrinter.ts'
 
 class ConsoleGameProcess {
     constructor(
@@ -13,7 +15,7 @@ class ConsoleGameProcess {
         private readonly _mainMenu: MainMenu,
         private readonly _currentGame: CurrentGame,
         private readonly _std: Std,
-
+        private readonly _tribePrinter: TribePrinter,
     ) {
     }
 
@@ -53,6 +55,14 @@ class ConsoleGameProcess {
 
         this._std.outHeading(`WINNER: ${tribeName} (${playerName})`)
         this._std.out(this._currentGame.specificGame.winningCondition?.text)
+        this._std.outHeading('Statistics')
+        const stats = this.getStatistics()
+        this._std.outTable(stats)
+    }
+
+    private getStatistics() {
+        return Object.values(this._currentGame.players)
+            .map((player: Player) => this._tribePrinter.getStructureForStatistics(player.tribe))
     }
 }
 

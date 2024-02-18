@@ -17,6 +17,7 @@ import type Pray from './action-performer/Pray.ts'
 import type Quit from './action-performer/Quit.ts'
 import type RemoveCaravan from './action-performer/RemoveCaravan.ts'
 import type Research from './action-performer/Research.ts'
+import type Treason from './action-performer/Treason.ts'
 import type PlayerActionInterface from '../domain/entity/action/PlayerActionInterface.ts'
 import type Turn from '../domain/entity/Turn.ts'
 import ActionName from '../domain/enum/ActionName.ts'
@@ -45,6 +46,8 @@ class ActionPerformer {
         private readonly _pillageCaravan: PillageCaravan,
         private readonly _hire: Hire,
         private readonly _hireOneRound: HireOneRound,
+        private readonly _treason: Treason,
+
         private readonly _quit: Quit,
     ) {
         this.buildPerformersMap()
@@ -78,6 +81,7 @@ class ActionPerformer {
             [ActionName.Pillage]: this._pillageCaravan,
             [ActionName.Hire]: this._hire,
             [ActionName.HireOneRound]: this._hireOneRound,
+            [ActionName.Treason]: this._treason,
             [ActionName.Quit]: this._quit,
         }
     }

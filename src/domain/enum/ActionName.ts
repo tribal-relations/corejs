@@ -16,6 +16,7 @@ enum ActionName {
     Pillage = 'Pillage a caravan',
     RemoveCaravan = 'Remove a caravan',
     Research = 'Research',
+    Treason = 'Treason',
     Quit = 'Quit',
 }
 

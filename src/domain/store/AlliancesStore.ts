@@ -51,6 +51,12 @@ class AlliancesStore {
             this._alliances[agent] = Object()
             this._alliances[agent][recipient] = false
         }
+        if (recipient in this._alliances) {
+            this._alliances[recipient][agent] = false
+        } else {
+            this._alliances[recipient] = Object()
+            this._alliances[recipient][agent] = false
+        }
     }
 
     public howThisTribeReactsToOthers(agent: TribeName): Record<TribeName, boolean> {

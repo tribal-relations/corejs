@@ -4,6 +4,7 @@ import Currency from './Currency.ts'
 import type Tile from './Tile.ts'
 import type TileBonus from './TileBonus.ts'
 import type BonusName from '../enum/BonusName.ts'
+import type PlaystyleLabel from '../enum/PlaystyleLabel'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type TribeName from '../enum/TribeName.ts'
 
@@ -25,6 +26,7 @@ class Tribe {
         private readonly _bonuses: Record<BonusName, BonusInterface> = Object(),
         private readonly _tileBonuses: Record<BonusName, TileBonus> = Object(),
         private _bonusesForOneRound: Record<BonusName, Bonus> = Object(),
+        private readonly _labels: Record<PlaystyleLabel, boolean> = Object(),
         private _radius: number = 4,
         private _isWinner: boolean = false,
     ) {
@@ -126,6 +128,10 @@ class Tribe {
         this._isWinner = _isWinner
     }
 
+    get labels(): Record<PlaystyleLabel, boolean> {
+        return this._labels
+    }
+
     get tiles(): Tile[] {
         return this._tiles
     }
@@ -209,6 +215,14 @@ class Tribe {
 
     addTileBonus(tileBonus: TileBonus) {
         this._tileBonuses[tileBonus.name] = tileBonus
+    }
+
+    hasLabel(label: PlaystyleLabel): boolean {
+        return ((label in this._labels) && this._labels[label])
+    }
+
+    addLabel(label: PlaystyleLabel): void {
+        this._labels[label] = true
     }
 }
 
