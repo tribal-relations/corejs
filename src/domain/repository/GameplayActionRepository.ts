@@ -31,6 +31,8 @@ class GameplayActionRepository extends BaseRepository<GameplayAction> {
             [ActionName.Pillage]: this.create(ActionName.Pillage),
             [ActionName.RemoveCaravan]: this.create(ActionName.RemoveCaravan),
             [ActionName.Research]: this.create(ActionName.Research),
+            [ActionName.Treason]: this.create(ActionName.Treason),
+
             [ActionName.Quit]: this.create(ActionName.Quit),
         }
     }
@@ -104,6 +106,10 @@ class GameplayActionRepository extends BaseRepository<GameplayAction> {
 
         [ActionName.Conquer]: { name: ActionName.Conquer, parameters: [] },
         [ActionName.Cult]: { name: ActionName.Cult, parameters: [] },
+        [ActionName.Treason]: {
+            name: ActionName.Treason,
+            parameters: [new PlayerActionParameter(TribeName, 'Tribe Name')],
+        },
     }
 
     protected instances = {}

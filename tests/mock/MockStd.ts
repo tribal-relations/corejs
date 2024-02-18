@@ -30,8 +30,7 @@ class MockStd extends Std {
         if (this._isSilent) {
             return
         }
-        // eslint-disable-next-line
-        console.log(...data)
+        super.out(...data)
     }
 
     public outTable(data: object | any[]): void {
@@ -39,8 +38,7 @@ class MockStd extends Std {
         if (this._isSilent) {
             return
         }
-        // eslint-disable-next-line
-        console.table(data)
+        super.outTable(...data)
     }
 
     private getTableAsString(data): string {

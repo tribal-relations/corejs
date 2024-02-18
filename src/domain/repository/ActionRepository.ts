@@ -219,6 +219,18 @@ class ActionRepository extends BaseRepository<GameAction> {
             action_cost: 1,
             gold_cost: 0,
         },
+        [ActionName.Treason]: {
+            name_ru: 'Предать',
+            name: 'Betray',
+            radius: 4,
+            description: 'Прервать союз.',
+            description_ru: 'Прервать союз.',
+            culture: 0,
+            population: 0,
+            production: 0,
+            action_cost: 1,
+            gold_cost: 0,
+        },
         [ActionName.Quit]: {
             name_ru: 'Закончить игру',
             name: 'Quit',
@@ -252,6 +264,7 @@ class ActionRepository extends BaseRepository<GameAction> {
         [ActionName.Pillage]: ActionRepository.create(ActionName.Pillage),
         [ActionName.RemoveCaravan]: ActionRepository.create(ActionName.RemoveCaravan),
         [ActionName.Research]: ActionRepository.create(ActionName.Research),
+        [ActionName.Treason]: ActionRepository.create(ActionName.Treason),
         [ActionName.Quit]: ActionRepository.create(ActionName.Quit),
     }
 

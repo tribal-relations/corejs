@@ -42,6 +42,15 @@ class TribePrinter {
         return tribeWithOnlyNecessaryFields
     }
 
+    public getStructureForStatistics(tribe: Tribe): object {
+        const labels = Object.keys(tribe.labels)
+
+        const tribeWithOnlyNecessaryFields = this.getStructure(tribe)
+        tribeWithOnlyNecessaryFields.Labels = labels
+
+        return tribeWithOnlyNecessaryFields
+    }
+
     public getString(tribe: Tribe): string {
         return YAML.stringify(this.getStructure(tribe))
     }

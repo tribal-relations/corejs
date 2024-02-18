@@ -16,6 +16,7 @@ import Pray from './app/action-performer/Pray.ts'
 import Quit from './app/action-performer/Quit.ts'
 import RemoveCaravan from './app/action-performer/RemoveCaravan.ts'
 import Research from './app/action-performer/Research.ts'
+import Treason from './app/action-performer/Treason.ts'
 import ActionPerformer from './app/ActionPerformer.ts'
 import CurrentGame from './app/CurrentGame.ts'
 import EndGameManager from './app/EndGameManager.ts'
@@ -175,6 +176,7 @@ class NaiveDiContainer {
             this.resolveSafely(PillageCaravan),
             this.resolveSafely(Hire),
             this.resolveSafely(HireOneRound),
+            this.resolveSafely(Treason),
             this.resolveSafely(Quit),
         ))
         this.setSingleton(TurnDecisionManager, new TurnDecisionManager(this.resolveSafely(ActionPerformer)))
@@ -314,6 +316,7 @@ class NaiveDiContainer {
             this.resolveSafely(MainMenu),
             this.resolveSafely(CurrentGame),
             this.resolveSafely(Std),
+            this.resolveSafely(TribePrinter),
         ))
     }
 
@@ -388,6 +391,9 @@ class NaiveDiContainer {
         ))
         this.setSingleton(HireOneRound, new HireOneRound(
             this.resolveSafely(TribeManager),
+        ))
+        this.setSingleton(Treason, new Treason(
+            this.resolveSafely(AlliancesStore),
         ))
         this.setSingleton(Quit, new Quit())
     }
