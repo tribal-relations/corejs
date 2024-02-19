@@ -15,7 +15,6 @@ class ConsoleRelationRoundManager {
         private readonly _currentGame: CurrentGame,
         private readonly _commonRelationRoundManager: CommonRelationRoundManager,
         private readonly _std: Std,
-
     ) {
     }
 
@@ -28,6 +27,9 @@ class ConsoleRelationRoundManager {
     }
 
     public determineRelations(): void {
+        if (Object.keys(this.game.players).length < 2) {
+            return
+        }
         this._std.outHeading('[RELATIONS PHASE]')
         this._std.out('Each tribe must specify its reaction to other tribes.')
         this._std.out('Use relation shorthands to specify relation.')

@@ -1,3 +1,4 @@
+import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess.ts'
 import Std from '../../../src/ui/console/io/Std.ts'
@@ -14,6 +15,26 @@ test('can quit game immediately after adding a player', () => {
     gameProcess.start()
 
     expect(gameProcess.game.specificGame.isFinished).toBe(true)
+})
+
+test('singleplayer', () => {
+    const gameProcess: ConsoleGameProcess = container.resolveSafely(ConsoleGameProcess)
+    const std = container.resolveSafely(Std)
+    std.sendIn('s')
+
+    std.sendIn('player')
+    std.sendIn('\n')
+
+    std.sendIn('r Pottery') // action
+    // std.sendIn('\n') //  relation round is skipped
+    std.sendIn('r Animal Husbandry') // action
+
+    gameProcess.start()
+
+    expect(gameProcess.game.specificGame.isFinished).toBe(true)
+    expect(gameProcess.game.playersLength).toBe(1)
+    expect(gameProcess.game.players.player.tribe.hasTech(TechnologyName.Pottery)).toBe(true)
+    expect(gameProcess.game.players.player.tribe.hasTech(TechnologyName.AnimalHusbandry)).toBe(true)
 })
 
 test('can have up to 20 players', () => {
