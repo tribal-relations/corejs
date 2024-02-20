@@ -1,8 +1,8 @@
 import type BonusInterface from './BonusInterface.ts'
 import type Currency from './Currency.ts'
-import type Tribe from './Tribe.ts'
-import type TechnologyBonusName from '../enum/TechnologyBonusName.ts'
-import type TechnologyName from '../enum/TechnologyName.ts'
+import type TechnologyBonusName from '../../enum/TechnologyBonusName.ts'
+import type TechnologyName from '../../enum/TechnologyName.ts'
+import type Tribe from '../Tribe.ts'
 
 class TechnologyBonus implements BonusInterface {
     constructor(

@@ -1,5 +1,5 @@
 import BaseRepository from './BaseRepository.ts'
-import GameAction from '../entity/GameAction.ts'
+import GameAction from '../entity/static/GameAction.ts'
 import ActionName from '../enum/ActionName.ts'
 
 class ActionRepository extends BaseRepository<GameAction> {

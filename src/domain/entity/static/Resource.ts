@@ -1,5 +1,5 @@
-import type EntityInterface from './EntityInterface'
-import type ResourceName from '../enum/ResourceName.ts'
+import type ResourceName from '../../enum/ResourceName.ts'
+import type EntityInterface from '../EntityInterface'
 
 class Resource implements EntityInterface {
     Name: ResourceName

@@ -1,6 +1,6 @@
 import TileFactory from './TileFactory.ts'
 import TribeManager from '../../app/TribeManager.ts'
-import type Resource from '../../domain/entity/Resource'
+import type Resource from '../../domain/entity/static/Resource'
 import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'

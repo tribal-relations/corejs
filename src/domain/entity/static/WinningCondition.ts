@@ -1,5 +1,5 @@
-import type EntityInterface from './EntityInterface.ts'
-import type WinningConditionName from '../enum/WinningConditionName.ts'
+import type WinningConditionName from '../../enum/WinningConditionName.ts'
+import type EntityInterface from '../EntityInterface.ts'
 
 class WinningCondition implements EntityInterface {
     Name: WinningConditionName

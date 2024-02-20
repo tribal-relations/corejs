@@ -1,4 +1,4 @@
-import Rome from '../../../src/domain/entity/Rome.ts'
+import Rome from '../../../src/domain/entity/static/Rome.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 
 test('rome is created with correct default data', () => {

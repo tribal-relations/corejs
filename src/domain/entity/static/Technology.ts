@@ -1,5 +1,5 @@
-import type EntityInterface from './EntityInterface.ts'
-import type TechnologyName from '../enum/TechnologyName.ts'
+import type TechnologyName from '../../enum/TechnologyName.ts'
+import type EntityInterface from '../EntityInterface.ts'
 
 class Technology implements EntityInterface {
     Name: TechnologyName

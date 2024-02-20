@@ -1,5 +1,5 @@
 import BaseRepository from './BaseRepository.ts'
-import WinningCondition from '../entity/WinningCondition.ts'
+import WinningCondition from '../entity/static/WinningCondition.ts'
 import WinningConditionName from '../enum/WinningConditionName.ts'
 
 class WinningConditionRepository extends BaseRepository<WinningCondition> {

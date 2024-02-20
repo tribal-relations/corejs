@@ -1,6 +1,6 @@
 import YAML from 'yaml'
 import type TribeManager from '../../../app/TribeManager.ts'
-import Currency from '../../../domain/entity/Currency.ts'
+import Currency from '../../../domain/entity/static/Currency.ts'
 import type Tile from '../../../domain/entity/Tile'
 import type Tribe from '../../../domain/entity/Tribe.ts'
 

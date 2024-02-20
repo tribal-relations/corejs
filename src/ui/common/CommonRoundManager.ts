@@ -1,6 +1,6 @@
 import type CurrentGame from '../../app/CurrentGame.ts'
 import type TribeManager from '../../app/TribeManager.ts'
-import Currency from '../../domain/entity/Currency.ts'
+import Currency from '../../domain/entity/static/Currency.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
 import TechnologyName from '../../domain/enum/TechnologyName.ts'
 import type DiceThrower from '../../domain/helper/DiceThrower.ts'
