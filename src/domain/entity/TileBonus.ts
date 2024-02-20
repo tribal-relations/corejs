@@ -1,5 +1,5 @@
-import type BonusInterface from './BonusInterface.ts'
-import type Currency from './Currency.ts'
+import type BonusInterface from './static/BonusInterface.ts'
+import type Currency from './static/Currency.ts'
 import type Tribe from './Tribe.ts'
 import type ResourceName from '../enum/ResourceName'
 import type TileBonusName from '../enum/TileBonusName.ts'

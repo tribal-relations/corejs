@@ -1,6 +1,6 @@
 import type CurrentGame from './CurrentGame.ts'
 import type Player from '../domain/entity/Player.ts'
-import type WinningCondition from '../domain/entity/WinningCondition.ts'
+import type WinningCondition from '../domain/entity/static/WinningCondition.ts'
 import WinningConditionName from '../domain/enum/WinningConditionName.ts'
 import type WinningConditionRepository from '../domain/repository/WinningConditionRepository.ts'
 

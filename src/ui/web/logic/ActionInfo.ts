@@ -1,7 +1,7 @@
 import type CurrentGame from '../../../app/CurrentGame.ts'
 import type TribeManager from '../../../app/TribeManager.ts'
 import type GameplayAction from '../../../domain/entity/action/GameplayAction.ts'
-import type Technology from '../../../domain/entity/Technology.ts'
+import type Technology from '../../../domain/entity/static/Technology.ts'
 import type Tribe from '../../../domain/entity/Tribe.ts'
 import type Turn from '../../../domain/entity/Turn.ts'
 import ActionName from '../../../domain/enum/ActionName.ts'

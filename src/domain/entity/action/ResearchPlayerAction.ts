@@ -1,6 +1,6 @@
 import type PlayerActionInterface from './PlayerActionInterface.ts'
 import ActionName from '../../enum/ActionName.ts'
-import type Technology from '../Technology.ts'
+import type Technology from '../static/Technology.ts'
 import type Tribe from '../Tribe.ts'
 
 class ResearchPlayerAction implements PlayerActionInterface {

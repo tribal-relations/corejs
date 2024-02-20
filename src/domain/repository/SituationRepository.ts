@@ -1,5 +1,5 @@
 import BaseRepository from './BaseRepository.ts'
-import Situation from '../entity/Situation.ts'
+import Situation from '../entity/static/Situation.ts'
 import SituationName from '../enum/SituationName.ts'
 
 class SituationRepository extends BaseRepository<Situation> {

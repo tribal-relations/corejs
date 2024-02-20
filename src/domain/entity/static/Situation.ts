@@ -1,5 +1,5 @@
-import type EntityInterface from './EntityInterface.ts'
-import type SituationName from '../enum/SituationName.ts'
+import type SituationName from '../../enum/SituationName.ts'
+import type EntityInterface from '../EntityInterface.ts'
 
 class Situation implements EntityInterface {
     Name: SituationName

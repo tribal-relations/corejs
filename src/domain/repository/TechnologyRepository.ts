@@ -1,5 +1,5 @@
 import BaseRepository from './BaseRepository.ts'
-import Technology from '../entity/Technology.ts'
+import Technology from '../entity/static/Technology.ts'
 import TechnologyName from '../enum/TechnologyName.ts'
 
 class TechnologyRepository extends BaseRepository<Technology> {

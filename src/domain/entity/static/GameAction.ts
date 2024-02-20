@@ -1,5 +1,5 @@
-import type EntityInterface from './EntityInterface.ts'
-import type ActionName from '../enum/ActionName.ts'
+import type ActionName from '../../enum/ActionName.ts'
+import type EntityInterface from '../EntityInterface.ts'
 
 class GameAction implements EntityInterface {
     Name: ActionName

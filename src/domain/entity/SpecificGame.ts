@@ -1,6 +1,6 @@
 import type Player from './Player.ts'
+import type WinningCondition from './static/WinningCondition.ts'
 import type Tribe from './Tribe.ts'
-import type WinningCondition from './WinningCondition.ts'
 import PlayerNotFound from '../../exception/not-found/PlayerNotFound.ts'
 import TribeNotFound from '../../exception/not-found/TribeNotFound.ts'
 import type TribeName from '../enum/TribeName.ts'

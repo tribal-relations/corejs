@@ -1,4 +1,4 @@
-import type Tile from './Tile.ts'
+import type Tile from '../Tile.ts'
 
 class Rome {
     static defaultPopulation = 100

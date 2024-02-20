@@ -1,5 +1,5 @@
 import BaseRepository from './BaseRepository.ts'
-import Resource from '../entity/Resource.ts'
+import Resource from '../entity/static/Resource.ts'
 import ResourceName from '../enum/ResourceName.ts'
 import Rand from '../helper/Rand.ts'
 

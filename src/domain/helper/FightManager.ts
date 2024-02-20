@@ -1,5 +1,5 @@
 import type TribeManager from '../../app/TribeManager.ts'
-import type Rome from '../entity/Rome.ts'
+import type Rome from '../entity/static/Rome.ts'
 import type Tribe from '../entity/Tribe.ts'
 
 class FightManager {
