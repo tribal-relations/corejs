@@ -1,17 +1,33 @@
-import type SaveDto from './dto/SaveDto'
+import SaveDto from './dto/SaveDto.ts'
+import type SaveWriter from './SaveWriter.ts'
 import type CurrentGame from '../../CurrentGame.ts'
 
 class GameSaver {
-    constructor() {
+    constructor(
+        private readonly _currentGame: CurrentGame,
+        private readonly _saveWriter: SaveWriter,
+
+    ) {
     }
 
-    public saveGame(game: CurrentGame): SaveDto {
-        // TODO https://github.com/tribal-relations/client/issues/163
+    public saveGame(filename: null | undefined | string = null): SaveDto {
+        const dto = this.getCurrentGameSaveDto(this._currentGame)
+        this._saveWriter.write(dto, filename)
 
+        return dto
     }
 
-    public loadGame(save: SaveDto): void {
+    public loadGame(saveName: string): void {
         // TODO https://github.com/tribal-relations/client/issues/164
+    }
+
+    private loadGameFromDto(save: SaveDto): void {
+        // TODO https://github.com/tribal-relations/client/issues/164
+    }
+
+    private getCurrentGameSaveDto(game: CurrentGame): SaveDto {
+        const dto = SaveDto.createFromCurrentGame(game)
+        return dto
     }
 }
 

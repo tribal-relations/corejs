@@ -26,6 +26,29 @@ class CurrentGameDto {
     ) {
     }
 
+    // static createFromCurrentGame(game: CurrentGame): CurrentGameDto {
+    //     const dto = new CurrentGameDto(
+    //         game.specificGame.name,
+    //         game.specificGame.startDate,
+    //         game.specificGame.endDate,
+    //         game.specificGame.isStarted,
+    //         game.specificGame.isFinished,
+    //         game.playersLength,
+    //         game.players,
+    //         game.currentTurnNumber,
+    //         TurnDto.createFromTurn(game.currentTurn),
+    //         [], // TODO how to get turns
+    //         game.currentRoundNumber,
+    //         GameAlliancesDto.createFromCurrentGame(game),
+    //         GameCaravansDto.createFromCurrentGame(game),
+    //         GameRelationsDto.createFromCurrentGame(game),
+    //         PlayerDto.createFromPlayer(game.specificGame.winner),
+    //         game.specificGame.winningCondition?.name,
+    //     )
+    //
+    //     return dto
+    // }
+
     get players(): Record<string, PlayerDto> {
         return this._players
     }

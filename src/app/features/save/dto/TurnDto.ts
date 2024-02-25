@@ -12,6 +12,17 @@ class TurnDto {
     ) {
     }
 
+    // static createFromTurn(turn: Turn): TurnDto {
+    //     const dto = new TurnDto(
+    //         PlayerDto.createFromPlayer(turn.player),
+    //         turn.isLast,
+    //         turn.isFinished,
+    //         ActionDto.createFromInterface(turn.action),
+    //     )
+    //
+    //     return dto
+    // }
+
     get player(): PlayerDto {
         return this._player
     }

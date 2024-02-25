@@ -16,9 +16,9 @@ test.skip('research adds technology', () => {
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    const playerAction = new ResearchPlayerAction(player.tribe, container.resolveSafely(TechnologyRepository).get(TechnologyName.Pottery))
+    const playerAction = new ResearchPlayerAction(player.tribe, container.resolveSafely(TechnologyRepository).get(TechnologyName.Hunting))
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     expect(turnResult.isLast).toBe(false)
-    expect(tribe.technologies).toStrictEqual({ Pottery: true })
+    expect(tribe.technologies).toStrictEqual({ Hunting: true })
 })
