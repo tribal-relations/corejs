@@ -20,6 +20,8 @@ import Treason from './app/action-performer/Treason.ts'
 import ActionPerformer from './app/ActionPerformer.ts'
 import CurrentGame from './app/CurrentGame.ts'
 import EndGameManager from './app/EndGameManager.ts'
+import GameSaver from './app/features/save/GameSaver.ts'
+import SaveWriter from './app/features/save/SaveWriter.ts'
 import StartGameManager from './app/StartGameManager.ts'
 import TribeManager from './app/TribeManager.ts'
 import TurnDecisionManager from './app/TurnDecisionManager.ts'
@@ -145,7 +147,14 @@ class NaiveDiContainer {
             this.resolveSafely(ResourceRepository),
         ))
         this.buildActionPerformers()
+        this.setSingleton(SaveWriter, new SaveWriter())
+
         this.setSingleton(CurrentGame, new CurrentGame())
+        this.setSingleton(GameSaver, new GameSaver(
+            this.resolveSafely(CurrentGame),
+            this.resolveSafely(SaveWriter),
+        ))
+
         this.setSingleton(StartGameManager, new StartGameManager())
         this.setSingleton(EndGameManager, new EndGameManager(
             this.resolveSafely(CurrentGame),
@@ -263,6 +272,7 @@ class NaiveDiContainer {
 
             this.resolveSafely(TechnologyRepository),
             this.resolveSafely(RelationRepository),
+            this.resolveSafely(GameSaver),
 
         ))
         this.setSingleton(ConsoleRoundManager, new ConsoleRoundManager(

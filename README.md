@@ -16,6 +16,9 @@ to start web client:
 to run tests:  
 `npm run test`
 
+to run one test:  
+`npm run test -- -t 'name'`
+
 ## Dependency structure
 
 ```yaml

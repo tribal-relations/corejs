@@ -7,6 +7,7 @@ import ConsoleActionRepository from './repository/ConsoleActionRepository.ts'
 import ConsoleCommandRepository from './repository/ConsoleCommandRepository.ts'
 import ConsolePlayerRelationActionRepository from './repository/ConsolePlayerRelationActionRepository.ts'
 import type CurrentGame from '../../app/CurrentGame.ts'
+import type GameSaver from '../../app/features/save/GameSaver.ts'
 import type Relation from '../../domain/entity/Relation'
 import type Technology from '../../domain/entity/static/Technology.ts'
 import type Tribe from '../../domain/entity/Tribe.ts'
@@ -28,10 +29,9 @@ class ConsoleCommandPerformer {
         private readonly _relationsStore: RelationsStore,
         private readonly _caravansStore: CaravansStore,
         private readonly _consoleActionRepository: ConsoleActionRepository,
-
         private readonly _technologyRepository: TechnologyRepository,
         private readonly _relationRepository: RelationRepository,
-
+        private readonly _gameSaver: GameSaver,
     ) {
     }
 
@@ -103,6 +103,12 @@ class ConsoleCommandPerformer {
         if (commandName === CommandName.PrintTechnologyInfo && parameter) {
             this.outputTechnologyInfo(parameter)
         }
+        if (commandName === CommandName.SaveGame) {
+            this.saveGame()
+        }
+        if (commandName === CommandName.LoadGame && parameter) {
+            this.loadGame(parameter)
+        }
     }
 
     private printAllTribes(): void {
@@ -169,6 +175,14 @@ class ConsoleCommandPerformer {
             }
         }
         this._std.outTable(table)
+    }
+
+    private saveGame() {
+        this._gameSaver.saveGame()
+    }
+
+    private loadGame(saveName: string) {
+        this._gameSaver.loadGame(saveName)
     }
 }
 

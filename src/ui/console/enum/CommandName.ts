@@ -9,6 +9,9 @@ enum CommandName {
      PrintRelations = 'Print relations',
      PrintRelationsBonuses = 'Print relations bonuses',
      PrintCaravans = 'Print caravans',
+
+     SaveGame = 'Save game',
+     LoadGame = 'Load game',
 }
 
 export default CommandName

@@ -28,6 +28,15 @@ class TribeDto {
     ) {
     }
 
+    // static createFromTribe(tribe: Tribe): TribeDto {
+    //     const dto = new TribeDto(
+    //         TribeDto.createFromTribe(player.tribe),
+    //         player.name,
+    //     )
+    //
+    //     return dto
+    // }
+
     get radius(): number {
         return this._radius
     }
