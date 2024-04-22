@@ -48,7 +48,6 @@ class Pray implements ActionInterface {
         if (diceResult === 5) {
             this._tribeManager.makeTerritorialDiscovery(turn.player.tribe)
             turn.player.tribe.addBonusForOneRound(new Bonus(
-                turn.player.tribe,
                 BonusName.TurnActionAfterPraying,
                 1,
                 Currency.TurnAction,
@@ -60,7 +59,6 @@ class Pray implements ActionInterface {
                 this._tribeManager.research(turn.player.tribe, randomTechnology)
             }
             turn.player.tribe.addBonusForOneRound(new Bonus(
-                turn.player.tribe,
                 BonusName.TurnActionAfterPraying,
                 1,
                 Currency.TurnAction,

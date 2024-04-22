@@ -2,20 +2,14 @@ import type BonusInterface from './BonusInterface.ts'
 import type Currency from './Currency.ts'
 import type TechnologyBonusName from '../../enum/TechnologyBonusName.ts'
 import type TechnologyName from '../../enum/TechnologyName.ts'
-import type Tribe from '../Tribe.ts'
 
 class TechnologyBonus implements BonusInterface {
     constructor(
-        private readonly _recipient: Tribe,
         private readonly _name: TechnologyBonusName,
         private readonly _amount: number,
         private readonly _currency: Currency,
         private readonly _technologyName: TechnologyName,
     ) {
-    }
-
-    get recipient(): Tribe {
-        return this._recipient
     }
 
     get name(): TechnologyBonusName {

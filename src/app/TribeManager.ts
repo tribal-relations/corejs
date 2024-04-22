@@ -44,7 +44,6 @@ class TribeManager {
         }
         tribe.addBonusForOneRound(
             new Bonus(
-                tribe,
                 BonusName.HiredMilitaryPowerForOneRound,
                 amount,
                 Currency.MilitaryPower,
@@ -59,7 +58,6 @@ class TribeManager {
         }
         tribe.addBonusForOneRound(
             new Bonus(
-                tribe,
                 BonusName.GivenAwayMilitaryPowerForOneRound,
                 -amount,
                 Currency.MilitaryPower,
