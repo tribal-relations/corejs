@@ -131,13 +131,11 @@ class CaravansStore {
         this.setCaravan(actor.name, recipient.name, goldBonus)
         actor.addGold(goldBonus)
         recipient.addBonus(new Bonus(
-            recipient,
             BonusName.MercantilityFromForeignCaravan,
             1,
             Currency.Mercantility,
         ))
         recipient.addBonus(new Bonus(
-            recipient,
             BonusName.CultureFromForeignCaravan,
             1,
             Currency.Culture,

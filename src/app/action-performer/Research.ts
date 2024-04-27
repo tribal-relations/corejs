@@ -42,7 +42,6 @@ class Research implements ActionInterface {
     private addTechnologyBonus(actor: Tribe, technology: Technology): void {
         if (technology.name === TechnologyName.AdvancedWriting) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.AdvancedWritingCulture,
                 2,
                 Currency.Culture,
@@ -52,7 +51,6 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.AnimalHusbandry) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.AnimalHusbandryPastureFood,
                 1,
                 Currency.Food,
@@ -66,14 +64,12 @@ class Research implements ActionInterface {
             // also done elsewhere
 
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.BronzeWeaponsMetalMercantility,
                 1,
                 Currency.Mercantility,
                 ResourceName.Metal,
             ))
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.BronzeWeaponsMetalProduction,
                 1,
                 Currency.Production,
@@ -86,14 +82,12 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.Fishing) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.FishingRiverFood,
                 2,
                 Currency.Food,
                 ResourceName.River,
             ))
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.FishingLakeFood,
                 2,
                 Currency.Food,
@@ -102,7 +96,6 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.Hunting) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.HuntingForestFood,
                 1,
                 Currency.Food,
@@ -111,7 +104,6 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.Idols) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.IdolsStoneCulture,
                 2,
                 Currency.Culture,
@@ -120,7 +112,6 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.MusicalInstruments) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.MusicalInstrumentsCulture,
                 2,
                 Currency.Culture,
@@ -139,7 +130,6 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.Poetry) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.PoetryCulture,
                 2,
                 Currency.Culture,
@@ -153,7 +143,6 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.PrimitiveWriting) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.PoetryCulture,
                 3,
                 Currency.Mercantility,
@@ -163,14 +152,12 @@ class Research implements ActionInterface {
         }
         if (technology.name === TechnologyName.StoneWorking) {
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.StoneWorkingStoneProduction,
                 2,
                 Currency.Production,
                 ResourceName.Stone,
             ))
             actor.addTileBonus(new TileBonus(
-                actor,
                 TileBonusName.StoneWorkingStoneCulture,
                 1,
                 Currency.Culture,

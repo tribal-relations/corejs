@@ -1,6 +1,5 @@
 import type BonusInterface from './static/BonusInterface.ts'
 import type Currency from './static/Currency.ts'
-import type Tribe from './Tribe.ts'
 import type ResourceName from '../enum/ResourceName'
 import type TileBonusName from '../enum/TileBonusName.ts'
 
@@ -9,17 +8,12 @@ import type TileBonusName from '../enum/TileBonusName.ts'
  */
 class TileBonus implements BonusInterface {
     constructor(
-        private readonly _recipient: Tribe,
         private readonly _name: TileBonusName,
         private readonly _amount: number,
         private readonly _currency: Currency,
         private readonly _resourceName: ResourceName | null,
         private readonly _isMultiplication: boolean = false,
     ) {
-    }
-
-    get recipient(): Tribe {
-        return this._recipient
     }
 
     get name(): TileBonusName {

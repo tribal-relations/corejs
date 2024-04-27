@@ -26,7 +26,13 @@ class GameSaver {
     }
 
     private getCurrentGameSaveDto(game: CurrentGame): SaveDto {
-        const dto = SaveDto.createFromCurrentGame(game)
+        let dto = SaveDto.createFromCurrentGame(game)
+        dto = this.removeCircularDependencies(dto)
+        return dto
+    }
+
+    private removeCircularDependencies(dto: SaveDto): SaveDto {
+        // TODO implement
         return dto
     }
 }
