@@ -2,7 +2,6 @@ import Bonus from '../domain/entity/static/Bonus.ts'
 import Currency from '../domain/entity/static/Currency.ts'
 import type Rome from '../domain/entity/static/Rome'
 import type Technology from '../domain/entity/static/Technology.ts'
-import Tile from '../domain/entity/Tile.ts'
 import type Tribe from '../domain/entity/Tribe.ts'
 import ActionName from '../domain/enum/ActionName.ts'
 import BonusName from '../domain/enum/BonusName.ts'
@@ -13,7 +12,6 @@ import type TechnologyRepository from '../domain/repository/TechnologyRepository
 import ActionUnsuccessful from '../exception/ActionUnsuccessful.ts'
 import AlreadyKnownTechnology from '../exception/AlreadyKnownTechnology.ts'
 import MaximalMilitaryPower from '../exception/MaximalMilitaryPower.ts'
-import TribeResourceNotFound from '../exception/not-found/TribeResourceNotFound.ts'
 import TribeTileNotFound from '../exception/not-found/TribeTileNotFound.ts'
 import UnavailableTechnology from '../exception/UnavailableTechnology.ts'
 
@@ -22,21 +20,6 @@ class TribeManager {
         private readonly _technologyRepository: TechnologyRepository,
         private readonly _resourceRepository: ResourceRepository,
     ) {
-    }
-
-    public getUniqueTiles(tribe: Tribe): Tile[] {
-        const uniqueTiles = []
-        const usedNames = new Set<ResourceName>()
-        let tile: Tile
-        for (let i = 0; i < tribe.tiles.length; ++i) {
-            tile = tribe.tiles[i]
-            if (!usedNames.has(tile.resourceName)) {
-                uniqueTiles.push(tile)
-                usedNames.add(tile.resourceName)
-            }
-        }
-
-        return uniqueTiles
     }
 
     public buyTroops(tribe: Tribe, amount: number, price: number): void {
@@ -86,8 +69,7 @@ class TribeManager {
     }
 
     public makeTerritorialDiscovery(tribe: Tribe): void {
-        const newTile = this.discoverNewTile(tribe)
-        this.addTile(tribe, newTile)
+        this.addTile(tribe, this._resourceRepository.getRandomResourceName())
     }
 
     public growPopulation(tribe: Tribe, fertility: number): void {
@@ -95,18 +77,22 @@ class TribeManager {
         tribe.population += amount
     }
 
-    public detachTile(tribe: Tribe, tile: Tile): void {
-        const index = tribe.tiles.indexOf(tile)
-        if (index === -1) {
-            throw new TribeTileNotFound(tribe.name, tile.resourceName)
-        }
-        if (index > -1) {
-            tribe.tiles.splice(index, 1)
+    public detachTile(tribe: Tribe, tile: ResourceName): void {
+        const currentCount: number = tribe.resources[tile]
+        if (currentCount) {
+            tribe.resources[tile] = currentCount - 1
+        } else {
+            throw new TribeTileNotFound(tribe.name, tile)
         }
     }
 
-    public addTile(tribe: Tribe, newTile: Tile): void {
-        tribe.tiles.push(newTile)
+    public addTile(tribe: Tribe, newTile: ResourceName): void {
+        const currentCount: number = tribe.resources[newTile]
+        if (currentCount) {
+            tribe.resources[newTile] = currentCount + 1
+        } else {
+            tribe.resources[newTile] = 1
+        }
     }
 
     public research(tribe: Tribe, tech: Technology): void {
@@ -129,15 +115,6 @@ class TribeManager {
             )
     }
 
-    public getFirstTileWithResource(tribe: Tribe, resourceName: ResourceName): Tile {
-        for (const tileInstance: Tile of tribe.tiles) {
-            if (resourceName === tileInstance.resourceName) {
-                return tileInstance
-            }
-        }
-        throw new TribeResourceNotFound(tribe.name, resourceName)
-    }
-
     public takeLosses(tribe: Tribe | Rome, amount: number): void {
         this.shrink(tribe, amount)
         if (amount < tribe.militaryPower) {
@@ -148,9 +125,7 @@ class TribeManager {
     }
 
     public getUniqueResourceNames(tribe: Tribe): ResourceName[] {
-        return tribe.tiles
-            .map((tile: Tile) => tile.resourceName)
-            .filter((value: ResourceName, index, array: ResourceName[]) => array.indexOf(value) === index)
+        return (Object.keys(tribe.resources) as ResourceName[])
     }
 
     public arm(tribe: Tribe): void {
@@ -206,16 +181,10 @@ class TribeManager {
         return upperBound
     }
 
-    private discoverNewTile(tribe: Tribe): Tile {
-        return new Tile(tribe, this._resourceRepository.getRandomResource())
-    }
-
     public createStarterTribe(tribe: Tribe): Tribe {
-        const starterTiles = [
-            new Tile(tribe, this._resourceRepository.get(ResourceName.Pasture)),
-            new Tile(tribe, this._resourceRepository.get(ResourceName.Forest)),
-        ]
-        tribe.tiles = starterTiles
+        tribe.resources[ResourceName.Pasture] = 1
+        tribe.resources[ResourceName.Forest] = 1
+
         return tribe
     }
 }

@@ -1,5 +1,3 @@
-import type Tile from '../Tile.ts'
-
 class Rome {
     static defaultPopulation = 100
     static defaultMilitaryPower = 50
@@ -17,7 +15,7 @@ class Rome {
     private readonly _mercantility: number = 0
     private readonly _production: number = 0
     private readonly _culture: number = 0
-    private readonly _tiles: Tile[] = []
+    public readonly tilesLength: number = 0
 
     get radius(): number {
         return this._radius
@@ -61,10 +59,6 @@ class Rome {
 
     research(name: string): void {
         this._knownTechs[name] = true
-    }
-
-    get tiles(): Tile[] {
-        return this._tiles
     }
 
     get food(): number {

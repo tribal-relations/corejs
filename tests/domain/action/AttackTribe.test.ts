@@ -8,14 +8,14 @@ import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 function createStrongAttacker() {
     const attacker = TribeFactory.createStarterTribeWithOptions({ militaryPower: 10 })
     expect(attacker.militaryPower).toStrictEqual(10)
-    expect(attacker.tiles.length).toStrictEqual(2)
+    expect(attacker.tilesLength).toStrictEqual(2)
     return attacker
 }
 
 function createWeakDefender() {
     const defender = TribeFactory.createStarterTribeWithOptions({ militaryPower: 5 })
     expect(defender.militaryPower).toStrictEqual(5)
-    expect(defender.tiles.length).toStrictEqual(2)
+    expect(defender.tilesLength).toStrictEqual(2)
     return defender
 }
 

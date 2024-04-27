@@ -37,7 +37,7 @@
                 </div>
 
                 <div>
-                    territory 🌏 : <tilesInfo :tiles="player.tribe.tiles" />
+                    territory 🌏 : <tilesInfo :tiles="player.tribe.resources" />
                 </div>
             </q-card-section>
         </q-card>

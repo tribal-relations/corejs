@@ -1,12 +1,15 @@
 import YAML from 'yaml'
 import type TribeManager from '../../../app/TribeManager.ts'
 import Currency from '../../../domain/entity/static/Currency.ts'
-import type Tile from '../../../domain/entity/Tile'
+import type Resource from '../../../domain/entity/static/Resource.js'
 import type Tribe from '../../../domain/entity/Tribe.ts'
+import type ResourceName from '../../../domain/enum/ResourceName.js'
+import type ResourceRepository from '../../../domain/repository/ResourceRepository'
 
 class TribePrinter {
     constructor(
         private readonly _tribeManager: TribeManager,
+        private readonly _resourceRepository: ResourceRepository,
     ) {
     }
 
@@ -60,20 +63,12 @@ class TribePrinter {
     }
 
     private getResources(tribe: Tribe): string[] {
-        const resourceNameToCount = {}
-        tribe.tiles.forEach((value: Tile) => {
-            if (!(value.resourceName in resourceNameToCount)) {
-                resourceNameToCount[value.resourceName] = 0
-            }
-            resourceNameToCount[value.resourceName]++
-        })
-
-        return this._tribeManager.getUniqueTiles(tribe)
-            .map((value: Tile) => this.getTile(value, resourceNameToCount[value.resourceName]))
+        return this._tribeManager.getUniqueResourceNames(tribe)
+            .map((value: ResourceName) => this.getTile(this._resourceRepository.get(value), tribe.resources[value]))
     }
 
-    private getTile(tile: Tile, count: number = 1): string {
-        const spacesAfterName = this.getSpacesAfterName(tile)
+    private getTile(tile: Resource, count: number = 1): string {
+        const spacesAfterName = this.getSpacesAfterName(tile.name)
 
         const spaces = '    '
         const food = tile.food ? `${tile.food}🍏${spaces}` : ''
@@ -81,15 +76,15 @@ class TribePrinter {
         const culture = tile.culture ? `${tile.culture}🎵${spaces}` : ''
         const merc = tile.mercantility ? `${tile.mercantility}💰${spaces}` : ''
 
-        return `${count} ${tile.resourceName}${spacesAfterName}${food}${prod}${culture}${merc}`.trim()
+        return `${count} ${tile.name}${spacesAfterName}${food}${prod}${culture}${merc}`.trim()
     }
 
-    private getSpacesAfterName(tile: Tile): string {
+    private getSpacesAfterName(tile: ResourceName): string {
         // longest resource name is Pasture, 7 chars
         // shortest is Gold, 4 chars
         let numberOfSpacesAfterName = 1
-        if (tile.resourceName.length < 7) {
-            numberOfSpacesAfterName = 7 - tile.resourceName.length + 1
+        if (tile.length < 7) {
+            numberOfSpacesAfterName = 7 - tile.length + 1
         }
         return ' '.repeat(numberOfSpacesAfterName)
     }

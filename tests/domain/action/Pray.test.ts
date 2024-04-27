@@ -27,7 +27,7 @@ function makePrayAction(diceResult: number, population: number = 20): Tribe {
         militaryPower: Tribe.defaultMilitaryPower,
     })
 
-    startingTilesLength = sender.tiles.length
+    startingTilesLength = sender.tilesLength
     const senderPlayer = new Player(sender, 'senderPlayer')
     const turn = new Turn(senderPlayer)
     const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Pray)
@@ -75,7 +75,7 @@ test('can pray with result 5', () => {
 
     expect(sender.population).toBe(startingPopulation)
     expect(sender.militaryPower).toBe(Tribe.defaultMilitaryPower)
-    expect(sender.tiles.length).toBe(startingTilesLength + 1)
+    expect(sender.tilesLength).toBe(startingTilesLength + 1)
     expect(sender.getCurrencyBonus(Currency.TurnAction)).toBe(1)
 })
 

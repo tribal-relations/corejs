@@ -20,6 +20,7 @@
                 <q-card-section>
                     {{ action.description }}
                     <div v-for="(parameter, index) in action.parameters" :key="index">
+                        <!--                        why not number ? why pascal case works-->
                         <q-select
                             v-if="parameter.enum !== Number && parameter.name !== 'Tile Resource Name'"
                             v-model="parameters[parameter.name].model"

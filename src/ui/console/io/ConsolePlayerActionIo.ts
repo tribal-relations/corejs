@@ -14,7 +14,6 @@ import type PlayerActionInterface from '../../../domain/entity/action/PlayerActi
 import RemoveCaravanPlayerAction from '../../../domain/entity/action/RemoveCaravanPlayerAction.ts'
 import ResearchPlayerAction from '../../../domain/entity/action/ResearchPlayerAction.ts'
 import type Player from '../../../domain/entity/Player.ts'
-import type Tile from '../../../domain/entity/Tile.ts'
 import type Tribe from '../../../domain/entity/Tribe.ts'
 import ActionName from '../../../domain/enum/ActionName.ts'
 import type ResourceName from '../../../domain/enum/ResourceName.ts'
@@ -117,10 +116,8 @@ class ConsolePlayerActionIo {
             gameplayAction.parameters[0].check(words[1])
             gameplayAction.parameters[1].check(words[2])
             const defender = this.getTribeByTribeName((words[1] as TribeName))
-            // TODO https://github.com/tribal-relations/client/issues/133 move this to common
-            const tile = this.getTribeTileByResourceName(defender, (words[2] as ResourceName))
 
-            return new AttackTilePlayerAction(player.tribe, defender, tile)
+            return new AttackTilePlayerAction(player.tribe, defender, (words[2] as ResourceName))
         }
 
         if (gameplayAction.name === ActionName.AttackTribe) {
@@ -179,10 +176,6 @@ class ConsolePlayerActionIo {
 
     private getTribeByTribeName(tribeName: TribeName): Tribe {
         return this.game.getTribe(tribeName)
-    }
-
-    private getTribeTileByResourceName(tribe: Tribe, resourceName: ResourceName): Tile {
-        return this._tribeManager.getFirstTileWithResource(tribe, resourceName)
     }
 
     private getParameter(rawDecision: string): string {
