@@ -12,7 +12,7 @@ function createStrongAttacker() {
         militaryPower: 10,
     })
     expect(attacker.militaryPower).toStrictEqual(10)
-    expect(attacker.tiles.length).toStrictEqual(2)
+    expect(attacker.tilesLength).toStrictEqual(2)
     return attacker
 }
 
@@ -21,7 +21,7 @@ function createWeakDefender() {
         militaryPower: 5,
     })
     expect(defender.militaryPower).toStrictEqual(5)
-    expect(defender.tiles.length).toStrictEqual(2)
+    expect(defender.tilesLength).toStrictEqual(2)
     return defender
 }
 
@@ -32,14 +32,14 @@ function assertTribePoints(turnResult, attacker: Tribe, defender: Tribe) {
     expect(defender.militaryPower).toStrictEqual(5)
 
     // attacker gains tile if wins
-    expect(attacker.tiles.length).toStrictEqual(3)
-    expect(defender.tiles.length).toStrictEqual(1)
+    expect(attacker.tilesLength).toStrictEqual(3)
+    expect(defender.tilesLength).toStrictEqual(1)
 
-    expect(attacker.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
-    expect(attacker.tiles[1].resourceName === ResourceName.Forest).toStrictEqual(true)
-    expect(attacker.tiles[2].resourceName === ResourceName.Forest).toStrictEqual(true)
+    expect(attacker.resources[ResourceName.Pasture] === 1).toStrictEqual(true)
+    expect(attacker.resources[ResourceName.Forest] === 2).toStrictEqual(true)
 
-    expect(defender.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
+    expect(defender.resources[ResourceName.Pasture] === 1).toStrictEqual(true)
+    expect(defender.resources[ResourceName.Forest] === 0).toStrictEqual(true)
 }
 
 test('can attack a tile', () => {
@@ -52,7 +52,7 @@ test('can attack a tile', () => {
 
     expect(attacker.militaryPower).toBeGreaterThan(defender.militaryPower)
 
-    const playerAction = new AttackTilePlayerAction(attacker, defender, defender.tiles[1])
+    const playerAction = new AttackTilePlayerAction(attacker, defender, ResourceName.Forest)
     const turnResult = turnDecisionManager.processTurn(playerAction, turn)
 
     assertTribePoints(turnResult, attacker, defender)
@@ -68,7 +68,7 @@ test('attacker takes losses if attacker is weaker', () => {
 
     expect(defender.militaryPower).toBeGreaterThan(attacker.militaryPower)
 
-    const playerAction = new AttackTilePlayerAction(attacker, defender, defender.tiles[1])
+    const playerAction = new AttackTilePlayerAction(attacker, defender, ResourceName.Forest)
     const _ = turnDecisionManager.processTurn(playerAction, turn)
 
     // attacker takes losses; defender does not take losses
@@ -76,12 +76,12 @@ test('attacker takes losses if attacker is weaker', () => {
     expect(defender.militaryPower).toStrictEqual(10)
 
     // attacker does not gain tile; defender does not gain tile
-    expect(attacker.tiles.length).toStrictEqual(2)
-    expect(defender.tiles.length).toStrictEqual(2)
+    expect(attacker.tilesLength).toStrictEqual(2)
+    expect(defender.tilesLength).toStrictEqual(2)
 
-    expect(attacker.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
-    expect(attacker.tiles[1].resourceName === ResourceName.Forest).toStrictEqual(true)
+    expect(attacker.resources[ResourceName.Pasture] === 1).toStrictEqual(true)
+    expect(attacker.resources[ResourceName.Forest] === 1).toStrictEqual(true)
 
-    expect(defender.tiles[0].resourceName === ResourceName.Pasture).toStrictEqual(true)
-    expect(defender.tiles[1].resourceName === ResourceName.Forest).toStrictEqual(true)
+    expect(defender.resources[ResourceName.Pasture] === 1).toStrictEqual(true)
+    expect(defender.resources[ResourceName.Forest] === 1).toStrictEqual(true)
 })

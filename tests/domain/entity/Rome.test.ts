@@ -11,7 +11,7 @@ test('rome is created with correct default data', () => {
     expect(rome.militaryPower).toBe(50)
     expect(rome.civilizedness).toBe(50)
 
-    expect(rome.tiles.length).toBe(0)
+    expect(rome.tilesLength).toBe(0)
     expect(rome.food).toBe(0)
     expect(rome.culture).toBe(0)
     expect(rome.production).toBe(0)

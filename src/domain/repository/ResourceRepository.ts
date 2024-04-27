@@ -96,13 +96,14 @@ class ResourceRepository extends BaseRepository<Resource> {
         [ResourceName.Desert]: ResourceRepository.create(ResourceName.Desert),
     }
 
-    public getRandomResource(): Resource {
-        const randomName = Rand.chooseOneFromEnum(ResourceName)
-
-        return this.get(randomName)
+    public getRandomResourceName(): ResourceName {
+        return Rand.chooseOneFromEnum(ResourceName)
     }
 
-    private static create(name: ResourceName): Resource {
+    /**
+     * it is public only for a hack
+     */
+    public static create(name: ResourceName): Resource {
         return new Resource(
             name,
             ResourceRepository._resources[name].quantity,

@@ -234,6 +234,7 @@ class NaiveDiContainer {
         this.setSingleton(Std, new Std())
         this.setSingleton(TribePrinter, new TribePrinter(
             this.resolveSafely(TribeManager),
+            this.resolveSafely(ResourceRepository),
         ))
         this.setSingleton(Printer, new Printer())
 

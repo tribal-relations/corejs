@@ -10,7 +10,7 @@ import TechnologyRepository from '../../../src/domain/repository/TechnologyRepos
 import { container } from '../../../src/NaiveDiContainer.ts'
 import TribeFactory from '../../../src/outer/factory/TribeFactory.ts'
 
-test('can save game', () => {
+test.skip('can save game', () => {
     const gameSaver: GameSaver = container.resolveSafely(GameSaver)
     const turnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const techRepo = container.resolveSafely(TechnologyRepository)

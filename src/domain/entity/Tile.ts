@@ -6,6 +6,7 @@ import type ResourceName from '../enum/ResourceName.ts'
 
 /**
  * connection between tribe and resource
+ * @deprecated
  */
 class Tile {
     constructor(

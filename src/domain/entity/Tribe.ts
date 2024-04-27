@@ -1,12 +1,14 @@
 import type Bonus from './static/Bonus.ts'
 import type BonusInterface from './static/BonusInterface.ts'
 import Currency from './static/Currency.ts'
-import type Tile from './Tile.ts'
+import type Resource from './static/Resource'
 import type TileBonus from './TileBonus.ts'
 import type BonusName from '../enum/BonusName.ts'
 import type PlaystyleLabel from '../enum/PlaystyleLabel'
+import type ResourceName from '../enum/ResourceName'
 import TechnologyName from '../enum/TechnologyName.ts'
 import type TribeName from '../enum/TribeName.ts'
+import ResourceRepository from '../repository/ResourceRepository.ts'
 
 class Tribe {
     static readonly defaultPopulation = 2
@@ -22,7 +24,7 @@ class Tribe {
         private _militaryPower: number = Tribe.defaultMilitaryPower,
         private readonly _civilizedness: number = Tribe.defaultCivilizedness,
         private readonly _technologies: Record<TechnologyName, boolean> = Object(),
-        private _tiles: Tile[] = [],
+        private _resources: Record<ResourceName, number> = Object(),
         private readonly _bonuses: Record<BonusName, BonusInterface> = Object(),
         private readonly _tileBonuses: Record<BonusName, TileBonus> = Object(),
         private _bonusesForOneRound: Record<BonusName, Bonus> = Object(),
@@ -105,15 +107,56 @@ class Tribe {
         return this._civilizedness
     }
 
-    get food(): number {
+    private getCurrencyFromResources(currency: Currency): number {
+        // this is a weird hack
         let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].food
+        let quantity = 0
+        let tempResource: Resource | null = null
+        for (const resourceName: ResourceName in this.resources) {
+            tempResource = ResourceRepository.create(resourceName)
+            quantity = this.resources[resourceName]
+            if (currency === Currency.Food) {
+                accumulator += tempResource.food
+            }
+            if (currency === Currency.Mercantility) {
+                accumulator += tempResource.mercantility
+            }
+            if (currency === Currency.Production) {
+                accumulator += tempResource.production
+            }
+            if (currency === Currency.Culture) {
+                accumulator += tempResource.culture
+            }
+
+            accumulator *= quantity
         }
+        return accumulator
+    }
+
+    get food(): number {
+        const accumulator = this.getCurrencyFromResources(Currency.Food)
         if (this.hasTech(TechnologyName.Calendar)) {
             return accumulator * 2
         }
         return accumulator
+    }
+
+    get culture(): number {
+        const accumulator = this.getCurrencyFromResources(Currency.Culture)
+
+        return accumulator + this.getCurrencyBonus(Currency.Culture)
+    }
+
+    get production(): number {
+        const accumulator = this.getCurrencyFromResources(Currency.Production)
+
+        return accumulator + this.getCurrencyBonus(Currency.Production)
+    }
+
+    get mercantility(): number {
+        const accumulator = this.getCurrencyFromResources(Currency.Mercantility)
+
+        return accumulator + this.getCurrencyBonus(Currency.Mercantility)
     }
 
     get technologies(): Record<TechnologyName, boolean> {
@@ -132,40 +175,38 @@ class Tribe {
         return this._labels
     }
 
-    get tiles(): Tile[] {
-        return this._tiles
+    get tilesLength() {
+        let accumulator = 0
+        let quantity = 0
+        for (const resourceName: ResourceName in this.resources) {
+            quantity = this.resources[resourceName] ?? 0
+            accumulator += quantity
+        }
+        return accumulator
+    }
+
+    /**
+     * @deprecated
+     */
+    get tiles() {
+        return []
+    }
+
+    /**
+     * @deprecated
+     */
+    set tiles(tiles) {
+    }
+
+    get resources(): Record<ResourceName, number> {
+        return this._resources
     }
 
     /**
      * I need to manually watch out not to overuse this method
      */
-    set tiles(tiles: Tile[]) {
-        this._tiles = tiles
-    }
-
-    get culture(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].culture
-        }
-
-        return accumulator + this.getCurrencyBonus(Currency.Culture)
-    }
-
-    get production(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].production
-        }
-        return accumulator + this.getCurrencyBonus(Currency.Production)
-    }
-
-    get mercantility(): number {
-        let accumulator = 0
-        for (let i = 0; i < this._tiles.length; i++) {
-            accumulator += this._tiles[i].mercantility
-        }
-        return accumulator + this.getCurrencyBonus(Currency.Mercantility)
+    set resources(tiles: Record<ResourceName, number>) {
+        this._resources = tiles
     }
 
     public getCurrencyBonus(currency: Currency): number {
@@ -183,6 +224,18 @@ class Tribe {
             )
 
         return eternalBonus + temporaryBonus
+    }
+
+    private getCurrencyBonusForResource(currency: Currency, resourceName: ResourceName): number {
+        return Object.values(this._tileBonuses)
+            .filter((bonus: TileBonus) => bonus.currency === currency)
+            .filter((bonus: TileBonus) => bonus.resourceName === resourceName || bonus.resourceName === null)
+            .reduce(
+                (accumulatedBonus: number, currentBonus) => currentBonus.isMultiplication
+                    ? (accumulatedBonus * currentBonus.amount)
+                    : (accumulatedBonus + currentBonus.amount),
+                0,
+            )
     }
 
     public hasTech(name: TechnologyName): boolean {
@@ -213,15 +266,15 @@ class Tribe {
         return (bonus.name in this._bonuses)
     }
 
-    addTileBonus(tileBonus: TileBonus) {
-        this._tileBonuses[tileBonus.name] = tileBonus
+    public addTileBonus(tileBonus: TileBonus) {
+        this.tileBonuses[tileBonus.name] = tileBonus
     }
 
-    hasLabel(label: PlaystyleLabel): boolean {
+    public hasLabel(label: PlaystyleLabel): boolean {
         return ((label in this._labels) && this._labels[label])
     }
 
-    addLabel(label: PlaystyleLabel): void {
+    public addLabel(label: PlaystyleLabel): void {
         this._labels[label] = true
     }
 }

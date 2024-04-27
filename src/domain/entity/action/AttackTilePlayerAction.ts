@@ -1,6 +1,6 @@
 import type PlayerActionInterface from './PlayerActionInterface.ts'
 import ActionName from '../../enum/ActionName.ts'
-import type Tile from '../Tile.ts'
+import type ResourceName from '../../enum/ResourceName'
 import type Tribe from '../Tribe.ts'
 
 class AttackTilePlayerAction implements PlayerActionInterface {
@@ -9,7 +9,7 @@ class AttackTilePlayerAction implements PlayerActionInterface {
     constructor(
         private readonly _actor: Tribe,
         private readonly _defender: Tribe,
-        private readonly _tile: Tile,
+        private readonly _tile: ResourceName,
     ) {
     }
 
@@ -21,7 +21,7 @@ class AttackTilePlayerAction implements PlayerActionInterface {
         return this._defender
     }
 
-    get tile(): Tile {
+    get tile(): ResourceName {
         return this._tile
     }
 }

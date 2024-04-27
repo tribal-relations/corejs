@@ -16,7 +16,7 @@ function makeExpedition(turnDecisionManager: TurnDecisionManager, tribe: Tribe):
     const player = new Player(tribe)
     const turn = new Turn(player)
 
-    expect(tribe.tiles.length).toBe(2)
+    expect(tribe.tilesLength).toBe(2)
 
     const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Expedition)
     const playerAction = new AbstractPlayerAction(gameAction, player.tribe)
@@ -30,11 +30,11 @@ test('expedition adds one tile', () => {
     }])
     const turnDecisionManager: TurnDecisionManager = container.resolveSafely(TurnDecisionManager)
     const tribe = TribeFactory.createStarterTribeWithOptions()
-    expect(tribe.tiles.length).toBe(2 + 0)
+    expect(tribe.tilesLength).toBe(2 + 0)
 
     makeExpedition(turnDecisionManager, tribe)
 
-    expect(tribe.tiles.length).toBe(2 + 1)
+    expect(tribe.tilesLength).toBe(2 + 1)
 })
 
 test('expedition can result in failure', () => {
@@ -44,9 +44,9 @@ test('expedition can result in failure', () => {
     const turnDecisionManager: TurnDecisionManager = container.resolveSafely(TurnDecisionManager)
 
     const tribe = TribeFactory.createStarterTribeWithOptions()
-    expect(tribe.tiles.length).toBe(2 + 0)
+    expect(tribe.tilesLength).toBe(2 + 0)
 
     makeExpedition(turnDecisionManager, tribe)
 
-    expect(tribe.tiles.length).toBe(2 + 0)
+    expect(tribe.tilesLength).toBe(2 + 0)
 })

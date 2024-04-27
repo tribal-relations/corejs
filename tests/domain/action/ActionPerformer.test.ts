@@ -14,7 +14,7 @@ test('action constraints must be respected', () => {
     const tribe = TribeFactory.createStarterTribe(TribeName.Achaeans)
     const player = new Player(tribe)
     const turn = new Turn(player)
-    expect(tribe.tiles.length).toBe(2)
+    expect(tribe.tilesLength).toBe(2)
 
     expect(tribe.population).toStrictEqual(2)
     const gameAction = container.resolveSafely(GameplayActionRepository).get(ActionName.Conquer)

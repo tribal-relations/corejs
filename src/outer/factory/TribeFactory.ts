@@ -1,12 +1,8 @@
-import TileFactory from './TileFactory.ts'
 import TribeManager from '../../app/TribeManager.ts'
-import type Resource from '../../domain/entity/static/Resource'
-import Tile from '../../domain/entity/Tile.ts'
 import Tribe from '../../domain/entity/Tribe.ts'
 import ResourceName from '../../domain/enum/ResourceName.ts'
 import TribeName from '../../domain/enum/TribeName.ts'
 import Rand from '../../domain/helper/Rand.ts'
-import ResourceRepository from '../../domain/repository/ResourceRepository.ts'
 import InvalidFactoryOption from '../../exception/internal/InvalidFactoryOption.ts'
 import { container } from '../../NaiveDiContainer.ts'
 
@@ -55,21 +51,9 @@ class TribeFactory {
             militaryPower,
         })
         if (options.resourceNames) {
-            const tiles = createdTribe.tiles
-
-            // tribeManager.detachTile(createdTribe, tiles[0])
-            // tribeManager.detachTile(createdTribe, tiles[0])// it is reactive , thats why not 1
-
             const resourceNames = options.resourceNames ?? [ResourceName.Pasture, ResourceName.Forest]
-            let tile
-            let resource: Resource
             for (let i = 0; i < resourceNames.length; ++i) {
-                resource = container.resolveSafely(ResourceRepository).get(resourceNames[i])
-                tile = new Tile(
-                    createdTribe,
-                    resource,
-                )
-                tribeManager.addTile(createdTribe, tile)
+                tribeManager.addTile(createdTribe, resourceNames[i])
             }
         } else {
             const tribeManager: TribeManager = container.resolveSafely(TribeManager)
@@ -81,37 +65,25 @@ class TribeFactory {
     }
 
     public static addFood(tribe: Tribe, amount: number = 1): void {
-        const tile = TileFactory.createFromResourceName(ResourceName.Forest, tribe)
-        for (let i = 0; i < amount; ++i) {
-            tribe.tiles.push(tile)
-        }
+        tribe.resources[ResourceName.Forest] = amount
     }
 
     public static addCulture(tribe: Tribe, amount: number = 1): void {
-        const tile = TileFactory.createFromResourceName(ResourceName.Lake, tribe)
-        for (let i = 0; i < amount; ++i) {
-            tribe.tiles.push(tile)
-        }
+        tribe.resources[ResourceName.Lake] = amount
     }
 
     public static addProduction(tribe: Tribe, amount: number = 1): void {
         if (amount % 2 !== 0) {
             throw new Error('There are only tiles with production 2.')
         }
-        const tile = TileFactory.createFromResourceName(ResourceName.Metal, tribe)
-        for (let i = 0; i < amount / 2; ++i) {
-            tribe.tiles.push(tile)
-        }
+        tribe.resources[ResourceName.Metal] = amount
     }
 
     public static addMercantility(tribe: Tribe, amount: number = 1): void {
         if (amount % 2 !== 0) {
             throw new Error('There are only tiles with mercantility 2.')
         }
-        const tile = TileFactory.createFromResourceName(ResourceName.Fruit, tribe)
-        for (let i = 0; i < amount / 2; ++i) {
-            tribe.tiles.push(tile)
-        }
+        tribe.resources[ResourceName.Fruit] = amount
     }
 
     private static addPoints(options: Record<string, any>, createdTribe: Tribe): void {
