@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import CurrentGame from '../../../../src/app/CurrentGame.ts'
 import { container } from '../../../../src/NaiveDiContainer.ts'
 import GamePage from '../../../../src/ui/web/logic/GamePage.ts'

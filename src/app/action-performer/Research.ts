@@ -41,6 +41,8 @@ class Research implements ActionInterface {
 
     private addTechnologyBonus(actor: Tribe, technology: Technology): void {
         if (technology.name === TechnologyName.AdvancedWriting) {
+            // TODO why tile bonus??? no tech bonus or multiplication bonus idk
+
             actor.addTileBonus(new TileBonus(
                 TileBonusName.AdvancedWritingCulture,
                 2,

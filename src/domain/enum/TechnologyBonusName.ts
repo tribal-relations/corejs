@@ -1,5 +1,5 @@
 enum TechnologyBonusName {
-    AdvancedWritingCulture = 'Advanced Writing Culture is doubled',
+    AdvancedWritingCulture = 'Advanced Writing Culture is doubled', // TODO this or  TileBonusName.AdvancedWritingCulture
 
     // TileBonusName.AnimalHusbandryPastureFood
     AnimalHusbandryPasture = 'Animal Husbandry Pastures give +1 to Food',

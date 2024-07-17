@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import TribeManager from '../../../src/app/TribeManager.ts'
 import ResourceName from '../../../src/domain/enum/ResourceName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'

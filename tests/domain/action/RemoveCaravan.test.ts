@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import CurrentGame from '../../../src/app/CurrentGame.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import CaravanPlayerAction from '../../../src/domain/entity/action/CaravanPlayerAction.ts'
