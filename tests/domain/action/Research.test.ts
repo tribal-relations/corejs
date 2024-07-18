@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import TribeManager from '../../../src/app/TribeManager.ts'
 import TurnDecisionManager from '../../../src/app/TurnDecisionManager.ts'
 import ResearchPlayerAction from '../../../src/domain/entity/action/ResearchPlayerAction.ts'

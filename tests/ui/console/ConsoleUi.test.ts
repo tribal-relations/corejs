@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import StartGameManager from '../../../src/app/StartGameManager.ts'
 import RelationName from '../../../src/domain/enum/RelationName.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'

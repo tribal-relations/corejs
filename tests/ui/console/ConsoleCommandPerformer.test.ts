@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import Player from '../../../src/domain/entity/Player.ts'
 import Turn from '../../../src/domain/entity/Turn.ts'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'

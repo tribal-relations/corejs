@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import MainMenu from '../../../src/ui/console/io/MainMenu.ts'
 import Std from '../../../src/ui/console/io/Std.ts'

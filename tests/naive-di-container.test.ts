@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import Arm from '../src/app/action-performer/Arm.ts'
 import Conquer from '../src/app/action-performer/Conquer.ts'
 import Cult from '../src/app/action-performer/Cult.ts'

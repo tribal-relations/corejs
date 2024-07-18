@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import CurrentGame from '../../../src/app/CurrentGame.ts'
 import TribeManager from '../../../src/app/TribeManager.ts'
 import Player from '../../../src/domain/entity/Player.ts'

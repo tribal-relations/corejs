@@ -1,3 +1,4 @@
+import { test } from 'vitest'
 import CurrentGame from '../../../src/app/CurrentGame.ts'
 import Player from '../../../src/domain/entity/Player.ts'
 import TribeName from '../../../src/domain/enum/TribeName.ts'

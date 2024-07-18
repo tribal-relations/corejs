@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import TribeManager from '../../../src/app/TribeManager.ts'
 import TribeName from '../../../src/domain/enum/TribeName.ts'
 import FightManager from '../../../src/domain/helper/FightManager.ts'

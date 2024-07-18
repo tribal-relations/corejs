@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import TechnologyName from '../../../src/domain/enum/TechnologyName.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 import ConsoleGameProcess from '../../../src/outer/ConsoleGameProcess.ts'

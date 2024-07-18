@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { container } from '../../../../src/NaiveDiContainer.ts'
 import GamePage from '../../../../src/ui/web/logic/GamePage.ts'
 import RegularRound from '../../../../src/ui/web/logic/RegularRound.ts'

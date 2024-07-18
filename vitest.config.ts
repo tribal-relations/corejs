@@ -7,10 +7,21 @@ export default defineConfig({
         //     const reporter = selectReporter(folder)
         //     return [reporter.name]
         // },
-        globals: true,
+        tsconfig: './tsconfig.json',
+
+        globals: false,
         typecheck: {
             enabled: true,
             ignoreSourceErrors: false,
+            checker: 'tsc',
+            // include: ['**/*.{test,spec}-d.?(c|m)[jt]s?(x)'],
+            include: [
+                'src/**/*.{test,spec}-d.?(c|m)[jt]s?(x)',
+                'tests/**/*.{test,spec}-d.?(c|m)[jt]s?(x)',
+            ],
+
+            // include: ['src/**/*', 'tests/**/*'],
+            exclude: ['node_modules'],
         },
         setupFiles: ['/tests/setup-tests.ts'],
         coverage: {

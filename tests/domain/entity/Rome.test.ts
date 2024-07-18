@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import Rome from '../../../src/domain/entity/static/Rome.ts'
 import { container } from '../../../src/NaiveDiContainer.ts'
 
